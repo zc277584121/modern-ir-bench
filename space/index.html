@@ -8,7 +8,7 @@
       content="Code-native evaluation for modern information retrieval solutions"
     />
     <title>Modern IR Bench</title>
-    <link rel="stylesheet" href="styles.css?v=7" />
+    <link rel="stylesheet" href="styles.css?v=8" />
   </head>
   <body>
     <main class="page-shell">
@@ -44,6 +44,17 @@
             <select id="dataset-selector"></select>
           </div>
         </div>
+        <div class="controls two-columns breakdown-controls">
+          <div class="control">
+            <label for="breakdown-selector">Breakdown</label>
+            <select id="breakdown-selector"></select>
+          </div>
+          <div id="breakdown-value-control" class="control" hidden>
+            <label for="breakdown-value-selector">Group</label>
+            <select id="breakdown-value-selector"></select>
+          </div>
+        </div>
+        <p id="breakdown-note" class="breakdown-note" hidden></p>
         <div id="task-table"></div>
       </section>
 
@@ -100,6 +111,6 @@ uv run python -m benchmarks.modern_ir_v2_1</code></pre>
         </p>
       </section>
     </main>
-    <script src="app.js?v=7" type="module"></script>
+    <script src="app.js?v=8" type="module"></script>
   </body>
 </html>

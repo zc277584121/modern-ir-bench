@@ -15,6 +15,7 @@ def build_space_payload(
     release: str,
     counts: Mapping[str, int] | None = None,
     languages: Sequence[str] = (),
+    breakdowns: Sequence[Mapping[str, object]] = (),
 ) -> dict[str, object]:
     benchmark: dict[str, object] = {
         "title": "Modern IR Bench",
@@ -24,12 +25,15 @@ def build_space_payload(
         benchmark["counts"] = dict(counts)
     if languages:
         benchmark["languages"] = list(languages)
-    return {
+    payload: dict[str, object] = {
         "benchmark": benchmark,
         "tasks": sorted(report.tasks.values(), key=lambda item: item["id"]),
         "solutions": sorted(report.solutions.values(), key=lambda item: item["id"]),
         "results": report.records,
     }
+    if breakdowns:
+        payload["breakdowns"] = list(breakdowns)
+    return payload
 
 
 def write_space_results(
@@ -39,6 +43,7 @@ def write_space_results(
     release: str,
     counts: Mapping[str, int] | None = None,
     languages: Sequence[str] = (),
+    breakdowns: Sequence[Mapping[str, object]] = (),
 ) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(
@@ -48,6 +53,7 @@ def write_space_results(
                 release=release,
                 counts=counts,
                 languages=languages,
+                breakdowns=breakdowns,
             ),
             indent=2,
             ensure_ascii=False,

@@ -96,6 +96,59 @@ function taskDatasets(taskId) {
   });
 }
 
+function applicableBreakdowns(taskId, datasetId, datasetVersion) {
+  return (state.payload.breakdowns || []).filter(
+    (breakdown) =>
+      breakdown.task_id === taskId &&
+      breakdown.dataset_id === datasetId &&
+      breakdown.dataset_version === datasetVersion,
+  );
+}
+
+function populateBreakdownSelector() {
+  const taskId = document.querySelector("#task-selector").value;
+  const [datasetId, datasetVersion] = document
+    .querySelector("#dataset-selector")
+    .value.split("|");
+  const selector = document.querySelector("#breakdown-selector");
+  selector.replaceChildren(new Option("Overall", ""));
+  applicableBreakdowns(taskId, datasetId, datasetVersion).forEach((breakdown) =>
+    selector.add(new Option(breakdown.label, breakdown.id)),
+  );
+  populateBreakdownValueSelector();
+}
+
+function selectedBreakdown() {
+  const breakdownId = document.querySelector("#breakdown-selector").value;
+  if (!breakdownId) return null;
+  const taskId = document.querySelector("#task-selector").value;
+  const [datasetId, datasetVersion] = document
+    .querySelector("#dataset-selector")
+    .value.split("|");
+  return applicableBreakdowns(taskId, datasetId, datasetVersion).find(
+    (breakdown) => breakdown.id === breakdownId,
+  );
+}
+
+function populateBreakdownValueSelector() {
+  const breakdown = selectedBreakdown();
+  const control = document.querySelector("#breakdown-value-control");
+  const selector = document.querySelector("#breakdown-value-selector");
+  selector.replaceChildren();
+  control.hidden = !breakdown;
+  if (!breakdown) return;
+  breakdown.values.forEach((value) =>
+    selector.add(new Option(`${value.label} (${formatInteger(value.count)})`, value.id)),
+  );
+}
+
+function selectedBreakdownValue() {
+  const breakdown = selectedBreakdown();
+  if (!breakdown) return null;
+  const valueId = document.querySelector("#breakdown-value-selector").value;
+  return breakdown.values.find((value) => value.id === valueId) || null;
+}
+
 function populateDatasetSelector() {
   const selector = document.querySelector("#dataset-selector");
   selector.replaceChildren();
@@ -110,12 +163,15 @@ function renderTask() {
     .querySelector("#dataset-selector")
     .value.split("|");
   const task = state.tasks.get(taskId);
-  const selected = state.payload.results.filter(
+  const overallResults = state.payload.results.filter(
     (record) =>
       record.task_id === taskId &&
       record.dataset_id === datasetId &&
       record.dataset_version === datasetVersion,
   );
+  const breakdown = selectedBreakdown();
+  const breakdownValue = selectedBreakdownValue();
+  const selected = breakdownValue?.results || overallResults;
   const metricOrder = [...new Set(selected.map((record) => record.metric_id))].sort(
     (left, right) => Number(right === task.primary_metric) - Number(left === task.primary_metric),
   );
@@ -167,7 +223,13 @@ function renderTask() {
     <div class="meta-list">
       <span class="meta-chip">Primary metric: ${escapeHtml(labels.get(task.primary_metric))}</span>
       <span class="meta-chip">${escapeHtml(datasetLabel(datasetId))}</span>
+      ${breakdownValue ? `<span class="meta-chip">${escapeHtml(breakdown.label)}: ${escapeHtml(breakdownValue.label)} · ${formatInteger(breakdownValue.count)} queries</span>` : '<span class="meta-chip">All queries</span>'}
     </div>`;
+  const breakdownNote = document.querySelector("#breakdown-note");
+  breakdownNote.hidden = !breakdownValue;
+  breakdownNote.textContent = breakdownValue
+    ? `${breakdown.description}${breakdownValue.count < 30 ? " This group is small, so its ranking may be unstable." : ""}`
+    : "";
   document.querySelector("#task-table").innerHTML = renderTable(
     [
       { label: "Rank" },
@@ -302,11 +364,21 @@ function installControls() {
   [...state.tasks.values()].forEach((task) => taskSelector.add(new Option(task.title, task.id)));
   taskSelector.addEventListener("change", () => {
     populateDatasetSelector();
+    populateBreakdownSelector();
     updateControlVisibility();
     state.taskSort = { key: state.tasks.get(taskSelector.value).primary_metric, direction: "desc" };
     renderTask();
   });
-  document.querySelector("#dataset-selector").addEventListener("change", renderTask);
+  document.querySelector("#dataset-selector").addEventListener("change", () => {
+    populateBreakdownSelector();
+    renderTask();
+  });
+
+  document.querySelector("#breakdown-selector").addEventListener("change", () => {
+    populateBreakdownValueSelector();
+    renderTask();
+  });
+  document.querySelector("#breakdown-value-selector").addEventListener("change", renderTask);
 
   const solutionSelector = document.querySelector("#solution-selector");
   [...state.solutions.values()].forEach((solution) =>
@@ -352,6 +424,7 @@ async function main() {
   installTabs();
   installControls();
   populateDatasetSelector();
+  populateBreakdownSelector();
   updateControlVisibility();
   renderSummary();
   renderTask();

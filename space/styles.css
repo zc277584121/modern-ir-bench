@@ -224,6 +224,17 @@ h2 {
   margin-bottom: 16px;
 }
 
+.breakdown-controls {
+  margin-top: 4px;
+}
+
+.breakdown-note {
+  margin: -4px 0 14px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
 .two-columns {
   grid-template-columns: repeat(2, minmax(240px, 420px));
 }

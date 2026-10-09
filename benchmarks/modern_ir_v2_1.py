@@ -30,6 +30,47 @@ CHUNK_LABEL = "768-token chunks"
 CHUNK_DETAILS = (
     "paragraph-aware chunks targeting 768 tokens with 128-token overlap and the title repeated"
 )
+QUERY_BREAKDOWN_SPECS = (
+    {
+        "id": "language",
+        "label": "Language",
+        "field": "language",
+        "description": "The language of the query and its relevant documents.",
+        "values": (("zh", "Chinese"), ("en", "English")),
+    },
+    {
+        "id": "query_intent",
+        "label": "Query intent",
+        "field": "task",
+        "description": "The practical intent assigned to the query, not the benchmark Task.",
+        "values": (
+            ("understand", "Understand"),
+            ("act", "Act"),
+            ("lookup", "Lookup"),
+            ("decide", "Decide"),
+            ("verify", "Verify"),
+            ("synthesize", "Synthesize"),
+        ),
+    },
+    {
+        "id": "expression",
+        "label": "Expression",
+        "field": "expression",
+        "description": "How the information need is phrased.",
+        "values": (
+            ("natural_question", "Natural question"),
+            ("search_phrase", "Search phrase"),
+            ("contextual_request", "Contextual request"),
+        ),
+    },
+    {
+        "id": "constraint_level",
+        "label": "Constraint level",
+        "field": "constraint_level",
+        "description": "The number and strength of constraints expressed by the query.",
+        "values": (("single", "Single"), ("compound", "Compound"), ("light", "Light")),
+    },
+)
 SOLUTION_METADATA = {
     "bm25-full": {
         "title": "BM25 · full document",
@@ -156,6 +197,80 @@ def add_solution_code_links(report: RunReport, provenance: RunProvenance) -> Non
         )
 
 
+def build_query_breakdowns(
+    *,
+    queries: Iterable[Mapping[str, Any]],
+    rankings: Iterable[Mapping[str, Any]],
+    report: RunReport,
+) -> list[dict[str, Any]]:
+    query_by_id = {str(query["query_id"]): query for query in queries}
+    ranking_rows = list(rankings)
+    metric_metadata: dict[str, tuple[str, bool]] = {}
+    metric_order: list[str] = []
+    for record in report.records:
+        metric_id = str(record["metric_id"])
+        if metric_id not in metric_metadata:
+            metric_order.append(metric_id)
+            metric_metadata[metric_id] = (
+                str(record["metric_label"]),
+                bool(record["primary"]),
+            )
+
+    context = report.records[0]
+    breakdowns: list[dict[str, Any]] = []
+    for spec in QUERY_BREAKDOWN_SPECS:
+        values = []
+        for value_id, value_label in spec["values"]:
+            query_ids = {
+                query_id
+                for query_id, query in query_by_id.items()
+                if str(query[spec["field"]]) == value_id
+            }
+            results = []
+            for solution_id in SOLUTION_METADATA:
+                solution_rows = [
+                    row
+                    for row in ranking_rows
+                    if row["solution_id"] == solution_id and row["query_id"] in query_ids
+                ]
+                for metric_id in metric_order:
+                    metric_label, primary = metric_metadata[metric_id]
+                    results.append(
+                        {
+                            "solution_id": solution_id,
+                            "metric_id": metric_id,
+                            "metric_label": metric_label,
+                            "value": round(
+                                statistics.mean(
+                                    float(row["metrics"][metric_id]) for row in solution_rows
+                                ),
+                                8,
+                            ),
+                            "primary": primary,
+                        }
+                    )
+            values.append(
+                {
+                    "id": value_id,
+                    "label": value_label,
+                    "count": len(query_ids),
+                    "results": results,
+                }
+            )
+        breakdowns.append(
+            {
+                "id": spec["id"],
+                "label": spec["label"],
+                "description": spec["description"],
+                "task_id": context["task_id"],
+                "dataset_id": context["dataset_id"],
+                "dataset_version": context["dataset_version"],
+                "values": values,
+            }
+        )
+    return breakdowns
+
+
 def main() -> None:
     queries, rankings = load_public_rankings()
     solutions = build_saved_ranking_solutions(
@@ -176,6 +291,7 @@ def main() -> None:
     add_solution_code_links(report, provenance)
     metrics = metrics_by_solution(report.records)
     verify_replay(metrics, expected_metrics(rankings))
+    breakdowns = build_query_breakdowns(queries=queries, rankings=rankings, report=report)
     payload = {
         "release": RELEASE_ID,
         "dataset": {
@@ -201,6 +317,7 @@ def main() -> None:
         release=RELEASE_ID,
         counts={"documents": 5000, "queries": 1000, "qrels": 34756},
         languages=("Chinese", "English"),
+        breakdowns=breakdowns,
     )
     write_space_results(
         report,
@@ -208,6 +325,7 @@ def main() -> None:
         release=RELEASE_ID,
         counts={"documents": 5000, "queries": 1000, "qrels": 34756},
         languages=("Chinese", "English"),
+        breakdowns=breakdowns,
     )
     report.write_observations(OUTPUT_ROOT / "observations")
     print(json.dumps(metrics, ensure_ascii=False, indent=2))

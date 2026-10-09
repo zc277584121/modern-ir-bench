@@ -48,11 +48,19 @@ def test_space_exporter_is_separate_from_the_run_report() -> None:
         release="test-release",
         counts={"documents": 3, "queries": 3},
         languages=("English",),
+        breakdowns=(
+            {
+                "id": "language",
+                "label": "Language",
+                "values": [{"id": "en", "label": "English", "count": 3, "results": []}],
+            },
+        ),
     )
 
     assert payload["benchmark"]["release"] == "test-release"
     assert payload["benchmark"]["counts"] == {"documents": 3, "queries": 3}
     assert payload["benchmark"]["languages"] == ["English"]
+    assert payload["breakdowns"][0]["id"] == "language"
     assert "notice" not in payload["benchmark"]
     assert len(payload["tasks"]) == 1
     assert len(payload["solutions"]) == 3
