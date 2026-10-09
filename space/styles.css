@@ -57,8 +57,7 @@ h1 {
   gap: 8px;
 }
 
-.header-links a,
-.context-link {
+.header-links a {
   padding: 7px 10px;
   border: 1px solid var(--border);
   border-radius: 6px;
@@ -70,10 +69,38 @@ h1 {
   white-space: nowrap;
 }
 
-.header-links a:hover,
-.context-link:hover {
+.header-links a:hover {
   border-color: #d1d5db;
   background: var(--subtle);
+}
+
+.solution-name,
+.solution-heading {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.solution-code-link {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 4px;
+  color: #6b7280;
+  text-decoration: none;
+  vertical-align: middle;
+}
+
+.solution-code-link:hover {
+  background: #f3f4f6;
+  color: var(--text);
+}
+
+.solution-heading h2 {
+  margin: 0;
 }
 
 h2 {

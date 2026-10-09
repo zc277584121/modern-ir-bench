@@ -21,9 +21,9 @@ from modern_ir_bench.datasets import load_ranked_retrieval_hub
 from modern_ir_bench.embeddings import SentenceTransformersEmbedding
 from modern_ir_bench.metrics import NDCG, MeanReciprocalRank, Recall
 from modern_ir_bench.retrieval import (
-    CanonicalTextChunker,
     ChunkedDenseRetrievalSolution,
     HuggingFaceOffsetTokenizer,
+    TokenTextChunker,
 )
 from modern_ir_bench.retrieval.indexes.milvus import MilvusDenseIndex, MilvusServer
 from modern_ir_bench.tasks import RankedRetrieval
@@ -65,8 +65,11 @@ def build_task() -> RankedRetrieval:
 def build_solution() -> ChunkedDenseRetrievalSolution:
     return ChunkedDenseRetrievalSolution(
         id=SOLUTION_ID,
-        title="BGE-M3 dense · canonical chunk · live",
-        description="Fresh BGE-M3 inference with canonical chunks and Milvus Server FLAT search.",
+        title="BGE-M3 dense · 768-token chunks · live",
+        description=(
+            "Fresh BGE-M3 inference over paragraph-aware chunks targeting 768 tokens "
+            "with 128-token overlap, using Milvus Server FLAT search."
+        ),
         embedding=SentenceTransformersEmbedding(
             model="BAAI/bge-m3",
             revision=MODEL_REVISION,
@@ -74,7 +77,7 @@ def build_solution() -> ChunkedDenseRetrievalSolution:
             device=os.environ.get("MIR_DEVICE"),
             normalize=True,
         ),
-        chunker=CanonicalTextChunker(HuggingFaceOffsetTokenizer()),
+        chunker=TokenTextChunker(HuggingFaceOffsetTokenizer()),
         index=MilvusDenseIndex(
             target=MilvusServer(
                 os.environ.get("MIR_MILVUS_URI", "http://127.0.0.1:19530"),

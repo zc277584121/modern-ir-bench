@@ -6,8 +6,8 @@ from collections.abc import Sequence
 from dataclasses import dataclass
 from typing import Protocol
 
-CANONICAL_TOKENIZER = "BAAI/bge-m3"
-CANONICAL_TOKENIZER_REVISION = "5617a9f61b028005a4858fdac845db406aefb181"
+DEFAULT_CHUNK_TOKENIZER = "BAAI/bge-m3"
+DEFAULT_CHUNK_TOKENIZER_REVISION = "5617a9f61b028005a4858fdac845db406aefb181"
 
 
 class OffsetTokenizer(Protocol):
@@ -20,8 +20,8 @@ class HuggingFaceOffsetTokenizer:
     def __init__(
         self,
         *,
-        model: str = CANONICAL_TOKENIZER,
-        revision: str = CANONICAL_TOKENIZER_REVISION,
+        model: str = DEFAULT_CHUNK_TOKENIZER,
+        revision: str = DEFAULT_CHUNK_TOKENIZER_REVISION,
     ) -> None:
         from transformers import AutoTokenizer
 
@@ -55,8 +55,8 @@ class ChunkingPolicy:
             raise ValueError("expected overlap < minimum <= target <= maximum")
 
 
-class CanonicalTextChunker:
-    """Chunk a title/body resource once, independently of the embedding model."""
+class TokenTextChunker:
+    """Split title/body text with model-independent token boundaries."""
 
     def __init__(
         self,

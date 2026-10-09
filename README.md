@@ -43,7 +43,7 @@ candidate pools:
 uv run --group benchmark python -m benchmarks.modern_ir_v2_1_bge_m3_live
 ```
 
-This uses the public `CanonicalTextChunker`, `ChunkedDenseRetrievalSolution`,
+This uses the public `TokenTextChunker`, `ChunkedDenseRetrievalSolution`,
 `SentenceTransformersEmbedding`, and `MilvusDenseIndex` components. It compares every
 fresh Top-10 ranking with the immutable saved ranking and writes the audit under
 `artifacts/modern-ir-v2.1-bge-m3-live/`. Set `MIR_DEVICE`, `MIR_BATCH_SIZE`, and

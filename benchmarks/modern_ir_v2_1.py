@@ -12,7 +12,7 @@ from typing import Any
 
 from datasets import load_dataset
 
-from modern_ir_bench import MetricSet, RunProvenance
+from modern_ir_bench import MetricSet, RunProvenance, RunReport
 from modern_ir_bench.datasets import load_ranked_retrieval_hub
 from modern_ir_bench.exporters import write_space_results
 from modern_ir_bench.metrics import NDCG, MeanReciprocalRank, Recall
@@ -26,6 +26,10 @@ DATASET_ID = "zc277584121/modern-ir-bench"
 DATASET_REVISION = "5bbc4ea34774b89ebec0e57ff82f231ff08d385c"
 RELEASE_ID = "modern-ir-bench-v2.1-20261009"
 RANKINGS_PATH = PROJECT_ROOT / "results/modern-ir-v2.1/rankings.jsonl.gz"
+CHUNK_LABEL = "768-token chunks"
+CHUNK_DETAILS = (
+    "paragraph-aware chunks targeting 768 tokens with 128-token overlap and the title repeated"
+)
 SOLUTION_METADATA = {
     "bm25-full": {
         "title": "BM25 · full document",
@@ -33,9 +37,9 @@ SOLUTION_METADATA = {
         "description": "BM25 lexical retrieval over full documents.",
     },
     "bm25-chunk": {
-        "title": "BM25 · canonical chunk",
+        "title": f"BM25 · {CHUNK_LABEL}",
         "route": "chunk_bm25",
-        "description": "BM25 lexical retrieval over canonical text chunks, aggregated to document rankings.",
+        "description": f"BM25 lexical retrieval over {CHUNK_DETAILS}, merged to document rankings.",
     },
     "voyage-4-large-full": {
         "title": "Voyage 4 Large · full document",
@@ -43,29 +47,29 @@ SOLUTION_METADATA = {
         "description": "Voyage 4 Large dense retrieval over full-document embeddings.",
     },
     "voyage-4-large-chunk": {
-        "title": "Voyage 4 Large · canonical chunk",
+        "title": f"Voyage 4 Large · {CHUNK_LABEL}",
         "route": "chunk_voyage",
         "description": (
-            "Voyage 4 Large dense retrieval over canonical text chunks, aggregated to document rankings."
+            f"Voyage 4 Large dense retrieval over {CHUNK_DETAILS}, merged to document rankings."
         ),
     },
     "qwen3-embedding-4b-chunk": {
-        "title": "Qwen3 Embedding 4B · canonical chunk",
+        "title": f"Qwen3 Embedding 4B · {CHUNK_LABEL}",
         "route": "chunk_qwen",
         "description": (
-            "Qwen3 Embedding 4B dense retrieval over canonical text chunks, aggregated to document rankings."
+            f"Qwen3 Embedding 4B dense retrieval over {CHUNK_DETAILS}, merged to document rankings."
         ),
     },
     "bge-m3-dense-chunk": {
-        "title": "BGE-M3 dense · canonical chunk",
+        "title": f"BGE-M3 dense · {CHUNK_LABEL}",
         "route": "chunk_bge_m3_dense",
-        "description": "BGE-M3 dense retrieval over canonical text chunks, aggregated to document rankings.",
+        "description": f"BGE-M3 dense retrieval over {CHUNK_DETAILS}, merged to document rankings.",
     },
     "bge-m3-sparse-chunk": {
-        "title": "BGE-M3 learned sparse · canonical chunk",
+        "title": f"BGE-M3 learned sparse · {CHUNK_LABEL}",
         "route": "chunk_bge_m3_sparse",
         "description": (
-            "BGE-M3 learned-sparse retrieval over canonical text chunks, aggregated to document rankings."
+            f"BGE-M3 learned-sparse retrieval over {CHUNK_DETAILS}, merged to document rankings."
         ),
     },
 }
@@ -137,6 +141,21 @@ def verify_replay(
                 )
 
 
+def add_solution_code_links(report: RunReport, provenance: RunProvenance) -> None:
+    source_lines = Path(__file__).read_text(encoding="utf-8").splitlines()
+    for solution_id, solution in report.solutions.items():
+        marker = f'    "{solution_id}": {{'
+        line = next(
+            index
+            for index, source_line in enumerate(source_lines, start=1)
+            if source_line == marker
+        )
+        solution["code_url"] = (
+            f"{provenance.repository_url}/blob/{provenance.source_commit}/"
+            f"benchmarks/modern_ir_v2_1.py#L{line}"
+        )
+
+
 def main() -> None:
     queries, rankings = load_public_rankings()
     solutions = build_saved_ranking_solutions(
@@ -154,6 +173,7 @@ def main() -> None:
         provenance=provenance,
         status="published",
     )
+    add_solution_code_links(report, provenance)
     metrics = metrics_by_solution(report.records)
     verify_replay(metrics, expected_metrics(rankings))
     payload = {

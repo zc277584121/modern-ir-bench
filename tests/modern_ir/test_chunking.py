@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from modern_ir_bench.retrieval import CanonicalTextChunker, ChunkingPolicy
+from modern_ir_bench.retrieval import ChunkingPolicy, TokenTextChunker
 
 
 class CharacterTokenizer:
@@ -8,8 +8,8 @@ class CharacterTokenizer:
         return [(index, index + 1) for index in range(len(text))]
 
 
-def test_canonical_chunker_keeps_title_and_uses_overlap() -> None:
-    chunker = CanonicalTextChunker(
+def test_token_text_chunker_keeps_title_and_uses_overlap() -> None:
+    chunker = TokenTextChunker(
         CharacterTokenizer(),
         ChunkingPolicy(
             target_tokens=4,

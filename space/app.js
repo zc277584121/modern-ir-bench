@@ -22,8 +22,20 @@ function datasetLabel(datasetId) {
   return datasetId.replace(/-\d{8}$/, "");
 }
 
-function evaluationLink(record) {
-  return `<a class="context-link" href="${escapeHtml(record.source_url)}" target="_blank" rel="noreferrer" title="Open the exact evaluation code at commit ${escapeHtml(record.source_commit.slice(0, 7))}">Evaluation code ↗</a>`;
+function solutionCodeLink(solution, fallbackRecord) {
+  const url = solution.code_url || fallbackRecord?.source_url;
+  if (!url) return "";
+  return `<a class="solution-code-link" href="${escapeHtml(url)}" target="_blank" rel="noreferrer" aria-label="Open code for ${escapeHtml(solution.title)}" title="Open the code for this Solution">
+    <svg aria-hidden="true" viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M9.5 2.5h4v4" />
+      <path d="m7 9 6.5-6.5" />
+      <path d="M13 9.5v3a1 1 0 0 1-1 1H3.5a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h3" />
+    </svg>
+  </a>`;
+}
+
+function solutionName(solution, record) {
+  return `<span class="solution-name"><strong title="${escapeHtml(solution.description)}">${escapeHtml(solution.title)}</strong>${solutionCodeLink(solution, record)}</span>`;
 }
 
 function renderTable(headers, rows, tableName, sortState) {
@@ -140,19 +152,17 @@ function renderTask() {
     });
     return [
       `<span class="rank">${rank}</span>`,
-      `<strong>${escapeHtml(solution.title)}</strong>`,
+      solutionName(solution, records.get(task.primary_metric) || records.values().next().value),
       ...metricCells,
     ];
   });
 
-  const sourceRecord = selected[0];
   document.querySelector("#task-context").innerHTML = `
     <div class="task-note-header">
       <div>
         <h2>${escapeHtml(task.title)}</h2>
         <p>${escapeHtml(task.description)}</p>
       </div>
-      ${sourceRecord ? evaluationLink(sourceRecord) : ""}
     </div>
     <div class="meta-list">
       <span class="meta-chip">Primary metric: ${escapeHtml(labels.get(task.primary_metric))}</span>
@@ -217,10 +227,9 @@ function renderSolution() {
   document.querySelector("#solution-context").innerHTML = `
     <div class="task-note-header">
       <div>
-        <h2>${escapeHtml(solution.title)}</h2>
+        <div class="solution-heading"><h2>${escapeHtml(solution.title)}</h2>${solutionCodeLink(solution, sourceRecord)}</div>
         <p>${escapeHtml(solution.description)}</p>
       </div>
-      ${sourceRecord ? evaluationLink(sourceRecord) : ""}
     </div>`;
   document.querySelector("#solution-table").innerHTML = renderTable(
     [
@@ -244,8 +253,9 @@ function renderCoverage() {
   const taskIds = [...state.tasks.keys()].sort();
   const primary = primaryRecords();
   const rows = [...state.solutions.entries()].map(([solutionId, solution]) => {
+    const sourceRecord = primary.find((item) => item.solution_id === solutionId);
     const cells = [
-      `<strong>${escapeHtml(solution.title)}</strong><br><span class="muted">${escapeHtml(solutionId)}</span>`,
+      solutionName(solution, sourceRecord),
     ];
     taskIds.forEach((taskId) => {
       const record = primary.find(

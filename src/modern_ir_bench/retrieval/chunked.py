@@ -17,7 +17,7 @@ from modern_ir_bench.retrieval.types import RetrievalResource, SearchHit
 
 @dataclass(frozen=True, kw_only=True)
 class ChunkedDenseRetrievalSolution(Solution):
-    """Encode canonical chunks and collapse chunk hits back to document rankings."""
+    """Encode text chunks and collapse chunk hits back to document rankings."""
 
     embedding: DenseEmbedding
     index: DenseIndex
