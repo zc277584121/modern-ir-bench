@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import gzip
 import inspect
 import json
 import statistics
@@ -22,8 +23,9 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 OUTPUT_ROOT = PROJECT_ROOT / "artifacts/modern-ir-v2.1-retrieval"
 SPACE_RESULTS = PROJECT_ROOT / "space/data/results.json"
 DATASET_ID = "zc277584121/modern-ir-bench"
-DATASET_REVISION = "54e7014617710ce789b7354f6af31016128c75ae"
+DATASET_REVISION = "693f957b52713bcc564987f3ea5fb7883f438d51"
 RELEASE_ID = "modern-ir-bench-v2.1-20261009"
+RANKINGS_PATH = PROJECT_ROOT / "results/modern-ir-v2.1/rankings.jsonl.gz"
 SOLUTION_METADATA = {
     "bm25-full": {"title": "BM25 · full document", "route": "full_bm25"},
     "bm25-chunk": {"title": "BM25 · canonical chunk", "route": "chunk_bm25"},
@@ -62,7 +64,8 @@ def build_task() -> RankedRetrieval:
 
 def load_public_rankings() -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
     queries = list(load_dataset(DATASET_ID, "queries", split="train", revision=DATASET_REVISION))
-    rankings = list(load_dataset(DATASET_ID, "rankings", split="train", revision=DATASET_REVISION))
+    with gzip.open(RANKINGS_PATH, "rt", encoding="utf-8") as stream:
+        rankings = [json.loads(line) for line in stream if line.strip()]
     return queries, rankings
 
 
@@ -130,8 +133,9 @@ def main() -> None:
             "revision": DATASET_REVISION,
             "documents": 5000,
             "queries": 1000,
-            "positive_qrels": 6575,
-            "judgments": 34756,
+            "qrels": 34756,
+            "relevant_qrels": 6575,
+            "non_relevant_qrels": 28181,
         },
         "metrics_by_solution": metrics,
         "records": report.records,

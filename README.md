@@ -7,7 +7,8 @@ The project is intentionally Python-only: executable benchmark modules are the s
 ## Current release
 
 The first reviewed release is Modern IR Ranked Retrieval v2.1: a bilingual synthetic
-retrieval benchmark with 5,000 documents, 1,000 queries, and 6,575 positive Qrels.
+retrieval benchmark with 5,000 documents, 1,000 queries, and 34,756 binary Qrels,
+including 6,575 relevant pairs.
 Its public leaderboard compares seven retrieval Solutions spanning full-document and
 chunked BM25, local dense and learned-sparse models, and hosted dense embeddings.
 
@@ -20,9 +21,11 @@ uv run pytest
 ```
 
 The reviewed retrieval release can be replayed through the same public
-`Task` / `Solution` / `Metric` path. The executable module pins the immutable
+`Task` / `Solution` / `Metric` path. The Dataset contains only corpus, queries,
+and binary Qrels. The executable module pins the immutable
 [`zc277584121/modern-ir-bench`](https://huggingface.co/datasets/zc277584121/modern-ir-bench)
-Dataset revision and recomputes every leaderboard metric from its published rankings:
+Dataset revision and recomputes every leaderboard metric from the versioned run artifact
+under `results/modern-ir-v2.1/`:
 
 ```bash
 uv run python -m benchmarks.modern_ir_v2_1

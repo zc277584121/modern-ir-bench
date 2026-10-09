@@ -22,7 +22,7 @@ def load_ranked_retrieval_release(
     *,
     language: str | None = None,
 ) -> DatasetDict:
-    """Adapt corpus, queries, and positive Qrels without inventing another Dataset type."""
+    """Adapt corpus, queries, and Qrels without inventing another Dataset type."""
     release_dir = release_dir.resolve()
     return _adapt_ranked_retrieval_rows(
         documents=_read_jsonl(release_dir / "corpus.jsonl"),

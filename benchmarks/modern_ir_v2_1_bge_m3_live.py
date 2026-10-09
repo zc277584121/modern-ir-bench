@@ -9,13 +9,12 @@ import statistics
 from pathlib import Path
 from typing import Any
 
-from datasets import load_dataset
-
 from benchmarks.modern_ir_v2_1 import (
     DATASET_ID,
     DATASET_REVISION,
     RELEASE_ID,
     expected_metrics,
+    load_public_rankings,
 )
 from modern_ir_bench import MetricSet, RunProvenance
 from modern_ir_bench.datasets import load_ranked_retrieval_hub
@@ -136,9 +135,7 @@ def _ranking_comparison(report, published_rankings: list[dict[str, Any]]) -> dic
 
 
 def main() -> None:
-    published_rankings = list(
-        load_dataset(DATASET_ID, "rankings", split="train", revision=DATASET_REVISION)
-    )
+    _, published_rankings = load_public_rankings()
     provenance = RunProvenance.capture(
         source_module="benchmarks.modern_ir_v2_1_bge_m3_live",
         source_path="benchmarks/modern_ir_v2_1_bge_m3_live.py",

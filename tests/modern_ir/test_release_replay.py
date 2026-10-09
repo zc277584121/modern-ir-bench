@@ -40,7 +40,10 @@ def test_release_loader_and_saved_ranking_solution(tmp_path: Path) -> None:
     )
     _write_jsonl(
         tmp_path / "qrels.jsonl",
-        [{"query_id": "q1", "doc_id": "d1", "relevance": 1}],
+        [
+            {"query_id": "q1", "doc_id": "d1", "relevance": 1},
+            {"query_id": "q1", "doc_id": "d2", "relevance": 0},
+        ],
     )
     _write_jsonl(
         tmp_path / "baseline-observations.jsonl",
@@ -69,6 +72,7 @@ def test_release_loader_and_saved_ranking_solution(tmp_path: Path) -> None:
     session = solution.prepare(resources)
 
     assert dataset["documents"][0]["content"] == "One\n\nalpha"
+    assert dataset["qrels"]["relevance"] == [1, 0]
     assert [hit.id for hit in session.search_batch(["alpha"], top_k=1)[0]] == ["d1"]
 
     english = load_ranked_retrieval_release(tmp_path, language="en")

@@ -81,10 +81,11 @@ class RankedRetrieval(Task):
                 raise ValueError(f"Duplicate qrel: {pair}")
             if row["query_id"] not in query_id_set or row["document_id"] not in document_id_set:
                 raise ValueError(f"Dangling qrel: {pair}")
-            if row["relevance"] <= 0:
-                raise ValueError(f"Qrel relevance must be positive: {pair}")
+            if row["relevance"] < 0:
+                raise ValueError(f"Qrel relevance must be non-negative: {pair}")
             qrel_pairs.add(pair)
-            covered_queries.add(row["query_id"])
+            if row["relevance"] > 0:
+                covered_queries.add(row["query_id"])
         if covered_queries != query_id_set:
             raise ValueError("Every query must have at least one positive qrel")
 
@@ -112,7 +113,11 @@ class RankedRetrieval(Task):
                         raise RuntimeError(f"Solution returned duplicate hits for query {query_id}")
                     if not set(ranked_ids).issubset(document_ids):
                         raise RuntimeError(f"Solution returned unknown hits for query {query_id}")
-                    qrels = expected[query_id]
+                    qrels = [
+                        (document_id, relevance)
+                        for document_id, relevance in expected[query_id]
+                        if relevance > 0
+                    ]
                     observations.append(
                         {
                             "query_id": query_id,

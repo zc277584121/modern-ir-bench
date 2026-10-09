@@ -26,9 +26,9 @@ def dataset() -> DatasetDict:
         ),
         qrels=Dataset.from_dict(
             {
-                "query_id": ["q1", "q2"],
-                "document_id": ["d1", "d2"],
-                "relevance": [1, 1],
+                "query_id": ["q1", "q1", "q2", "q2"],
+                "document_id": ["d1", "d3", "d2", "d1"],
+                "relevance": [1, 0, 1, 0],
             },
             features=RankedRetrieval.dataset_features["qrels"],
         ),
@@ -76,3 +76,5 @@ def test_ranked_retrieval_uses_three_table_hf_dataset_contract() -> None:
         "ranked_ids",
         "scores",
     ]
+    assert observation[0]["expected_ids"] == ["d1"]
+    assert observation[1]["expected_ids"] == ["d2"]
