@@ -4,20 +4,47 @@ Modern IR Bench is a code-native benchmark for modern information retrieval solu
 
 The project is intentionally Python-only: executable benchmark modules are the source of truth, and every published score links back to an immutable Git commit and the exact code that produced it.
 
-## Framework preview
+## Current release
 
-The first vertical slice contains deterministic synthetic data for two tasks:
+The first reviewed release is Modern IR Ranked Retrieval v2.1: a bilingual synthetic
+retrieval benchmark with 5,000 documents, 1,000 queries, and 6,575 positive Qrels.
+Its public leaderboard compares seven retrieval Solutions spanning full-document and
+chunked BM25, local dense and learned-sparse models, and hosted dense embeddings.
 
-- Agent Memory Retrieval
-- Code Localization
-
-It compares three mock solutions—BM25, character n-grams, and a composed hybrid—and generates the data used by the public read-only Hugging Face Space. These numbers validate the framework and UI; they are not scientific benchmark results.
+The earlier deterministic mock showcase remains available as a framework smoke test:
 
 ```bash
 uv sync
 uv run python -m benchmarks.mock_showcase
 uv run pytest
 ```
+
+The reviewed retrieval release can be replayed through the same public
+`Task` / `Solution` / `Metric` path. The executable module pins the immutable
+[`zc277584121/modern-ir-bench`](https://huggingface.co/datasets/zc277584121/modern-ir-bench)
+Dataset revision and recomputes every leaderboard metric from its published rankings:
+
+```bash
+uv run python -m benchmarks.modern_ir_v2_1
+```
+
+This validates all seven saved retrieval routes against the expanded Qrels and writes
+framework observations, long-form results, and a local Space payload under
+`artifacts/modern-ir-v2.1-retrieval/`. The replay is a reproducibility check; model
+inference and indexing remain ordinary Solution implementations.
+
+Run a fresh BGE-M3 inference/index/search path against independent English and Chinese
+candidate pools:
+
+```bash
+uv run --group benchmark python -m benchmarks.modern_ir_v2_1_bge_m3_live
+```
+
+This uses the public `CanonicalTextChunker`, `ChunkedDenseRetrievalSolution`,
+`SentenceTransformersEmbedding`, and `MilvusDenseIndex` components. It compares every
+fresh Top-10 ranking with the immutable saved ranking and writes the audit under
+`artifacts/modern-ir-v2.1-bge-m3-live/`. Set `MIR_DEVICE`, `MIR_BATCH_SIZE`, and
+`MIR_MILVUS_URI` when the local defaults are not appropriate.
 
 Run the Space locally:
 

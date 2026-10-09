@@ -12,6 +12,8 @@ short_description: Code-native benchmark for modern IR solutions
 
 # Modern IR Bench
 
-Public, read-only benchmark explorer. The current release is a synthetic framework preview and does not represent scientific model results.
+Public, read-only benchmark explorer for the reviewed Modern IR Ranked Retrieval v2.1
+release. The benchmark currently contains 5,000 bilingual synthetic documents, 1,000
+queries, 6,575 positive Qrels, and seven retrieval Solutions.
 
 Every displayed measurement links to the immutable Git commit and executable Python module that produced it.

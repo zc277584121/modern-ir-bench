@@ -158,7 +158,8 @@ class MilvusDenseSession:
             return
         if not self._ids:
             raise ValueError("Cannot seal an empty dense index")
-        self.client.load_collection(collection_name=self.collection_name)
+        self.client.flush(collection_name=self.collection_name, timeout=120)
+        self.client.load_collection(collection_name=self.collection_name, timeout=120)
         self._actual_index = self.client.describe_index(
             collection_name=self.collection_name,
             index_name="vector_index",
