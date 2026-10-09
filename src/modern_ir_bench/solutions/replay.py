@@ -89,7 +89,12 @@ def build_saved_ranking_solutions(
         SavedRankingSolution(
             id=solution_id,
             title=str(metadata["title"]),
-            description=f"Replay of the immutable {metadata['route']} ranking.",
+            description=str(
+                metadata.get(
+                    "description",
+                    f"Replay of the immutable {metadata['route']} ranking.",
+                )
+            ),
             rankings=by_solution[solution_id],
         )
         for solution_id, metadata in solution_metadata.items()

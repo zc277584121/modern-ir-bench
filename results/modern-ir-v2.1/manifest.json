@@ -2,7 +2,7 @@
   "release": "modern-ir-bench-v2.1-20261009",
   "dataset": {
     "repository": "zc277584121/modern-ir-bench",
-    "revision": "693f957b52713bcc564987f3ea5fb7883f438d51"
+    "revision": "5bbc4ea34774b89ebec0e57ff82f231ff08d385c"
   },
   "solutions": 7,
   "queries": 1000,

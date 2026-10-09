@@ -10,7 +10,6 @@ venv/
 .env
 .env.*
 *.log
-!configs/*.yaml
 .ruff_cache/
 .mypy_cache/
 .pytest_cache/
@@ -27,10 +26,6 @@ venv/
 # Embedding cache and numpy files
 *.npy
 *.npy.tmp
-
-# Legacy generated outputs
-/legacy/reports/
-/legacy/results/
 
 # Tool/IDE metadata
 .cc-use/

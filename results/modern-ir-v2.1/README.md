@@ -7,5 +7,5 @@ Solutions across 1,000 queries. Each row records the Solution identifier, its To
 document ranking, and the per-query metrics used to verify the Space leaderboard.
 
 The corresponding Dataset is `zc277584121/modern-ir-bench` at revision
-`693f957b52713bcc564987f3ea5fb7883f438d51`. That Dataset contains only corpus,
+`5bbc4ea34774b89ebec0e57ff82f231ff08d385c`. That Dataset contains only corpus,
 queries, and binary Qrels.

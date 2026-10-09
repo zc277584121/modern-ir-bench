@@ -121,8 +121,6 @@ No YAML registry or parallel configuration language is required.
 
 The Space is a read-only view of maintainer-approved results. Contributions arrive through GitHub pull requests; there is no public model upload or shared evaluation runtime. Dataset releases are immutable, and new data is published as a new version.
 
-The full refactor design is maintained locally in `.local.PLAN.md`.
-
-## Historical implementation
-
-The previous `mm_embed` implementation and historical benchmark assets remain in the repository temporarily for reference. They are not part of the new public package or API.
+The full refactor design is maintained in `.local.PLAN.md`. Earlier experimental
+implementations and generated artifacts remain recoverable from Git history and the
+archived experiment branches; they are intentionally excluded from the current tree.

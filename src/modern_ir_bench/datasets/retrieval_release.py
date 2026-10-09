@@ -42,9 +42,9 @@ def load_ranked_retrieval_hub(
     if not repo_id or not revision:
         raise ValueError("repo_id and revision must be non-empty")
     return _adapt_ranked_retrieval_rows(
-        documents=load_dataset(repo_id, "corpus", split="train", revision=revision),
-        queries=load_dataset(repo_id, "queries", split="train", revision=revision),
-        qrels=load_dataset(repo_id, "qrels", split="train", revision=revision),
+        documents=load_dataset(repo_id, "corpus", split="corpus", revision=revision),
+        queries=load_dataset(repo_id, "queries", split="queries", revision=revision),
+        qrels=load_dataset(repo_id, "qrels", split="qrels", revision=revision),
         language=language,
     )
 

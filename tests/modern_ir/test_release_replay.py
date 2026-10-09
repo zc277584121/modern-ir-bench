@@ -2,8 +2,9 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+from unittest.mock import patch
 
-from modern_ir_bench.datasets import load_ranked_retrieval_release
+from modern_ir_bench.datasets import load_ranked_retrieval_hub, load_ranked_retrieval_release
 from modern_ir_bench.retrieval.types import RetrievalResource
 from modern_ir_bench.solutions import load_release_replay_solutions
 
@@ -78,3 +79,38 @@ def test_release_loader_and_saved_ranking_solution(tmp_path: Path) -> None:
     english = load_ranked_retrieval_release(tmp_path, language="en")
     assert english["documents"]["document_id"] == ["d1"]
     assert english["queries"]["query_id"] == ["q1"]
+
+
+def test_hub_loader_uses_table_specific_splits() -> None:
+    rows = {
+        "corpus": [
+            {
+                "doc_id": "d1",
+                "title": "One",
+                "text": "alpha",
+                "dimensions": {"language": "en"},
+            }
+        ],
+        "queries": [{"query_id": "q1", "text": "alpha", "language": "en"}],
+        "qrels": [{"query_id": "q1", "doc_id": "d1", "relevance": 1}],
+    }
+
+    def fake_load_dataset(
+        repo_id: str,
+        config_name: str,
+        *,
+        split: str,
+        revision: str,
+    ) -> list[dict[str, object]]:
+        assert repo_id == "owner/dataset"
+        assert revision == "abc123"
+        assert split == config_name
+        return rows[config_name]
+
+    with patch(
+        "modern_ir_bench.datasets.retrieval_release.load_dataset",
+        side_effect=fake_load_dataset,
+    ):
+        dataset = load_ranked_retrieval_hub("owner/dataset", revision="abc123")
+
+    assert dataset["documents"]["document_id"] == ["d1"]
