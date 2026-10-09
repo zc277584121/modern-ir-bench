@@ -2,7 +2,15 @@
   "benchmark": {
     "title": "Modern IR Bench",
     "release": "modern-ir-bench-v2.1-20261009",
-    "notice": "Published Modern IR Bench v2.1 release."
+    "counts": {
+      "documents": 5000,
+      "queries": 1000,
+      "qrels": 34756
+    },
+    "languages": [
+      "Chinese",
+      "English"
+    ]
   },
   "tasks": [
     {
@@ -62,12 +70,12 @@
       "value": 0.71249974,
       "primary": true,
       "status": "published",
-      "source_commit": "890462206b85e222ae2f61b3694585c545da689d",
+      "source_commit": "98793b1a4611059a17e9881258aa8c8c438385c3",
       "source_module": "benchmarks.modern_ir_v2_1",
       "source_path": "benchmarks/modern_ir_v2_1.py",
       "source_line": 140,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/890462206b85e222ae2f61b3694585c545da689d/benchmarks/modern_ir_v2_1.py#L140",
-      "created_at": "2026-10-09T11:21:51.073892+00:00",
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/98793b1a4611059a17e9881258aa8c8c438385c3/benchmarks/modern_ir_v2_1.py#L140",
+      "created_at": "2026-10-09T11:46:29.305596+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.1__modern-ir-bench-v2.1-20261009__bm25-full"
     },
     {
@@ -81,12 +89,12 @@
       "value": 0.17100763,
       "primary": false,
       "status": "published",
-      "source_commit": "890462206b85e222ae2f61b3694585c545da689d",
+      "source_commit": "98793b1a4611059a17e9881258aa8c8c438385c3",
       "source_module": "benchmarks.modern_ir_v2_1",
       "source_path": "benchmarks/modern_ir_v2_1.py",
       "source_line": 140,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/890462206b85e222ae2f61b3694585c545da689d/benchmarks/modern_ir_v2_1.py#L140",
-      "created_at": "2026-10-09T11:21:51.073892+00:00",
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/98793b1a4611059a17e9881258aa8c8c438385c3/benchmarks/modern_ir_v2_1.py#L140",
+      "created_at": "2026-10-09T11:46:29.305596+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.1__modern-ir-bench-v2.1-20261009__bm25-full"
     },
     {
@@ -100,12 +108,12 @@
       "value": 0.52963243,
       "primary": false,
       "status": "published",
-      "source_commit": "890462206b85e222ae2f61b3694585c545da689d",
+      "source_commit": "98793b1a4611059a17e9881258aa8c8c438385c3",
       "source_module": "benchmarks.modern_ir_v2_1",
       "source_path": "benchmarks/modern_ir_v2_1.py",
       "source_line": 140,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/890462206b85e222ae2f61b3694585c545da689d/benchmarks/modern_ir_v2_1.py#L140",
-      "created_at": "2026-10-09T11:21:51.073892+00:00",
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/98793b1a4611059a17e9881258aa8c8c438385c3/benchmarks/modern_ir_v2_1.py#L140",
+      "created_at": "2026-10-09T11:46:29.305596+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.1__modern-ir-bench-v2.1-20261009__bm25-full"
     },
     {
@@ -119,12 +127,12 @@
       "value": 0.70116362,
       "primary": false,
       "status": "published",
-      "source_commit": "890462206b85e222ae2f61b3694585c545da689d",
+      "source_commit": "98793b1a4611059a17e9881258aa8c8c438385c3",
       "source_module": "benchmarks.modern_ir_v2_1",
       "source_path": "benchmarks/modern_ir_v2_1.py",
       "source_line": 140,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/890462206b85e222ae2f61b3694585c545da689d/benchmarks/modern_ir_v2_1.py#L140",
-      "created_at": "2026-10-09T11:21:51.073892+00:00",
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/98793b1a4611059a17e9881258aa8c8c438385c3/benchmarks/modern_ir_v2_1.py#L140",
+      "created_at": "2026-10-09T11:46:29.305596+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.1__modern-ir-bench-v2.1-20261009__bm25-full"
     },
     {
@@ -138,12 +146,12 @@
       "value": 0.87365159,
       "primary": false,
       "status": "published",
-      "source_commit": "890462206b85e222ae2f61b3694585c545da689d",
+      "source_commit": "98793b1a4611059a17e9881258aa8c8c438385c3",
       "source_module": "benchmarks.modern_ir_v2_1",
       "source_path": "benchmarks/modern_ir_v2_1.py",
       "source_line": 140,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/890462206b85e222ae2f61b3694585c545da689d/benchmarks/modern_ir_v2_1.py#L140",
-      "created_at": "2026-10-09T11:21:51.073892+00:00",
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/98793b1a4611059a17e9881258aa8c8c438385c3/benchmarks/modern_ir_v2_1.py#L140",
+      "created_at": "2026-10-09T11:46:29.305596+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.1__modern-ir-bench-v2.1-20261009__bm25-full"
     },
     {
@@ -157,12 +165,12 @@
       "value": 0.72248847,
       "primary": true,
       "status": "published",
-      "source_commit": "890462206b85e222ae2f61b3694585c545da689d",
+      "source_commit": "98793b1a4611059a17e9881258aa8c8c438385c3",
       "source_module": "benchmarks.modern_ir_v2_1",
       "source_path": "benchmarks/modern_ir_v2_1.py",
       "source_line": 140,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/890462206b85e222ae2f61b3694585c545da689d/benchmarks/modern_ir_v2_1.py#L140",
-      "created_at": "2026-10-09T11:21:51.073892+00:00",
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/98793b1a4611059a17e9881258aa8c8c438385c3/benchmarks/modern_ir_v2_1.py#L140",
+      "created_at": "2026-10-09T11:46:29.305596+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.1__modern-ir-bench-v2.1-20261009__bm25-chunk"
     },
     {
@@ -176,12 +184,12 @@
       "value": 0.17377831,
       "primary": false,
       "status": "published",
-      "source_commit": "890462206b85e222ae2f61b3694585c545da689d",
+      "source_commit": "98793b1a4611059a17e9881258aa8c8c438385c3",
       "source_module": "benchmarks.modern_ir_v2_1",
       "source_path": "benchmarks/modern_ir_v2_1.py",
       "source_line": 140,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/890462206b85e222ae2f61b3694585c545da689d/benchmarks/modern_ir_v2_1.py#L140",
-      "created_at": "2026-10-09T11:21:51.073892+00:00",
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/98793b1a4611059a17e9881258aa8c8c438385c3/benchmarks/modern_ir_v2_1.py#L140",
+      "created_at": "2026-10-09T11:46:29.305596+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.1__modern-ir-bench-v2.1-20261009__bm25-chunk"
     },
     {
@@ -195,12 +203,12 @@
       "value": 0.53622086,
       "primary": false,
       "status": "published",
-      "source_commit": "890462206b85e222ae2f61b3694585c545da689d",
+      "source_commit": "98793b1a4611059a17e9881258aa8c8c438385c3",
       "source_module": "benchmarks.modern_ir_v2_1",
       "source_path": "benchmarks/modern_ir_v2_1.py",
       "source_line": 140,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/890462206b85e222ae2f61b3694585c545da689d/benchmarks/modern_ir_v2_1.py#L140",
-      "created_at": "2026-10-09T11:21:51.073892+00:00",
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/98793b1a4611059a17e9881258aa8c8c438385c3/benchmarks/modern_ir_v2_1.py#L140",
+      "created_at": "2026-10-09T11:46:29.305596+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.1__modern-ir-bench-v2.1-20261009__bm25-chunk"
     },
     {
@@ -214,12 +222,12 @@
       "value": 0.71100498,
       "primary": false,
       "status": "published",
-      "source_commit": "890462206b85e222ae2f61b3694585c545da689d",
+      "source_commit": "98793b1a4611059a17e9881258aa8c8c438385c3",
       "source_module": "benchmarks.modern_ir_v2_1",
       "source_path": "benchmarks/modern_ir_v2_1.py",
       "source_line": 140,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/890462206b85e222ae2f61b3694585c545da689d/benchmarks/modern_ir_v2_1.py#L140",
-      "created_at": "2026-10-09T11:21:51.073892+00:00",
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/98793b1a4611059a17e9881258aa8c8c438385c3/benchmarks/modern_ir_v2_1.py#L140",
+      "created_at": "2026-10-09T11:46:29.305596+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.1__modern-ir-bench-v2.1-20261009__bm25-chunk"
     },
     {
@@ -233,12 +241,12 @@
       "value": 0.88202262,
       "primary": false,
       "status": "published",
-      "source_commit": "890462206b85e222ae2f61b3694585c545da689d",
+      "source_commit": "98793b1a4611059a17e9881258aa8c8c438385c3",
       "source_module": "benchmarks.modern_ir_v2_1",
       "source_path": "benchmarks/modern_ir_v2_1.py",
       "source_line": 140,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/890462206b85e222ae2f61b3694585c545da689d/benchmarks/modern_ir_v2_1.py#L140",
-      "created_at": "2026-10-09T11:21:51.073892+00:00",
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/98793b1a4611059a17e9881258aa8c8c438385c3/benchmarks/modern_ir_v2_1.py#L140",
+      "created_at": "2026-10-09T11:46:29.305596+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.1__modern-ir-bench-v2.1-20261009__bm25-chunk"
     },
     {
@@ -252,12 +260,12 @@
       "value": 0.86339312,
       "primary": true,
       "status": "published",
-      "source_commit": "890462206b85e222ae2f61b3694585c545da689d",
+      "source_commit": "98793b1a4611059a17e9881258aa8c8c438385c3",
       "source_module": "benchmarks.modern_ir_v2_1",
       "source_path": "benchmarks/modern_ir_v2_1.py",
       "source_line": 140,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/890462206b85e222ae2f61b3694585c545da689d/benchmarks/modern_ir_v2_1.py#L140",
-      "created_at": "2026-10-09T11:21:51.073892+00:00",
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/98793b1a4611059a17e9881258aa8c8c438385c3/benchmarks/modern_ir_v2_1.py#L140",
+      "created_at": "2026-10-09T11:46:29.305596+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.1__modern-ir-bench-v2.1-20261009__voyage-4-large-full"
     },
     {
@@ -271,12 +279,12 @@
       "value": 0.19692718,
       "primary": false,
       "status": "published",
-      "source_commit": "890462206b85e222ae2f61b3694585c545da689d",
+      "source_commit": "98793b1a4611059a17e9881258aa8c8c438385c3",
       "source_module": "benchmarks.modern_ir_v2_1",
       "source_path": "benchmarks/modern_ir_v2_1.py",
       "source_line": 140,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/890462206b85e222ae2f61b3694585c545da689d/benchmarks/modern_ir_v2_1.py#L140",
-      "created_at": "2026-10-09T11:21:51.073892+00:00",
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/98793b1a4611059a17e9881258aa8c8c438385c3/benchmarks/modern_ir_v2_1.py#L140",
+      "created_at": "2026-10-09T11:46:29.305596+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.1__modern-ir-bench-v2.1-20261009__voyage-4-large-full"
     },
     {
@@ -290,12 +298,12 @@
       "value": 0.65963741,
       "primary": false,
       "status": "published",
-      "source_commit": "890462206b85e222ae2f61b3694585c545da689d",
+      "source_commit": "98793b1a4611059a17e9881258aa8c8c438385c3",
       "source_module": "benchmarks.modern_ir_v2_1",
       "source_path": "benchmarks/modern_ir_v2_1.py",
       "source_line": 140,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/890462206b85e222ae2f61b3694585c545da689d/benchmarks/modern_ir_v2_1.py#L140",
-      "created_at": "2026-10-09T11:21:51.073892+00:00",
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/98793b1a4611059a17e9881258aa8c8c438385c3/benchmarks/modern_ir_v2_1.py#L140",
+      "created_at": "2026-10-09T11:46:29.305596+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.1__modern-ir-bench-v2.1-20261009__voyage-4-large-full"
     },
     {
@@ -309,12 +317,12 @@
       "value": 0.8361849,
       "primary": false,
       "status": "published",
-      "source_commit": "890462206b85e222ae2f61b3694585c545da689d",
+      "source_commit": "98793b1a4611059a17e9881258aa8c8c438385c3",
       "source_module": "benchmarks.modern_ir_v2_1",
       "source_path": "benchmarks/modern_ir_v2_1.py",
       "source_line": 140,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/890462206b85e222ae2f61b3694585c545da689d/benchmarks/modern_ir_v2_1.py#L140",
-      "created_at": "2026-10-09T11:21:51.073892+00:00",
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/98793b1a4611059a17e9881258aa8c8c438385c3/benchmarks/modern_ir_v2_1.py#L140",
+      "created_at": "2026-10-09T11:46:29.305596+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.1__modern-ir-bench-v2.1-20261009__voyage-4-large-full"
     },
     {
@@ -328,12 +336,12 @@
       "value": 0.95647183,
       "primary": false,
       "status": "published",
-      "source_commit": "890462206b85e222ae2f61b3694585c545da689d",
+      "source_commit": "98793b1a4611059a17e9881258aa8c8c438385c3",
       "source_module": "benchmarks.modern_ir_v2_1",
       "source_path": "benchmarks/modern_ir_v2_1.py",
       "source_line": 140,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/890462206b85e222ae2f61b3694585c545da689d/benchmarks/modern_ir_v2_1.py#L140",
-      "created_at": "2026-10-09T11:21:51.073892+00:00",
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/98793b1a4611059a17e9881258aa8c8c438385c3/benchmarks/modern_ir_v2_1.py#L140",
+      "created_at": "2026-10-09T11:46:29.305596+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.1__modern-ir-bench-v2.1-20261009__voyage-4-large-full"
     },
     {
@@ -347,12 +355,12 @@
       "value": 0.87926964,
       "primary": true,
       "status": "published",
-      "source_commit": "890462206b85e222ae2f61b3694585c545da689d",
+      "source_commit": "98793b1a4611059a17e9881258aa8c8c438385c3",
       "source_module": "benchmarks.modern_ir_v2_1",
       "source_path": "benchmarks/modern_ir_v2_1.py",
       "source_line": 140,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/890462206b85e222ae2f61b3694585c545da689d/benchmarks/modern_ir_v2_1.py#L140",
-      "created_at": "2026-10-09T11:21:51.073892+00:00",
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/98793b1a4611059a17e9881258aa8c8c438385c3/benchmarks/modern_ir_v2_1.py#L140",
+      "created_at": "2026-10-09T11:46:29.305596+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.1__modern-ir-bench-v2.1-20261009__voyage-4-large-chunk"
     },
     {
@@ -366,12 +374,12 @@
       "value": 0.20040301,
       "primary": false,
       "status": "published",
-      "source_commit": "890462206b85e222ae2f61b3694585c545da689d",
+      "source_commit": "98793b1a4611059a17e9881258aa8c8c438385c3",
       "source_module": "benchmarks.modern_ir_v2_1",
       "source_path": "benchmarks/modern_ir_v2_1.py",
       "source_line": 140,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/890462206b85e222ae2f61b3694585c545da689d/benchmarks/modern_ir_v2_1.py#L140",
-      "created_at": "2026-10-09T11:21:51.073892+00:00",
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/98793b1a4611059a17e9881258aa8c8c438385c3/benchmarks/modern_ir_v2_1.py#L140",
+      "created_at": "2026-10-09T11:46:29.305596+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.1__modern-ir-bench-v2.1-20261009__voyage-4-large-chunk"
     },
     {
@@ -385,12 +393,12 @@
       "value": 0.67287773,
       "primary": false,
       "status": "published",
-      "source_commit": "890462206b85e222ae2f61b3694585c545da689d",
+      "source_commit": "98793b1a4611059a17e9881258aa8c8c438385c3",
       "source_module": "benchmarks.modern_ir_v2_1",
       "source_path": "benchmarks/modern_ir_v2_1.py",
       "source_line": 140,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/890462206b85e222ae2f61b3694585c545da689d/benchmarks/modern_ir_v2_1.py#L140",
-      "created_at": "2026-10-09T11:21:51.073892+00:00",
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/98793b1a4611059a17e9881258aa8c8c438385c3/benchmarks/modern_ir_v2_1.py#L140",
+      "created_at": "2026-10-09T11:46:29.305596+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.1__modern-ir-bench-v2.1-20261009__voyage-4-large-chunk"
     },
     {
@@ -404,12 +412,12 @@
       "value": 0.85209908,
       "primary": false,
       "status": "published",
-      "source_commit": "890462206b85e222ae2f61b3694585c545da689d",
+      "source_commit": "98793b1a4611059a17e9881258aa8c8c438385c3",
       "source_module": "benchmarks.modern_ir_v2_1",
       "source_path": "benchmarks/modern_ir_v2_1.py",
       "source_line": 140,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/890462206b85e222ae2f61b3694585c545da689d/benchmarks/modern_ir_v2_1.py#L140",
-      "created_at": "2026-10-09T11:21:51.073892+00:00",
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/98793b1a4611059a17e9881258aa8c8c438385c3/benchmarks/modern_ir_v2_1.py#L140",
+      "created_at": "2026-10-09T11:46:29.305596+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.1__modern-ir-bench-v2.1-20261009__voyage-4-large-chunk"
     },
     {
@@ -423,12 +431,12 @@
       "value": 0.96386944,
       "primary": false,
       "status": "published",
-      "source_commit": "890462206b85e222ae2f61b3694585c545da689d",
+      "source_commit": "98793b1a4611059a17e9881258aa8c8c438385c3",
       "source_module": "benchmarks.modern_ir_v2_1",
       "source_path": "benchmarks/modern_ir_v2_1.py",
       "source_line": 140,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/890462206b85e222ae2f61b3694585c545da689d/benchmarks/modern_ir_v2_1.py#L140",
-      "created_at": "2026-10-09T11:21:51.073892+00:00",
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/98793b1a4611059a17e9881258aa8c8c438385c3/benchmarks/modern_ir_v2_1.py#L140",
+      "created_at": "2026-10-09T11:46:29.305596+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.1__modern-ir-bench-v2.1-20261009__voyage-4-large-chunk"
     },
     {
@@ -442,12 +450,12 @@
       "value": 0.81145622,
       "primary": true,
       "status": "published",
-      "source_commit": "890462206b85e222ae2f61b3694585c545da689d",
+      "source_commit": "98793b1a4611059a17e9881258aa8c8c438385c3",
       "source_module": "benchmarks.modern_ir_v2_1",
       "source_path": "benchmarks/modern_ir_v2_1.py",
       "source_line": 140,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/890462206b85e222ae2f61b3694585c545da689d/benchmarks/modern_ir_v2_1.py#L140",
-      "created_at": "2026-10-09T11:21:51.073892+00:00",
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/98793b1a4611059a17e9881258aa8c8c438385c3/benchmarks/modern_ir_v2_1.py#L140",
+      "created_at": "2026-10-09T11:46:29.305596+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.1__modern-ir-bench-v2.1-20261009__qwen3-embedding-4b-chunk"
     },
     {
@@ -461,12 +469,12 @@
       "value": 0.18195821,
       "primary": false,
       "status": "published",
-      "source_commit": "890462206b85e222ae2f61b3694585c545da689d",
+      "source_commit": "98793b1a4611059a17e9881258aa8c8c438385c3",
       "source_module": "benchmarks.modern_ir_v2_1",
       "source_path": "benchmarks/modern_ir_v2_1.py",
       "source_line": 140,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/890462206b85e222ae2f61b3694585c545da689d/benchmarks/modern_ir_v2_1.py#L140",
-      "created_at": "2026-10-09T11:21:51.073892+00:00",
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/98793b1a4611059a17e9881258aa8c8c438385c3/benchmarks/modern_ir_v2_1.py#L140",
+      "created_at": "2026-10-09T11:46:29.305596+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.1__modern-ir-bench-v2.1-20261009__qwen3-embedding-4b-chunk"
     },
     {
@@ -480,12 +488,12 @@
       "value": 0.61901765,
       "primary": false,
       "status": "published",
-      "source_commit": "890462206b85e222ae2f61b3694585c545da689d",
+      "source_commit": "98793b1a4611059a17e9881258aa8c8c438385c3",
       "source_module": "benchmarks.modern_ir_v2_1",
       "source_path": "benchmarks/modern_ir_v2_1.py",
       "source_line": 140,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/890462206b85e222ae2f61b3694585c545da689d/benchmarks/modern_ir_v2_1.py#L140",
-      "created_at": "2026-10-09T11:21:51.073892+00:00",
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/98793b1a4611059a17e9881258aa8c8c438385c3/benchmarks/modern_ir_v2_1.py#L140",
+      "created_at": "2026-10-09T11:46:29.305596+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.1__modern-ir-bench-v2.1-20261009__qwen3-embedding-4b-chunk"
     },
     {
@@ -499,12 +507,12 @@
       "value": 0.79335897,
       "primary": false,
       "status": "published",
-      "source_commit": "890462206b85e222ae2f61b3694585c545da689d",
+      "source_commit": "98793b1a4611059a17e9881258aa8c8c438385c3",
       "source_module": "benchmarks.modern_ir_v2_1",
       "source_path": "benchmarks/modern_ir_v2_1.py",
       "source_line": 140,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/890462206b85e222ae2f61b3694585c545da689d/benchmarks/modern_ir_v2_1.py#L140",
-      "created_at": "2026-10-09T11:21:51.073892+00:00",
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/98793b1a4611059a17e9881258aa8c8c438385c3/benchmarks/modern_ir_v2_1.py#L140",
+      "created_at": "2026-10-09T11:46:29.305596+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.1__modern-ir-bench-v2.1-20261009__qwen3-embedding-4b-chunk"
     },
     {
@@ -518,12 +526,12 @@
       "value": 0.91848532,
       "primary": false,
       "status": "published",
-      "source_commit": "890462206b85e222ae2f61b3694585c545da689d",
+      "source_commit": "98793b1a4611059a17e9881258aa8c8c438385c3",
       "source_module": "benchmarks.modern_ir_v2_1",
       "source_path": "benchmarks/modern_ir_v2_1.py",
       "source_line": 140,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/890462206b85e222ae2f61b3694585c545da689d/benchmarks/modern_ir_v2_1.py#L140",
-      "created_at": "2026-10-09T11:21:51.073892+00:00",
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/98793b1a4611059a17e9881258aa8c8c438385c3/benchmarks/modern_ir_v2_1.py#L140",
+      "created_at": "2026-10-09T11:46:29.305596+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.1__modern-ir-bench-v2.1-20261009__qwen3-embedding-4b-chunk"
     },
     {
@@ -537,12 +545,12 @@
       "value": 0.76469392,
       "primary": true,
       "status": "published",
-      "source_commit": "890462206b85e222ae2f61b3694585c545da689d",
+      "source_commit": "98793b1a4611059a17e9881258aa8c8c438385c3",
       "source_module": "benchmarks.modern_ir_v2_1",
       "source_path": "benchmarks/modern_ir_v2_1.py",
       "source_line": 140,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/890462206b85e222ae2f61b3694585c545da689d/benchmarks/modern_ir_v2_1.py#L140",
-      "created_at": "2026-10-09T11:21:51.073892+00:00",
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/98793b1a4611059a17e9881258aa8c8c438385c3/benchmarks/modern_ir_v2_1.py#L140",
+      "created_at": "2026-10-09T11:46:29.305596+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.1__modern-ir-bench-v2.1-20261009__bge-m3-dense-chunk"
     },
     {
@@ -556,12 +564,12 @@
       "value": 0.17671536,
       "primary": false,
       "status": "published",
-      "source_commit": "890462206b85e222ae2f61b3694585c545da689d",
+      "source_commit": "98793b1a4611059a17e9881258aa8c8c438385c3",
       "source_module": "benchmarks.modern_ir_v2_1",
       "source_path": "benchmarks/modern_ir_v2_1.py",
       "source_line": 140,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/890462206b85e222ae2f61b3694585c545da689d/benchmarks/modern_ir_v2_1.py#L140",
-      "created_at": "2026-10-09T11:21:51.073892+00:00",
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/98793b1a4611059a17e9881258aa8c8c438385c3/benchmarks/modern_ir_v2_1.py#L140",
+      "created_at": "2026-10-09T11:46:29.305596+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.1__modern-ir-bench-v2.1-20261009__bge-m3-dense-chunk"
     },
     {
@@ -575,12 +583,12 @@
       "value": 0.5768224,
       "primary": false,
       "status": "published",
-      "source_commit": "890462206b85e222ae2f61b3694585c545da689d",
+      "source_commit": "98793b1a4611059a17e9881258aa8c8c438385c3",
       "source_module": "benchmarks.modern_ir_v2_1",
       "source_path": "benchmarks/modern_ir_v2_1.py",
       "source_line": 140,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/890462206b85e222ae2f61b3694585c545da689d/benchmarks/modern_ir_v2_1.py#L140",
-      "created_at": "2026-10-09T11:21:51.073892+00:00",
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/98793b1a4611059a17e9881258aa8c8c438385c3/benchmarks/modern_ir_v2_1.py#L140",
+      "created_at": "2026-10-09T11:46:29.305596+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.1__modern-ir-bench-v2.1-20261009__bge-m3-dense-chunk"
     },
     {
@@ -594,12 +602,12 @@
       "value": 0.75090664,
       "primary": false,
       "status": "published",
-      "source_commit": "890462206b85e222ae2f61b3694585c545da689d",
+      "source_commit": "98793b1a4611059a17e9881258aa8c8c438385c3",
       "source_module": "benchmarks.modern_ir_v2_1",
       "source_path": "benchmarks/modern_ir_v2_1.py",
       "source_line": 140,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/890462206b85e222ae2f61b3694585c545da689d/benchmarks/modern_ir_v2_1.py#L140",
-      "created_at": "2026-10-09T11:21:51.073892+00:00",
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/98793b1a4611059a17e9881258aa8c8c438385c3/benchmarks/modern_ir_v2_1.py#L140",
+      "created_at": "2026-10-09T11:46:29.305596+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.1__modern-ir-bench-v2.1-20261009__bge-m3-dense-chunk"
     },
     {
@@ -613,12 +621,12 @@
       "value": 0.89477143,
       "primary": false,
       "status": "published",
-      "source_commit": "890462206b85e222ae2f61b3694585c545da689d",
+      "source_commit": "98793b1a4611059a17e9881258aa8c8c438385c3",
       "source_module": "benchmarks.modern_ir_v2_1",
       "source_path": "benchmarks/modern_ir_v2_1.py",
       "source_line": 140,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/890462206b85e222ae2f61b3694585c545da689d/benchmarks/modern_ir_v2_1.py#L140",
-      "created_at": "2026-10-09T11:21:51.073892+00:00",
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/98793b1a4611059a17e9881258aa8c8c438385c3/benchmarks/modern_ir_v2_1.py#L140",
+      "created_at": "2026-10-09T11:46:29.305596+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.1__modern-ir-bench-v2.1-20261009__bge-m3-dense-chunk"
     },
     {
@@ -632,12 +640,12 @@
       "value": 0.73097692,
       "primary": true,
       "status": "published",
-      "source_commit": "890462206b85e222ae2f61b3694585c545da689d",
+      "source_commit": "98793b1a4611059a17e9881258aa8c8c438385c3",
       "source_module": "benchmarks.modern_ir_v2_1",
       "source_path": "benchmarks/modern_ir_v2_1.py",
       "source_line": 140,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/890462206b85e222ae2f61b3694585c545da689d/benchmarks/modern_ir_v2_1.py#L140",
-      "created_at": "2026-10-09T11:21:51.073892+00:00",
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/98793b1a4611059a17e9881258aa8c8c438385c3/benchmarks/modern_ir_v2_1.py#L140",
+      "created_at": "2026-10-09T11:46:29.305596+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.1__modern-ir-bench-v2.1-20261009__bge-m3-sparse-chunk"
     },
     {
@@ -651,12 +659,12 @@
       "value": 0.17238291,
       "primary": false,
       "status": "published",
-      "source_commit": "890462206b85e222ae2f61b3694585c545da689d",
+      "source_commit": "98793b1a4611059a17e9881258aa8c8c438385c3",
       "source_module": "benchmarks.modern_ir_v2_1",
       "source_path": "benchmarks/modern_ir_v2_1.py",
       "source_line": 140,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/890462206b85e222ae2f61b3694585c545da689d/benchmarks/modern_ir_v2_1.py#L140",
-      "created_at": "2026-10-09T11:21:51.073892+00:00",
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/98793b1a4611059a17e9881258aa8c8c438385c3/benchmarks/modern_ir_v2_1.py#L140",
+      "created_at": "2026-10-09T11:46:29.305596+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.1__modern-ir-bench-v2.1-20261009__bge-m3-sparse-chunk"
     },
     {
@@ -670,12 +678,12 @@
       "value": 0.5489918,
       "primary": false,
       "status": "published",
-      "source_commit": "890462206b85e222ae2f61b3694585c545da689d",
+      "source_commit": "98793b1a4611059a17e9881258aa8c8c438385c3",
       "source_module": "benchmarks.modern_ir_v2_1",
       "source_path": "benchmarks/modern_ir_v2_1.py",
       "source_line": 140,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/890462206b85e222ae2f61b3694585c545da689d/benchmarks/modern_ir_v2_1.py#L140",
-      "created_at": "2026-10-09T11:21:51.073892+00:00",
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/98793b1a4611059a17e9881258aa8c8c438385c3/benchmarks/modern_ir_v2_1.py#L140",
+      "created_at": "2026-10-09T11:46:29.305596+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.1__modern-ir-bench-v2.1-20261009__bge-m3-sparse-chunk"
     },
     {
@@ -689,12 +697,12 @@
       "value": 0.71225595,
       "primary": false,
       "status": "published",
-      "source_commit": "890462206b85e222ae2f61b3694585c545da689d",
+      "source_commit": "98793b1a4611059a17e9881258aa8c8c438385c3",
       "source_module": "benchmarks.modern_ir_v2_1",
       "source_path": "benchmarks/modern_ir_v2_1.py",
       "source_line": 140,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/890462206b85e222ae2f61b3694585c545da689d/benchmarks/modern_ir_v2_1.py#L140",
-      "created_at": "2026-10-09T11:21:51.073892+00:00",
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/98793b1a4611059a17e9881258aa8c8c438385c3/benchmarks/modern_ir_v2_1.py#L140",
+      "created_at": "2026-10-09T11:46:29.305596+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.1__modern-ir-bench-v2.1-20261009__bge-m3-sparse-chunk"
     },
     {
@@ -708,12 +716,12 @@
       "value": 0.88026905,
       "primary": false,
       "status": "published",
-      "source_commit": "890462206b85e222ae2f61b3694585c545da689d",
+      "source_commit": "98793b1a4611059a17e9881258aa8c8c438385c3",
       "source_module": "benchmarks.modern_ir_v2_1",
       "source_path": "benchmarks/modern_ir_v2_1.py",
       "source_line": 140,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/890462206b85e222ae2f61b3694585c545da689d/benchmarks/modern_ir_v2_1.py#L140",
-      "created_at": "2026-10-09T11:21:51.073892+00:00",
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/98793b1a4611059a17e9881258aa8c8c438385c3/benchmarks/modern_ir_v2_1.py#L140",
+      "created_at": "2026-10-09T11:46:29.305596+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.1__modern-ir-bench-v2.1-20261009__bge-m3-sparse-chunk"
     }
   ]
