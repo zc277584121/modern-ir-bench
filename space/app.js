@@ -15,9 +15,15 @@ const escapeHtml = (value) =>
     .replaceAll("'", "&#039;");
 
 const formatScore = (value) => Number(value).toFixed(3);
+const formatInteger = (value) => Number(value).toLocaleString("en-US");
 
-function sourceLink(record) {
-  return `<a class="source" href="${escapeHtml(record.source_url)}" target="_blank" rel="noreferrer">${escapeHtml(record.source_commit.slice(0, 7))} ↗</a>`;
+function datasetLabel(datasetId) {
+  if (datasetId.startsWith("modern-ir-bench-v2.1")) return "Modern IR Bench v2.1";
+  return datasetId.replace(/-\d{8}$/, "");
+}
+
+function evaluationLink(record) {
+  return `<a class="context-link" href="${escapeHtml(record.source_url)}" target="_blank" rel="noreferrer" title="Open the exact evaluation code at commit ${escapeHtml(record.source_commit.slice(0, 7))}">Evaluation code ↗</a>`;
 }
 
 function renderTable(headers, rows, tableName, sortState) {
@@ -74,7 +80,7 @@ function taskDatasets(taskId) {
     const value = `${record.dataset_id}|${record.dataset_version}`;
     if (seen.has(value)) return [];
     seen.add(value);
-    return [{ value, label: `${record.dataset_id} (${record.dataset_version})` }];
+    return [{ value, label: datasetLabel(record.dataset_id) }];
   });
 }
 
@@ -91,7 +97,6 @@ function renderTask() {
   const [datasetId, datasetVersion] = document
     .querySelector("#dataset-selector")
     .value.split("|");
-  const rowLimit = Number(document.querySelector("#task-rows").value);
   const task = state.tasks.get(taskId);
   const selected = state.payload.results.filter(
     (record) =>
@@ -123,8 +128,7 @@ function renderTask() {
     );
     return comparison || left.localeCompare(right);
   });
-  const shown = matching.slice(0, rowLimit);
-  const rows = shown.map((solutionId) => {
+  const rows = matching.map((solutionId) => {
     const solution = state.solutions.get(solutionId);
     const records = grouped.get(solutionId);
     const rank = matching.indexOf(solutionId) + 1;
@@ -136,25 +140,29 @@ function renderTask() {
     });
     return [
       `<span class="rank">${rank}</span>`,
-      `<strong>${escapeHtml(solution.title)}</strong><br><span class="muted">${escapeHtml(solution.id)}</span>`,
+      `<strong>${escapeHtml(solution.title)}</strong>`,
       ...metricCells,
-      sourceLink(records.values().next().value),
     ];
   });
 
+  const sourceRecord = selected[0];
   document.querySelector("#task-context").innerHTML = `
-    <strong>${escapeHtml(task.title)}</strong>
-    <p>${escapeHtml(task.description)}</p>
-    <p>Primary signal: <code>${escapeHtml(labels.get(task.primary_metric))}</code> · Dataset: <code>${escapeHtml(datasetId)}</code> · Version: <code>${escapeHtml(datasetVersion)}</code></p>`;
-  document.querySelector("#task-status").innerHTML = matching.length
-    ? `Showing <strong>${shown.length}</strong> of <strong>${matching.length}</strong> rows. Ranked by <strong>${escapeHtml(state.taskSort.key === "solution" ? "Solution" : labels.get(state.taskSort.key))}</strong> ${state.taskSort.direction === "asc" ? "ascending" : "descending"}.`
-    : "No rows are available.";
+    <div class="task-note-header">
+      <div>
+        <h2>${escapeHtml(task.title)}</h2>
+        <p>${escapeHtml(task.description)}</p>
+      </div>
+      ${sourceRecord ? evaluationLink(sourceRecord) : ""}
+    </div>
+    <div class="meta-list">
+      <span class="meta-chip">Primary metric: ${escapeHtml(labels.get(task.primary_metric))}</span>
+      <span class="meta-chip">${escapeHtml(datasetLabel(datasetId))}</span>
+    </div>`;
   document.querySelector("#task-table").innerHTML = renderTable(
     [
       { label: "Rank" },
       { label: "Solution", key: "solution" },
       ...metricOrder.map((id) => ({ label: labels.get(id), key: id })),
-      { label: "Source" },
     ],
     rows,
     "task",
@@ -168,7 +176,6 @@ function renderTask() {
 
 function renderSolution() {
   const solutionId = document.querySelector("#solution-selector").value;
-  const rowLimit = Number(document.querySelector("#solution-rows").value);
   const solution = state.solutions.get(solutionId);
   const matching = primaryRecords()
     .filter((record) => record.solution_id === solutionId)
@@ -187,8 +194,7 @@ function renderSolution() {
       };
       return compareValues(value(left), value(right), state.solutionSort.direction);
     });
-  const shown = matching.slice(0, rowLimit);
-  const rows = shown.map((record) => {
+  const rows = matching.map((record) => {
     const peers = primaryRecords()
       .filter(
         (item) =>
@@ -203,18 +209,19 @@ function renderSolution() {
       escapeHtml(record.metric_label),
       `<span class="score primary">${formatScore(record.value)}</span>`,
       `<span class="rank">${rank} / ${peers.length}</span>`,
-      `${escapeHtml(record.dataset_id)}<br><span class="muted">${escapeHtml(record.dataset_version)}</span>`,
-      sourceLink(record),
+      escapeHtml(datasetLabel(record.dataset_id)),
     ];
   });
 
+  const sourceRecord = matching[0];
   document.querySelector("#solution-context").innerHTML = `
-    <strong>${escapeHtml(solution.title)}</strong>
-    <p>${escapeHtml(solution.description)}</p>
-    <p>Solution ID: <code>${escapeHtml(solution.id)}</code></p>`;
-  document.querySelector("#solution-status").innerHTML = matching.length
-    ? `Showing <strong>${shown.length}</strong> of <strong>${matching.length}</strong> rows.`
-    : "No rows are available.";
+    <div class="task-note-header">
+      <div>
+        <h2>${escapeHtml(solution.title)}</h2>
+        <p>${escapeHtml(solution.description)}</p>
+      </div>
+      ${sourceRecord ? evaluationLink(sourceRecord) : ""}
+    </div>`;
   document.querySelector("#solution-table").innerHTML = renderTable(
     [
       { label: "Task", key: "task" },
@@ -222,7 +229,6 @@ function renderSolution() {
       { label: "Score", key: "score" },
       { label: "Rank", key: "rank" },
       { label: "Dataset release", key: "dataset" },
-      { label: "Source" },
     ],
     rows,
     "solution",
@@ -270,52 +276,6 @@ function renderCoverage() {
   );
 }
 
-function renderCatalogs() {
-  const taskRows = [...state.tasks.values()].map((task) => {
-    const releases = taskDatasets(task.id).map((item) => item.label).join(", ");
-    return [
-      `<strong>${escapeHtml(task.title)}</strong><br><span class="muted">${escapeHtml(task.id)}</span>`,
-      escapeHtml(task.description),
-      escapeHtml(task.primary_metric),
-      escapeHtml(task.version),
-      escapeHtml(releases),
-    ];
-  });
-  document.querySelector("#task-catalog").innerHTML = renderTable(
-    [
-      { label: "Task" },
-      { label: "Description" },
-      { label: "Primary metric" },
-      { label: "Task version" },
-      { label: "Dataset releases" },
-    ],
-    taskRows,
-  );
-
-  const solutionRows = [...state.solutions.values()].map((solution) => {
-    const taskCount = new Set(
-      state.payload.results
-        .filter((record) => record.solution_id === solution.id)
-        .map((record) => record.task_id),
-    ).size;
-    return [
-      `<strong>${escapeHtml(solution.title)}</strong>`,
-      escapeHtml(solution.id),
-      escapeHtml(solution.description),
-      String(taskCount),
-    ];
-  });
-  document.querySelector("#solution-catalog").innerHTML = renderTable(
-    [
-      { label: "Solution" },
-      { label: "ID" },
-      { label: "Description" },
-      { label: "Evaluated tasks" },
-    ],
-    solutionRows,
-  );
-}
-
 function installTabs() {
   document.querySelectorAll(".tab").forEach((button) => {
     button.addEventListener("click", () => {
@@ -332,18 +292,42 @@ function installControls() {
   [...state.tasks.values()].forEach((task) => taskSelector.add(new Option(task.title, task.id)));
   taskSelector.addEventListener("change", () => {
     populateDatasetSelector();
+    updateControlVisibility();
     state.taskSort = { key: state.tasks.get(taskSelector.value).primary_metric, direction: "desc" };
     renderTask();
   });
   document.querySelector("#dataset-selector").addEventListener("change", renderTask);
-  document.querySelector("#task-rows").addEventListener("change", renderTask);
 
   const solutionSelector = document.querySelector("#solution-selector");
   [...state.solutions.values()].forEach((solution) =>
     solutionSelector.add(new Option(solution.title, solution.id)),
   );
   solutionSelector.addEventListener("change", renderSolution);
-  document.querySelector("#solution-rows").addEventListener("change", renderSolution);
+}
+
+function updateControlVisibility() {
+  document.querySelector("#task-control").hidden = state.tasks.size <= 1;
+  document.querySelector("#dataset-control").hidden =
+    document.querySelector("#dataset-selector").options.length <= 1;
+  document.querySelector("#task-controls").hidden =
+    document.querySelector("#task-control").hidden &&
+    document.querySelector("#dataset-control").hidden;
+  document.querySelector("#coverage-tab").hidden = state.tasks.size <= 1;
+}
+
+function renderSummary() {
+  const counts = state.payload.benchmark.counts || {};
+  const items = [];
+  if (counts.documents) items.push(`${formatInteger(counts.documents)} documents`);
+  if (counts.queries) items.push(`${formatInteger(counts.queries)} queries`);
+  items.push(`${formatInteger(state.solutions.size)} solutions`);
+  if (state.tasks.size > 1) items.push(`${formatInteger(state.tasks.size)} tasks`);
+  if (state.payload.benchmark.languages?.length) {
+    items.push(state.payload.benchmark.languages.join(" + "));
+  }
+  document.querySelector("#summary").innerHTML = items
+    .map((item) => `<span class="summary-item">${escapeHtml(item)}</span>`)
+    .join("");
 }
 
 async function main() {
@@ -355,30 +339,19 @@ async function main() {
     state.payload.solutions.map((solution) => [solution.id, solution]),
   );
 
-  const pairCount = new Set(
-    primaryRecords().map((record) => `${record.task_id}:${record.solution_id}`),
-  ).size;
-  const releaseCount = new Set(
-    state.payload.results.map(
-      (record) => `${record.task_id}:${record.dataset_id}:${record.dataset_version}`,
-    ),
-  ).size;
-  document.querySelector("#summary").innerHTML = `
-    Rows: <strong>${state.payload.results.length}</strong> | Tasks: <strong>${state.tasks.size}</strong> | Solutions: <strong>${state.solutions.size}</strong><br>
-    Task/solution pairs: <strong>${pairCount}</strong> | Dataset releases: <strong>${releaseCount}</strong> | Release: <code>${escapeHtml(state.payload.benchmark.release)}</code>`;
-  document.querySelector("#preview-notice").innerHTML =
-    `<strong>Preview data:</strong> ${escapeHtml(state.payload.benchmark.notice)}`;
-
   installTabs();
   installControls();
   populateDatasetSelector();
+  updateControlVisibility();
+  renderSummary();
   renderTask();
   renderSolution();
-  renderCoverage();
-  renderCatalogs();
+  if (state.tasks.size > 1) renderCoverage();
 }
 
 main().catch((error) => {
-  document.querySelector("#preview-notice").textContent = error.message;
+  const notice = document.querySelector("#error-notice");
+  notice.hidden = false;
+  notice.textContent = error.message;
   console.error(error);
 });

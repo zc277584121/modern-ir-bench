@@ -46,10 +46,14 @@ def test_space_exporter_is_separate_from_the_run_report() -> None:
     payload = build_space_payload(
         report,
         release="test-release",
-        notice="Test data",
+        counts={"documents": 3, "queries": 3},
+        languages=("English",),
     )
 
     assert payload["benchmark"]["release"] == "test-release"
+    assert payload["benchmark"]["counts"] == {"documents": 3, "queries": 3}
+    assert payload["benchmark"]["languages"] == ["English"]
+    assert "notice" not in payload["benchmark"]
     assert len(payload["tasks"]) == 1
     assert len(payload["solutions"]) == 3
     assert len(payload["results"]) == 9

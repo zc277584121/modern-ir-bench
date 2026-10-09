@@ -150,7 +150,6 @@ def main() -> None:
     overall = _overall(by_dataset)
     saved = expected_metrics(published_rankings)["bge-m3-dense-chunk"]
     payload = {
-        "notice": "Fresh reproducibility run against the pinned public release.",
         "release": RELEASE_ID,
         "dataset": {"repository": DATASET_ID, "revision": DATASET_REVISION},
         "model": {"id": "BAAI/bge-m3", "revision": MODEL_REVISION},

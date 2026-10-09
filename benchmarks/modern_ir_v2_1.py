@@ -157,7 +157,6 @@ def main() -> None:
     metrics = metrics_by_solution(report.records)
     verify_replay(metrics, expected_metrics(rankings))
     payload = {
-        "notice": "Published Modern IR Bench v2.1 release.",
         "release": RELEASE_ID,
         "dataset": {
             "repository": DATASET_ID,
@@ -180,13 +179,15 @@ def main() -> None:
         report,
         OUTPUT_ROOT / "space-results.json",
         release=RELEASE_ID,
-        notice="Published Modern IR Bench v2.1 release.",
+        counts={"documents": 5000, "queries": 1000, "qrels": 34756},
+        languages=("Chinese", "English"),
     )
     write_space_results(
         report,
         SPACE_RESULTS,
         release=RELEASE_ID,
-        notice="Published Modern IR Bench v2.1 release.",
+        counts={"documents": 5000, "queries": 1000, "qrels": 34756},
+        languages=("Chinese", "English"),
     )
     report.write_observations(OUTPUT_ROOT / "observations")
     print(json.dumps(metrics, ensure_ascii=False, indent=2))

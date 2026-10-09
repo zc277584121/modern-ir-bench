@@ -12,59 +12,49 @@
   </head>
   <body>
     <main class="page-shell">
-      <h1>Modern IR Bench</h1>
+      <header class="site-header">
+        <div>
+          <h1>Modern IR Bench</h1>
+          <p class="tagline">A code-native benchmark for modern information retrieval.</p>
+        </div>
+        <div class="header-links">
+          <a href="https://huggingface.co/datasets/zc277584121/modern-ir-bench">Dataset ↗</a>
+          <a href="https://github.com/zc277584121/modern-ir-bench">GitHub ↗</a>
+        </div>
+      </header>
       <div id="summary" class="summary" aria-live="polite"></div>
-      <div id="preview-notice" class="notice" aria-live="polite"></div>
+      <div id="error-notice" class="notice" aria-live="polite" hidden></div>
 
       <nav class="tabs" aria-label="Benchmark views">
-        <button class="tab active" data-panel="task-panel">Task leaderboard</button>
-        <button class="tab" data-panel="solution-panel">Solution view</button>
-        <button class="tab" data-panel="coverage-panel">Coverage</button>
-        <button class="tab" data-panel="catalog-panel">Catalog</button>
+        <button class="tab active" data-panel="task-panel">Leaderboard</button>
+        <button class="tab" data-panel="solution-panel">By solution</button>
+        <button id="coverage-tab" class="tab" data-panel="coverage-panel">Coverage</button>
         <button class="tab" data-panel="about-panel">About</button>
       </nav>
 
       <section id="task-panel" class="panel active">
         <div id="task-context" class="task-note"></div>
-        <div class="controls three-columns">
-          <div class="control">
+        <div id="task-controls" class="controls two-columns">
+          <div id="task-control" class="control">
             <label for="task-selector">Task</label>
             <select id="task-selector"></select>
           </div>
-          <div class="control">
+          <div id="dataset-control" class="control">
             <label for="dataset-selector">Dataset release</label>
             <select id="dataset-selector"></select>
           </div>
-          <div class="control">
-            <label for="task-rows">Rows</label>
-            <select id="task-rows">
-              <option value="10">10</option>
-              <option value="30" selected>30</option>
-              <option value="100">100</option>
-            </select>
-          </div>
         </div>
-        <div id="task-status" class="view-status"></div>
         <div id="task-table"></div>
       </section>
 
       <section id="solution-panel" class="panel">
         <div id="solution-context" class="task-note"></div>
-        <div class="controls two-columns">
+        <div class="controls single-column">
           <div class="control">
             <label for="solution-selector">Solution</label>
             <select id="solution-selector"></select>
           </div>
-          <div class="control">
-            <label for="solution-rows">Rows</label>
-            <select id="solution-rows">
-              <option value="10">10</option>
-              <option value="30" selected>30</option>
-              <option value="100">100</option>
-            </select>
-          </div>
         </div>
-        <div id="solution-status" class="view-status"></div>
         <div id="solution-table"></div>
       </section>
 
@@ -77,20 +67,18 @@
         <div id="coverage-table"></div>
       </section>
 
-      <section id="catalog-panel" class="panel">
-        <h2>Task catalog</h2>
-        <p class="section-copy">Declared task contracts in the current release.</p>
-        <div id="task-catalog"></div>
-        <h2 class="subsection">Solution catalog</h2>
-        <p class="section-copy">Solutions included in at least one maintained run.</p>
-        <div id="solution-catalog"></div>
-      </section>
-
       <section id="about-panel" class="panel prose">
+        <h2>What this benchmark measures</h2>
+        <p>
+          Modern IR Bench compares retrieval methods on the same corpus, queries, and
+          binary relevance judgments. Higher scores are better. The leaderboard reports
+          retrieval quality only; it does not compare latency or throughput.
+        </p>
+
         <h2>Reproduction</h2>
         <p>
-          Python code is the only editable source of truth. Every result links to an
-          immutable Git commit and the executable module that produced it.
+          Python code is the source of truth. The <strong>Evaluation code</strong> link
+          beside each view opens the exact Git commit and executable module used for the result.
         </p>
         <pre><code>git checkout &lt;source_commit&gt;
 uv sync
@@ -107,10 +95,11 @@ uv run python -m benchmarks.modern_ir_v2_1</code></pre>
         <h2>Result model</h2>
         <p>
           The underlying dimensions are Solution × Task × Dataset × Metric × Version.
-          Dataset releases are immutable, and new test data is published as a new version.
+          Dataset releases are immutable. New tasks and datasets can use different metrics
+          without forcing an artificial overall score.
         </p>
       </section>
     </main>
-    <script src="app.js?v=4" type="module"></script>
+    <script src="app.js?v=6" type="module"></script>
   </body>
 </html>
