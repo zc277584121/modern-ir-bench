@@ -26,43 +26,43 @@
       "id": "bge-m3-dense-chunk",
       "title": "BGE-M3 dense · 768-token chunks",
       "description": "BGE-M3 dense retrieval over paragraph-aware chunks targeting 768 tokens with 128-token overlap and the title repeated, merged to document rankings.",
-      "code_url": "https://github.com/zc277584121/modern-ir-bench/blob/8b16d91997dbb2c59343f568dbfa570c89202439/benchmarks/modern_ir_v2_1.py#L63"
+      "code_url": "https://github.com/zc277584121/modern-ir-bench/blob/3cae0048e55316360de66cd6c1d7f9831d5ee6af/benchmarks/modern_ir_v2_1.py#L104"
     },
     {
       "id": "bge-m3-sparse-chunk",
       "title": "BGE-M3 learned sparse · 768-token chunks",
       "description": "BGE-M3 learned-sparse retrieval over paragraph-aware chunks targeting 768 tokens with 128-token overlap and the title repeated, merged to document rankings.",
-      "code_url": "https://github.com/zc277584121/modern-ir-bench/blob/8b16d91997dbb2c59343f568dbfa570c89202439/benchmarks/modern_ir_v2_1.py#L68"
+      "code_url": "https://github.com/zc277584121/modern-ir-bench/blob/3cae0048e55316360de66cd6c1d7f9831d5ee6af/benchmarks/modern_ir_v2_1.py#L109"
     },
     {
       "id": "bm25-chunk",
       "title": "BM25 · 768-token chunks",
       "description": "BM25 lexical retrieval over paragraph-aware chunks targeting 768 tokens with 128-token overlap and the title repeated, merged to document rankings.",
-      "code_url": "https://github.com/zc277584121/modern-ir-bench/blob/8b16d91997dbb2c59343f568dbfa570c89202439/benchmarks/modern_ir_v2_1.py#L39"
+      "code_url": "https://github.com/zc277584121/modern-ir-bench/blob/3cae0048e55316360de66cd6c1d7f9831d5ee6af/benchmarks/modern_ir_v2_1.py#L80"
     },
     {
       "id": "bm25-full",
       "title": "BM25 · full document",
       "description": "BM25 lexical retrieval over full documents.",
-      "code_url": "https://github.com/zc277584121/modern-ir-bench/blob/8b16d91997dbb2c59343f568dbfa570c89202439/benchmarks/modern_ir_v2_1.py#L34"
+      "code_url": "https://github.com/zc277584121/modern-ir-bench/blob/3cae0048e55316360de66cd6c1d7f9831d5ee6af/benchmarks/modern_ir_v2_1.py#L75"
     },
     {
       "id": "qwen3-embedding-4b-chunk",
       "title": "Qwen3 Embedding 4B · 768-token chunks",
       "description": "Qwen3 Embedding 4B dense retrieval over paragraph-aware chunks targeting 768 tokens with 128-token overlap and the title repeated, merged to document rankings.",
-      "code_url": "https://github.com/zc277584121/modern-ir-bench/blob/8b16d91997dbb2c59343f568dbfa570c89202439/benchmarks/modern_ir_v2_1.py#L56"
+      "code_url": "https://github.com/zc277584121/modern-ir-bench/blob/3cae0048e55316360de66cd6c1d7f9831d5ee6af/benchmarks/modern_ir_v2_1.py#L97"
     },
     {
       "id": "voyage-4-large-chunk",
       "title": "Voyage 4 Large · 768-token chunks",
       "description": "Voyage 4 Large dense retrieval over paragraph-aware chunks targeting 768 tokens with 128-token overlap and the title repeated, merged to document rankings.",
-      "code_url": "https://github.com/zc277584121/modern-ir-bench/blob/8b16d91997dbb2c59343f568dbfa570c89202439/benchmarks/modern_ir_v2_1.py#L49"
+      "code_url": "https://github.com/zc277584121/modern-ir-bench/blob/3cae0048e55316360de66cd6c1d7f9831d5ee6af/benchmarks/modern_ir_v2_1.py#L90"
     },
     {
       "id": "voyage-4-large-full",
       "title": "Voyage 4 Large · full document",
       "description": "Voyage 4 Large dense retrieval over full-document embeddings.",
-      "code_url": "https://github.com/zc277584121/modern-ir-bench/blob/8b16d91997dbb2c59343f568dbfa570c89202439/benchmarks/modern_ir_v2_1.py#L44"
+      "code_url": "https://github.com/zc277584121/modern-ir-bench/blob/3cae0048e55316360de66cd6c1d7f9831d5ee6af/benchmarks/modern_ir_v2_1.py#L85"
     }
   ],
   "results": [
@@ -77,12 +77,12 @@
       "value": 0.71249974,
       "primary": true,
       "status": "published",
-      "source_commit": "8b16d91997dbb2c59343f568dbfa570c89202439",
+      "source_commit": "3cae0048e55316360de66cd6c1d7f9831d5ee6af",
       "source_module": "benchmarks.modern_ir_v2_1",
       "source_path": "benchmarks/modern_ir_v2_1.py",
-      "source_line": 159,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/8b16d91997dbb2c59343f568dbfa570c89202439/benchmarks/modern_ir_v2_1.py#L159",
-      "created_at": "2026-10-09T11:58:00.285798+00:00",
+      "source_line": 274,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/3cae0048e55316360de66cd6c1d7f9831d5ee6af/benchmarks/modern_ir_v2_1.py#L274",
+      "created_at": "2026-10-09T12:39:12.906134+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.1__modern-ir-bench-v2.1-20261009__bm25-full"
     },
     {
@@ -96,12 +96,12 @@
       "value": 0.17100763,
       "primary": false,
       "status": "published",
-      "source_commit": "8b16d91997dbb2c59343f568dbfa570c89202439",
+      "source_commit": "3cae0048e55316360de66cd6c1d7f9831d5ee6af",
       "source_module": "benchmarks.modern_ir_v2_1",
       "source_path": "benchmarks/modern_ir_v2_1.py",
-      "source_line": 159,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/8b16d91997dbb2c59343f568dbfa570c89202439/benchmarks/modern_ir_v2_1.py#L159",
-      "created_at": "2026-10-09T11:58:00.285798+00:00",
+      "source_line": 274,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/3cae0048e55316360de66cd6c1d7f9831d5ee6af/benchmarks/modern_ir_v2_1.py#L274",
+      "created_at": "2026-10-09T12:39:12.906134+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.1__modern-ir-bench-v2.1-20261009__bm25-full"
     },
     {
@@ -115,12 +115,12 @@
       "value": 0.52963243,
       "primary": false,
       "status": "published",
-      "source_commit": "8b16d91997dbb2c59343f568dbfa570c89202439",
+      "source_commit": "3cae0048e55316360de66cd6c1d7f9831d5ee6af",
       "source_module": "benchmarks.modern_ir_v2_1",
       "source_path": "benchmarks/modern_ir_v2_1.py",
-      "source_line": 159,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/8b16d91997dbb2c59343f568dbfa570c89202439/benchmarks/modern_ir_v2_1.py#L159",
-      "created_at": "2026-10-09T11:58:00.285798+00:00",
+      "source_line": 274,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/3cae0048e55316360de66cd6c1d7f9831d5ee6af/benchmarks/modern_ir_v2_1.py#L274",
+      "created_at": "2026-10-09T12:39:12.906134+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.1__modern-ir-bench-v2.1-20261009__bm25-full"
     },
     {
@@ -134,12 +134,12 @@
       "value": 0.70116362,
       "primary": false,
       "status": "published",
-      "source_commit": "8b16d91997dbb2c59343f568dbfa570c89202439",
+      "source_commit": "3cae0048e55316360de66cd6c1d7f9831d5ee6af",
       "source_module": "benchmarks.modern_ir_v2_1",
       "source_path": "benchmarks/modern_ir_v2_1.py",
-      "source_line": 159,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/8b16d91997dbb2c59343f568dbfa570c89202439/benchmarks/modern_ir_v2_1.py#L159",
-      "created_at": "2026-10-09T11:58:00.285798+00:00",
+      "source_line": 274,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/3cae0048e55316360de66cd6c1d7f9831d5ee6af/benchmarks/modern_ir_v2_1.py#L274",
+      "created_at": "2026-10-09T12:39:12.906134+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.1__modern-ir-bench-v2.1-20261009__bm25-full"
     },
     {
@@ -153,12 +153,12 @@
       "value": 0.87365159,
       "primary": false,
       "status": "published",
-      "source_commit": "8b16d91997dbb2c59343f568dbfa570c89202439",
+      "source_commit": "3cae0048e55316360de66cd6c1d7f9831d5ee6af",
       "source_module": "benchmarks.modern_ir_v2_1",
       "source_path": "benchmarks/modern_ir_v2_1.py",
-      "source_line": 159,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/8b16d91997dbb2c59343f568dbfa570c89202439/benchmarks/modern_ir_v2_1.py#L159",
-      "created_at": "2026-10-09T11:58:00.285798+00:00",
+      "source_line": 274,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/3cae0048e55316360de66cd6c1d7f9831d5ee6af/benchmarks/modern_ir_v2_1.py#L274",
+      "created_at": "2026-10-09T12:39:12.906134+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.1__modern-ir-bench-v2.1-20261009__bm25-full"
     },
     {
@@ -172,12 +172,12 @@
       "value": 0.72248847,
       "primary": true,
       "status": "published",
-      "source_commit": "8b16d91997dbb2c59343f568dbfa570c89202439",
+      "source_commit": "3cae0048e55316360de66cd6c1d7f9831d5ee6af",
       "source_module": "benchmarks.modern_ir_v2_1",
       "source_path": "benchmarks/modern_ir_v2_1.py",
-      "source_line": 159,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/8b16d91997dbb2c59343f568dbfa570c89202439/benchmarks/modern_ir_v2_1.py#L159",
-      "created_at": "2026-10-09T11:58:00.285798+00:00",
+      "source_line": 274,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/3cae0048e55316360de66cd6c1d7f9831d5ee6af/benchmarks/modern_ir_v2_1.py#L274",
+      "created_at": "2026-10-09T12:39:12.906134+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.1__modern-ir-bench-v2.1-20261009__bm25-chunk"
     },
     {
@@ -191,12 +191,12 @@
       "value": 0.17377831,
       "primary": false,
       "status": "published",
-      "source_commit": "8b16d91997dbb2c59343f568dbfa570c89202439",
+      "source_commit": "3cae0048e55316360de66cd6c1d7f9831d5ee6af",
       "source_module": "benchmarks.modern_ir_v2_1",
       "source_path": "benchmarks/modern_ir_v2_1.py",
-      "source_line": 159,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/8b16d91997dbb2c59343f568dbfa570c89202439/benchmarks/modern_ir_v2_1.py#L159",
-      "created_at": "2026-10-09T11:58:00.285798+00:00",
+      "source_line": 274,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/3cae0048e55316360de66cd6c1d7f9831d5ee6af/benchmarks/modern_ir_v2_1.py#L274",
+      "created_at": "2026-10-09T12:39:12.906134+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.1__modern-ir-bench-v2.1-20261009__bm25-chunk"
     },
     {
@@ -210,12 +210,12 @@
       "value": 0.53622086,
       "primary": false,
       "status": "published",
-      "source_commit": "8b16d91997dbb2c59343f568dbfa570c89202439",
+      "source_commit": "3cae0048e55316360de66cd6c1d7f9831d5ee6af",
       "source_module": "benchmarks.modern_ir_v2_1",
       "source_path": "benchmarks/modern_ir_v2_1.py",
-      "source_line": 159,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/8b16d91997dbb2c59343f568dbfa570c89202439/benchmarks/modern_ir_v2_1.py#L159",
-      "created_at": "2026-10-09T11:58:00.285798+00:00",
+      "source_line": 274,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/3cae0048e55316360de66cd6c1d7f9831d5ee6af/benchmarks/modern_ir_v2_1.py#L274",
+      "created_at": "2026-10-09T12:39:12.906134+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.1__modern-ir-bench-v2.1-20261009__bm25-chunk"
     },
     {
@@ -229,12 +229,12 @@
       "value": 0.71100498,
       "primary": false,
       "status": "published",
-      "source_commit": "8b16d91997dbb2c59343f568dbfa570c89202439",
+      "source_commit": "3cae0048e55316360de66cd6c1d7f9831d5ee6af",
       "source_module": "benchmarks.modern_ir_v2_1",
       "source_path": "benchmarks/modern_ir_v2_1.py",
-      "source_line": 159,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/8b16d91997dbb2c59343f568dbfa570c89202439/benchmarks/modern_ir_v2_1.py#L159",
-      "created_at": "2026-10-09T11:58:00.285798+00:00",
+      "source_line": 274,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/3cae0048e55316360de66cd6c1d7f9831d5ee6af/benchmarks/modern_ir_v2_1.py#L274",
+      "created_at": "2026-10-09T12:39:12.906134+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.1__modern-ir-bench-v2.1-20261009__bm25-chunk"
     },
     {
@@ -248,12 +248,12 @@
       "value": 0.88202262,
       "primary": false,
       "status": "published",
-      "source_commit": "8b16d91997dbb2c59343f568dbfa570c89202439",
+      "source_commit": "3cae0048e55316360de66cd6c1d7f9831d5ee6af",
       "source_module": "benchmarks.modern_ir_v2_1",
       "source_path": "benchmarks/modern_ir_v2_1.py",
-      "source_line": 159,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/8b16d91997dbb2c59343f568dbfa570c89202439/benchmarks/modern_ir_v2_1.py#L159",
-      "created_at": "2026-10-09T11:58:00.285798+00:00",
+      "source_line": 274,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/3cae0048e55316360de66cd6c1d7f9831d5ee6af/benchmarks/modern_ir_v2_1.py#L274",
+      "created_at": "2026-10-09T12:39:12.906134+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.1__modern-ir-bench-v2.1-20261009__bm25-chunk"
     },
     {
@@ -267,12 +267,12 @@
       "value": 0.86339312,
       "primary": true,
       "status": "published",
-      "source_commit": "8b16d91997dbb2c59343f568dbfa570c89202439",
+      "source_commit": "3cae0048e55316360de66cd6c1d7f9831d5ee6af",
       "source_module": "benchmarks.modern_ir_v2_1",
       "source_path": "benchmarks/modern_ir_v2_1.py",
-      "source_line": 159,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/8b16d91997dbb2c59343f568dbfa570c89202439/benchmarks/modern_ir_v2_1.py#L159",
-      "created_at": "2026-10-09T11:58:00.285798+00:00",
+      "source_line": 274,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/3cae0048e55316360de66cd6c1d7f9831d5ee6af/benchmarks/modern_ir_v2_1.py#L274",
+      "created_at": "2026-10-09T12:39:12.906134+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.1__modern-ir-bench-v2.1-20261009__voyage-4-large-full"
     },
     {
@@ -286,12 +286,12 @@
       "value": 0.19692718,
       "primary": false,
       "status": "published",
-      "source_commit": "8b16d91997dbb2c59343f568dbfa570c89202439",
+      "source_commit": "3cae0048e55316360de66cd6c1d7f9831d5ee6af",
       "source_module": "benchmarks.modern_ir_v2_1",
       "source_path": "benchmarks/modern_ir_v2_1.py",
-      "source_line": 159,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/8b16d91997dbb2c59343f568dbfa570c89202439/benchmarks/modern_ir_v2_1.py#L159",
-      "created_at": "2026-10-09T11:58:00.285798+00:00",
+      "source_line": 274,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/3cae0048e55316360de66cd6c1d7f9831d5ee6af/benchmarks/modern_ir_v2_1.py#L274",
+      "created_at": "2026-10-09T12:39:12.906134+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.1__modern-ir-bench-v2.1-20261009__voyage-4-large-full"
     },
     {
@@ -305,12 +305,12 @@
       "value": 0.65963741,
       "primary": false,
       "status": "published",
-      "source_commit": "8b16d91997dbb2c59343f568dbfa570c89202439",
+      "source_commit": "3cae0048e55316360de66cd6c1d7f9831d5ee6af",
       "source_module": "benchmarks.modern_ir_v2_1",
       "source_path": "benchmarks/modern_ir_v2_1.py",
-      "source_line": 159,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/8b16d91997dbb2c59343f568dbfa570c89202439/benchmarks/modern_ir_v2_1.py#L159",
-      "created_at": "2026-10-09T11:58:00.285798+00:00",
+      "source_line": 274,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/3cae0048e55316360de66cd6c1d7f9831d5ee6af/benchmarks/modern_ir_v2_1.py#L274",
+      "created_at": "2026-10-09T12:39:12.906134+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.1__modern-ir-bench-v2.1-20261009__voyage-4-large-full"
     },
     {
@@ -324,12 +324,12 @@
       "value": 0.8361849,
       "primary": false,
       "status": "published",
-      "source_commit": "8b16d91997dbb2c59343f568dbfa570c89202439",
+      "source_commit": "3cae0048e55316360de66cd6c1d7f9831d5ee6af",
       "source_module": "benchmarks.modern_ir_v2_1",
       "source_path": "benchmarks/modern_ir_v2_1.py",
-      "source_line": 159,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/8b16d91997dbb2c59343f568dbfa570c89202439/benchmarks/modern_ir_v2_1.py#L159",
-      "created_at": "2026-10-09T11:58:00.285798+00:00",
+      "source_line": 274,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/3cae0048e55316360de66cd6c1d7f9831d5ee6af/benchmarks/modern_ir_v2_1.py#L274",
+      "created_at": "2026-10-09T12:39:12.906134+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.1__modern-ir-bench-v2.1-20261009__voyage-4-large-full"
     },
     {
@@ -343,12 +343,12 @@
       "value": 0.95647183,
       "primary": false,
       "status": "published",
-      "source_commit": "8b16d91997dbb2c59343f568dbfa570c89202439",
+      "source_commit": "3cae0048e55316360de66cd6c1d7f9831d5ee6af",
       "source_module": "benchmarks.modern_ir_v2_1",
       "source_path": "benchmarks/modern_ir_v2_1.py",
-      "source_line": 159,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/8b16d91997dbb2c59343f568dbfa570c89202439/benchmarks/modern_ir_v2_1.py#L159",
-      "created_at": "2026-10-09T11:58:00.285798+00:00",
+      "source_line": 274,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/3cae0048e55316360de66cd6c1d7f9831d5ee6af/benchmarks/modern_ir_v2_1.py#L274",
+      "created_at": "2026-10-09T12:39:12.906134+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.1__modern-ir-bench-v2.1-20261009__voyage-4-large-full"
     },
     {
@@ -362,12 +362,12 @@
       "value": 0.87926964,
       "primary": true,
       "status": "published",
-      "source_commit": "8b16d91997dbb2c59343f568dbfa570c89202439",
+      "source_commit": "3cae0048e55316360de66cd6c1d7f9831d5ee6af",
       "source_module": "benchmarks.modern_ir_v2_1",
       "source_path": "benchmarks/modern_ir_v2_1.py",
-      "source_line": 159,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/8b16d91997dbb2c59343f568dbfa570c89202439/benchmarks/modern_ir_v2_1.py#L159",
-      "created_at": "2026-10-09T11:58:00.285798+00:00",
+      "source_line": 274,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/3cae0048e55316360de66cd6c1d7f9831d5ee6af/benchmarks/modern_ir_v2_1.py#L274",
+      "created_at": "2026-10-09T12:39:12.906134+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.1__modern-ir-bench-v2.1-20261009__voyage-4-large-chunk"
     },
     {
@@ -381,12 +381,12 @@
       "value": 0.20040301,
       "primary": false,
       "status": "published",
-      "source_commit": "8b16d91997dbb2c59343f568dbfa570c89202439",
+      "source_commit": "3cae0048e55316360de66cd6c1d7f9831d5ee6af",
       "source_module": "benchmarks.modern_ir_v2_1",
       "source_path": "benchmarks/modern_ir_v2_1.py",
-      "source_line": 159,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/8b16d91997dbb2c59343f568dbfa570c89202439/benchmarks/modern_ir_v2_1.py#L159",
-      "created_at": "2026-10-09T11:58:00.285798+00:00",
+      "source_line": 274,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/3cae0048e55316360de66cd6c1d7f9831d5ee6af/benchmarks/modern_ir_v2_1.py#L274",
+      "created_at": "2026-10-09T12:39:12.906134+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.1__modern-ir-bench-v2.1-20261009__voyage-4-large-chunk"
     },
     {
@@ -400,12 +400,12 @@
       "value": 0.67287773,
       "primary": false,
       "status": "published",
-      "source_commit": "8b16d91997dbb2c59343f568dbfa570c89202439",
+      "source_commit": "3cae0048e55316360de66cd6c1d7f9831d5ee6af",
       "source_module": "benchmarks.modern_ir_v2_1",
       "source_path": "benchmarks/modern_ir_v2_1.py",
-      "source_line": 159,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/8b16d91997dbb2c59343f568dbfa570c89202439/benchmarks/modern_ir_v2_1.py#L159",
-      "created_at": "2026-10-09T11:58:00.285798+00:00",
+      "source_line": 274,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/3cae0048e55316360de66cd6c1d7f9831d5ee6af/benchmarks/modern_ir_v2_1.py#L274",
+      "created_at": "2026-10-09T12:39:12.906134+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.1__modern-ir-bench-v2.1-20261009__voyage-4-large-chunk"
     },
     {
@@ -419,12 +419,12 @@
       "value": 0.85209908,
       "primary": false,
       "status": "published",
-      "source_commit": "8b16d91997dbb2c59343f568dbfa570c89202439",
+      "source_commit": "3cae0048e55316360de66cd6c1d7f9831d5ee6af",
       "source_module": "benchmarks.modern_ir_v2_1",
       "source_path": "benchmarks/modern_ir_v2_1.py",
-      "source_line": 159,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/8b16d91997dbb2c59343f568dbfa570c89202439/benchmarks/modern_ir_v2_1.py#L159",
-      "created_at": "2026-10-09T11:58:00.285798+00:00",
+      "source_line": 274,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/3cae0048e55316360de66cd6c1d7f9831d5ee6af/benchmarks/modern_ir_v2_1.py#L274",
+      "created_at": "2026-10-09T12:39:12.906134+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.1__modern-ir-bench-v2.1-20261009__voyage-4-large-chunk"
     },
     {
@@ -438,12 +438,12 @@
       "value": 0.96386944,
       "primary": false,
       "status": "published",
-      "source_commit": "8b16d91997dbb2c59343f568dbfa570c89202439",
+      "source_commit": "3cae0048e55316360de66cd6c1d7f9831d5ee6af",
       "source_module": "benchmarks.modern_ir_v2_1",
       "source_path": "benchmarks/modern_ir_v2_1.py",
-      "source_line": 159,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/8b16d91997dbb2c59343f568dbfa570c89202439/benchmarks/modern_ir_v2_1.py#L159",
-      "created_at": "2026-10-09T11:58:00.285798+00:00",
+      "source_line": 274,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/3cae0048e55316360de66cd6c1d7f9831d5ee6af/benchmarks/modern_ir_v2_1.py#L274",
+      "created_at": "2026-10-09T12:39:12.906134+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.1__modern-ir-bench-v2.1-20261009__voyage-4-large-chunk"
     },
     {
@@ -457,12 +457,12 @@
       "value": 0.81145622,
       "primary": true,
       "status": "published",
-      "source_commit": "8b16d91997dbb2c59343f568dbfa570c89202439",
+      "source_commit": "3cae0048e55316360de66cd6c1d7f9831d5ee6af",
       "source_module": "benchmarks.modern_ir_v2_1",
       "source_path": "benchmarks/modern_ir_v2_1.py",
-      "source_line": 159,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/8b16d91997dbb2c59343f568dbfa570c89202439/benchmarks/modern_ir_v2_1.py#L159",
-      "created_at": "2026-10-09T11:58:00.285798+00:00",
+      "source_line": 274,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/3cae0048e55316360de66cd6c1d7f9831d5ee6af/benchmarks/modern_ir_v2_1.py#L274",
+      "created_at": "2026-10-09T12:39:12.906134+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.1__modern-ir-bench-v2.1-20261009__qwen3-embedding-4b-chunk"
     },
     {
@@ -476,12 +476,12 @@
       "value": 0.18195821,
       "primary": false,
       "status": "published",
-      "source_commit": "8b16d91997dbb2c59343f568dbfa570c89202439",
+      "source_commit": "3cae0048e55316360de66cd6c1d7f9831d5ee6af",
       "source_module": "benchmarks.modern_ir_v2_1",
       "source_path": "benchmarks/modern_ir_v2_1.py",
-      "source_line": 159,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/8b16d91997dbb2c59343f568dbfa570c89202439/benchmarks/modern_ir_v2_1.py#L159",
-      "created_at": "2026-10-09T11:58:00.285798+00:00",
+      "source_line": 274,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/3cae0048e55316360de66cd6c1d7f9831d5ee6af/benchmarks/modern_ir_v2_1.py#L274",
+      "created_at": "2026-10-09T12:39:12.906134+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.1__modern-ir-bench-v2.1-20261009__qwen3-embedding-4b-chunk"
     },
     {
@@ -495,12 +495,12 @@
       "value": 0.61901765,
       "primary": false,
       "status": "published",
-      "source_commit": "8b16d91997dbb2c59343f568dbfa570c89202439",
+      "source_commit": "3cae0048e55316360de66cd6c1d7f9831d5ee6af",
       "source_module": "benchmarks.modern_ir_v2_1",
       "source_path": "benchmarks/modern_ir_v2_1.py",
-      "source_line": 159,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/8b16d91997dbb2c59343f568dbfa570c89202439/benchmarks/modern_ir_v2_1.py#L159",
-      "created_at": "2026-10-09T11:58:00.285798+00:00",
+      "source_line": 274,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/3cae0048e55316360de66cd6c1d7f9831d5ee6af/benchmarks/modern_ir_v2_1.py#L274",
+      "created_at": "2026-10-09T12:39:12.906134+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.1__modern-ir-bench-v2.1-20261009__qwen3-embedding-4b-chunk"
     },
     {
@@ -514,12 +514,12 @@
       "value": 0.79335897,
       "primary": false,
       "status": "published",
-      "source_commit": "8b16d91997dbb2c59343f568dbfa570c89202439",
+      "source_commit": "3cae0048e55316360de66cd6c1d7f9831d5ee6af",
       "source_module": "benchmarks.modern_ir_v2_1",
       "source_path": "benchmarks/modern_ir_v2_1.py",
-      "source_line": 159,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/8b16d91997dbb2c59343f568dbfa570c89202439/benchmarks/modern_ir_v2_1.py#L159",
-      "created_at": "2026-10-09T11:58:00.285798+00:00",
+      "source_line": 274,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/3cae0048e55316360de66cd6c1d7f9831d5ee6af/benchmarks/modern_ir_v2_1.py#L274",
+      "created_at": "2026-10-09T12:39:12.906134+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.1__modern-ir-bench-v2.1-20261009__qwen3-embedding-4b-chunk"
     },
     {
@@ -533,12 +533,12 @@
       "value": 0.91848532,
       "primary": false,
       "status": "published",
-      "source_commit": "8b16d91997dbb2c59343f568dbfa570c89202439",
+      "source_commit": "3cae0048e55316360de66cd6c1d7f9831d5ee6af",
       "source_module": "benchmarks.modern_ir_v2_1",
       "source_path": "benchmarks/modern_ir_v2_1.py",
-      "source_line": 159,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/8b16d91997dbb2c59343f568dbfa570c89202439/benchmarks/modern_ir_v2_1.py#L159",
-      "created_at": "2026-10-09T11:58:00.285798+00:00",
+      "source_line": 274,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/3cae0048e55316360de66cd6c1d7f9831d5ee6af/benchmarks/modern_ir_v2_1.py#L274",
+      "created_at": "2026-10-09T12:39:12.906134+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.1__modern-ir-bench-v2.1-20261009__qwen3-embedding-4b-chunk"
     },
     {
@@ -552,12 +552,12 @@
       "value": 0.76469392,
       "primary": true,
       "status": "published",
-      "source_commit": "8b16d91997dbb2c59343f568dbfa570c89202439",
+      "source_commit": "3cae0048e55316360de66cd6c1d7f9831d5ee6af",
       "source_module": "benchmarks.modern_ir_v2_1",
       "source_path": "benchmarks/modern_ir_v2_1.py",
-      "source_line": 159,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/8b16d91997dbb2c59343f568dbfa570c89202439/benchmarks/modern_ir_v2_1.py#L159",
-      "created_at": "2026-10-09T11:58:00.285798+00:00",
+      "source_line": 274,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/3cae0048e55316360de66cd6c1d7f9831d5ee6af/benchmarks/modern_ir_v2_1.py#L274",
+      "created_at": "2026-10-09T12:39:12.906134+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.1__modern-ir-bench-v2.1-20261009__bge-m3-dense-chunk"
     },
     {
@@ -571,12 +571,12 @@
       "value": 0.17671536,
       "primary": false,
       "status": "published",
-      "source_commit": "8b16d91997dbb2c59343f568dbfa570c89202439",
+      "source_commit": "3cae0048e55316360de66cd6c1d7f9831d5ee6af",
       "source_module": "benchmarks.modern_ir_v2_1",
       "source_path": "benchmarks/modern_ir_v2_1.py",
-      "source_line": 159,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/8b16d91997dbb2c59343f568dbfa570c89202439/benchmarks/modern_ir_v2_1.py#L159",
-      "created_at": "2026-10-09T11:58:00.285798+00:00",
+      "source_line": 274,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/3cae0048e55316360de66cd6c1d7f9831d5ee6af/benchmarks/modern_ir_v2_1.py#L274",
+      "created_at": "2026-10-09T12:39:12.906134+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.1__modern-ir-bench-v2.1-20261009__bge-m3-dense-chunk"
     },
     {
@@ -590,12 +590,12 @@
       "value": 0.5768224,
       "primary": false,
       "status": "published",
-      "source_commit": "8b16d91997dbb2c59343f568dbfa570c89202439",
+      "source_commit": "3cae0048e55316360de66cd6c1d7f9831d5ee6af",
       "source_module": "benchmarks.modern_ir_v2_1",
       "source_path": "benchmarks/modern_ir_v2_1.py",
-      "source_line": 159,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/8b16d91997dbb2c59343f568dbfa570c89202439/benchmarks/modern_ir_v2_1.py#L159",
-      "created_at": "2026-10-09T11:58:00.285798+00:00",
+      "source_line": 274,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/3cae0048e55316360de66cd6c1d7f9831d5ee6af/benchmarks/modern_ir_v2_1.py#L274",
+      "created_at": "2026-10-09T12:39:12.906134+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.1__modern-ir-bench-v2.1-20261009__bge-m3-dense-chunk"
     },
     {
@@ -609,12 +609,12 @@
       "value": 0.75090664,
       "primary": false,
       "status": "published",
-      "source_commit": "8b16d91997dbb2c59343f568dbfa570c89202439",
+      "source_commit": "3cae0048e55316360de66cd6c1d7f9831d5ee6af",
       "source_module": "benchmarks.modern_ir_v2_1",
       "source_path": "benchmarks/modern_ir_v2_1.py",
-      "source_line": 159,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/8b16d91997dbb2c59343f568dbfa570c89202439/benchmarks/modern_ir_v2_1.py#L159",
-      "created_at": "2026-10-09T11:58:00.285798+00:00",
+      "source_line": 274,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/3cae0048e55316360de66cd6c1d7f9831d5ee6af/benchmarks/modern_ir_v2_1.py#L274",
+      "created_at": "2026-10-09T12:39:12.906134+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.1__modern-ir-bench-v2.1-20261009__bge-m3-dense-chunk"
     },
     {
@@ -628,12 +628,12 @@
       "value": 0.89477143,
       "primary": false,
       "status": "published",
-      "source_commit": "8b16d91997dbb2c59343f568dbfa570c89202439",
+      "source_commit": "3cae0048e55316360de66cd6c1d7f9831d5ee6af",
       "source_module": "benchmarks.modern_ir_v2_1",
       "source_path": "benchmarks/modern_ir_v2_1.py",
-      "source_line": 159,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/8b16d91997dbb2c59343f568dbfa570c89202439/benchmarks/modern_ir_v2_1.py#L159",
-      "created_at": "2026-10-09T11:58:00.285798+00:00",
+      "source_line": 274,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/3cae0048e55316360de66cd6c1d7f9831d5ee6af/benchmarks/modern_ir_v2_1.py#L274",
+      "created_at": "2026-10-09T12:39:12.906134+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.1__modern-ir-bench-v2.1-20261009__bge-m3-dense-chunk"
     },
     {
@@ -647,12 +647,12 @@
       "value": 0.73097692,
       "primary": true,
       "status": "published",
-      "source_commit": "8b16d91997dbb2c59343f568dbfa570c89202439",
+      "source_commit": "3cae0048e55316360de66cd6c1d7f9831d5ee6af",
       "source_module": "benchmarks.modern_ir_v2_1",
       "source_path": "benchmarks/modern_ir_v2_1.py",
-      "source_line": 159,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/8b16d91997dbb2c59343f568dbfa570c89202439/benchmarks/modern_ir_v2_1.py#L159",
-      "created_at": "2026-10-09T11:58:00.285798+00:00",
+      "source_line": 274,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/3cae0048e55316360de66cd6c1d7f9831d5ee6af/benchmarks/modern_ir_v2_1.py#L274",
+      "created_at": "2026-10-09T12:39:12.906134+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.1__modern-ir-bench-v2.1-20261009__bge-m3-sparse-chunk"
     },
     {
@@ -666,12 +666,12 @@
       "value": 0.17238291,
       "primary": false,
       "status": "published",
-      "source_commit": "8b16d91997dbb2c59343f568dbfa570c89202439",
+      "source_commit": "3cae0048e55316360de66cd6c1d7f9831d5ee6af",
       "source_module": "benchmarks.modern_ir_v2_1",
       "source_path": "benchmarks/modern_ir_v2_1.py",
-      "source_line": 159,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/8b16d91997dbb2c59343f568dbfa570c89202439/benchmarks/modern_ir_v2_1.py#L159",
-      "created_at": "2026-10-09T11:58:00.285798+00:00",
+      "source_line": 274,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/3cae0048e55316360de66cd6c1d7f9831d5ee6af/benchmarks/modern_ir_v2_1.py#L274",
+      "created_at": "2026-10-09T12:39:12.906134+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.1__modern-ir-bench-v2.1-20261009__bge-m3-sparse-chunk"
     },
     {
@@ -685,12 +685,12 @@
       "value": 0.5489918,
       "primary": false,
       "status": "published",
-      "source_commit": "8b16d91997dbb2c59343f568dbfa570c89202439",
+      "source_commit": "3cae0048e55316360de66cd6c1d7f9831d5ee6af",
       "source_module": "benchmarks.modern_ir_v2_1",
       "source_path": "benchmarks/modern_ir_v2_1.py",
-      "source_line": 159,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/8b16d91997dbb2c59343f568dbfa570c89202439/benchmarks/modern_ir_v2_1.py#L159",
-      "created_at": "2026-10-09T11:58:00.285798+00:00",
+      "source_line": 274,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/3cae0048e55316360de66cd6c1d7f9831d5ee6af/benchmarks/modern_ir_v2_1.py#L274",
+      "created_at": "2026-10-09T12:39:12.906134+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.1__modern-ir-bench-v2.1-20261009__bge-m3-sparse-chunk"
     },
     {
@@ -704,12 +704,12 @@
       "value": 0.71225595,
       "primary": false,
       "status": "published",
-      "source_commit": "8b16d91997dbb2c59343f568dbfa570c89202439",
+      "source_commit": "3cae0048e55316360de66cd6c1d7f9831d5ee6af",
       "source_module": "benchmarks.modern_ir_v2_1",
       "source_path": "benchmarks/modern_ir_v2_1.py",
-      "source_line": 159,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/8b16d91997dbb2c59343f568dbfa570c89202439/benchmarks/modern_ir_v2_1.py#L159",
-      "created_at": "2026-10-09T11:58:00.285798+00:00",
+      "source_line": 274,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/3cae0048e55316360de66cd6c1d7f9831d5ee6af/benchmarks/modern_ir_v2_1.py#L274",
+      "created_at": "2026-10-09T12:39:12.906134+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.1__modern-ir-bench-v2.1-20261009__bge-m3-sparse-chunk"
     },
     {
@@ -723,13 +723,3583 @@
       "value": 0.88026905,
       "primary": false,
       "status": "published",
-      "source_commit": "8b16d91997dbb2c59343f568dbfa570c89202439",
+      "source_commit": "3cae0048e55316360de66cd6c1d7f9831d5ee6af",
       "source_module": "benchmarks.modern_ir_v2_1",
       "source_path": "benchmarks/modern_ir_v2_1.py",
-      "source_line": 159,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/8b16d91997dbb2c59343f568dbfa570c89202439/benchmarks/modern_ir_v2_1.py#L159",
-      "created_at": "2026-10-09T11:58:00.285798+00:00",
+      "source_line": 274,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/3cae0048e55316360de66cd6c1d7f9831d5ee6af/benchmarks/modern_ir_v2_1.py#L274",
+      "created_at": "2026-10-09T12:39:12.906134+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.1__modern-ir-bench-v2.1-20261009__bge-m3-sparse-chunk"
+    }
+  ],
+  "breakdowns": [
+    {
+      "id": "language",
+      "label": "Language",
+      "description": "The language of the query and its relevant documents.",
+      "task_id": "modern-ir-ranked-retrieval-v2.1",
+      "dataset_id": "modern-ir-bench-v2.1-20261009",
+      "dataset_version": "5bbc4ea34774",
+      "values": [
+        {
+          "id": "zh",
+          "label": "Chinese",
+          "count": 500,
+          "results": [
+            {
+              "solution_id": "bm25-full",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.72432964,
+              "primary": true
+            },
+            {
+              "solution_id": "bm25-full",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.1750418,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-full",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.54164783,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-full",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.71010669,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-full",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.87966508,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-chunk",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.73230089,
+              "primary": true
+            },
+            {
+              "solution_id": "bm25-chunk",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.17666599,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-chunk",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.55383768,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-chunk",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.71574381,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-chunk",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.89146349,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-full",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.86263308,
+              "primary": true
+            },
+            {
+              "solution_id": "voyage-4-large-full",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.19190077,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-full",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.65925982,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-full",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.83349118,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-full",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.95085238,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-chunk",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.87531336,
+              "primary": true
+            },
+            {
+              "solution_id": "voyage-4-large-chunk",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.19731505,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-chunk",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.66722313,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-chunk",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.84156694,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-chunk",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.9629,
+              "primary": false
+            },
+            {
+              "solution_id": "qwen3-embedding-4b-chunk",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.77955279,
+              "primary": true
+            },
+            {
+              "solution_id": "qwen3-embedding-4b-chunk",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.16858016,
+              "primary": false
+            },
+            {
+              "solution_id": "qwen3-embedding-4b-chunk",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.59117324,
+              "primary": false
+            },
+            {
+              "solution_id": "qwen3-embedding-4b-chunk",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.76280713,
+              "primary": false
+            },
+            {
+              "solution_id": "qwen3-embedding-4b-chunk",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.89071032,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-dense-chunk",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.77064993,
+              "primary": true
+            },
+            {
+              "solution_id": "bge-m3-dense-chunk",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.17858336,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-dense-chunk",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.58429472,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-dense-chunk",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.74938753,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-dense-chunk",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.90417698,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-sparse-chunk",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.76855517,
+              "primary": true
+            },
+            {
+              "solution_id": "bge-m3-sparse-chunk",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.17939533,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-sparse-chunk",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.58374204,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-sparse-chunk",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.74565593,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-sparse-chunk",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.90367778,
+              "primary": false
+            }
+          ]
+        },
+        {
+          "id": "en",
+          "label": "English",
+          "count": 500,
+          "results": [
+            {
+              "solution_id": "bm25-full",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.70066984,
+              "primary": true
+            },
+            {
+              "solution_id": "bm25-full",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.16697347,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-full",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.51761704,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-full",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.69222054,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-full",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.8676381,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-chunk",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.71267604,
+              "primary": true
+            },
+            {
+              "solution_id": "bm25-chunk",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.17089064,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-chunk",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.51860405,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-chunk",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.70626615,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-chunk",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.87258175,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-full",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.86415315,
+              "primary": true
+            },
+            {
+              "solution_id": "voyage-4-large-full",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.2019536,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-full",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.66001501,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-full",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.83887861,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-full",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.96209127,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-chunk",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.88322591,
+              "primary": true
+            },
+            {
+              "solution_id": "voyage-4-large-chunk",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.20349097,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-chunk",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.67853233,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-chunk",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.86263122,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-chunk",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.96483889,
+              "primary": false
+            },
+            {
+              "solution_id": "qwen3-embedding-4b-chunk",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.84335964,
+              "primary": true
+            },
+            {
+              "solution_id": "qwen3-embedding-4b-chunk",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.19533626,
+              "primary": false
+            },
+            {
+              "solution_id": "qwen3-embedding-4b-chunk",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.64686206,
+              "primary": false
+            },
+            {
+              "solution_id": "qwen3-embedding-4b-chunk",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.82391081,
+              "primary": false
+            },
+            {
+              "solution_id": "qwen3-embedding-4b-chunk",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.94626032,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-dense-chunk",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.75873791,
+              "primary": true
+            },
+            {
+              "solution_id": "bge-m3-dense-chunk",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.17484737,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-dense-chunk",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.56935008,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-dense-chunk",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.75242576,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-dense-chunk",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.88536587,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-sparse-chunk",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.69339867,
+              "primary": true
+            },
+            {
+              "solution_id": "bge-m3-sparse-chunk",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.16537049,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-sparse-chunk",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.51424157,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-sparse-chunk",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.67885597,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-sparse-chunk",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.85686032,
+              "primary": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "query_intent",
+      "label": "Query intent",
+      "description": "The practical intent assigned to the query, not the benchmark Task.",
+      "task_id": "modern-ir-ranked-retrieval-v2.1",
+      "dataset_id": "modern-ir-bench-v2.1-20261009",
+      "dataset_version": "5bbc4ea34774",
+      "values": [
+        {
+          "id": "understand",
+          "label": "Understand",
+          "count": 554,
+          "results": [
+            {
+              "solution_id": "bm25-full",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.71494584,
+              "primary": true
+            },
+            {
+              "solution_id": "bm25-full",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.17516989,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-full",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.53860849,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-full",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.69880613,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-full",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.88193871,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-chunk",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.72474972,
+              "primary": true
+            },
+            {
+              "solution_id": "bm25-chunk",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.17843287,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-chunk",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.54623116,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-chunk",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.7097419,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-chunk",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.89012163,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-full",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.85910239,
+              "primary": true
+            },
+            {
+              "solution_id": "voyage-4-large-full",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.19626936,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-full",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.66630184,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-full",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.8336306,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-full",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.953469,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-chunk",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.87232639,
+              "primary": true
+            },
+            {
+              "solution_id": "voyage-4-large-chunk",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.20034363,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-chunk",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.67287462,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-chunk",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.84710645,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-chunk",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.95945146,
+              "primary": false
+            },
+            {
+              "solution_id": "qwen3-embedding-4b-chunk",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.81387535,
+              "primary": true
+            },
+            {
+              "solution_id": "qwen3-embedding-4b-chunk",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.18815669,
+              "primary": false
+            },
+            {
+              "solution_id": "qwen3-embedding-4b-chunk",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.62590108,
+              "primary": false
+            },
+            {
+              "solution_id": "qwen3-embedding-4b-chunk",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.793725,
+              "primary": false
+            },
+            {
+              "solution_id": "qwen3-embedding-4b-chunk",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.92343204,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-dense-chunk",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.76449476,
+              "primary": true
+            },
+            {
+              "solution_id": "bge-m3-dense-chunk",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.1814078,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-dense-chunk",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.57600645,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-dense-chunk",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.74802491,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-dense-chunk",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.89952295,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-sparse-chunk",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.72939446,
+              "primary": true
+            },
+            {
+              "solution_id": "bge-m3-sparse-chunk",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.17386346,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-sparse-chunk",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.54913653,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-sparse-chunk",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.71157533,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-sparse-chunk",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.87657369,
+              "primary": false
+            }
+          ]
+        },
+        {
+          "id": "act",
+          "label": "Act",
+          "count": 299,
+          "results": [
+            {
+              "solution_id": "bm25-full",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.70129047,
+              "primary": true
+            },
+            {
+              "solution_id": "bm25-full",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.14887246,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-full",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.49968913,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-full",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.68085076,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-full",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.86559165,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-chunk",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.71388388,
+              "primary": true
+            },
+            {
+              "solution_id": "bm25-chunk",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.15618086,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-chunk",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.50864354,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-chunk",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.68914774,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-chunk",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.87871476,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-full",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.87002871,
+              "primary": true
+            },
+            {
+              "solution_id": "voyage-4-large-full",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.18382191,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-full",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.64259491,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-full",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.82073328,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-full",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.96571906,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-chunk",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.89157244,
+              "primary": true
+            },
+            {
+              "solution_id": "voyage-4-large-chunk",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.1860769,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-chunk",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.65799153,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-chunk",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.84788126,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-chunk",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.97324415,
+              "primary": false
+            },
+            {
+              "solution_id": "qwen3-embedding-4b-chunk",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.82361112,
+              "primary": true
+            },
+            {
+              "solution_id": "qwen3-embedding-4b-chunk",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.16648651,
+              "primary": false
+            },
+            {
+              "solution_id": "qwen3-embedding-4b-chunk",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.60227716,
+              "primary": false
+            },
+            {
+              "solution_id": "qwen3-embedding-4b-chunk",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.78979427,
+              "primary": false
+            },
+            {
+              "solution_id": "qwen3-embedding-4b-chunk",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.93269629,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-dense-chunk",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.77600431,
+              "primary": true
+            },
+            {
+              "solution_id": "bge-m3-dense-chunk",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.16691921,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-dense-chunk",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.5619427,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-dense-chunk",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.74249275,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-dense-chunk",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.91675426,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-sparse-chunk",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.74333053,
+              "primary": true
+            },
+            {
+              "solution_id": "bge-m3-sparse-chunk",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.16360222,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-sparse-chunk",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.53668396,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-sparse-chunk",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.70439306,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-sparse-chunk",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.90407841,
+              "primary": false
+            }
+          ]
+        },
+        {
+          "id": "lookup",
+          "label": "Lookup",
+          "count": 102,
+          "results": [
+            {
+              "solution_id": "bm25-full",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.69980299,
+              "primary": true
+            },
+            {
+              "solution_id": "bm25-full",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.19519414,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-full",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.53363851,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-full",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.73234411,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-full",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.83900949,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-chunk",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.71068461,
+              "primary": true
+            },
+            {
+              "solution_id": "bm25-chunk",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.18865819,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-chunk",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.52920729,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-chunk",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.74637111,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-chunk",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.83898226,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-full",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.8456481,
+              "primary": true
+            },
+            {
+              "solution_id": "voyage-4-large-full",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.22681179,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-full",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.6545927,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-full",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.8685903,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-full",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.93137255,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-chunk",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.86750566,
+              "primary": true
+            },
+            {
+              "solution_id": "voyage-4-large-chunk",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.23214948,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-chunk",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.68921546,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-chunk",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.87429369,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-chunk",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.95098039,
+              "primary": false
+            },
+            {
+              "solution_id": "qwen3-embedding-4b-chunk",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.74060202,
+              "primary": true
+            },
+            {
+              "solution_id": "qwen3-embedding-4b-chunk",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.17902156,
+              "primary": false
+            },
+            {
+              "solution_id": "qwen3-embedding-4b-chunk",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.6032674,
+              "primary": false
+            },
+            {
+              "solution_id": "qwen3-embedding-4b-chunk",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.77880961,
+              "primary": false
+            },
+            {
+              "solution_id": "qwen3-embedding-4b-chunk",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.83905229,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-dense-chunk",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.70454563,
+              "primary": true
+            },
+            {
+              "solution_id": "bge-m3-dense-chunk",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.16273616,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-dense-chunk",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.5938412,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-dense-chunk",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.76387253,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-dense-chunk",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.78506069,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-sparse-chunk",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.68872542,
+              "primary": true
+            },
+            {
+              "solution_id": "bge-m3-sparse-chunk",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.18054661,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-sparse-chunk",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.55633951,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-sparse-chunk",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.71352077,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-sparse-chunk",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.83099129,
+              "primary": false
+            }
+          ]
+        },
+        {
+          "id": "decide",
+          "label": "Decide",
+          "count": 29,
+          "results": [
+            {
+              "solution_id": "bm25-full",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.77472852,
+              "primary": true
+            },
+            {
+              "solution_id": "bm25-full",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.21602267,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-full",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.6035166,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-full",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.76139703,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-full",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.93103448,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-chunk",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.7598457,
+              "primary": true
+            },
+            {
+              "solution_id": "bm25-chunk",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.19303417,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-chunk",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.60499443,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-chunk",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.76031478,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-chunk",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.8908046,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-full",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.93216596,
+              "primary": true
+            },
+            {
+              "solution_id": "voyage-4-large-full",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.23613762,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-full",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.71867385,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-full",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.90549221,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-full",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 1.0,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-chunk",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.92911465,
+              "primary": true
+            },
+            {
+              "solution_id": "voyage-4-large-chunk",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.23613762,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-chunk",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.74376964,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-chunk",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.89795128,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-chunk",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 1.0,
+              "primary": false
+            },
+            {
+              "solution_id": "qwen3-embedding-4b-chunk",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.88414621,
+              "primary": true
+            },
+            {
+              "solution_id": "qwen3-embedding-4b-chunk",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.2217698,
+              "primary": false
+            },
+            {
+              "solution_id": "qwen3-embedding-4b-chunk",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.70299452,
+              "primary": false
+            },
+            {
+              "solution_id": "qwen3-embedding-4b-chunk",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.86889145,
+              "primary": false
+            },
+            {
+              "solution_id": "qwen3-embedding-4b-chunk",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.94636015,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-dense-chunk",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.84078617,
+              "primary": true
+            },
+            {
+              "solution_id": "bge-m3-dense-chunk",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.22272766,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-dense-chunk",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.67425888,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-dense-chunk",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.82278182,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-dense-chunk",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.93965517,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-sparse-chunk",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.76430028,
+              "primary": true
+            },
+            {
+              "solution_id": "bge-m3-sparse-chunk",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.19667402,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-sparse-chunk",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.6193033,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-sparse-chunk",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.76815043,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-sparse-chunk",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.87471264,
+              "primary": false
+            }
+          ]
+        },
+        {
+          "id": "verify",
+          "label": "Verify",
+          "count": 10,
+          "results": [
+            {
+              "solution_id": "bm25-full",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.81518237,
+              "primary": true
+            },
+            {
+              "solution_id": "bm25-full",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.20761905,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-full",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.57559524,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-full",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.84765873,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-full",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.86666667,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-chunk",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.82179304,
+              "primary": true
+            },
+            {
+              "solution_id": "bm25-chunk",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.22011905,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-chunk",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.58670635,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-chunk",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.8268254,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-chunk",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.925,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-full",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.82453477,
+              "primary": true
+            },
+            {
+              "solution_id": "voyage-4-large-full",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.18123016,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-full",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.62797619,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-full",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.83488095,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-full",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.95,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-chunk",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.82402743,
+              "primary": true
+            },
+            {
+              "solution_id": "voyage-4-large-chunk",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.18123016,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-chunk",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.7015873,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-chunk",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.83170635,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-chunk",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.93333333,
+              "primary": false
+            },
+            {
+              "solution_id": "qwen3-embedding-4b-chunk",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.74003123,
+              "primary": true
+            },
+            {
+              "solution_id": "qwen3-embedding-4b-chunk",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.18123016,
+              "primary": false
+            },
+            {
+              "solution_id": "qwen3-embedding-4b-chunk",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.55369048,
+              "primary": false
+            },
+            {
+              "solution_id": "qwen3-embedding-4b-chunk",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.70503968,
+              "primary": false
+            },
+            {
+              "solution_id": "qwen3-embedding-4b-chunk",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.9,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-dense-chunk",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.70443009,
+              "primary": true
+            },
+            {
+              "solution_id": "bge-m3-dense-chunk",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.18123016,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-dense-chunk",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.48880952,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-dense-chunk",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.67198413,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-dense-chunk",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.9,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-sparse-chunk",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.80570068,
+              "primary": true
+            },
+            {
+              "solution_id": "bge-m3-sparse-chunk",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.22011905,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-sparse-chunk",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.57480159,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-sparse-chunk",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.7915873,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-sparse-chunk",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.92,
+              "primary": false
+            }
+          ]
+        },
+        {
+          "id": "synthesize",
+          "label": "Synthesize",
+          "count": 6,
+          "results": [
+            {
+              "solution_id": "bm25-full",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.78917262,
+              "primary": true
+            },
+            {
+              "solution_id": "bm25-full",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.2,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-full",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.6912037,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-full",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.86574074,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-full",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.83333333,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-chunk",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.79709318,
+              "primary": true
+            },
+            {
+              "solution_id": "bm25-chunk",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.19768519,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-chunk",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.68888889,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-chunk",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.88425926,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-chunk",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.91666667,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-full",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.96292401,
+              "primary": true
+            },
+            {
+              "solution_id": "voyage-4-large-full",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.23935185,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-full",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.74675926,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-full",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.95833333,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-full",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 1.0,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-chunk",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.9584136,
+              "primary": true
+            },
+            {
+              "solution_id": "voyage-4-large-chunk",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.23935185,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-chunk",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.74675926,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-chunk",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.95833333,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-chunk",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 1.0,
+              "primary": false
+            },
+            {
+              "solution_id": "qwen3-embedding-4b-chunk",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.95459833,
+              "primary": true
+            },
+            {
+              "solution_id": "qwen3-embedding-4b-chunk",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.23935185,
+              "primary": false
+            },
+            {
+              "solution_id": "qwen3-embedding-4b-chunk",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.78842593,
+              "primary": false
+            },
+            {
+              "solution_id": "qwen3-embedding-4b-chunk",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.96666667,
+              "primary": false
+            },
+            {
+              "solution_id": "qwen3-embedding-4b-chunk",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 1.0,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-dense-chunk",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.97462957,
+              "primary": true
+            },
+            {
+              "solution_id": "bge-m3-dense-chunk",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.23935185,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-dense-chunk",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.78009259,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-dense-chunk",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 1.0,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-dense-chunk",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 1.0,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-sparse-chunk",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.69414149,
+              "primary": true
+            },
+            {
+              "solution_id": "bge-m3-sparse-chunk",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.1375,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-sparse-chunk",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.6412037,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-sparse-chunk",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.74305556,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-sparse-chunk",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.83333333,
+              "primary": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "expression",
+      "label": "Expression",
+      "description": "How the information need is phrased.",
+      "task_id": "modern-ir-ranked-retrieval-v2.1",
+      "dataset_id": "modern-ir-bench-v2.1-20261009",
+      "dataset_version": "5bbc4ea34774",
+      "values": [
+        {
+          "id": "natural_question",
+          "label": "Natural question",
+          "count": 958,
+          "results": [
+            {
+              "solution_id": "bm25-full",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.71231271,
+              "primary": true
+            },
+            {
+              "solution_id": "bm25-full",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.16915417,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-full",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.52670317,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-full",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.69843851,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-full",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.87462637,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-chunk",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.72290401,
+              "primary": true
+            },
+            {
+              "solution_id": "bm25-chunk",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.17274222,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-chunk",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.53441387,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-chunk",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.70850091,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-chunk",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.88442564,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-full",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.8643122,
+              "primary": true
+            },
+            {
+              "solution_id": "voyage-4-large-full",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.19559288,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-full",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.65791591,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-full",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.83257777,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-full",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.95887804,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-chunk",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.88043464,
+              "primary": true
+            },
+            {
+              "solution_id": "voyage-4-large-chunk",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.1991573,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-chunk",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.66960429,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-chunk",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.84960967,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-chunk",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.96604326,
+              "primary": false
+            },
+            {
+              "solution_id": "qwen3-embedding-4b-chunk",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.8136288,
+              "primary": true
+            },
+            {
+              "solution_id": "qwen3-embedding-4b-chunk",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.18081846,
+              "primary": false
+            },
+            {
+              "solution_id": "qwen3-embedding-4b-chunk",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.61817712,
+              "primary": false
+            },
+            {
+              "solution_id": "qwen3-embedding-4b-chunk",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.79148631,
+              "primary": false
+            },
+            {
+              "solution_id": "qwen3-embedding-4b-chunk",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.92146461,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-dense-chunk",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.76813337,
+              "primary": true
+            },
+            {
+              "solution_id": "bge-m3-dense-chunk",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.17814093,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-dense-chunk",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.57516008,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-dense-chunk",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.74860935,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-dense-chunk",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.90232627,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-sparse-chunk",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.73420737,
+              "primary": true
+            },
+            {
+              "solution_id": "bge-m3-sparse-chunk",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.17208757,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-sparse-chunk",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.5491282,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-sparse-chunk",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.7127535,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-sparse-chunk",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.88382294,
+              "primary": false
+            }
+          ]
+        },
+        {
+          "id": "search_phrase",
+          "label": "Search phrase",
+          "count": 40,
+          "results": [
+            {
+              "solution_id": "bm25-full",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.72003906,
+              "primary": true
+            },
+            {
+              "solution_id": "bm25-full",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.21144841,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-full",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.59710317,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-full",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.77232143,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-full",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.8439881,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-chunk",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.72147387,
+              "primary": true
+            },
+            {
+              "solution_id": "bm25-chunk",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.19894841,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-chunk",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.58130952,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-chunk",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.77736111,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-chunk",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.84107143,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-full",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.84265697,
+              "primary": true
+            },
+            {
+              "solution_id": "voyage-4-large-full",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.23456349,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-full",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.69218254,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-full",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.91438492,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-full",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.90916667,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-chunk",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.85323792,
+              "primary": true
+            },
+            {
+              "solution_id": "voyage-4-large-chunk",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.23609127,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-chunk",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.74325397,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-chunk",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.9043254,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-chunk",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.9225,
+              "primary": false
+            },
+            {
+              "solution_id": "qwen3-embedding-4b-chunk",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.76566361,
+              "primary": true
+            },
+            {
+              "solution_id": "qwen3-embedding-4b-chunk",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.21001984,
+              "primary": false
+            },
+            {
+              "solution_id": "qwen3-embedding-4b-chunk",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.64509921,
+              "primary": false
+            },
+            {
+              "solution_id": "qwen3-embedding-4b-chunk",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.83621032,
+              "primary": false
+            },
+            {
+              "solution_id": "qwen3-embedding-4b-chunk",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.85555556,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-dense-chunk",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.68743342,
+              "primary": true
+            },
+            {
+              "solution_id": "bge-m3-dense-chunk",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.14724206,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-dense-chunk",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.61630952,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-dense-chunk",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.80180556,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-dense-chunk",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.72107143,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-sparse-chunk",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.65593109,
+              "primary": true
+            },
+            {
+              "solution_id": "bge-m3-sparse-chunk",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.17974206,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-sparse-chunk",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.53984127,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-sparse-chunk",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.69845238,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-sparse-chunk",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.80166667,
+              "primary": false
+            }
+          ]
+        },
+        {
+          "id": "contextual_request",
+          "label": "Contextual request",
+          "count": 2,
+          "results": [
+            {
+              "solution_id": "bm25-full",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.65130121,
+              "primary": true
+            },
+            {
+              "solution_id": "bm25-full",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.25,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-full",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.58333333,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-full",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.58333333,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-full",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 1.0,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-chunk",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.54373586,
+              "primary": true
+            },
+            {
+              "solution_id": "bm25-chunk",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.16666667,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-chunk",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.5,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-chunk",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.58333333,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-chunk",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.55,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-full",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.83787525,
+              "primary": true
+            },
+            {
+              "solution_id": "voyage-4-large-full",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.08333333,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-full",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.83333333,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-full",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 1.0,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-full",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.75,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-chunk",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.84186961,
+              "primary": true
+            },
+            {
+              "solution_id": "voyage-4-large-chunk",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.08333333,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-chunk",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.83333333,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-chunk",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 1.0,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-chunk",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.75,
+              "primary": false
+            },
+            {
+              "solution_id": "qwen3-embedding-4b-chunk",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.68664199,
+              "primary": true
+            },
+            {
+              "solution_id": "qwen3-embedding-4b-chunk",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.16666667,
+              "primary": false
+            },
+            {
+              "solution_id": "qwen3-embedding-4b-chunk",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.5,
+              "primary": false
+            },
+            {
+              "solution_id": "qwen3-embedding-4b-chunk",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.83333333,
+              "primary": false
+            },
+            {
+              "solution_id": "qwen3-embedding-4b-chunk",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.75,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-dense-chunk",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.66240559,
+              "primary": true
+            },
+            {
+              "solution_id": "bge-m3-dense-chunk",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.08333333,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-dense-chunk",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.58333333,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-dense-chunk",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.83333333,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-dense-chunk",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.75,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-sparse-chunk",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.68450727,
+              "primary": true
+            },
+            {
+              "solution_id": "bge-m3-sparse-chunk",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.16666667,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-sparse-chunk",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.66666667,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-sparse-chunk",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.75,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-sparse-chunk",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.75,
+              "primary": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "constraint_level",
+      "label": "Constraint level",
+      "description": "The number and strength of constraints expressed by the query.",
+      "task_id": "modern-ir-ranked-retrieval-v2.1",
+      "dataset_id": "modern-ir-bench-v2.1-20261009",
+      "dataset_version": "5bbc4ea34774",
+      "values": [
+        {
+          "id": "single",
+          "label": "Single",
+          "count": 922,
+          "results": [
+            {
+              "solution_id": "bm25-full",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.71289065,
+              "primary": true
+            },
+            {
+              "solution_id": "bm25-full",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.16847009,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-full",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.52875145,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-full",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.70024941,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-full",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.87209009,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-chunk",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.7230748,
+              "primary": true
+            },
+            {
+              "solution_id": "bm25-chunk",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.1722219,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-chunk",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.53588047,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-chunk",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.70993214,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-chunk",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.88197371,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-full",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.8649616,
+              "primary": true
+            },
+            {
+              "solution_id": "voyage-4-large-full",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.19536653,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-full",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.65823427,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-full",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.83538818,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-full",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.95753452,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-chunk",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.87976623,
+              "primary": true
+            },
+            {
+              "solution_id": "voyage-4-large-chunk",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.1986393,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-chunk",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.67029079,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-chunk",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.85021173,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-chunk",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.96551277,
+              "primary": false
+            },
+            {
+              "solution_id": "qwen3-embedding-4b-chunk",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.81262235,
+              "primary": true
+            },
+            {
+              "solution_id": "qwen3-embedding-4b-chunk",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.17984652,
+              "primary": false
+            },
+            {
+              "solution_id": "qwen3-embedding-4b-chunk",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.61850576,
+              "primary": false
+            },
+            {
+              "solution_id": "qwen3-embedding-4b-chunk",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.79259369,
+              "primary": false
+            },
+            {
+              "solution_id": "qwen3-embedding-4b-chunk",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.91976466,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-dense-chunk",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.76723774,
+              "primary": true
+            },
+            {
+              "solution_id": "bge-m3-dense-chunk",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.17688584,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-dense-chunk",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.57562928,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-dense-chunk",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.74893438,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-dense-chunk",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.89887408,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-sparse-chunk",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.73440613,
+              "primary": true
+            },
+            {
+              "solution_id": "bge-m3-sparse-chunk",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.17272443,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-sparse-chunk",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.54909788,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-sparse-chunk",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.71210591,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-sparse-chunk",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.8867524,
+              "primary": false
+            }
+          ]
+        },
+        {
+          "id": "compound",
+          "label": "Compound",
+          "count": 70,
+          "results": [
+            {
+              "solution_id": "bm25-full",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.697827,
+              "primary": true
+            },
+            {
+              "solution_id": "bm25-full",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.20760823,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-full",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.54453772,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-full",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.71749897,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-full",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.87977891,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-chunk",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.70396979,
+              "primary": true
+            },
+            {
+              "solution_id": "bm25-chunk",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.19777262,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-chunk",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.53904453,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-chunk",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.72916564,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-chunk",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.86918367,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-full",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.85197191,
+              "primary": true
+            },
+            {
+              "solution_id": "voyage-4-large-full",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.22997217,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-full",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.69746856,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-full",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.86133014,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-full",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.95714286,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-chunk",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.87937034,
+              "primary": true
+            },
+            {
+              "solution_id": "voyage-4-large-chunk",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.23175788,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-chunk",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.72305246,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-chunk",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.89322975,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-chunk",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.95,
+              "primary": false
+            },
+            {
+              "solution_id": "qwen3-embedding-4b-chunk",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.80349852,
+              "primary": true
+            },
+            {
+              "solution_id": "qwen3-embedding-4b-chunk",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.2157885,
+              "primary": false
+            },
+            {
+              "solution_id": "qwen3-embedding-4b-chunk",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.64046743,
+              "primary": false
+            },
+            {
+              "solution_id": "qwen3-embedding-4b-chunk",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.82416512,
+              "primary": false
+            },
+            {
+              "solution_id": "qwen3-embedding-4b-chunk",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.90456349,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-dense-chunk",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.74121942,
+              "primary": true
+            },
+            {
+              "solution_id": "bge-m3-dense-chunk",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.18131571,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-dense-chunk",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.60827304,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-dense-chunk",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.79644352,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-dense-chunk",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.85013605,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-sparse-chunk",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.6896307,
+              "primary": true
+            },
+            {
+              "solution_id": "bge-m3-sparse-chunk",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.17423521,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-sparse-chunk",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.55533086,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-sparse-chunk",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.72554783,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-sparse-chunk",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.7997619,
+              "primary": false
+            }
+          ]
+        },
+        {
+          "id": "light",
+          "label": "Light",
+          "count": 8,
+          "results": [
+            {
+              "solution_id": "bm25-full",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.79583394,
+              "primary": true
+            },
+            {
+              "solution_id": "bm25-full",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.14320437,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-full",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.50074405,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-full",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.66359127,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-full",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 1.0,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-chunk",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.81695189,
+              "primary": true
+            },
+            {
+              "solution_id": "bm25-chunk",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.14320437,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-chunk",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.55074405,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-chunk",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.67574405,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-chunk",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 1.0,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-full",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.78256058,
+              "primary": true
+            },
+            {
+              "solution_id": "voyage-4-large-full",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.08764881,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-full",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.49032738,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-full",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.70798611,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-full",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.828125,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-chunk",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.82115634,
+              "primary": true
+            },
+            {
+              "solution_id": "voyage-4-large-chunk",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.12931548,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-chunk",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.53199405,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-chunk",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.70972222,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-chunk",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.89583333,
+              "primary": false
+            },
+            {
+              "solution_id": "qwen3-embedding-4b-chunk",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.74668955,
+              "primary": true
+            },
+            {
+              "solution_id": "qwen3-embedding-4b-chunk",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.12931548,
+              "primary": false
+            },
+            {
+              "solution_id": "qwen3-embedding-4b-chunk",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.49032738,
+              "primary": false
+            },
+            {
+              "solution_id": "qwen3-embedding-4b-chunk",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.61200397,
+              "primary": false
+            },
+            {
+              "solution_id": "qwen3-embedding-4b-chunk",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.89285714,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-dense-chunk",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.67692082,
+              "primary": true
+            },
+            {
+              "solution_id": "bge-m3-dense-chunk",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.11681548,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-dense-chunk",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.4391369,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-dense-chunk",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.5797619,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-dense-chunk",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.8125,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-sparse-chunk",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.69753947,
+              "primary": true
+            },
+            {
+              "solution_id": "bge-m3-sparse-chunk",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.11681548,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-sparse-chunk",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.4812996,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-sparse-chunk",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.61324405,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-sparse-chunk",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.8375,
+              "primary": false
+            }
+          ]
+        }
+      ]
     }
   ]
 }
