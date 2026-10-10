@@ -11,7 +11,7 @@ const state = {
 
 const breakdownDisplayByTask = new Map([
   [
-    "modern-ir-ranked-retrieval-v2.1",
+    "modern-ir-ranked-retrieval-v2.2",
     {
       ids: new Set([
         "language",
@@ -36,7 +36,8 @@ const formatScore = (value) => Number(value).toFixed(3);
 const formatInteger = (value) => Number(value).toLocaleString("en-US");
 
 function datasetLabel(datasetId) {
-  if (datasetId.startsWith("modern-ir-bench-v2.1")) return "Modern IR Bench v2.1";
+  const release = datasetId.match(/^modern-ir-bench-v(\d+(?:\.\d+)?)/);
+  if (release) return `Modern IR Bench v${release[1]}`;
   return datasetId.replace(/-\d{8}$/, "");
 }
 

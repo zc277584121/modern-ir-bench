@@ -1,0 +1,19 @@
+{
+  "release": "modern-ir-bench-v2.2-20261010",
+  "dataset": {
+    "repository": "zc277584121/modern-ir-bench",
+    "revision": "c7a38d6aaa3d1bd178952b6be91e12ca4ceb10ff"
+  },
+  "migration": {
+    "source_release": "modern-ir-bench-v2.1-20261009",
+    "operation": "rename queries.task to queries.query_intent",
+    "content_regenerated": false,
+    "qrels_recomputed": false,
+    "retrieval_rerun": false
+  },
+  "solutions": 7,
+  "queries": 1000,
+  "ranking_rows": 7000,
+  "top_k": 10,
+  "rankings_sha256": "7a7de3eaa293268272348de282f7d9970c322e2f1883c726542fd67b0504b686"
+}

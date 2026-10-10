@@ -12,9 +12,12 @@ short_description: Code-native benchmark for modern IR solutions
 
 # Modern IR Bench
 
-Public, read-only benchmark explorer for the reviewed Modern IR Ranked Retrieval v2.1
+Public, read-only benchmark explorer for the reviewed Modern IR Ranked Retrieval v2.2
 release. The benchmark currently contains 5,000 bilingual synthetic documents, 1,000
 queries, 34,756 binary Qrels including 6,575 relevant pairs, and seven retrieval Solutions.
+
+v2.2 is a schema-only migration that renames the Query field `task` to `query_intent`.
+The benchmark content, Qrels, rankings, and scores are unchanged from v2.1.
 
 Every displayed measurement links to the immutable Git commit and executable Python module that produced it.
 

@@ -21,6 +21,7 @@ venv/
 /reports/
 /results/*
 !/results/modern-ir-v2.1/
+!/results/modern-ir-v2.2/
 /pytest-of-zhangchen/
 
 # Embedding cache and numpy files

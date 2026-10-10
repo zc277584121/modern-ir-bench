@@ -6,11 +6,14 @@ The project is intentionally Python-only: executable benchmark modules are the s
 
 ## Current release
 
-The first reviewed release is Modern IR Ranked Retrieval v2.1: a bilingual synthetic
+The current reviewed release is Modern IR Ranked Retrieval v2.2: a bilingual synthetic
 retrieval benchmark with 5,000 documents, 1,000 queries, and 34,756 binary Qrels,
 including 6,575 relevant pairs.
 Its public leaderboard compares seven retrieval Solutions spanning full-document and
 chunked BM25, local dense and learned-sparse models, and hosted dense embeddings.
+
+v2.2 is a schema-only migration from v2.1. It renames the Query field `task` to
+`query_intent`; Query IDs and text, Corpus documents, Qrels, rankings, and scores are unchanged.
 
 The earlier deterministic mock showcase remains available as a framework smoke test:
 
@@ -25,16 +28,19 @@ The reviewed retrieval release can be replayed through the same public
 and binary Qrels. The executable module pins the immutable
 [`zc277584121/modern-ir-bench`](https://huggingface.co/datasets/zc277584121/modern-ir-bench)
 Dataset revision and recomputes every leaderboard metric from the versioned run artifact
-under `results/modern-ir-v2.1/`:
+under `results/modern-ir-v2.2/`:
 
 ```bash
-uv run python -m benchmarks.modern_ir_v2_1
+uv run python -m benchmarks.modern_ir_v2_2
 ```
 
 This validates all seven saved retrieval routes against the expanded Qrels and writes
 framework observations, long-form results, and a local Space payload under
-`artifacts/modern-ir-v2.1-retrieval/`. The replay is a reproducibility check; model
+`artifacts/modern-ir-v2.2-retrieval/`. The replay is a reproducibility check; model
 inference and indexing remain ordinary Solution implementations.
+
+The immutable v2.1 release remains replayable with
+`uv run python -m benchmarks.modern_ir_v2_1`.
 
 Run a fresh BGE-M3 inference/index/search path against independent English and Chinese
 candidate pools:
