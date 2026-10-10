@@ -437,6 +437,7 @@ pre {
   .site-header,
   .task-note-header {
     flex-direction: column;
+    align-items: stretch;
   }
 
   .header-links {

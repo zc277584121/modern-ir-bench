@@ -1,0 +1,160 @@
+:root {
+  --series-1: #2563eb;
+  --series-2: #dc2626;
+  --series-3: #059669;
+  --series-4: #7c3aed;
+  --series-5: #d97706;
+}
+
+.profile-section {
+  margin-top: 30px;
+}
+
+.profile-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 12px;
+}
+
+.profile-header h3 {
+  margin: 0 0 5px;
+  font-size: 17px;
+}
+
+.profile-header p {
+  max-width: 700px;
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.profile-dimension-control {
+  flex: 0 0 280px;
+}
+
+.solution-picker {
+  width: min(100%, 420px);
+  margin-bottom: 14px;
+}
+
+.solution-picker summary {
+  padding: 8px 11px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  color: var(--text);
+  cursor: pointer;
+  font-size: 14px;
+  list-style-position: inside;
+}
+
+.solution-picker[open] summary {
+  border-radius: 6px 6px 0 0;
+}
+
+.solution-options {
+  max-height: 260px;
+  overflow-y: auto;
+  padding: 6px 10px;
+  border: 1px solid #d1d5db;
+  border-top: 0;
+  border-radius: 0 0 6px 6px;
+  background: var(--surface);
+}
+
+.solution-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 7px 2px;
+  color: #374151;
+  font-size: 13px;
+  line-height: 1.35;
+}
+
+.solution-option input {
+  flex: 0 0 auto;
+  margin: 2px 0 0;
+}
+
+.profile-chart {
+  width: 100%;
+}
+
+.profile-chart svg {
+  display: block;
+  width: min(100%, 760px);
+  height: auto;
+  margin: 0 auto;
+}
+
+.profile-chart .chart-grid,
+.profile-chart .chart-axis {
+  fill: none;
+  stroke: #d1d5db;
+  stroke-width: 1;
+}
+
+.profile-chart .chart-grid-label,
+.profile-chart .chart-axis-label {
+  fill: #6b7280;
+  font-size: 11px;
+}
+
+.profile-chart .chart-axis-label {
+  fill: var(--text);
+  font-size: 12px;
+}
+
+.profile-chart .chart-series {
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;
+}
+
+.profile-chart .chart-bar-value {
+  fill: var(--text);
+  font-size: 11px;
+  text-anchor: middle;
+}
+
+.profile-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  margin-top: 8px;
+  color: #4b5563;
+  font-size: 13px;
+}
+
+.profile-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.profile-legend-swatch {
+  width: 18px;
+  height: 3px;
+  border-radius: 999px;
+}
+
+@media (max-width: 760px) {
+  .profile-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .profile-dimension-control {
+    flex-basis: auto;
+  }
+
+  .profile-chart .chart-grid-label {
+    font-size: 18px;
+  }
+
+  .profile-chart .chart-axis-label {
+    font-size: 20px;
+  }
+}

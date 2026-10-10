@@ -8,7 +8,8 @@
       content="Code-native evaluation for modern information retrieval solutions"
     />
     <title>Modern IR Bench</title>
-    <link rel="stylesheet" href="styles.css?v=10" />
+    <link rel="stylesheet" href="styles.css?v=11" />
+    <link rel="stylesheet" href="profile.css?v=1" />
   </head>
   <body>
     <main class="page-shell">
@@ -56,6 +57,26 @@
         </div>
         <p id="breakdown-note" class="breakdown-note" hidden></p>
         <div id="task-table"></div>
+
+        <section id="profile-section" class="profile-section" aria-labelledby="profile-title">
+          <div class="profile-header">
+            <div>
+              <h3 id="profile-title">Dimension profile</h3>
+              <p id="profile-description"></p>
+            </div>
+            <div class="control profile-dimension-control">
+              <label for="profile-breakdown-selector">Profile by</label>
+              <select id="profile-breakdown-selector"></select>
+            </div>
+          </div>
+          <details class="solution-picker">
+            <summary id="profile-solution-summary">Solutions</summary>
+            <div id="profile-solution-options" class="solution-options"></div>
+          </details>
+          <p id="profile-note" class="breakdown-note"></p>
+          <div id="profile-chart" class="profile-chart" aria-live="polite"></div>
+          <div id="profile-legend" class="profile-legend"></div>
+        </section>
       </section>
 
       <section id="solution-panel" class="panel">
@@ -90,6 +111,11 @@
           breakdowns report Target Recall over documents in the selected group, using the
           already published Top-10 rankings without rerunning retrieval.
         </p>
+        <p>
+          Dimension profiles compare one breakdown at a time on a fixed 0–1 scale. They
+          default to the top three overall Solutions; large breakdowns show only their
+          largest groups, and two-group comparisons use bars instead of a radar chart.
+        </p>
 
         <h2>Reproduction</h2>
         <p>
@@ -121,6 +147,6 @@ uv run python -m benchmarks.modern_ir_v2_1</code></pre>
         </p>
       </section>
     </main>
-    <script src="app.js?v=10" type="module"></script>
+    <script src="app.js?v=11" type="module"></script>
   </body>
 </html>

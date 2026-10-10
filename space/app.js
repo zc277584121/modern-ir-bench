@@ -1,9 +1,12 @@
+import { createProfileController } from "./profile.js?v=1";
+
 const state = {
   payload: null,
   tasks: new Map(),
   solutions: new Map(),
   taskSort: { key: null, direction: "desc" },
   solutionSort: { key: "task", direction: "asc" },
+  profile: null,
 };
 
 const escapeHtml = (value) =>
@@ -105,6 +108,14 @@ function applicableBreakdowns(taskId, datasetId, datasetVersion) {
   );
 }
 
+function breakdownCategoryLabel(category) {
+  if (!category || category === "query") return "Query";
+  if (category === "relevant_documents") return "Relevant docs";
+  return category
+    .replaceAll("_", " ")
+    .replace(/\b\w/g, (character) => character.toUpperCase());
+}
+
 function populateBreakdownSelector() {
   const taskId = document.querySelector("#task-selector").value;
   const [datasetId, datasetVersion] = document
@@ -112,13 +123,9 @@ function populateBreakdownSelector() {
     .value.split("|");
   const selector = document.querySelector("#breakdown-selector");
   selector.replaceChildren(new Option("Overall", ""));
-  const categoryLabels = new Map([
-    ["query", "Query"],
-    ["relevant_documents", "Relevant docs"],
-  ]);
   applicableBreakdowns(taskId, datasetId, datasetVersion).forEach((breakdown) => {
     const category = breakdown.category || "query";
-    const prefix = categoryLabels.get(category) || category;
+    const prefix = breakdownCategoryLabel(category);
     selector.add(new Option(`${prefix} · ${breakdown.label}`, breakdown.id));
   });
   populateBreakdownValueSelector();
@@ -163,6 +170,29 @@ function populateDatasetSelector() {
   taskDatasets(document.querySelector("#task-selector").value).forEach((option) =>
     selector.add(new Option(option.label, option.value)),
   );
+}
+
+function currentTaskDataset() {
+  const taskId = document.querySelector("#task-selector").value;
+  const [datasetId, datasetVersion] = document
+    .querySelector("#dataset-selector")
+    .value.split("|");
+  return { taskId, datasetId, datasetVersion };
+}
+
+function currentOverallPrimaryRecords() {
+  const { taskId, datasetId, datasetVersion } = currentTaskDataset();
+  return primaryRecords()
+    .filter(
+      (record) =>
+        record.task_id === taskId &&
+        record.dataset_id === datasetId &&
+        record.dataset_version === datasetVersion,
+    )
+    .sort(
+      (left, right) =>
+        right.value - left.value || left.solution_id.localeCompare(right.solution_id),
+    );
 }
 
 function renderTask() {
@@ -414,12 +444,14 @@ function installControls() {
   taskSelector.addEventListener("change", () => {
     populateDatasetSelector();
     populateBreakdownSelector();
+    state.profile.refresh(true);
     updateControlVisibility();
     state.taskSort = { key: state.tasks.get(taskSelector.value).primary_metric, direction: "desc" };
     renderTask();
   });
   document.querySelector("#dataset-selector").addEventListener("change", () => {
     populateBreakdownSelector();
+    state.profile.refresh(true);
     renderTask();
   });
 
@@ -469,11 +501,25 @@ async function main() {
   state.solutions = new Map(
     state.payload.solutions.map((solution) => [solution.id, solution]),
   );
+  state.profile = createProfileController({
+    solutions: state.solutions,
+    getBreakdowns: () => {
+      const { taskId, datasetId, datasetVersion } = currentTaskDataset();
+      return applicableBreakdowns(taskId, datasetId, datasetVersion);
+    },
+    getOverallRecords: currentOverallPrimaryRecords,
+    categoryLabel: breakdownCategoryLabel,
+    escapeHtml,
+    formatScore,
+    formatInteger,
+  });
 
   installTabs();
   installControls();
+  state.profile.install();
   populateDatasetSelector();
   populateBreakdownSelector();
+  state.profile.refresh(true);
   updateControlVisibility();
   renderSummary();
   renderTask();
