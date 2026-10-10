@@ -18,6 +18,7 @@ from modern_ir_bench.solutions import (
 from modern_ir_bench.tasks import AgentMemoryRetrieval, CodeLocalization
 
 RELEASE = "framework-preview-2026-09"
+OUTPUT_ROOT = Path("artifacts/mock-showcase")
 
 
 def adapt_memory_dataset(raw: dict[str, Dataset]) -> dict[str, Dataset]:
@@ -224,10 +225,10 @@ def main() -> None:
 
     write_space_results(
         report,
-        Path("space/data/results.json"),
+        OUTPUT_ROOT / "space-results.json",
         release=RELEASE,
     )
-    report.write_observations(Path("artifacts/framework-preview/observations"))
+    report.write_observations(OUTPUT_ROOT / "observations")
     print(f"Wrote {len(report.records)} measurements for {len(report.tasks)} tasks")
 
 
