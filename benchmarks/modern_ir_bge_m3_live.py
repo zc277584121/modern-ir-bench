@@ -1,4 +1,4 @@
-"""Run fresh BGE-M3 inference and Milvus retrieval against public v2.1 data."""
+"""Run fresh BGE-M3 inference and Milvus retrieval against the current Dataset."""
 
 from __future__ import annotations
 
@@ -9,7 +9,7 @@ import statistics
 from pathlib import Path
 from typing import Any
 
-from benchmarks.modern_ir_v2_1 import (
+from benchmarks.modern_ir import (
     DATASET_ID,
     DATASET_REVISION,
     RELEASE_ID,
@@ -29,7 +29,7 @@ from modern_ir_bench.retrieval.indexes.milvus import MilvusDenseIndex, MilvusSer
 from modern_ir_bench.tasks import RankedRetrieval
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
-OUTPUT_ROOT = PROJECT_ROOT / "artifacts/modern-ir-v2.1-bge-m3-live"
+OUTPUT_ROOT = PROJECT_ROOT / "artifacts/modern-ir-bge-m3-live"
 MODEL_REVISION = "5617a9f61b028005a4858fdac845db406aefb181"
 SOLUTION_ID = "bge-m3-dense-chunk-live"
 
@@ -44,10 +44,10 @@ def build_task() -> RankedRetrieval:
         for language in ("en", "zh")
     }
     return RankedRetrieval(
-        id="modern-ir-ranked-retrieval-v2.1",
-        title="Modern IR Ranked Retrieval v2.1",
+        id="modern-ir-ranked-retrieval-v2.2",
+        title="Modern IR Ranked Retrieval v2.2",
         description="Live BGE-M3 chunk retrieval over independent English and Chinese pools.",
-        version="2.1.0",
+        version="2.2.0",
         datasets=datasets,
         dataset_versions={
             dataset_id: f"{DATASET_REVISION[:12]}:{dataset_id.rsplit('-', 1)[-1]}"
@@ -85,7 +85,7 @@ def build_solution() -> ChunkedDenseRetrievalSolution:
             ),
             metric="COSINE",
             index_type="FLAT",
-            collection_prefix="modern_ir_v2_1_bge_m3_live",
+            collection_prefix="modern_ir_bge_m3_live",
         ),
         chunk_batch_size=int(os.environ.get("MIR_BATCH_SIZE", "12")),
         candidate_multiplier=4,
@@ -140,8 +140,8 @@ def _ranking_comparison(report, published_rankings: list[dict[str, Any]]) -> dic
 def main() -> None:
     _, published_rankings = load_public_rankings()
     provenance = RunProvenance.capture(
-        source_module="benchmarks.modern_ir_v2_1_bge_m3_live",
-        source_path="benchmarks/modern_ir_v2_1_bge_m3_live.py",
+        source_module="benchmarks.modern_ir_bge_m3_live",
+        source_path="benchmarks/modern_ir_bge_m3_live.py",
         source_line=inspect.getsourcelines(main)[1],
     )
     report = build_task().run(

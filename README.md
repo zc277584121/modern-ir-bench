@@ -31,28 +31,25 @@ Dataset revision and recomputes every leaderboard metric from the versioned run 
 under `results/modern-ir-v2.2/`:
 
 ```bash
-uv run python -m benchmarks.modern_ir_v2_2
+uv run python -m benchmarks.modern_ir
 ```
 
 This validates all seven saved retrieval routes against the expanded Qrels and writes
 framework observations, long-form results, and a local Space payload under
-`artifacts/modern-ir-v2.2-retrieval/`. The replay is a reproducibility check; model
+`artifacts/modern-ir-retrieval/`. The replay is a reproducibility check; model
 inference and indexing remain ordinary Solution implementations.
-
-The immutable v2.1 release remains replayable with
-`uv run python -m benchmarks.modern_ir_v2_1`.
 
 Run a fresh BGE-M3 inference/index/search path against independent English and Chinese
 candidate pools:
 
 ```bash
-uv run --group benchmark python -m benchmarks.modern_ir_v2_1_bge_m3_live
+uv run --group benchmark python -m benchmarks.modern_ir_bge_m3_live
 ```
 
 This uses the public `TokenTextChunker`, `ChunkedDenseRetrievalSolution`,
 `SentenceTransformersEmbedding`, and `MilvusDenseIndex` components. It compares every
 fresh Top-10 ranking with the immutable saved ranking and writes the audit under
-`artifacts/modern-ir-v2.1-bge-m3-live/`. Set `MIR_DEVICE`, `MIR_BATCH_SIZE`, and
+`artifacts/modern-ir-bge-m3-live/`. Set `MIR_DEVICE`, `MIR_BATCH_SIZE`, and
 `MIR_MILVUS_URI` when the local defaults are not appropriate.
 
 Run the Space locally:

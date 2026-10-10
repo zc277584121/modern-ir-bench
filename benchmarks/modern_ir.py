@@ -1,12 +1,12 @@
-"""Shared replay implementation for versioned Modern IR retrieval releases."""
+"""Replay and publish the current Modern IR ranked-retrieval benchmark."""
 
 from __future__ import annotations
 
 import gzip
+import inspect
 import json
 import statistics
 from collections.abc import Iterable, Mapping
-from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
@@ -21,29 +21,18 @@ from modern_ir_bench.tasks import RankedRetrieval
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DATASET_ID = "zc277584121/modern-ir-bench"
+DATASET_REVISION = "c7a38d6aaa3d1bd178952b6be91e12ca4ceb10ff"
+RELEASE_ID = "modern-ir-bench-v2.2-20261010"
+RANKINGS_PATH = PROJECT_ROOT / "results/modern-ir-v2.2/rankings.jsonl.gz"
+OUTPUT_ROOT = PROJECT_ROOT / "artifacts/modern-ir-retrieval"
+SPACE_RESULTS = PROJECT_ROOT / "space/data/results.json"
 CHUNK_LABEL = "768-token chunks"
 CHUNK_DETAILS = (
     "paragraph-aware chunks targeting 768 tokens with 128-token overlap and the title repeated"
 )
 
 
-@dataclass(frozen=True)
-class ReleaseConfig:
-    version: str
-    dataset_revision: str
-    release_id: str
-    rankings_path: Path
-    output_root: Path
-    query_intent_field: str
-    publish_space: bool = False
 
-    @property
-    def task_id(self) -> str:
-        return f"modern-ir-ranked-retrieval-v{self.version}"
-
-    @property
-    def task_title(self) -> str:
-        return f"Modern IR Ranked Retrieval v{self.version}"
 QUERY_BREAKDOWN_SPECS = (
     {
         "id": "language",
@@ -140,19 +129,19 @@ SOLUTION_METADATA = {
 }
 
 
-def build_task(config: ReleaseConfig) -> RankedRetrieval:
+def build_task() -> RankedRetrieval:
     return RankedRetrieval(
-        id=config.task_id,
-        title=config.task_title,
+        id="modern-ir-ranked-retrieval-v2.2",
+        title="Modern IR Ranked Retrieval v2.2",
         description="Bilingual synthetic retrieval over an independently expanded relevance pool.",
-        version=f"{config.version}.0",
+        version="2.2.0",
         datasets={
-            config.release_id: load_ranked_retrieval_hub(
+            RELEASE_ID: load_ranked_retrieval_hub(
                 DATASET_ID,
-                revision=config.dataset_revision,
+                revision=DATASET_REVISION,
             )
         },
-        dataset_versions={config.release_id: config.dataset_revision[:12]},
+        dataset_versions={RELEASE_ID: DATASET_REVISION[:12]},
         metrics=MetricSet(
             primary=NDCG(k=10),
             secondary=[Recall(k=1), Recall(k=5), Recall(k=10), MeanReciprocalRank(k=10)],
@@ -162,18 +151,16 @@ def build_task(config: ReleaseConfig) -> RankedRetrieval:
     )
 
 
-def load_public_rankings(
-    config: ReleaseConfig,
-) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+def load_public_rankings() -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
     queries = list(
         load_dataset(
             DATASET_ID,
             "queries",
             split="queries",
-            revision=config.dataset_revision,
+            revision=DATASET_REVISION,
         )
     )
-    with gzip.open(config.rankings_path, "rt", encoding="utf-8") as stream:
+    with gzip.open(RANKINGS_PATH, "rt", encoding="utf-8") as stream:
         rankings = [json.loads(line) for line in stream if line.strip()]
     return queries, rankings
 
@@ -226,7 +213,7 @@ def add_solution_code_links(report: RunReport, provenance: RunProvenance) -> Non
         )
         solution["code_url"] = (
             f"{provenance.repository_url}/blob/{provenance.source_commit}/"
-            f"benchmarks/modern_ir_release.py#L{line}"
+            f"benchmarks/modern_ir.py#L{line}"
         )
 
 
@@ -235,7 +222,6 @@ def build_query_breakdowns(
     queries: Iterable[Mapping[str, Any]],
     rankings: Iterable[Mapping[str, Any]],
     report: RunReport,
-    query_intent_field: str,
 ) -> list[dict[str, Any]]:
     query_by_id = {str(query["query_id"]): query for query in queries}
     ranking_rows = list(rankings)
@@ -256,13 +242,12 @@ def build_query_breakdowns(
     )
     breakdowns: list[dict[str, Any]] = []
     for spec in QUERY_BREAKDOWN_SPECS:
-        field = query_intent_field if spec["id"] == "query_intent" else spec["field"]
         values = []
         for value_id, value_label in spec["values"]:
             query_ids = {
                 query_id
                 for query_id, query in query_by_id.items()
-                if str(query[field]) == value_id
+                if str(query[spec["field"]]) == value_id
             }
             results = []
             for solution_id in SOLUTION_METADATA:
@@ -429,19 +414,13 @@ def build_relevant_document_breakdowns(
     return breakdowns
 
 
-def replay_release(
-    config: ReleaseConfig,
-    *,
-    source_module: str,
-    source_path: str,
-    source_line: int,
-) -> dict[str, dict[str, float]]:
-    queries, rankings = load_public_rankings(config)
+def main() -> None:
+    queries, rankings = load_public_rankings()
     documents = list(
-        load_dataset(DATASET_ID, "corpus", split="corpus", revision=config.dataset_revision)
+        load_dataset(DATASET_ID, "corpus", split="corpus", revision=DATASET_REVISION)
     )
     qrels = list(
-        load_dataset(DATASET_ID, "qrels", split="qrels", revision=config.dataset_revision)
+        load_dataset(DATASET_ID, "qrels", split="qrels", revision=DATASET_REVISION)
     )
     solutions = build_saved_ranking_solutions(
         queries=queries,
@@ -449,11 +428,11 @@ def replay_release(
         solution_metadata=SOLUTION_METADATA,
     )
     provenance = RunProvenance.capture(
-        source_module=source_module,
-        source_path=source_path,
-        source_line=source_line,
+        source_module="benchmarks.modern_ir",
+        source_path="benchmarks/modern_ir.py",
+        source_line=inspect.getsourcelines(main)[1],
     )
-    report = build_task(config).run(
+    report = build_task().run(
         solutions,
         provenance=provenance,
         status="published",
@@ -465,7 +444,6 @@ def replay_release(
         queries=queries,
         rankings=rankings,
         report=report,
-        query_intent_field=config.query_intent_field,
     )
     breakdowns.extend(
         build_relevant_document_breakdowns(
@@ -476,10 +454,10 @@ def replay_release(
         )
     )
     payload = {
-        "release": config.release_id,
+        "release": RELEASE_ID,
         "dataset": {
             "repository": DATASET_ID,
-            "revision": config.dataset_revision,
+            "revision": DATASET_REVISION,
             "documents": 5000,
             "queries": 1000,
             "qrels": 34756,
@@ -489,28 +467,30 @@ def replay_release(
         "metrics_by_solution": metrics,
         "records": report.records,
     }
-    config.output_root.mkdir(parents=True, exist_ok=True)
-    (config.output_root / "results.json").write_text(
+    OUTPUT_ROOT.mkdir(parents=True, exist_ok=True)
+    (OUTPUT_ROOT / "results.json").write_text(
         json.dumps(payload, ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",
     )
     write_space_results(
         report,
-        config.output_root / "space-results.json",
-        release=config.release_id,
+        OUTPUT_ROOT / "space-results.json",
+        release=RELEASE_ID,
         counts={"documents": 5000, "queries": 1000, "qrels": 34756},
         languages=("Chinese", "English"),
         breakdowns=breakdowns,
     )
-    if config.publish_space:
-        write_space_results(
-            report,
-            PROJECT_ROOT / "space/data/results.json",
-            release=config.release_id,
-            counts={"documents": 5000, "queries": 1000, "qrels": 34756},
-            languages=("Chinese", "English"),
-            breakdowns=breakdowns,
-        )
-    report.write_observations(config.output_root / "observations")
+    write_space_results(
+        report,
+        SPACE_RESULTS,
+        release=RELEASE_ID,
+        counts={"documents": 5000, "queries": 1000, "qrels": 34756},
+        languages=("Chinese", "English"),
+        breakdowns=breakdowns,
+    )
+    report.write_observations(OUTPUT_ROOT / "observations")
     print(json.dumps(metrics, ensure_ascii=False, indent=2))
-    return metrics
+
+
+if __name__ == "__main__":
+    main()
