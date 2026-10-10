@@ -19,6 +19,7 @@ venv/
 /dist/
 /artifacts/
 /reports/
+/.runtime/
 /results/*
 !/results/modern-ir-v2.2/
 /pytest-of-zhangchen/

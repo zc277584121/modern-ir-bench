@@ -10,6 +10,12 @@ import numpy as np
 
 from modern_ir_bench.core.solution import Solution
 from modern_ir_bench.embeddings.protocols import DenseEmbedding
+from modern_ir_bench.retrieval._chunk_ranking import (
+    candidate_depths,
+    collapse_chunk_rankings,
+    complete_document_rankings,
+    has_enough_documents,
+)
 from modern_ir_bench.retrieval.dense import _batches
 from modern_ir_bench.retrieval.indexes.protocols import DenseIndex, DenseIndexSession
 from modern_ir_bench.retrieval.types import RetrievalResource, SearchHit
@@ -24,6 +30,8 @@ class ChunkedDenseRetrievalSolution(Solution):
     chunker: Callable[[Any], Sequence[Any]]
     chunk_batch_size: int = 64
     candidate_multiplier: int = 4
+    document_input: Callable[[Any], Any] = lambda value: value
+    query_input: Callable[[Any], Any] = lambda value: value
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -41,7 +49,7 @@ class ChunkedDenseRetrievalSolution(Solution):
 
         def chunks() -> Iterable[RetrievalResource[Any]]:
             for resource in resources:
-                values = list(self.chunker(resource.value))
+                values = list(self.chunker(self.document_input(resource.value)))
                 if not values:
                     raise ValueError(f"chunker returned no chunks for resource {resource.id}")
                 for chunk_index, value in enumerate(values):
@@ -71,7 +79,13 @@ class ChunkedDenseRetrievalSolution(Solution):
             index=index_session,
             chunk_to_document=chunk_to_document,
             candidate_multiplier=self.candidate_multiplier,
+            query_input=self.query_input,
         )
+
+    def release(self) -> None:
+        release = getattr(self.embedding, "release", None)
+        if release is not None:
+            release()
 
 
 class ChunkedDenseRetrievalSession:
@@ -82,11 +96,13 @@ class ChunkedDenseRetrievalSession:
         index: DenseIndexSession,
         chunk_to_document: Mapping[str, str],
         candidate_multiplier: int,
+        query_input: Callable[[Any], Any],
     ) -> None:
         self.embedding = embedding
         self.index = index
         self.chunk_to_document = dict(chunk_to_document)
         self.candidate_multiplier = candidate_multiplier
+        self.query_input = query_input
 
     def search_batch(
         self,
@@ -94,25 +110,34 @@ class ChunkedDenseRetrievalSession:
         *,
         top_k: int,
     ) -> list[list[SearchHit]]:
-        vectors = np.asarray(self.embedding.encode_queries(queries), dtype=np.float32)
-        chunk_rankings = self.index.search(
-            vectors,
-            top_k=top_k * self.candidate_multiplier,
+        vectors = np.asarray(
+            self.embedding.encode_queries([self.query_input(query) for query in queries]),
+            dtype=np.float32,
         )
-        document_rankings: list[list[SearchHit]] = []
-        for chunk_hits in chunk_rankings:
-            seen: set[str] = set()
-            documents: list[SearchHit] = []
-            for hit in chunk_hits:
-                document_id = self.chunk_to_document[hit.id]
-                if document_id in seen:
-                    continue
-                seen.add(document_id)
-                documents.append(SearchHit(id=document_id, score=hit.score))
-                if len(documents) == top_k:
-                    break
-            document_rankings.append(documents)
-        return document_rankings
+        document_count = len(set(self.chunk_to_document.values()))
+        for candidate_depth in candidate_depths(
+            unit_count=len(self.chunk_to_document),
+            top_k=top_k,
+            initial_multiplier=self.candidate_multiplier,
+        ):
+            document_rankings = collapse_chunk_rankings(
+                self.index.search(vectors, top_k=candidate_depth),
+                unit_to_document=self.chunk_to_document,
+                top_k=top_k,
+            )
+            if has_enough_documents(
+                document_rankings,
+                document_count=document_count,
+                top_k=top_k,
+            ):
+                return document_rankings
+            if candidate_depth == len(self.chunk_to_document):
+                return complete_document_rankings(
+                    document_rankings,
+                    document_ids=self.chunk_to_document.values(),
+                    top_k=top_k,
+                )
+        raise AssertionError("candidate depth iteration must return")
 
     @property
     def metadata(self) -> Mapping[str, Any]:

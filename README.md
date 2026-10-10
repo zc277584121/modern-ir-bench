@@ -2,13 +2,15 @@
 
 Modern IR Bench is a code-native benchmark for modern information retrieval solutions. A participant can be a model, an algorithm, a multi-stage retrieval pipeline, a RAG system, or an agent memory system.
 
-The project is intentionally Python-only: executable benchmark modules are the source of truth, and every published score links back to an immutable Git commit and the exact code that produced it.
+The project is intentionally Python-only: executable Task and Solution definitions are
+the source of truth. Result artifacts remain separate from executable Solutions and
+carry their own provenance.
 
 ## Current release
 
 The current reviewed release is Modern IR Ranked Retrieval v2.2: a bilingual synthetic
-retrieval benchmark with 5,000 documents, 1,000 queries, and 34,756 binary Qrels,
-including 6,575 relevant pairs.
+retrieval benchmark with 5,000 documents, 1,000 queries, and 6,575 positive binary
+Qrels.
 Its public leaderboard compares seven retrieval Solutions spanning full-document and
 chunked BM25, local dense and learned-sparse models, and hosted dense embeddings.
 
@@ -23,34 +25,33 @@ uv run python -m benchmarks.mock_showcase
 uv run pytest
 ```
 
-The reviewed retrieval release can be replayed through the same public
-`Task` / `Solution` / `Metric` path. The Dataset contains only corpus, queries,
-and binary Qrels. The executable module pins the immutable
+The Dataset contains only corpus, queries, and binary Qrels. The benchmark pins the immutable
 [`zc277584121/modern-ir-bench`](https://huggingface.co/datasets/zc277584121/modern-ir-bench)
-Dataset revision and recomputes every leaderboard metric from the versioned run artifact
-under `results/modern-ir-v2.2/`:
+Dataset revision. The current Space recomputes every leaderboard metric from the reviewed
+historical Top-10 artifact under `results/modern-ir-v2.2/`:
 
 ```bash
-uv run python -m benchmarks.modern_ir
+uv run python -m benchmarks.modern_ir_publish
 ```
 
-This validates all seven saved retrieval routes against the expanded Qrels and writes
-framework observations, long-form results, and a local Space payload under
-`artifacts/modern-ir-retrieval/`. The replay is a reproducibility check; model
-inference and indexing remain ordinary Solution implementations.
+This path treats saved rankings as a `RankingArtifact`, never as a fake Solution. The
+Space labels the rows `historical-artifact` because the original private run predates
+the public executable catalog and was not tied to a public Git commit.
 
-Run a fresh BGE-M3 inference/index/search path against independent English and Chinese
-candidate pools:
+Run all seven maintained Solutions from model inference through Milvus indexing and
+search:
 
 ```bash
-uv run --group benchmark python -m benchmarks.modern_ir_bge_m3_live
+uv run --group benchmark python -m benchmarks.modern_ir
 ```
 
-This uses the public `TokenTextChunker`, `ChunkedDenseRetrievalSolution`,
-`SentenceTransformersEmbedding`, and `MilvusDenseIndex` components. It compares every
-fresh Top-10 ranking with the immutable saved ranking and writes the audit under
-`artifacts/modern-ir-bge-m3-live/`. Set `MIR_DEVICE`, `MIR_BATCH_SIZE`, and
-`MIR_MILVUS_URI` when the local defaults are not appropriate.
+The Task owns independent Chinese and English candidate pools. The Solution catalog
+contains full/chunk BM25, Voyage 4 Large, Qwen3 Embedding 4B, and BGE-M3 dense and
+learned-sparse implementations. Shared chunking, model revisions, query instructions,
+Milvus index types, and candidate depths are explicit in
+[`benchmarks/modern_ir_solutions/`](benchmarks/modern_ir_solutions/). Set
+`MIR_DEVICE`, `MIR_MILVUS_URI`, and `MIR_MILVUS_TOKEN` when local defaults are not
+appropriate.
 
 Run the Space locally:
 

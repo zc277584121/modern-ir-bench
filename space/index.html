@@ -8,7 +8,7 @@
       content="Code-native evaluation for modern information retrieval solutions"
     />
     <title>Modern IR Bench</title>
-    <link rel="stylesheet" href="styles.css?v=11" />
+    <link rel="stylesheet" href="styles.css?v=12" />
     <link rel="stylesheet" href="profile.css?v=1" />
   </head>
   <body>
@@ -24,6 +24,7 @@
         </div>
       </header>
       <div id="summary" class="summary" aria-live="polite"></div>
+      <div id="release-notice" class="notice" hidden></div>
       <div id="error-notice" class="notice" aria-live="polite" hidden></div>
 
       <nav class="tabs" aria-label="Benchmark views">
@@ -120,11 +121,12 @@
 
         <h2>Reproduction</h2>
         <p>
-          Python code is the source of truth. The code icon beside each Solution opens
-          its definition at the exact Git commit used for the published result.
+          Python code is the source of truth for maintained executable Solutions. The
+          code icon beside each Solution opens its current pinned definition. Result
+          evidence has separate provenance and never masquerades as executable code.
         </p>
         <pre><code>git checkout &lt;source_commit&gt;
-uv sync
+uv sync --group benchmark
 uv run python -m benchmarks.modern_ir</code></pre>
 
         <h2>Publication</h2>
@@ -148,6 +150,6 @@ uv run python -m benchmarks.modern_ir</code></pre>
         </p>
       </section>
     </main>
-    <script src="app.js?v=12" type="module"></script>
+    <script src="app.js?v=13" type="module"></script>
   </body>
 </html>

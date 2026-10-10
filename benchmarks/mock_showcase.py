@@ -11,9 +11,9 @@ from modern_ir_bench import MetricSet, RunProvenance, RunReport
 from modern_ir_bench.exporters import write_space_results
 from modern_ir_bench.metrics import NDCG, MeanReciprocalRank, Recall, Success
 from modern_ir_bench.solutions import (
-    BM25Solution,
     CharacterNGramSolution,
     HybridSolution,
+    InMemoryBM25Solution,
 )
 from modern_ir_bench.tasks import AgentMemoryRetrieval, CodeLocalization
 
@@ -150,7 +150,7 @@ def code_data() -> dict[str, Dataset]:
 
 
 def build_solutions():
-    bm25 = BM25Solution(
+    bm25 = InMemoryBM25Solution(
         id="bm25",
         title="BM25",
         description="Deterministic lexical BM25 baseline.",

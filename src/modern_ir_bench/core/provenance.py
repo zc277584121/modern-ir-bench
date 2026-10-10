@@ -25,7 +25,7 @@ def _repository_url(remote: str) -> str:
 
 @dataclass(frozen=True)
 class RunProvenance:
-    """Immutable pointer from a result to its executable source."""
+    """Immutable pointer from a result to its executable source or evidence."""
 
     source_commit: str
     source_module: str
@@ -42,6 +42,8 @@ class RunProvenance:
         source_path: str,
         source_line: int,
     ) -> RunProvenance:
+        if _git("status", "--porcelain"):
+            raise RuntimeError("Cannot capture reproducible provenance from a dirty Git worktree")
         return cls(
             source_commit=_git("rev-parse", "HEAD"),
             source_module=source_module,

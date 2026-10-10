@@ -46,26 +46,33 @@ class Task(ABC):
         status: str = "official",
     ) -> RunReport:
         report = RunReport()
-        for dataset_id, dataset in self.datasets.items():
+        solution_ids = [solution.id for solution in solutions]
+        if len(solution_ids) != len(set(solution_ids)):
+            raise ValueError("Solution ids must be unique within one Task run")
+        for dataset in self.datasets.values():
             self.validate_dataset(dataset)
-            for solution in solutions:
-                observations = self.evaluate(dataset=dataset, solution=solution)
-                report.add_evaluation(
-                    task_id=self.id,
-                    task_title=self.title,
-                    task_description=self.description,
-                    task_version=self.version,
-                    dataset_id=dataset_id,
-                    dataset_version=self.dataset_versions[dataset_id],
-                    solution_id=solution.id,
-                    solution_title=solution.title,
-                    solution_description=solution.description,
-                    primary_metric_id=self.metrics.primary.id,
-                    metrics=self.metrics.evaluate(observations),
-                    observations=observations,
-                    provenance=provenance,
-                    status=status,
-                )
+        for solution in solutions:
+            try:
+                for dataset_id, dataset in self.datasets.items():
+                    observations = self.evaluate(dataset=dataset, solution=solution)
+                    report.add_evaluation(
+                        task_id=self.id,
+                        task_title=self.title,
+                        task_description=self.description,
+                        task_version=self.version,
+                        dataset_id=dataset_id,
+                        dataset_version=self.dataset_versions[dataset_id],
+                        solution_id=solution.id,
+                        solution_title=solution.title,
+                        solution_description=solution.description,
+                        primary_metric_id=self.metrics.primary.id,
+                        metrics=self.metrics.evaluate(observations),
+                        observations=observations,
+                        provenance=provenance,
+                        status=status,
+                    )
+            finally:
+                solution.release()
         return report
 
     @abstractmethod

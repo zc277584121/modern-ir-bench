@@ -34,11 +34,11 @@ def test_chunked_dense_solution_collapses_multiple_chunk_hits_to_documents() -> 
         index=NumpyFlatIndex(),
         chunker=lambda text: text.split("|"),
         chunk_batch_size=2,
-        candidate_multiplier=3,
+        candidate_multiplier=1,
     )
     session = solution.prepare(
         [
-            RetrievalResource(id="d1", value="north|north east"),
+            RetrievalResource(id="d1", value="north|north"),
             RetrievalResource(id="d2", value="east"),
         ]
     )

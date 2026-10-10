@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from collections.abc import Iterable, Mapping, Sequence
+from collections.abc import Callable, Iterable, Mapping, Sequence
 from dataclasses import dataclass
 from typing import Any
 
@@ -35,6 +35,8 @@ class DenseRetrievalSolution(Solution):
     embedding: DenseEmbedding
     index: DenseIndex
     document_batch_size: int = 128
+    document_input: Callable[[Any], Any] = lambda value: value
+    query_input: Callable[[Any], Any] = lambda value: value
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -50,7 +52,7 @@ class DenseRetrievalSolution(Solution):
             count = 0
             for batch in _batches(resources, self.document_batch_size):
                 vectors = np.asarray(
-                    self.embedding.encode_documents([resource.value for resource in batch]),
+                    self.embedding.encode_documents([self.document_input(resource.value) for resource in batch]),
                     dtype=np.float32,
                 )
                 index_session.add([resource.id for resource in batch], vectors)
@@ -64,7 +66,13 @@ class DenseRetrievalSolution(Solution):
         return DenseRetrievalSession(
             embedding=self.embedding,
             index=index_session,
+            query_input=self.query_input,
         )
+
+    def release(self) -> None:
+        release = getattr(self.embedding, "release", None)
+        if release is not None:
+            release()
 
 
 class DenseRetrievalSession:
@@ -73,9 +81,11 @@ class DenseRetrievalSession:
         *,
         embedding: DenseEmbedding,
         index: DenseIndexSession,
+        query_input: Callable[[Any], Any],
     ) -> None:
         self.embedding = embedding
         self.index = index
+        self.query_input = query_input
 
     def search_batch(
         self,
@@ -83,7 +93,10 @@ class DenseRetrievalSession:
         *,
         top_k: int,
     ) -> list[list[SearchHit]]:
-        vectors = np.asarray(self.embedding.encode_queries(queries), dtype=np.float32)
+        vectors = np.asarray(
+            self.embedding.encode_queries([self.query_input(query) for query in queries]),
+            dtype=np.float32,
+        )
         return self.index.search(vectors, top_k=top_k)
 
     @property

@@ -10,6 +10,14 @@ ResourceInput = TypeVar("ResourceInput")
 
 
 @dataclass(frozen=True)
+class TextInput:
+    """Text plus the small amount of context a retrieval Solution may need."""
+
+    text: str
+    language: str | None = None
+
+
+@dataclass(frozen=True)
 class RetrievalResource(Generic[ResourceInput]):
     """One runtime resource, independent of the source Dataset schema."""
 

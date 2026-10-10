@@ -167,9 +167,7 @@ class MilvusDenseSession:
         stats = self.client.get_collection_stats(collection_name=self.collection_name)
         self._server_count = int(stats["row_count"])
         if self._server_count != len(self._ids):
-            raise RuntimeError(
-                f"Milvus reports {self._server_count} rows after inserting {len(self._ids)}"
-            )
+            raise RuntimeError(f"Milvus reports {self._server_count} rows after inserting {len(self._ids)}")
         self._server_version = self.client.get_server_version()
         self._sealed = True
 

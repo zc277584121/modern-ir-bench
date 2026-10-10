@@ -18,7 +18,7 @@ class RunReport:
         self.records: list[dict[str, object]] = []
         self.observations: dict[str, Dataset] = {}
         self.tasks: dict[str, dict[str, str]] = {}
-        self.solutions: dict[str, dict[str, str]] = {}
+        self.solutions: dict[str, dict[str, object]] = {}
 
     def add_evaluation(
         self,
@@ -51,6 +51,8 @@ class RunReport:
             "description": solution_description,
         }
         observation_key = f"{task_id}__{dataset_id}__{solution_id}"
+        if observation_key in self.observations:
+            raise ValueError(f"Duplicate evaluation: {observation_key}")
         self.observations[observation_key] = observations
 
         for metric in metrics:
@@ -77,6 +79,9 @@ class RunReport:
             )
 
     def extend(self, other: RunReport) -> None:
+        duplicate_observations = set(self.observations).intersection(other.observations)
+        if duplicate_observations:
+            raise ValueError(f"Duplicate evaluations: {sorted(duplicate_observations)}")
         self.records.extend(other.records)
         self.observations.update(other.observations)
         self.tasks.update(other.tasks)

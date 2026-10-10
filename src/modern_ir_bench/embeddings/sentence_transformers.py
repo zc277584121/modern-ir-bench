@@ -25,6 +25,7 @@ class SentenceTransformersEmbedding:
         query_prompt: str | None = None,
         document_prompt_name: str | None = None,
         query_prompt_name: str | None = None,
+        dimension: int | None = None,
     ) -> None:
         if not model:
             raise ValueError("model must be non-empty")
@@ -35,8 +36,6 @@ class SentenceTransformersEmbedding:
         if query_prompt is not None and query_prompt_name is not None:
             raise ValueError("query_prompt and query_prompt_name are mutually exclusive")
 
-        from sentence_transformers import SentenceTransformer
-
         self.model_id = model
         self.revision = revision
         self.batch_size = batch_size
@@ -45,23 +44,40 @@ class SentenceTransformersEmbedding:
         self.query_prompt = query_prompt
         self.document_prompt_name = document_prompt_name
         self.query_prompt_name = query_prompt_name
+        self.device = device
+        self.trust_remote_code = trust_remote_code
+        self.local_files_only = local_files_only
+        self._model: Any | None = None
+        self._dimension = dimension
+
+    def _load_model(self) -> Any:
+        if self._model is not None:
+            return self._model
+        from sentence_transformers import SentenceTransformer
+
         self._model = SentenceTransformer(
-            model,
-            revision=revision,
-            device=device,
-            trust_remote_code=trust_remote_code,
-            local_files_only=local_files_only,
+            self.model_id,
+            revision=self.revision,
+            device=self.device,
+            trust_remote_code=self.trust_remote_code,
+            local_files_only=self.local_files_only,
         )
-        get_dimension = getattr(self._model, "get_embedding_dimension", None)
+        return self._model
+
+    def _model_dimension(self) -> int:
+        model = self._load_model()
+        get_dimension = getattr(model, "get_embedding_dimension", None)
         if get_dimension is None:
-            get_dimension = self._model.get_sentence_embedding_dimension
+            get_dimension = model.get_sentence_embedding_dimension
         dimension = get_dimension()
         if dimension is None:
-            raise ValueError(f"Could not determine embedding dimension for {model}")
-        self._dimension = int(dimension)
+            raise ValueError(f"Could not determine embedding dimension for {self.model_id}")
+        return int(dimension)
 
     @property
     def dimension(self) -> int:
+        if self._dimension is None:
+            self._dimension = self._model_dimension()
         return self._dimension
 
     def _encode(
@@ -80,7 +96,7 @@ class SentenceTransformersEmbedding:
         if prompt_name is not None:
             prompt_arguments["prompt_name"] = prompt_name
         return np.asarray(
-            self._model.encode(
+            self._load_model().encode(
                 texts,
                 batch_size=self.batch_size,
                 normalize_embeddings=self.normalize,
@@ -104,3 +120,15 @@ class SentenceTransformersEmbedding:
             prompt=self.query_prompt,
             prompt_name=self.query_prompt_name,
         )
+
+    def release(self) -> None:
+        if self._model is None:
+            return
+        self._model = None
+        try:
+            import torch
+
+            if torch.cuda.is_available():
+                torch.cuda.empty_cache()
+        except ImportError:
+            pass

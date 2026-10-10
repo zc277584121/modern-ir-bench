@@ -98,7 +98,7 @@ class BM25Searcher:
 
 
 @dataclass(frozen=True, kw_only=True)
-class BM25Solution(Solution):
+class InMemoryBM25Solution(Solution):
     k1: float = 1.2
     b: float = 0.75
     tokenizer: TextTokenizer = _tokens
@@ -125,10 +125,7 @@ class CharacterNGramSearcher:
         size: int,
     ) -> None:
         self.size = size
-        self.documents = [
-            (resource.id, _character_ngrams(resource.value, size))
-            for resource in resources
-        ]
+        self.documents = [(resource.id, _character_ngrams(resource.value, size)) for resource in resources]
 
     def search_batch(self, queries: list[str], *, top_k: int) -> list[list[SearchHit]]:
         results = []

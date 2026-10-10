@@ -5,9 +5,11 @@ from modern_ir_bench.retrieval.indexes.milvus import (
     MilvusDenseIndex,
     MilvusLite,
     MilvusServer,
+    MilvusSparseIndex,
     ZillizCloud,
 )
 from modern_ir_bench.retrieval.indexes.protocols import DenseIndex, DenseIndexSession
+from modern_ir_bench.retrieval.indexes.sparse import SparseIndex, SparseIndexSession
 from modern_ir_bench.retrieval.indexes.verified import (
     DenseIndexAudit,
     VerifiedDenseIndex,
@@ -20,7 +22,10 @@ __all__ = [
     "MilvusDenseIndex",
     "MilvusLite",
     "MilvusServer",
+    "MilvusSparseIndex",
     "NumpyFlatIndex",
+    "SparseIndex",
+    "SparseIndexSession",
     "VerifiedDenseIndex",
     "ZillizCloud",
 ]

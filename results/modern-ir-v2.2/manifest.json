@@ -1,19 +1,32 @@
 {
+  "schema_version": 1,
+  "artifact_type": "historical-top-k-rankings",
   "release": "modern-ir-bench-v2.2-20261010",
+  "published_at": "2026-10-10T03:34:57.604060+00:00",
   "dataset": {
     "repository": "zc277584121/modern-ir-bench",
     "revision": "c7a38d6aaa3d1bd178952b6be91e12ca4ceb10ff"
   },
+  "historical_origin": {
+    "public_source_commit_available": false,
+    "note": "Rankings were generated in the private data-factory workflow before executable public Solution definitions were established."
+  },
   "migration": {
     "source_release": "modern-ir-bench-v2.1-20261009",
     "operation": "rename queries.task to queries.query_intent",
-    "content_regenerated": false,
-    "qrels_recomputed": false,
     "retrieval_rerun": false
   },
-  "solutions": 7,
+  "solutions": [
+    "bge-m3-dense-chunk",
+    "bge-m3-sparse-chunk",
+    "bm25-chunk",
+    "bm25-full",
+    "qwen3-embedding-4b-chunk",
+    "voyage-4-large-chunk",
+    "voyage-4-large-full"
+  ],
   "queries": 1000,
   "ranking_rows": 7000,
   "top_k": 10,
-  "rankings_sha256": "7a7de3eaa293268272348de282f7d9970c322e2f1883c726542fd67b0504b686"
+  "rankings_sha256": "c07a9816286bc0ef721a20a00703a06ac47a4c932c0a95606fd885d2fdb749b5"
 }

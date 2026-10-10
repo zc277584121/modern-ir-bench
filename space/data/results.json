@@ -5,18 +5,19 @@
     "counts": {
       "documents": 5000,
       "queries": 1000,
-      "qrels": 34756
+      "qrels": 6575
     },
     "languages": [
       "Chinese",
       "English"
-    ]
+    ],
+    "notice": "v2.2 scores are recomputed from the reviewed historical Top-10 ranking artifact. Solution links open the maintained executable definitions; result evidence is linked separately."
   },
   "tasks": [
     {
       "id": "modern-ir-ranked-retrieval-v2.2",
       "title": "Modern IR Ranked Retrieval v2.2",
-      "description": "Bilingual synthetic retrieval over an independently expanded relevance pool.",
+      "description": "Bilingual synthetic retrieval with independent Chinese and English candidate pools and an expanded binary relevance set.",
       "version": "2.2.0",
       "primary_metric": "ndcg@10"
     }
@@ -25,44 +26,98 @@
     {
       "id": "bge-m3-dense-chunk",
       "title": "BGE-M3 dense · 768-token chunks",
-      "description": "BGE-M3 dense retrieval over paragraph-aware chunks targeting 768 tokens with 128-token overlap and the title repeated, merged to document rankings.",
-      "code_url": "https://github.com/zc277584121/modern-ir-bench/blob/86d41e1c67718164b66e92ecd9959306187d3ebb/benchmarks/modern_ir.py#L117"
+      "description": "Pinned BGE-M3 dense embeddings over shared chunks with Milvus FLAT search.",
+      "tags": [
+        "dense",
+        "local",
+        "chunked",
+        "milvus"
+      ],
+      "code_url": "https://github.com/zc277584121/modern-ir-bench/blob/302c256e935283395487b2f9d896878423ab5f5b/benchmarks/modern_ir_solutions/bge_m3.py#L9",
+      "readme_url": "https://github.com/zc277584121/modern-ir-bench/blob/302c256e935283395487b2f9d896878423ab5f5b/docs/solutions/bge-m3.md",
+      "result_url": "https://github.com/zc277584121/modern-ir-bench/blob/302c256e935283395487b2f9d896878423ab5f5b/results/modern-ir-v2.2/README.md#L1"
     },
     {
       "id": "bge-m3-sparse-chunk",
       "title": "BGE-M3 learned sparse · 768-token chunks",
-      "description": "BGE-M3 learned-sparse retrieval over paragraph-aware chunks targeting 768 tokens with 128-token overlap and the title repeated, merged to document rankings.",
-      "code_url": "https://github.com/zc277584121/modern-ir-bench/blob/86d41e1c67718164b66e92ecd9959306187d3ebb/benchmarks/modern_ir.py#L122"
+      "description": "Pinned BGE-M3 learned-sparse vectors over shared chunks with Milvus search.",
+      "tags": [
+        "learned-sparse",
+        "local",
+        "chunked",
+        "milvus"
+      ],
+      "code_url": "https://github.com/zc277584121/modern-ir-bench/blob/302c256e935283395487b2f9d896878423ab5f5b/benchmarks/modern_ir_solutions/bge_m3.py#L28",
+      "readme_url": "https://github.com/zc277584121/modern-ir-bench/blob/302c256e935283395487b2f9d896878423ab5f5b/docs/solutions/bge-m3.md",
+      "result_url": "https://github.com/zc277584121/modern-ir-bench/blob/302c256e935283395487b2f9d896878423ab5f5b/results/modern-ir-v2.2/README.md#L1"
     },
     {
       "id": "bm25-chunk",
       "title": "BM25 · 768-token chunks",
-      "description": "BM25 lexical retrieval over paragraph-aware chunks targeting 768 tokens with 128-token overlap and the title repeated, merged to document rankings.",
-      "code_url": "https://github.com/zc277584121/modern-ir-bench/blob/86d41e1c67718164b66e92ecd9959306187d3ebb/benchmarks/modern_ir.py#L93"
+      "description": "Milvus BM25 over shared chunks, collapsed to document rankings.",
+      "tags": [
+        "lexical",
+        "chunked",
+        "milvus"
+      ],
+      "code_url": "https://github.com/zc277584121/modern-ir-bench/blob/302c256e935283395487b2f9d896878423ab5f5b/benchmarks/modern_ir_solutions/bm25.py#L18",
+      "readme_url": "https://github.com/zc277584121/modern-ir-bench/blob/302c256e935283395487b2f9d896878423ab5f5b/docs/solutions/bm25.md",
+      "result_url": "https://github.com/zc277584121/modern-ir-bench/blob/302c256e935283395487b2f9d896878423ab5f5b/results/modern-ir-v2.2/README.md#L1"
     },
     {
       "id": "bm25-full",
       "title": "BM25 · full document",
-      "description": "BM25 lexical retrieval over full documents.",
-      "code_url": "https://github.com/zc277584121/modern-ir-bench/blob/86d41e1c67718164b66e92ecd9959306187d3ebb/benchmarks/modern_ir.py#L88"
+      "description": "Milvus BM25 over full documents with language-specific analyzers.",
+      "tags": [
+        "lexical",
+        "full-document",
+        "milvus"
+      ],
+      "code_url": "https://github.com/zc277584121/modern-ir-bench/blob/302c256e935283395487b2f9d896878423ab5f5b/benchmarks/modern_ir_solutions/bm25.py#L7",
+      "readme_url": "https://github.com/zc277584121/modern-ir-bench/blob/302c256e935283395487b2f9d896878423ab5f5b/docs/solutions/bm25.md",
+      "result_url": "https://github.com/zc277584121/modern-ir-bench/blob/302c256e935283395487b2f9d896878423ab5f5b/results/modern-ir-v2.2/README.md#L1"
     },
     {
       "id": "qwen3-embedding-4b-chunk",
       "title": "Qwen3 Embedding 4B · 768-token chunks",
-      "description": "Qwen3 Embedding 4B dense retrieval over paragraph-aware chunks targeting 768 tokens with 128-token overlap and the title repeated, merged to document rankings.",
-      "code_url": "https://github.com/zc277584121/modern-ir-bench/blob/86d41e1c67718164b66e92ecd9959306187d3ebb/benchmarks/modern_ir.py#L110"
+      "description": "Pinned Qwen3 Embedding 4B over shared chunks with Milvus FLAT search.",
+      "tags": [
+        "dense",
+        "local",
+        "chunked",
+        "milvus"
+      ],
+      "code_url": "https://github.com/zc277584121/modern-ir-bench/blob/302c256e935283395487b2f9d896878423ab5f5b/benchmarks/modern_ir_solutions/qwen.py#L9",
+      "readme_url": "https://github.com/zc277584121/modern-ir-bench/blob/302c256e935283395487b2f9d896878423ab5f5b/docs/solutions/qwen3-embedding-4b.md",
+      "result_url": "https://github.com/zc277584121/modern-ir-bench/blob/302c256e935283395487b2f9d896878423ab5f5b/results/modern-ir-v2.2/README.md#L1"
     },
     {
       "id": "voyage-4-large-chunk",
       "title": "Voyage 4 Large · 768-token chunks",
-      "description": "Voyage 4 Large dense retrieval over paragraph-aware chunks targeting 768 tokens with 128-token overlap and the title repeated, merged to document rankings.",
-      "code_url": "https://github.com/zc277584121/modern-ir-bench/blob/86d41e1c67718164b66e92ecd9959306187d3ebb/benchmarks/modern_ir.py#L103"
+      "description": "Voyage 4 Large embeddings over shared chunks with Milvus FLAT search.",
+      "tags": [
+        "dense",
+        "hosted",
+        "chunked",
+        "milvus"
+      ],
+      "code_url": "https://github.com/zc277584121/modern-ir-bench/blob/302c256e935283395487b2f9d896878423ab5f5b/benchmarks/modern_ir_solutions/voyage.py#L26",
+      "readme_url": "https://github.com/zc277584121/modern-ir-bench/blob/302c256e935283395487b2f9d896878423ab5f5b/docs/solutions/voyage-4-large.md",
+      "result_url": "https://github.com/zc277584121/modern-ir-bench/blob/302c256e935283395487b2f9d896878423ab5f5b/results/modern-ir-v2.2/README.md#L1"
     },
     {
       "id": "voyage-4-large-full",
       "title": "Voyage 4 Large · full document",
-      "description": "Voyage 4 Large dense retrieval over full-document embeddings.",
-      "code_url": "https://github.com/zc277584121/modern-ir-bench/blob/86d41e1c67718164b66e92ecd9959306187d3ebb/benchmarks/modern_ir.py#L98"
+      "description": "Voyage 4 Large full-document embeddings with Milvus FLAT search.",
+      "tags": [
+        "dense",
+        "hosted",
+        "full-document",
+        "milvus"
+      ],
+      "code_url": "https://github.com/zc277584121/modern-ir-bench/blob/302c256e935283395487b2f9d896878423ab5f5b/benchmarks/modern_ir_solutions/voyage.py#L9",
+      "readme_url": "https://github.com/zc277584121/modern-ir-bench/blob/302c256e935283395487b2f9d896878423ab5f5b/docs/solutions/voyage-4-large.md",
+      "result_url": "https://github.com/zc277584121/modern-ir-bench/blob/302c256e935283395487b2f9d896878423ab5f5b/results/modern-ir-v2.2/README.md#L1"
     }
   ],
   "results": [
@@ -76,12 +131,12 @@
       "metric_label": "NDCG@10",
       "value": 0.71249974,
       "primary": true,
-      "status": "published",
-      "source_commit": "86d41e1c67718164b66e92ecd9959306187d3ebb",
-      "source_module": "benchmarks.modern_ir",
-      "source_path": "benchmarks/modern_ir.py",
-      "source_line": 417,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/86d41e1c67718164b66e92ecd9959306187d3ebb/benchmarks/modern_ir.py#L417",
+      "status": "historical-artifact",
+      "source_commit": "302c256e935283395487b2f9d896878423ab5f5b",
+      "source_module": "results.modern_ir_v2_2",
+      "source_path": "results/modern-ir-v2.2/README.md",
+      "source_line": 1,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/302c256e935283395487b2f9d896878423ab5f5b/results/modern-ir-v2.2/README.md#L1",
       "created_at": "2026-10-10T03:34:57.604060+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.2__modern-ir-bench-v2.2-20261010__bm25-full"
     },
@@ -95,12 +150,12 @@
       "metric_label": "Recall@1",
       "value": 0.17100763,
       "primary": false,
-      "status": "published",
-      "source_commit": "86d41e1c67718164b66e92ecd9959306187d3ebb",
-      "source_module": "benchmarks.modern_ir",
-      "source_path": "benchmarks/modern_ir.py",
-      "source_line": 417,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/86d41e1c67718164b66e92ecd9959306187d3ebb/benchmarks/modern_ir.py#L417",
+      "status": "historical-artifact",
+      "source_commit": "302c256e935283395487b2f9d896878423ab5f5b",
+      "source_module": "results.modern_ir_v2_2",
+      "source_path": "results/modern-ir-v2.2/README.md",
+      "source_line": 1,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/302c256e935283395487b2f9d896878423ab5f5b/results/modern-ir-v2.2/README.md#L1",
       "created_at": "2026-10-10T03:34:57.604060+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.2__modern-ir-bench-v2.2-20261010__bm25-full"
     },
@@ -114,12 +169,12 @@
       "metric_label": "Recall@5",
       "value": 0.52963243,
       "primary": false,
-      "status": "published",
-      "source_commit": "86d41e1c67718164b66e92ecd9959306187d3ebb",
-      "source_module": "benchmarks.modern_ir",
-      "source_path": "benchmarks/modern_ir.py",
-      "source_line": 417,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/86d41e1c67718164b66e92ecd9959306187d3ebb/benchmarks/modern_ir.py#L417",
+      "status": "historical-artifact",
+      "source_commit": "302c256e935283395487b2f9d896878423ab5f5b",
+      "source_module": "results.modern_ir_v2_2",
+      "source_path": "results/modern-ir-v2.2/README.md",
+      "source_line": 1,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/302c256e935283395487b2f9d896878423ab5f5b/results/modern-ir-v2.2/README.md#L1",
       "created_at": "2026-10-10T03:34:57.604060+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.2__modern-ir-bench-v2.2-20261010__bm25-full"
     },
@@ -133,12 +188,12 @@
       "metric_label": "Recall@10",
       "value": 0.70116362,
       "primary": false,
-      "status": "published",
-      "source_commit": "86d41e1c67718164b66e92ecd9959306187d3ebb",
-      "source_module": "benchmarks.modern_ir",
-      "source_path": "benchmarks/modern_ir.py",
-      "source_line": 417,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/86d41e1c67718164b66e92ecd9959306187d3ebb/benchmarks/modern_ir.py#L417",
+      "status": "historical-artifact",
+      "source_commit": "302c256e935283395487b2f9d896878423ab5f5b",
+      "source_module": "results.modern_ir_v2_2",
+      "source_path": "results/modern-ir-v2.2/README.md",
+      "source_line": 1,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/302c256e935283395487b2f9d896878423ab5f5b/results/modern-ir-v2.2/README.md#L1",
       "created_at": "2026-10-10T03:34:57.604060+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.2__modern-ir-bench-v2.2-20261010__bm25-full"
     },
@@ -152,12 +207,12 @@
       "metric_label": "MRR@10",
       "value": 0.87365159,
       "primary": false,
-      "status": "published",
-      "source_commit": "86d41e1c67718164b66e92ecd9959306187d3ebb",
-      "source_module": "benchmarks.modern_ir",
-      "source_path": "benchmarks/modern_ir.py",
-      "source_line": 417,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/86d41e1c67718164b66e92ecd9959306187d3ebb/benchmarks/modern_ir.py#L417",
+      "status": "historical-artifact",
+      "source_commit": "302c256e935283395487b2f9d896878423ab5f5b",
+      "source_module": "results.modern_ir_v2_2",
+      "source_path": "results/modern-ir-v2.2/README.md",
+      "source_line": 1,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/302c256e935283395487b2f9d896878423ab5f5b/results/modern-ir-v2.2/README.md#L1",
       "created_at": "2026-10-10T03:34:57.604060+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.2__modern-ir-bench-v2.2-20261010__bm25-full"
     },
@@ -171,12 +226,12 @@
       "metric_label": "NDCG@10",
       "value": 0.72248847,
       "primary": true,
-      "status": "published",
-      "source_commit": "86d41e1c67718164b66e92ecd9959306187d3ebb",
-      "source_module": "benchmarks.modern_ir",
-      "source_path": "benchmarks/modern_ir.py",
-      "source_line": 417,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/86d41e1c67718164b66e92ecd9959306187d3ebb/benchmarks/modern_ir.py#L417",
+      "status": "historical-artifact",
+      "source_commit": "302c256e935283395487b2f9d896878423ab5f5b",
+      "source_module": "results.modern_ir_v2_2",
+      "source_path": "results/modern-ir-v2.2/README.md",
+      "source_line": 1,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/302c256e935283395487b2f9d896878423ab5f5b/results/modern-ir-v2.2/README.md#L1",
       "created_at": "2026-10-10T03:34:57.604060+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.2__modern-ir-bench-v2.2-20261010__bm25-chunk"
     },
@@ -190,12 +245,12 @@
       "metric_label": "Recall@1",
       "value": 0.17377831,
       "primary": false,
-      "status": "published",
-      "source_commit": "86d41e1c67718164b66e92ecd9959306187d3ebb",
-      "source_module": "benchmarks.modern_ir",
-      "source_path": "benchmarks/modern_ir.py",
-      "source_line": 417,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/86d41e1c67718164b66e92ecd9959306187d3ebb/benchmarks/modern_ir.py#L417",
+      "status": "historical-artifact",
+      "source_commit": "302c256e935283395487b2f9d896878423ab5f5b",
+      "source_module": "results.modern_ir_v2_2",
+      "source_path": "results/modern-ir-v2.2/README.md",
+      "source_line": 1,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/302c256e935283395487b2f9d896878423ab5f5b/results/modern-ir-v2.2/README.md#L1",
       "created_at": "2026-10-10T03:34:57.604060+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.2__modern-ir-bench-v2.2-20261010__bm25-chunk"
     },
@@ -209,12 +264,12 @@
       "metric_label": "Recall@5",
       "value": 0.53622086,
       "primary": false,
-      "status": "published",
-      "source_commit": "86d41e1c67718164b66e92ecd9959306187d3ebb",
-      "source_module": "benchmarks.modern_ir",
-      "source_path": "benchmarks/modern_ir.py",
-      "source_line": 417,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/86d41e1c67718164b66e92ecd9959306187d3ebb/benchmarks/modern_ir.py#L417",
+      "status": "historical-artifact",
+      "source_commit": "302c256e935283395487b2f9d896878423ab5f5b",
+      "source_module": "results.modern_ir_v2_2",
+      "source_path": "results/modern-ir-v2.2/README.md",
+      "source_line": 1,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/302c256e935283395487b2f9d896878423ab5f5b/results/modern-ir-v2.2/README.md#L1",
       "created_at": "2026-10-10T03:34:57.604060+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.2__modern-ir-bench-v2.2-20261010__bm25-chunk"
     },
@@ -228,12 +283,12 @@
       "metric_label": "Recall@10",
       "value": 0.71100498,
       "primary": false,
-      "status": "published",
-      "source_commit": "86d41e1c67718164b66e92ecd9959306187d3ebb",
-      "source_module": "benchmarks.modern_ir",
-      "source_path": "benchmarks/modern_ir.py",
-      "source_line": 417,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/86d41e1c67718164b66e92ecd9959306187d3ebb/benchmarks/modern_ir.py#L417",
+      "status": "historical-artifact",
+      "source_commit": "302c256e935283395487b2f9d896878423ab5f5b",
+      "source_module": "results.modern_ir_v2_2",
+      "source_path": "results/modern-ir-v2.2/README.md",
+      "source_line": 1,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/302c256e935283395487b2f9d896878423ab5f5b/results/modern-ir-v2.2/README.md#L1",
       "created_at": "2026-10-10T03:34:57.604060+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.2__modern-ir-bench-v2.2-20261010__bm25-chunk"
     },
@@ -247,12 +302,12 @@
       "metric_label": "MRR@10",
       "value": 0.88202262,
       "primary": false,
-      "status": "published",
-      "source_commit": "86d41e1c67718164b66e92ecd9959306187d3ebb",
-      "source_module": "benchmarks.modern_ir",
-      "source_path": "benchmarks/modern_ir.py",
-      "source_line": 417,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/86d41e1c67718164b66e92ecd9959306187d3ebb/benchmarks/modern_ir.py#L417",
+      "status": "historical-artifact",
+      "source_commit": "302c256e935283395487b2f9d896878423ab5f5b",
+      "source_module": "results.modern_ir_v2_2",
+      "source_path": "results/modern-ir-v2.2/README.md",
+      "source_line": 1,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/302c256e935283395487b2f9d896878423ab5f5b/results/modern-ir-v2.2/README.md#L1",
       "created_at": "2026-10-10T03:34:57.604060+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.2__modern-ir-bench-v2.2-20261010__bm25-chunk"
     },
@@ -266,12 +321,12 @@
       "metric_label": "NDCG@10",
       "value": 0.86339312,
       "primary": true,
-      "status": "published",
-      "source_commit": "86d41e1c67718164b66e92ecd9959306187d3ebb",
-      "source_module": "benchmarks.modern_ir",
-      "source_path": "benchmarks/modern_ir.py",
-      "source_line": 417,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/86d41e1c67718164b66e92ecd9959306187d3ebb/benchmarks/modern_ir.py#L417",
+      "status": "historical-artifact",
+      "source_commit": "302c256e935283395487b2f9d896878423ab5f5b",
+      "source_module": "results.modern_ir_v2_2",
+      "source_path": "results/modern-ir-v2.2/README.md",
+      "source_line": 1,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/302c256e935283395487b2f9d896878423ab5f5b/results/modern-ir-v2.2/README.md#L1",
       "created_at": "2026-10-10T03:34:57.604060+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.2__modern-ir-bench-v2.2-20261010__voyage-4-large-full"
     },
@@ -285,12 +340,12 @@
       "metric_label": "Recall@1",
       "value": 0.19692718,
       "primary": false,
-      "status": "published",
-      "source_commit": "86d41e1c67718164b66e92ecd9959306187d3ebb",
-      "source_module": "benchmarks.modern_ir",
-      "source_path": "benchmarks/modern_ir.py",
-      "source_line": 417,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/86d41e1c67718164b66e92ecd9959306187d3ebb/benchmarks/modern_ir.py#L417",
+      "status": "historical-artifact",
+      "source_commit": "302c256e935283395487b2f9d896878423ab5f5b",
+      "source_module": "results.modern_ir_v2_2",
+      "source_path": "results/modern-ir-v2.2/README.md",
+      "source_line": 1,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/302c256e935283395487b2f9d896878423ab5f5b/results/modern-ir-v2.2/README.md#L1",
       "created_at": "2026-10-10T03:34:57.604060+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.2__modern-ir-bench-v2.2-20261010__voyage-4-large-full"
     },
@@ -304,12 +359,12 @@
       "metric_label": "Recall@5",
       "value": 0.65963741,
       "primary": false,
-      "status": "published",
-      "source_commit": "86d41e1c67718164b66e92ecd9959306187d3ebb",
-      "source_module": "benchmarks.modern_ir",
-      "source_path": "benchmarks/modern_ir.py",
-      "source_line": 417,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/86d41e1c67718164b66e92ecd9959306187d3ebb/benchmarks/modern_ir.py#L417",
+      "status": "historical-artifact",
+      "source_commit": "302c256e935283395487b2f9d896878423ab5f5b",
+      "source_module": "results.modern_ir_v2_2",
+      "source_path": "results/modern-ir-v2.2/README.md",
+      "source_line": 1,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/302c256e935283395487b2f9d896878423ab5f5b/results/modern-ir-v2.2/README.md#L1",
       "created_at": "2026-10-10T03:34:57.604060+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.2__modern-ir-bench-v2.2-20261010__voyage-4-large-full"
     },
@@ -323,12 +378,12 @@
       "metric_label": "Recall@10",
       "value": 0.8361849,
       "primary": false,
-      "status": "published",
-      "source_commit": "86d41e1c67718164b66e92ecd9959306187d3ebb",
-      "source_module": "benchmarks.modern_ir",
-      "source_path": "benchmarks/modern_ir.py",
-      "source_line": 417,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/86d41e1c67718164b66e92ecd9959306187d3ebb/benchmarks/modern_ir.py#L417",
+      "status": "historical-artifact",
+      "source_commit": "302c256e935283395487b2f9d896878423ab5f5b",
+      "source_module": "results.modern_ir_v2_2",
+      "source_path": "results/modern-ir-v2.2/README.md",
+      "source_line": 1,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/302c256e935283395487b2f9d896878423ab5f5b/results/modern-ir-v2.2/README.md#L1",
       "created_at": "2026-10-10T03:34:57.604060+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.2__modern-ir-bench-v2.2-20261010__voyage-4-large-full"
     },
@@ -342,12 +397,12 @@
       "metric_label": "MRR@10",
       "value": 0.95647183,
       "primary": false,
-      "status": "published",
-      "source_commit": "86d41e1c67718164b66e92ecd9959306187d3ebb",
-      "source_module": "benchmarks.modern_ir",
-      "source_path": "benchmarks/modern_ir.py",
-      "source_line": 417,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/86d41e1c67718164b66e92ecd9959306187d3ebb/benchmarks/modern_ir.py#L417",
+      "status": "historical-artifact",
+      "source_commit": "302c256e935283395487b2f9d896878423ab5f5b",
+      "source_module": "results.modern_ir_v2_2",
+      "source_path": "results/modern-ir-v2.2/README.md",
+      "source_line": 1,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/302c256e935283395487b2f9d896878423ab5f5b/results/modern-ir-v2.2/README.md#L1",
       "created_at": "2026-10-10T03:34:57.604060+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.2__modern-ir-bench-v2.2-20261010__voyage-4-large-full"
     },
@@ -361,12 +416,12 @@
       "metric_label": "NDCG@10",
       "value": 0.87926964,
       "primary": true,
-      "status": "published",
-      "source_commit": "86d41e1c67718164b66e92ecd9959306187d3ebb",
-      "source_module": "benchmarks.modern_ir",
-      "source_path": "benchmarks/modern_ir.py",
-      "source_line": 417,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/86d41e1c67718164b66e92ecd9959306187d3ebb/benchmarks/modern_ir.py#L417",
+      "status": "historical-artifact",
+      "source_commit": "302c256e935283395487b2f9d896878423ab5f5b",
+      "source_module": "results.modern_ir_v2_2",
+      "source_path": "results/modern-ir-v2.2/README.md",
+      "source_line": 1,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/302c256e935283395487b2f9d896878423ab5f5b/results/modern-ir-v2.2/README.md#L1",
       "created_at": "2026-10-10T03:34:57.604060+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.2__modern-ir-bench-v2.2-20261010__voyage-4-large-chunk"
     },
@@ -380,12 +435,12 @@
       "metric_label": "Recall@1",
       "value": 0.20040301,
       "primary": false,
-      "status": "published",
-      "source_commit": "86d41e1c67718164b66e92ecd9959306187d3ebb",
-      "source_module": "benchmarks.modern_ir",
-      "source_path": "benchmarks/modern_ir.py",
-      "source_line": 417,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/86d41e1c67718164b66e92ecd9959306187d3ebb/benchmarks/modern_ir.py#L417",
+      "status": "historical-artifact",
+      "source_commit": "302c256e935283395487b2f9d896878423ab5f5b",
+      "source_module": "results.modern_ir_v2_2",
+      "source_path": "results/modern-ir-v2.2/README.md",
+      "source_line": 1,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/302c256e935283395487b2f9d896878423ab5f5b/results/modern-ir-v2.2/README.md#L1",
       "created_at": "2026-10-10T03:34:57.604060+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.2__modern-ir-bench-v2.2-20261010__voyage-4-large-chunk"
     },
@@ -399,12 +454,12 @@
       "metric_label": "Recall@5",
       "value": 0.67287773,
       "primary": false,
-      "status": "published",
-      "source_commit": "86d41e1c67718164b66e92ecd9959306187d3ebb",
-      "source_module": "benchmarks.modern_ir",
-      "source_path": "benchmarks/modern_ir.py",
-      "source_line": 417,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/86d41e1c67718164b66e92ecd9959306187d3ebb/benchmarks/modern_ir.py#L417",
+      "status": "historical-artifact",
+      "source_commit": "302c256e935283395487b2f9d896878423ab5f5b",
+      "source_module": "results.modern_ir_v2_2",
+      "source_path": "results/modern-ir-v2.2/README.md",
+      "source_line": 1,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/302c256e935283395487b2f9d896878423ab5f5b/results/modern-ir-v2.2/README.md#L1",
       "created_at": "2026-10-10T03:34:57.604060+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.2__modern-ir-bench-v2.2-20261010__voyage-4-large-chunk"
     },
@@ -418,12 +473,12 @@
       "metric_label": "Recall@10",
       "value": 0.85209908,
       "primary": false,
-      "status": "published",
-      "source_commit": "86d41e1c67718164b66e92ecd9959306187d3ebb",
-      "source_module": "benchmarks.modern_ir",
-      "source_path": "benchmarks/modern_ir.py",
-      "source_line": 417,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/86d41e1c67718164b66e92ecd9959306187d3ebb/benchmarks/modern_ir.py#L417",
+      "status": "historical-artifact",
+      "source_commit": "302c256e935283395487b2f9d896878423ab5f5b",
+      "source_module": "results.modern_ir_v2_2",
+      "source_path": "results/modern-ir-v2.2/README.md",
+      "source_line": 1,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/302c256e935283395487b2f9d896878423ab5f5b/results/modern-ir-v2.2/README.md#L1",
       "created_at": "2026-10-10T03:34:57.604060+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.2__modern-ir-bench-v2.2-20261010__voyage-4-large-chunk"
     },
@@ -437,12 +492,12 @@
       "metric_label": "MRR@10",
       "value": 0.96386944,
       "primary": false,
-      "status": "published",
-      "source_commit": "86d41e1c67718164b66e92ecd9959306187d3ebb",
-      "source_module": "benchmarks.modern_ir",
-      "source_path": "benchmarks/modern_ir.py",
-      "source_line": 417,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/86d41e1c67718164b66e92ecd9959306187d3ebb/benchmarks/modern_ir.py#L417",
+      "status": "historical-artifact",
+      "source_commit": "302c256e935283395487b2f9d896878423ab5f5b",
+      "source_module": "results.modern_ir_v2_2",
+      "source_path": "results/modern-ir-v2.2/README.md",
+      "source_line": 1,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/302c256e935283395487b2f9d896878423ab5f5b/results/modern-ir-v2.2/README.md#L1",
       "created_at": "2026-10-10T03:34:57.604060+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.2__modern-ir-bench-v2.2-20261010__voyage-4-large-chunk"
     },
@@ -456,12 +511,12 @@
       "metric_label": "NDCG@10",
       "value": 0.81145622,
       "primary": true,
-      "status": "published",
-      "source_commit": "86d41e1c67718164b66e92ecd9959306187d3ebb",
-      "source_module": "benchmarks.modern_ir",
-      "source_path": "benchmarks/modern_ir.py",
-      "source_line": 417,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/86d41e1c67718164b66e92ecd9959306187d3ebb/benchmarks/modern_ir.py#L417",
+      "status": "historical-artifact",
+      "source_commit": "302c256e935283395487b2f9d896878423ab5f5b",
+      "source_module": "results.modern_ir_v2_2",
+      "source_path": "results/modern-ir-v2.2/README.md",
+      "source_line": 1,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/302c256e935283395487b2f9d896878423ab5f5b/results/modern-ir-v2.2/README.md#L1",
       "created_at": "2026-10-10T03:34:57.604060+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.2__modern-ir-bench-v2.2-20261010__qwen3-embedding-4b-chunk"
     },
@@ -475,12 +530,12 @@
       "metric_label": "Recall@1",
       "value": 0.18195821,
       "primary": false,
-      "status": "published",
-      "source_commit": "86d41e1c67718164b66e92ecd9959306187d3ebb",
-      "source_module": "benchmarks.modern_ir",
-      "source_path": "benchmarks/modern_ir.py",
-      "source_line": 417,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/86d41e1c67718164b66e92ecd9959306187d3ebb/benchmarks/modern_ir.py#L417",
+      "status": "historical-artifact",
+      "source_commit": "302c256e935283395487b2f9d896878423ab5f5b",
+      "source_module": "results.modern_ir_v2_2",
+      "source_path": "results/modern-ir-v2.2/README.md",
+      "source_line": 1,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/302c256e935283395487b2f9d896878423ab5f5b/results/modern-ir-v2.2/README.md#L1",
       "created_at": "2026-10-10T03:34:57.604060+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.2__modern-ir-bench-v2.2-20261010__qwen3-embedding-4b-chunk"
     },
@@ -494,12 +549,12 @@
       "metric_label": "Recall@5",
       "value": 0.61901765,
       "primary": false,
-      "status": "published",
-      "source_commit": "86d41e1c67718164b66e92ecd9959306187d3ebb",
-      "source_module": "benchmarks.modern_ir",
-      "source_path": "benchmarks/modern_ir.py",
-      "source_line": 417,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/86d41e1c67718164b66e92ecd9959306187d3ebb/benchmarks/modern_ir.py#L417",
+      "status": "historical-artifact",
+      "source_commit": "302c256e935283395487b2f9d896878423ab5f5b",
+      "source_module": "results.modern_ir_v2_2",
+      "source_path": "results/modern-ir-v2.2/README.md",
+      "source_line": 1,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/302c256e935283395487b2f9d896878423ab5f5b/results/modern-ir-v2.2/README.md#L1",
       "created_at": "2026-10-10T03:34:57.604060+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.2__modern-ir-bench-v2.2-20261010__qwen3-embedding-4b-chunk"
     },
@@ -513,12 +568,12 @@
       "metric_label": "Recall@10",
       "value": 0.79335897,
       "primary": false,
-      "status": "published",
-      "source_commit": "86d41e1c67718164b66e92ecd9959306187d3ebb",
-      "source_module": "benchmarks.modern_ir",
-      "source_path": "benchmarks/modern_ir.py",
-      "source_line": 417,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/86d41e1c67718164b66e92ecd9959306187d3ebb/benchmarks/modern_ir.py#L417",
+      "status": "historical-artifact",
+      "source_commit": "302c256e935283395487b2f9d896878423ab5f5b",
+      "source_module": "results.modern_ir_v2_2",
+      "source_path": "results/modern-ir-v2.2/README.md",
+      "source_line": 1,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/302c256e935283395487b2f9d896878423ab5f5b/results/modern-ir-v2.2/README.md#L1",
       "created_at": "2026-10-10T03:34:57.604060+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.2__modern-ir-bench-v2.2-20261010__qwen3-embedding-4b-chunk"
     },
@@ -532,12 +587,12 @@
       "metric_label": "MRR@10",
       "value": 0.91848532,
       "primary": false,
-      "status": "published",
-      "source_commit": "86d41e1c67718164b66e92ecd9959306187d3ebb",
-      "source_module": "benchmarks.modern_ir",
-      "source_path": "benchmarks/modern_ir.py",
-      "source_line": 417,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/86d41e1c67718164b66e92ecd9959306187d3ebb/benchmarks/modern_ir.py#L417",
+      "status": "historical-artifact",
+      "source_commit": "302c256e935283395487b2f9d896878423ab5f5b",
+      "source_module": "results.modern_ir_v2_2",
+      "source_path": "results/modern-ir-v2.2/README.md",
+      "source_line": 1,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/302c256e935283395487b2f9d896878423ab5f5b/results/modern-ir-v2.2/README.md#L1",
       "created_at": "2026-10-10T03:34:57.604060+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.2__modern-ir-bench-v2.2-20261010__qwen3-embedding-4b-chunk"
     },
@@ -551,12 +606,12 @@
       "metric_label": "NDCG@10",
       "value": 0.76469392,
       "primary": true,
-      "status": "published",
-      "source_commit": "86d41e1c67718164b66e92ecd9959306187d3ebb",
-      "source_module": "benchmarks.modern_ir",
-      "source_path": "benchmarks/modern_ir.py",
-      "source_line": 417,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/86d41e1c67718164b66e92ecd9959306187d3ebb/benchmarks/modern_ir.py#L417",
+      "status": "historical-artifact",
+      "source_commit": "302c256e935283395487b2f9d896878423ab5f5b",
+      "source_module": "results.modern_ir_v2_2",
+      "source_path": "results/modern-ir-v2.2/README.md",
+      "source_line": 1,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/302c256e935283395487b2f9d896878423ab5f5b/results/modern-ir-v2.2/README.md#L1",
       "created_at": "2026-10-10T03:34:57.604060+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.2__modern-ir-bench-v2.2-20261010__bge-m3-dense-chunk"
     },
@@ -570,12 +625,12 @@
       "metric_label": "Recall@1",
       "value": 0.17671536,
       "primary": false,
-      "status": "published",
-      "source_commit": "86d41e1c67718164b66e92ecd9959306187d3ebb",
-      "source_module": "benchmarks.modern_ir",
-      "source_path": "benchmarks/modern_ir.py",
-      "source_line": 417,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/86d41e1c67718164b66e92ecd9959306187d3ebb/benchmarks/modern_ir.py#L417",
+      "status": "historical-artifact",
+      "source_commit": "302c256e935283395487b2f9d896878423ab5f5b",
+      "source_module": "results.modern_ir_v2_2",
+      "source_path": "results/modern-ir-v2.2/README.md",
+      "source_line": 1,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/302c256e935283395487b2f9d896878423ab5f5b/results/modern-ir-v2.2/README.md#L1",
       "created_at": "2026-10-10T03:34:57.604060+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.2__modern-ir-bench-v2.2-20261010__bge-m3-dense-chunk"
     },
@@ -589,12 +644,12 @@
       "metric_label": "Recall@5",
       "value": 0.5768224,
       "primary": false,
-      "status": "published",
-      "source_commit": "86d41e1c67718164b66e92ecd9959306187d3ebb",
-      "source_module": "benchmarks.modern_ir",
-      "source_path": "benchmarks/modern_ir.py",
-      "source_line": 417,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/86d41e1c67718164b66e92ecd9959306187d3ebb/benchmarks/modern_ir.py#L417",
+      "status": "historical-artifact",
+      "source_commit": "302c256e935283395487b2f9d896878423ab5f5b",
+      "source_module": "results.modern_ir_v2_2",
+      "source_path": "results/modern-ir-v2.2/README.md",
+      "source_line": 1,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/302c256e935283395487b2f9d896878423ab5f5b/results/modern-ir-v2.2/README.md#L1",
       "created_at": "2026-10-10T03:34:57.604060+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.2__modern-ir-bench-v2.2-20261010__bge-m3-dense-chunk"
     },
@@ -608,12 +663,12 @@
       "metric_label": "Recall@10",
       "value": 0.75090664,
       "primary": false,
-      "status": "published",
-      "source_commit": "86d41e1c67718164b66e92ecd9959306187d3ebb",
-      "source_module": "benchmarks.modern_ir",
-      "source_path": "benchmarks/modern_ir.py",
-      "source_line": 417,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/86d41e1c67718164b66e92ecd9959306187d3ebb/benchmarks/modern_ir.py#L417",
+      "status": "historical-artifact",
+      "source_commit": "302c256e935283395487b2f9d896878423ab5f5b",
+      "source_module": "results.modern_ir_v2_2",
+      "source_path": "results/modern-ir-v2.2/README.md",
+      "source_line": 1,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/302c256e935283395487b2f9d896878423ab5f5b/results/modern-ir-v2.2/README.md#L1",
       "created_at": "2026-10-10T03:34:57.604060+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.2__modern-ir-bench-v2.2-20261010__bge-m3-dense-chunk"
     },
@@ -627,12 +682,12 @@
       "metric_label": "MRR@10",
       "value": 0.89477143,
       "primary": false,
-      "status": "published",
-      "source_commit": "86d41e1c67718164b66e92ecd9959306187d3ebb",
-      "source_module": "benchmarks.modern_ir",
-      "source_path": "benchmarks/modern_ir.py",
-      "source_line": 417,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/86d41e1c67718164b66e92ecd9959306187d3ebb/benchmarks/modern_ir.py#L417",
+      "status": "historical-artifact",
+      "source_commit": "302c256e935283395487b2f9d896878423ab5f5b",
+      "source_module": "results.modern_ir_v2_2",
+      "source_path": "results/modern-ir-v2.2/README.md",
+      "source_line": 1,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/302c256e935283395487b2f9d896878423ab5f5b/results/modern-ir-v2.2/README.md#L1",
       "created_at": "2026-10-10T03:34:57.604060+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.2__modern-ir-bench-v2.2-20261010__bge-m3-dense-chunk"
     },
@@ -646,12 +701,12 @@
       "metric_label": "NDCG@10",
       "value": 0.73097692,
       "primary": true,
-      "status": "published",
-      "source_commit": "86d41e1c67718164b66e92ecd9959306187d3ebb",
-      "source_module": "benchmarks.modern_ir",
-      "source_path": "benchmarks/modern_ir.py",
-      "source_line": 417,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/86d41e1c67718164b66e92ecd9959306187d3ebb/benchmarks/modern_ir.py#L417",
+      "status": "historical-artifact",
+      "source_commit": "302c256e935283395487b2f9d896878423ab5f5b",
+      "source_module": "results.modern_ir_v2_2",
+      "source_path": "results/modern-ir-v2.2/README.md",
+      "source_line": 1,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/302c256e935283395487b2f9d896878423ab5f5b/results/modern-ir-v2.2/README.md#L1",
       "created_at": "2026-10-10T03:34:57.604060+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.2__modern-ir-bench-v2.2-20261010__bge-m3-sparse-chunk"
     },
@@ -665,12 +720,12 @@
       "metric_label": "Recall@1",
       "value": 0.17238291,
       "primary": false,
-      "status": "published",
-      "source_commit": "86d41e1c67718164b66e92ecd9959306187d3ebb",
-      "source_module": "benchmarks.modern_ir",
-      "source_path": "benchmarks/modern_ir.py",
-      "source_line": 417,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/86d41e1c67718164b66e92ecd9959306187d3ebb/benchmarks/modern_ir.py#L417",
+      "status": "historical-artifact",
+      "source_commit": "302c256e935283395487b2f9d896878423ab5f5b",
+      "source_module": "results.modern_ir_v2_2",
+      "source_path": "results/modern-ir-v2.2/README.md",
+      "source_line": 1,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/302c256e935283395487b2f9d896878423ab5f5b/results/modern-ir-v2.2/README.md#L1",
       "created_at": "2026-10-10T03:34:57.604060+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.2__modern-ir-bench-v2.2-20261010__bge-m3-sparse-chunk"
     },
@@ -684,12 +739,12 @@
       "metric_label": "Recall@5",
       "value": 0.5489918,
       "primary": false,
-      "status": "published",
-      "source_commit": "86d41e1c67718164b66e92ecd9959306187d3ebb",
-      "source_module": "benchmarks.modern_ir",
-      "source_path": "benchmarks/modern_ir.py",
-      "source_line": 417,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/86d41e1c67718164b66e92ecd9959306187d3ebb/benchmarks/modern_ir.py#L417",
+      "status": "historical-artifact",
+      "source_commit": "302c256e935283395487b2f9d896878423ab5f5b",
+      "source_module": "results.modern_ir_v2_2",
+      "source_path": "results/modern-ir-v2.2/README.md",
+      "source_line": 1,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/302c256e935283395487b2f9d896878423ab5f5b/results/modern-ir-v2.2/README.md#L1",
       "created_at": "2026-10-10T03:34:57.604060+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.2__modern-ir-bench-v2.2-20261010__bge-m3-sparse-chunk"
     },
@@ -703,12 +758,12 @@
       "metric_label": "Recall@10",
       "value": 0.71225595,
       "primary": false,
-      "status": "published",
-      "source_commit": "86d41e1c67718164b66e92ecd9959306187d3ebb",
-      "source_module": "benchmarks.modern_ir",
-      "source_path": "benchmarks/modern_ir.py",
-      "source_line": 417,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/86d41e1c67718164b66e92ecd9959306187d3ebb/benchmarks/modern_ir.py#L417",
+      "status": "historical-artifact",
+      "source_commit": "302c256e935283395487b2f9d896878423ab5f5b",
+      "source_module": "results.modern_ir_v2_2",
+      "source_path": "results/modern-ir-v2.2/README.md",
+      "source_line": 1,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/302c256e935283395487b2f9d896878423ab5f5b/results/modern-ir-v2.2/README.md#L1",
       "created_at": "2026-10-10T03:34:57.604060+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.2__modern-ir-bench-v2.2-20261010__bge-m3-sparse-chunk"
     },
@@ -722,12 +777,12 @@
       "metric_label": "MRR@10",
       "value": 0.88026905,
       "primary": false,
-      "status": "published",
-      "source_commit": "86d41e1c67718164b66e92ecd9959306187d3ebb",
-      "source_module": "benchmarks.modern_ir",
-      "source_path": "benchmarks/modern_ir.py",
-      "source_line": 417,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/86d41e1c67718164b66e92ecd9959306187d3ebb/benchmarks/modern_ir.py#L417",
+      "status": "historical-artifact",
+      "source_commit": "302c256e935283395487b2f9d896878423ab5f5b",
+      "source_module": "results.modern_ir_v2_2",
+      "source_path": "results/modern-ir-v2.2/README.md",
+      "source_line": 1,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/302c256e935283395487b2f9d896878423ab5f5b/results/modern-ir-v2.2/README.md#L1",
       "created_at": "2026-10-10T03:34:57.604060+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.2__modern-ir-bench-v2.2-20261010__bge-m3-sparse-chunk"
     }
@@ -737,7 +792,7 @@
       "id": "language",
       "label": "Language",
       "category": "query",
-      "description": "The language of the query and its relevant documents.",
+      "description": "Scores for queries grouped by language.",
       "primary_metric": "ndcg@10",
       "task_id": "modern-ir-ranked-retrieval-v2.2",
       "dataset_id": "modern-ir-bench-v2.2-20261010",
@@ -1253,7 +1308,7 @@
       "id": "query_intent",
       "label": "Intent",
       "category": "query",
-      "description": "The practical intent assigned to the query, not the benchmark Task.",
+      "description": "Scores for queries grouped by intent.",
       "primary_metric": "ndcg@10",
       "task_id": "modern-ir-ranked-retrieval-v2.2",
       "dataset_id": "modern-ir-bench-v2.2-20261010",
@@ -2777,7 +2832,7 @@
       "id": "expression",
       "label": "Expression",
       "category": "query",
-      "description": "How the information need is phrased.",
+      "description": "Scores for queries grouped by expression.",
       "primary_metric": "ndcg@10",
       "task_id": "modern-ir-ranked-retrieval-v2.2",
       "dataset_id": "modern-ir-bench-v2.2-20261010",
@@ -3545,7 +3600,7 @@
       "id": "constraint_level",
       "label": "Constraint level",
       "category": "query",
-      "description": "The number and strength of constraints expressed by the query.",
+      "description": "Scores for queries grouped by constraint level.",
       "primary_metric": "ndcg@10",
       "task_id": "modern-ir-ranked-retrieval-v2.2",
       "dataset_id": "modern-ir-bench-v2.2-20261010",
@@ -4313,7 +4368,7 @@
       "id": "relevant_document_language",
       "label": "Language",
       "category": "relevant_documents",
-      "description": "Measures how often relevant documents in this group appear in each Solution's existing Top-10. Other relevant documents are ignored, not relabeled as negatives. Retrieval is not rerun.",
+      "description": "Recall of relevant documents in this group within each existing Top-10; retrieval is not rerun.",
       "primary_metric": "target_recall@10",
       "task_id": "modern-ir-ranked-retrieval-v2.2",
       "dataset_id": "modern-ir-bench-v2.2-20261010",
@@ -4635,7 +4690,7 @@
       "id": "relevant_document_domain",
       "label": "Domain",
       "category": "relevant_documents",
-      "description": "Measures how often relevant documents in this group appear in each Solution's existing Top-10. Other relevant documents are ignored, not relabeled as negatives. Retrieval is not rerun.",
+      "description": "Recall of relevant documents in this group within each existing Top-10; retrieval is not rerun.",
       "primary_metric": "target_recall@10",
       "task_id": "modern-ir-ranked-retrieval-v2.2",
       "dataset_id": "modern-ir-bench-v2.2-20261010",
@@ -9452,7 +9507,7 @@
       "id": "relevant_document_form",
       "label": "Form",
       "category": "relevant_documents",
-      "description": "Measures how often relevant documents in this group appear in each Solution's existing Top-10. Other relevant documents are ignored, not relabeled as negatives. Retrieval is not rerun.",
+      "description": "Recall of relevant documents in this group within each existing Top-10; retrieval is not rerun.",
       "primary_metric": "target_recall@10",
       "task_id": "modern-ir-ranked-retrieval-v2.2",
       "dataset_id": "modern-ir-bench-v2.2-20261010",
@@ -11324,318 +11379,163 @@
       "id": "relevant_document_length",
       "label": "Length",
       "category": "relevant_documents",
-      "description": "Measures how often relevant documents in this group appear in each Solution's existing Top-10. Other relevant documents are ignored, not relabeled as negatives. Retrieval is not rerun.",
+      "description": "Recall of relevant documents in this group within each existing Top-10; retrieval is not rerun.",
       "primary_metric": "target_recall@10",
       "task_id": "modern-ir-ranked-retrieval-v2.2",
       "dataset_id": "modern-ir-bench-v2.2-20261010",
       "dataset_version": "c7a38d6aaa3d",
       "values": [
         {
-          "id": "short",
-          "label": "Short",
-          "count": 463,
-          "target_count": 870,
+          "id": "extended",
+          "label": "Extended",
+          "count": 670,
+          "target_count": 1204,
           "results": [
             {
               "solution_id": "bm25-full",
               "metric_id": "target_recall@10",
               "metric_label": "Target Recall@10",
-              "value": 0.62577394,
+              "value": 0.65882374,
               "primary": true
             },
             {
               "solution_id": "bm25-full",
               "metric_id": "target_recall@1",
               "metric_label": "Target Recall@1",
-              "value": 0.17095547,
+              "value": 0.11969083,
               "primary": false
             },
             {
               "solution_id": "bm25-full",
               "metric_id": "target_recall@5",
               "metric_label": "Target Recall@5",
-              "value": 0.45867788,
+              "value": 0.45610163,
               "primary": false
             },
             {
               "solution_id": "bm25-chunk",
               "metric_id": "target_recall@10",
               "metric_label": "Target Recall@10",
-              "value": 0.65894271,
+              "value": 0.68476546,
               "primary": true
             },
             {
               "solution_id": "bm25-chunk",
               "metric_id": "target_recall@1",
               "metric_label": "Target Recall@1",
-              "value": 0.19408362,
+              "value": 0.14064677,
               "primary": false
             },
             {
               "solution_id": "bm25-chunk",
               "metric_id": "target_recall@5",
               "metric_label": "Target Recall@5",
-              "value": 0.47430063,
+              "value": 0.50921464,
               "primary": false
             },
             {
               "solution_id": "voyage-4-large-full",
               "metric_id": "target_recall@10",
               "metric_label": "Target Recall@10",
-              "value": 0.82867171,
+              "value": 0.76576937,
               "primary": true
             },
             {
               "solution_id": "voyage-4-large-full",
               "metric_id": "target_recall@1",
               "metric_label": "Target Recall@1",
-              "value": 0.20155302,
+              "value": 0.15596127,
               "primary": false
             },
             {
               "solution_id": "voyage-4-large-full",
               "metric_id": "target_recall@5",
               "metric_label": "Target Recall@5",
-              "value": 0.63578885,
+              "value": 0.54550284,
               "primary": false
             },
             {
               "solution_id": "voyage-4-large-chunk",
               "metric_id": "target_recall@10",
               "metric_label": "Target Recall@10",
-              "value": 0.80484161,
+              "value": 0.84925906,
               "primary": true
             },
             {
               "solution_id": "voyage-4-large-chunk",
               "metric_id": "target_recall@1",
               "metric_label": "Target Recall@1",
-              "value": 0.16134424,
+              "value": 0.22837242,
               "primary": false
             },
             {
               "solution_id": "voyage-4-large-chunk",
               "metric_id": "target_recall@5",
               "metric_label": "Target Recall@5",
-              "value": 0.60038825,
+              "value": 0.62439943,
               "primary": false
             },
             {
               "solution_id": "qwen3-embedding-4b-chunk",
               "metric_id": "target_recall@10",
               "metric_label": "Target Recall@10",
-              "value": 0.76445284,
+              "value": 0.80992004,
               "primary": true
             },
             {
               "solution_id": "qwen3-embedding-4b-chunk",
               "metric_id": "target_recall@1",
               "metric_label": "Target Recall@1",
-              "value": 0.16658439,
+              "value": 0.19615849,
               "primary": false
             },
             {
               "solution_id": "qwen3-embedding-4b-chunk",
               "metric_id": "target_recall@5",
               "metric_label": "Target Recall@5",
-              "value": 0.57422349,
+              "value": 0.60719616,
               "primary": false
             },
             {
               "solution_id": "bge-m3-dense-chunk",
               "metric_id": "target_recall@10",
               "metric_label": "Target Recall@10",
-              "value": 0.72362954,
+              "value": 0.73731876,
               "primary": true
             },
             {
               "solution_id": "bge-m3-dense-chunk",
               "metric_id": "target_recall@1",
               "metric_label": "Target Recall@1",
-              "value": 0.17513113,
+              "value": 0.15999112,
               "primary": false
             },
             {
               "solution_id": "bge-m3-dense-chunk",
               "metric_id": "target_recall@5",
               "metric_label": "Target Recall@5",
-              "value": 0.5580865,
+              "value": 0.54213397,
               "primary": false
             },
             {
               "solution_id": "bge-m3-sparse-chunk",
               "metric_id": "target_recall@10",
               "metric_label": "Target Recall@10",
-              "value": 0.58406099,
+              "value": 0.73452914,
               "primary": true
             },
             {
               "solution_id": "bge-m3-sparse-chunk",
               "metric_id": "target_recall@1",
               "metric_label": "Target Recall@1",
-              "value": 0.11033632,
+              "value": 0.18166667,
               "primary": false
             },
             {
               "solution_id": "bge-m3-sparse-chunk",
               "metric_id": "target_recall@5",
               "metric_label": "Target Recall@5",
-              "value": 0.38023758,
-              "primary": false
-            }
-          ]
-        },
-        {
-          "id": "medium",
-          "label": "Medium",
-          "count": 797,
-          "target_count": 2162,
-          "results": [
-            {
-              "solution_id": "bm25-full",
-              "metric_id": "target_recall@10",
-              "metric_label": "Target Recall@10",
-              "value": 0.67317722,
-              "primary": true
-            },
-            {
-              "solution_id": "bm25-full",
-              "metric_id": "target_recall@1",
-              "metric_label": "Target Recall@1",
-              "value": 0.17258822,
-              "primary": false
-            },
-            {
-              "solution_id": "bm25-full",
-              "metric_id": "target_recall@5",
-              "metric_label": "Target Recall@5",
-              "value": 0.50857244,
-              "primary": false
-            },
-            {
-              "solution_id": "bm25-chunk",
-              "metric_id": "target_recall@10",
-              "metric_label": "Target Recall@10",
-              "value": 0.65202555,
-              "primary": true
-            },
-            {
-              "solution_id": "bm25-chunk",
-              "metric_id": "target_recall@1",
-              "metric_label": "Target Recall@1",
-              "value": 0.15018128,
-              "primary": false
-            },
-            {
-              "solution_id": "bm25-chunk",
-              "metric_id": "target_recall@5",
-              "metric_label": "Target Recall@5",
-              "value": 0.48206082,
-              "primary": false
-            },
-            {
-              "solution_id": "voyage-4-large-full",
-              "metric_id": "target_recall@10",
-              "metric_label": "Target Recall@10",
-              "value": 0.85021044,
-              "primary": true
-            },
-            {
-              "solution_id": "voyage-4-large-full",
-              "metric_id": "target_recall@1",
-              "metric_label": "Target Recall@1",
-              "value": 0.1700045,
-              "primary": false
-            },
-            {
-              "solution_id": "voyage-4-large-full",
-              "metric_id": "target_recall@5",
-              "metric_label": "Target Recall@5",
-              "value": 0.66655451,
-              "primary": false
-            },
-            {
-              "solution_id": "voyage-4-large-chunk",
-              "metric_id": "target_recall@10",
-              "metric_label": "Target Recall@10",
-              "value": 0.81460121,
-              "primary": true
-            },
-            {
-              "solution_id": "voyage-4-large-chunk",
-              "metric_id": "target_recall@1",
-              "metric_label": "Target Recall@1",
-              "value": 0.13710534,
-              "primary": false
-            },
-            {
-              "solution_id": "voyage-4-large-chunk",
-              "metric_id": "target_recall@5",
-              "metric_label": "Target Recall@5",
-              "value": 0.61136196,
-              "primary": false
-            },
-            {
-              "solution_id": "qwen3-embedding-4b-chunk",
-              "metric_id": "target_recall@10",
-              "metric_label": "Target Recall@10",
-              "value": 0.72034253,
-              "primary": true
-            },
-            {
-              "solution_id": "qwen3-embedding-4b-chunk",
-              "metric_id": "target_recall@1",
-              "metric_label": "Target Recall@1",
-              "value": 0.11146263,
-              "primary": false
-            },
-            {
-              "solution_id": "qwen3-embedding-4b-chunk",
-              "metric_id": "target_recall@5",
-              "metric_label": "Target Recall@5",
-              "value": 0.52310059,
-              "primary": false
-            },
-            {
-              "solution_id": "bge-m3-dense-chunk",
-              "metric_id": "target_recall@10",
-              "metric_label": "Target Recall@10",
-              "value": 0.68727319,
-              "primary": true
-            },
-            {
-              "solution_id": "bge-m3-dense-chunk",
-              "metric_id": "target_recall@1",
-              "metric_label": "Target Recall@1",
-              "value": 0.1337685,
-              "primary": false
-            },
-            {
-              "solution_id": "bge-m3-dense-chunk",
-              "metric_id": "target_recall@5",
-              "metric_label": "Target Recall@5",
-              "value": 0.50402705,
-              "primary": false
-            },
-            {
-              "solution_id": "bge-m3-sparse-chunk",
-              "metric_id": "target_recall@10",
-              "metric_label": "Target Recall@10",
-              "value": 0.63964813,
-              "primary": true
-            },
-            {
-              "solution_id": "bge-m3-sparse-chunk",
-              "metric_id": "target_recall@1",
-              "metric_label": "Target Recall@1",
-              "value": 0.11958141,
-              "primary": false
-            },
-            {
-              "solution_id": "bge-m3-sparse-chunk",
-              "metric_id": "target_recall@5",
-              "metric_label": "Target Recall@5",
-              "value": 0.46687486,
+              "value": 0.56557569,
               "primary": false
             }
           ]
@@ -11796,156 +11696,311 @@
           ]
         },
         {
-          "id": "extended",
-          "label": "Extended",
-          "count": 670,
-          "target_count": 1204,
+          "id": "medium",
+          "label": "Medium",
+          "count": 797,
+          "target_count": 2162,
           "results": [
             {
               "solution_id": "bm25-full",
               "metric_id": "target_recall@10",
               "metric_label": "Target Recall@10",
-              "value": 0.65882374,
+              "value": 0.67317722,
               "primary": true
             },
             {
               "solution_id": "bm25-full",
               "metric_id": "target_recall@1",
               "metric_label": "Target Recall@1",
-              "value": 0.11969083,
+              "value": 0.17258822,
               "primary": false
             },
             {
               "solution_id": "bm25-full",
               "metric_id": "target_recall@5",
               "metric_label": "Target Recall@5",
-              "value": 0.45610163,
+              "value": 0.50857244,
               "primary": false
             },
             {
               "solution_id": "bm25-chunk",
               "metric_id": "target_recall@10",
               "metric_label": "Target Recall@10",
-              "value": 0.68476546,
+              "value": 0.65202555,
               "primary": true
             },
             {
               "solution_id": "bm25-chunk",
               "metric_id": "target_recall@1",
               "metric_label": "Target Recall@1",
-              "value": 0.14064677,
+              "value": 0.15018128,
               "primary": false
             },
             {
               "solution_id": "bm25-chunk",
               "metric_id": "target_recall@5",
               "metric_label": "Target Recall@5",
-              "value": 0.50921464,
+              "value": 0.48206082,
               "primary": false
             },
             {
               "solution_id": "voyage-4-large-full",
               "metric_id": "target_recall@10",
               "metric_label": "Target Recall@10",
-              "value": 0.76576937,
+              "value": 0.85021044,
               "primary": true
             },
             {
               "solution_id": "voyage-4-large-full",
               "metric_id": "target_recall@1",
               "metric_label": "Target Recall@1",
-              "value": 0.15596127,
+              "value": 0.1700045,
               "primary": false
             },
             {
               "solution_id": "voyage-4-large-full",
               "metric_id": "target_recall@5",
               "metric_label": "Target Recall@5",
-              "value": 0.54550284,
+              "value": 0.66655451,
               "primary": false
             },
             {
               "solution_id": "voyage-4-large-chunk",
               "metric_id": "target_recall@10",
               "metric_label": "Target Recall@10",
-              "value": 0.84925906,
+              "value": 0.81460121,
               "primary": true
             },
             {
               "solution_id": "voyage-4-large-chunk",
               "metric_id": "target_recall@1",
               "metric_label": "Target Recall@1",
-              "value": 0.22837242,
+              "value": 0.13710534,
               "primary": false
             },
             {
               "solution_id": "voyage-4-large-chunk",
               "metric_id": "target_recall@5",
               "metric_label": "Target Recall@5",
-              "value": 0.62439943,
+              "value": 0.61136196,
               "primary": false
             },
             {
               "solution_id": "qwen3-embedding-4b-chunk",
               "metric_id": "target_recall@10",
               "metric_label": "Target Recall@10",
-              "value": 0.80992004,
+              "value": 0.72034253,
               "primary": true
             },
             {
               "solution_id": "qwen3-embedding-4b-chunk",
               "metric_id": "target_recall@1",
               "metric_label": "Target Recall@1",
-              "value": 0.19615849,
+              "value": 0.11146263,
               "primary": false
             },
             {
               "solution_id": "qwen3-embedding-4b-chunk",
               "metric_id": "target_recall@5",
               "metric_label": "Target Recall@5",
-              "value": 0.60719616,
+              "value": 0.52310059,
               "primary": false
             },
             {
               "solution_id": "bge-m3-dense-chunk",
               "metric_id": "target_recall@10",
               "metric_label": "Target Recall@10",
-              "value": 0.73731876,
+              "value": 0.68727319,
               "primary": true
             },
             {
               "solution_id": "bge-m3-dense-chunk",
               "metric_id": "target_recall@1",
               "metric_label": "Target Recall@1",
-              "value": 0.15999112,
+              "value": 0.1337685,
               "primary": false
             },
             {
               "solution_id": "bge-m3-dense-chunk",
               "metric_id": "target_recall@5",
               "metric_label": "Target Recall@5",
-              "value": 0.54213397,
+              "value": 0.50402705,
               "primary": false
             },
             {
               "solution_id": "bge-m3-sparse-chunk",
               "metric_id": "target_recall@10",
               "metric_label": "Target Recall@10",
-              "value": 0.73452914,
+              "value": 0.63964813,
               "primary": true
             },
             {
               "solution_id": "bge-m3-sparse-chunk",
               "metric_id": "target_recall@1",
               "metric_label": "Target Recall@1",
-              "value": 0.18166667,
+              "value": 0.11958141,
               "primary": false
             },
             {
               "solution_id": "bge-m3-sparse-chunk",
               "metric_id": "target_recall@5",
               "metric_label": "Target Recall@5",
-              "value": 0.56557569,
+              "value": 0.46687486,
+              "primary": false
+            }
+          ]
+        },
+        {
+          "id": "short",
+          "label": "Short",
+          "count": 463,
+          "target_count": 870,
+          "results": [
+            {
+              "solution_id": "bm25-full",
+              "metric_id": "target_recall@10",
+              "metric_label": "Target Recall@10",
+              "value": 0.62577394,
+              "primary": true
+            },
+            {
+              "solution_id": "bm25-full",
+              "metric_id": "target_recall@1",
+              "metric_label": "Target Recall@1",
+              "value": 0.17095547,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-full",
+              "metric_id": "target_recall@5",
+              "metric_label": "Target Recall@5",
+              "value": 0.45867788,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-chunk",
+              "metric_id": "target_recall@10",
+              "metric_label": "Target Recall@10",
+              "value": 0.65894271,
+              "primary": true
+            },
+            {
+              "solution_id": "bm25-chunk",
+              "metric_id": "target_recall@1",
+              "metric_label": "Target Recall@1",
+              "value": 0.19408362,
+              "primary": false
+            },
+            {
+              "solution_id": "bm25-chunk",
+              "metric_id": "target_recall@5",
+              "metric_label": "Target Recall@5",
+              "value": 0.47430063,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-full",
+              "metric_id": "target_recall@10",
+              "metric_label": "Target Recall@10",
+              "value": 0.82867171,
+              "primary": true
+            },
+            {
+              "solution_id": "voyage-4-large-full",
+              "metric_id": "target_recall@1",
+              "metric_label": "Target Recall@1",
+              "value": 0.20155302,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-full",
+              "metric_id": "target_recall@5",
+              "metric_label": "Target Recall@5",
+              "value": 0.63578885,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-chunk",
+              "metric_id": "target_recall@10",
+              "metric_label": "Target Recall@10",
+              "value": 0.80484161,
+              "primary": true
+            },
+            {
+              "solution_id": "voyage-4-large-chunk",
+              "metric_id": "target_recall@1",
+              "metric_label": "Target Recall@1",
+              "value": 0.16134424,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-4-large-chunk",
+              "metric_id": "target_recall@5",
+              "metric_label": "Target Recall@5",
+              "value": 0.60038825,
+              "primary": false
+            },
+            {
+              "solution_id": "qwen3-embedding-4b-chunk",
+              "metric_id": "target_recall@10",
+              "metric_label": "Target Recall@10",
+              "value": 0.76445284,
+              "primary": true
+            },
+            {
+              "solution_id": "qwen3-embedding-4b-chunk",
+              "metric_id": "target_recall@1",
+              "metric_label": "Target Recall@1",
+              "value": 0.16658439,
+              "primary": false
+            },
+            {
+              "solution_id": "qwen3-embedding-4b-chunk",
+              "metric_id": "target_recall@5",
+              "metric_label": "Target Recall@5",
+              "value": 0.57422349,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-dense-chunk",
+              "metric_id": "target_recall@10",
+              "metric_label": "Target Recall@10",
+              "value": 0.72362954,
+              "primary": true
+            },
+            {
+              "solution_id": "bge-m3-dense-chunk",
+              "metric_id": "target_recall@1",
+              "metric_label": "Target Recall@1",
+              "value": 0.17513113,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-dense-chunk",
+              "metric_id": "target_recall@5",
+              "metric_label": "Target Recall@5",
+              "value": 0.5580865,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-sparse-chunk",
+              "metric_id": "target_recall@10",
+              "metric_label": "Target Recall@10",
+              "value": 0.58406099,
+              "primary": true
+            },
+            {
+              "solution_id": "bge-m3-sparse-chunk",
+              "metric_id": "target_recall@1",
+              "metric_label": "Target Recall@1",
+              "value": 0.11033632,
+              "primary": false
+            },
+            {
+              "solution_id": "bge-m3-sparse-chunk",
+              "metric_id": "target_recall@5",
+              "metric_label": "Target Recall@5",
+              "value": 0.38023758,
               "primary": false
             }
           ]

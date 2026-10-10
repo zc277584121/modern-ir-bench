@@ -7,7 +7,7 @@ from collections.abc import Iterable, Mapping
 from pathlib import Path
 from typing import Any
 
-from datasets import Dataset, DatasetDict, load_dataset
+from datasets import Dataset, DatasetDict, Features, Value, load_dataset
 
 from modern_ir_bench.tasks import RankedRetrieval
 
@@ -60,9 +60,7 @@ def _adapt_ranked_retrieval_rows(
     queries = list(queries)
     qrels = list(qrels)
     if language is not None:
-        documents = [
-            row for row in documents if str(row["dimensions"]["language"]) == language
-        ]
+        documents = [row for row in documents if str(row["dimensions"]["language"]) == language]
         queries = [row for row in queries if str(row["language"]) == language]
         query_ids = {str(row["query_id"]) for row in queries}
         qrels = [row for row in qrels if str(row["query_id"]) in query_ids]
@@ -73,15 +71,27 @@ def _adapt_ranked_retrieval_rows(
             {
                 "document_id": [row["doc_id"] for row in documents],
                 "content": [f"{row['title']}\n\n{row['text']}" for row in documents],
+                "language": [str(row["dimensions"]["language"]) for row in documents],
             },
-            features=RankedRetrieval.dataset_features["documents"],
+            features=Features(
+                {
+                    **RankedRetrieval.dataset_features["documents"],
+                    "language": Value("string"),
+                }
+            ),
         ),
         queries=Dataset.from_dict(
             {
                 "query_id": [row["query_id"] for row in queries],
                 "query": [row["text"] for row in queries],
+                "language": [str(row["language"]) for row in queries],
             },
-            features=RankedRetrieval.dataset_features["queries"],
+            features=Features(
+                {
+                    **RankedRetrieval.dataset_features["queries"],
+                    "language": Value("string"),
+                }
+            ),
         ),
         qrels=Dataset.from_dict(
             {

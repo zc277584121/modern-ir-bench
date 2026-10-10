@@ -44,13 +44,24 @@ function datasetLabel(datasetId) {
 function solutionCodeLink(solution, fallbackRecord) {
   const url = solution.code_url || fallbackRecord?.source_url;
   if (!url) return "";
-  return `<a class="solution-code-link" href="${escapeHtml(url)}" target="_blank" rel="noreferrer" aria-label="Open code for ${escapeHtml(solution.title)}" title="Open the code for this Solution">
+  return `<a class="solution-code-link" href="${escapeHtml(url)}" target="_blank" rel="noreferrer" aria-label="Open maintained code for ${escapeHtml(solution.title)}" title="Open maintained Solution code">
     <svg aria-hidden="true" viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
       <path d="M9.5 2.5h4v4" />
       <path d="m7 9 6.5-6.5" />
       <path d="M13 9.5v3a1 1 0 0 1-1 1H3.5a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h3" />
     </svg>
   </a>`;
+}
+
+function solutionResources(solution) {
+  const links = [];
+  if (solution.readme_url) {
+    links.push(`<a href="${escapeHtml(solution.readme_url)}" target="_blank" rel="noreferrer">Method notes ↗</a>`);
+  }
+  if (solution.result_url) {
+    links.push(`<a href="${escapeHtml(solution.result_url)}" target="_blank" rel="noreferrer">Result evidence ↗</a>`);
+  }
+  return links.join(" · ");
 }
 
 function solutionName(solution, record) {
@@ -371,6 +382,8 @@ function renderSolution() {
       <div>
         <div class="solution-heading"><h2>${escapeHtml(solution.title)}</h2>${solutionCodeLink(solution, sourceRecord)}</div>
         <p>${escapeHtml(solution.description)}</p>
+        ${solution.tags?.length ? `<div class="meta-list">${solution.tags.map((tag) => `<span class="meta-chip">${escapeHtml(tag)}</span>`).join("")}</div>` : ""}
+        ${solutionResources(solution) ? `<p class="solution-resources">${solutionResources(solution)}</p>` : ""}
       </div>
     </div>`;
   document.querySelector("#solution-table").innerHTML = renderTable(
@@ -510,6 +523,9 @@ function renderSummary() {
   document.querySelector("#summary").innerHTML = items
     .map((item) => `<span class="summary-item">${escapeHtml(item)}</span>`)
     .join("");
+  const releaseNotice = document.querySelector("#release-notice");
+  releaseNotice.hidden = !state.payload.benchmark.notice;
+  releaseNotice.textContent = state.payload.benchmark.notice || "";
 }
 
 async function main() {

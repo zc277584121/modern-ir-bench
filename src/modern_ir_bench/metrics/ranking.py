@@ -97,15 +97,10 @@ class NDCG(RankingMetric):
         values = []
         for row in observations:
             if "expected_relevance" in observations.column_names:
-                relevance = dict(
-                    zip(row["expected_ids"], row["expected_relevance"], strict=True)
-                )
+                relevance = dict(zip(row["expected_ids"], row["expected_relevance"], strict=True))
             else:
                 relevance = dict.fromkeys(row["expected_ids"], 1)
-            gains = [
-                2 ** relevance.get(item_id, 0) - 1
-                for item_id in row["ranked_ids"][: self.k]
-            ]
+            gains = [2 ** relevance.get(item_id, 0) - 1 for item_id in row["ranked_ids"][: self.k]]
             dcg = sum(gain / math.log2(rank + 1) for rank, gain in enumerate(gains, start=1))
             ideal_gains = sorted((2**value - 1 for value in relevance.values()), reverse=True)[: self.k]
             ideal = sum(gain / math.log2(rank + 1) for rank, gain in enumerate(ideal_gains, start=1))

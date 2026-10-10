@@ -18,3 +18,6 @@ class Solution:
             raise ValueError("Solution id must be a non-empty string without whitespace")
         if not self.title:
             raise ValueError("Solution title must be non-empty")
+
+    def release(self) -> None:
+        """Release model-level resources after all Dataset evaluations finish."""

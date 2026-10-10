@@ -14,12 +14,14 @@ short_description: Code-native benchmark for modern IR solutions
 
 Public, read-only benchmark explorer for the reviewed Modern IR Ranked Retrieval v2.2
 release. The benchmark currently contains 5,000 bilingual synthetic documents, 1,000
-queries, 34,756 binary Qrels including 6,575 relevant pairs, and seven retrieval Solutions.
+queries, 6,575 positive binary Qrels, and seven retrieval Solutions.
 
 v2.2 is a schema-only migration that renames the Query field `task` to `query_intent`.
 The benchmark content, Qrels, rankings, and scores are unchanged from v2.1.
 
-Every displayed measurement links to the immutable Git commit and executable Python module that produced it.
+The current leaderboard is recomputed from a reviewed historical Top-10 ranking
+artifact. The original run was not tied to a public Git commit, so result evidence and
+maintained executable Solution definitions are linked separately.
 
 - [Benchmark code and result evidence](https://github.com/zc277584121/modern-ir-bench)
 - [Public Dataset](https://huggingface.co/datasets/zc277584121/modern-ir-bench)

@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from benchmarks.modern_ir import _target_recall
+from benchmarks.modern_ir_breakdowns import _target_recall
 
 
 def test_target_recall_only_scores_relevant_documents_in_the_selected_group() -> None:

@@ -7,6 +7,7 @@ from modern_ir_bench.retrieval.indexes import NumpyFlatIndex, VerifiedDenseIndex
 from modern_ir_bench.retrieval.indexes.milvus import (
     MilvusDenseIndex,
     MilvusLite,
+    MilvusSparseIndex,
     ZillizCloud,
 )
 
@@ -60,12 +61,27 @@ def test_targets_reject_index_settings_the_deployment_will_not_honor(tmp_path) -
             target=MilvusLite(tmp_path / "milvus.db"),
             index_type="HNSW",
         )
-
     with pytest.raises(ValueError, match="Zilliz Cloud uses AUTOINDEX"):
         MilvusDenseIndex(
             target=ZillizCloud(uri="https://example.invalid", token="secret"),
             index_type="FLAT",
         )
+
+
+def test_milvus_lite_learned_sparse_search(tmp_path) -> None:
+    session = MilvusSparseIndex(target=MilvusLite(tmp_path / "sparse.db")).open()
+    try:
+        session.add(
+            ["apple", "ocean"],
+            [{1: 1.0, 2: 0.5}, {3: 1.0}],
+        )
+        session.seal()
+
+        results = session.search([{1: 1.0}], top_k=2)
+
+        assert [hit.id for hit in results[0]] == ["apple"]
+    finally:
+        session.close()
 
 
 def test_verified_index_rejects_invalid_recall_threshold() -> None:
