@@ -1,4 +1,4 @@
-const colors = [
+const baseColors = [
   "var(--series-1)",
   "var(--series-2)",
   "var(--series-3)",
@@ -10,6 +10,7 @@ export function createProfileController({
   solutions,
   getBreakdowns,
   getOverallRecords,
+  getDefaultBreakdownId,
   categoryLabel,
   escapeHtml,
   formatScore,
@@ -17,6 +18,14 @@ export function createProfileController({
 }) {
   let selectedSolutionIds = new Set();
   let resizeTimer;
+
+  function solutionColor(solutionId) {
+    const index = Math.max(
+      0,
+      getOverallRecords().findIndex((record) => record.solution_id === solutionId),
+    );
+    return baseColors[index] || `hsl(${Math.round((index * 137.508) % 360)} 68% 42%)`;
+  }
 
   function metricRecord(value, solutionId, metricId) {
     return value.results.find(
@@ -84,9 +93,9 @@ export function createProfileController({
       })
       .join("");
     const series = solutionIds
-      .map((solutionId, solutionIndex) => {
+      .map((solutionId) => {
         const solution = solutions.get(solutionId);
-        const color = colors[solutionIndex];
+        const color = solutionColor(solutionId);
         const scoredPoints = values.map((value, valueIndex) => {
           const score = metricRecord(value, solutionId, metricId)?.value ?? 0;
           return {
@@ -142,7 +151,7 @@ export function createProfileController({
             const x =
               groupCenter + (solutionIndex - (solutionIds.length - 1) / 2) * barWidth;
             const y = plotBottom - barHeight;
-            return `<rect x="${(x - barWidth * 0.42).toFixed(1)}" y="${y.toFixed(1)}" width="${(barWidth * 0.84).toFixed(1)}" height="${barHeight.toFixed(1)}" fill="${colors[solutionIndex]}"><title>${escapeHtml(solution.title)} · ${escapeHtml(value.label)} · ${formatScore(score)}</title></rect>
+            return `<rect x="${(x - barWidth * 0.42).toFixed(1)}" y="${y.toFixed(1)}" width="${(barWidth * 0.84).toFixed(1)}" height="${barHeight.toFixed(1)}" fill="${solutionColor(solutionId)}"><title>${escapeHtml(solution.title)} · ${escapeHtml(value.label)} · ${formatScore(score)}</title></rect>
               <text class="chart-bar-value" x="${x.toFixed(1)}" y="${Math.max(plotTop + 10, y - 6).toFixed(1)}">${formatScore(score)}</text>`;
           })
           .join("");
@@ -159,13 +168,12 @@ export function createProfileController({
   function renderSolutionOptions() {
     const records = getOverallRecords();
     const container = document.querySelector("#profile-solution-options");
-    const atLimit = selectedSolutionIds.size >= colors.length;
     container.innerHTML = records
       .map((record) => {
         const solution = solutions.get(record.solution_id);
         const checked = selectedSolutionIds.has(record.solution_id);
         return `<label class="solution-option">
-          <input type="checkbox" data-profile-solution="${escapeHtml(record.solution_id)}"${checked ? " checked" : ""}${atLimit && !checked ? " disabled" : ""} />
+          <input type="checkbox" data-profile-solution="${escapeHtml(record.solution_id)}"${checked ? " checked" : ""} />
           <span>${escapeHtml(solution.title)}</span>
         </label>`;
       })
@@ -177,10 +185,6 @@ export function createProfileController({
       input.addEventListener("change", () => {
         const solutionId = input.dataset.profileSolution;
         if (input.checked) {
-          if (selectedSolutionIds.size >= colors.length) {
-            input.checked = false;
-            return;
-          }
           selectedSolutionIds.add(solutionId);
         } else if (selectedSolutionIds.size === 1) {
           input.checked = true;
@@ -241,9 +245,9 @@ export function createProfileController({
         : renderBars(values, solutionOrder, breakdown.primary_metric, metricLabel);
     }
     document.querySelector("#profile-legend").innerHTML = solutionOrder
-      .map((solutionId, index) => {
+      .map((solutionId) => {
         const solution = solutions.get(solutionId);
-        return `<span class="profile-legend-item"><span class="profile-legend-swatch" style="background:${colors[index]}"></span>${escapeHtml(solution.title)}</span>`;
+        return `<span class="profile-legend-item"><span class="profile-legend-swatch" style="background:${solutionColor(solutionId)}"></span>${escapeHtml(solution.title)}</span>`;
       })
       .join("");
   }
@@ -265,7 +269,9 @@ export function createProfileController({
         ),
       );
     });
-    const preferred = breakdowns.find((breakdown) => breakdown.id === "query_intent");
+    const preferred = breakdowns.find(
+      (breakdown) => breakdown.id === getDefaultBreakdownId(),
+    );
     selector.value = breakdowns.some((breakdown) => breakdown.id === previous)
       ? previous
       : (preferred?.id ?? breakdowns[0].id);

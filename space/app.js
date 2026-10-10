@@ -1,4 +1,4 @@
-import { createProfileController } from "./profile.js?v=1";
+import { createProfileController } from "./profile.js?v=2";
 
 const state = {
   payload: null,
@@ -8,6 +8,21 @@ const state = {
   solutionSort: { key: "task", direction: "asc" },
   profile: null,
 };
+
+const breakdownDisplayByTask = new Map([
+  [
+    "modern-ir-ranked-retrieval-v2.1",
+    {
+      ids: new Set([
+        "language",
+        "relevant_document_domain",
+        "relevant_document_form",
+        "relevant_document_length",
+      ]),
+      defaultProfile: "relevant_document_domain",
+    },
+  ],
+]);
 
 const escapeHtml = (value) =>
   String(value)
@@ -100,11 +115,14 @@ function taskDatasets(taskId) {
 }
 
 function applicableBreakdowns(taskId, datasetId, datasetVersion) {
+  const display = breakdownDisplayByTask.get(taskId);
+  if (!display) return [];
   return (state.payload.breakdowns || []).filter(
     (breakdown) =>
       breakdown.task_id === taskId &&
       breakdown.dataset_id === datasetId &&
-      breakdown.dataset_version === datasetVersion,
+      breakdown.dataset_version === datasetVersion &&
+      display.ids.has(breakdown.id),
   );
 }
 
@@ -508,6 +526,8 @@ async function main() {
       return applicableBreakdowns(taskId, datasetId, datasetVersion);
     },
     getOverallRecords: currentOverallPrimaryRecords,
+    getDefaultBreakdownId: () =>
+      breakdownDisplayByTask.get(currentTaskDataset().taskId)?.defaultProfile,
     categoryLabel: breakdownCategoryLabel,
     escapeHtml,
     formatScore,
