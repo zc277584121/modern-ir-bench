@@ -8,7 +8,7 @@
       content="Code-native evaluation for modern information retrieval solutions"
     />
     <title>Modern IR Bench</title>
-    <link rel="stylesheet" href="styles.css?v=9" />
+    <link rel="stylesheet" href="styles.css?v=10" />
   </head>
   <body>
     <main class="page-shell">
@@ -46,11 +46,11 @@
         </div>
         <div class="controls two-columns breakdown-controls">
           <div class="control">
-            <label for="breakdown-selector">Breakdown</label>
+            <label for="breakdown-selector">Analyze by</label>
             <select id="breakdown-selector"></select>
           </div>
           <div id="breakdown-value-control" class="control" hidden>
-            <label for="breakdown-value-selector">Group</label>
+            <label id="breakdown-value-label" for="breakdown-value-selector">Value</label>
             <select id="breakdown-value-selector"></select>
           </div>
         </div>
@@ -110,12 +110,17 @@ uv run python -m benchmarks.modern_ir_v2_1</code></pre>
 
         <h2>Result model</h2>
         <p>
+          A Task defines the evaluation protocol and its metrics. A Dataset is a
+          versioned data release adapted to that protocol. One Task can use multiple
+          Datasets, and the same source data can be adapted for different Tasks.
+        </p>
+        <p>
           The underlying dimensions are Solution × Task × Dataset × Metric × Version.
           Dataset releases are immutable. New tasks and datasets can use different metrics
           without forcing an artificial overall score.
         </p>
       </section>
     </main>
-    <script src="app.js?v=9" type="module"></script>
+    <script src="app.js?v=10" type="module"></script>
   </body>
 </html>

@@ -99,6 +99,28 @@ h1 {
   color: var(--text);
 }
 
+.solution-detail-link {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 700;
+  text-align: left;
+}
+
+.solution-detail-link:hover {
+  text-decoration: underline;
+}
+
+.solution-detail-link:focus-visible {
+  border-radius: 2px;
+  outline: 2px solid var(--blue);
+  outline-offset: 2px;
+}
+
 .solution-heading h2 {
   margin: 0;
 }

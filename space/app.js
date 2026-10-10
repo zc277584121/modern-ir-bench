@@ -35,7 +35,7 @@ function solutionCodeLink(solution, fallbackRecord) {
 }
 
 function solutionName(solution, record) {
-  return `<span class="solution-name"><strong title="${escapeHtml(solution.description)}">${escapeHtml(solution.title)}</strong>${solutionCodeLink(solution, record)}</span>`;
+  return `<span class="solution-name"><button class="solution-detail-link" type="button" data-solution-id="${escapeHtml(solution.id)}" title="${escapeHtml(solution.description)}" aria-label="View results for ${escapeHtml(solution.title)}">${escapeHtml(solution.title)}</button>${solutionCodeLink(solution, record)}</span>`;
 }
 
 function renderTable(headers, rows, tableName, sortState) {
@@ -114,18 +114,12 @@ function populateBreakdownSelector() {
   selector.replaceChildren(new Option("Overall", ""));
   const categoryLabels = new Map([
     ["query", "Query"],
-    ["relevant_documents", "Relevant documents"],
+    ["relevant_documents", "Relevant docs"],
   ]);
-  const groups = new Map();
   applicableBreakdowns(taskId, datasetId, datasetVersion).forEach((breakdown) => {
     const category = breakdown.category || "query";
-    if (!groups.has(category)) {
-      const group = document.createElement("optgroup");
-      group.label = categoryLabels.get(category) || category;
-      groups.set(category, group);
-      selector.append(group);
-    }
-    groups.get(category).append(new Option(breakdown.label, breakdown.id));
+    const prefix = categoryLabels.get(category) || category;
+    selector.add(new Option(`${prefix} · ${breakdown.label}`, breakdown.id));
   });
   populateBreakdownValueSelector();
 }
@@ -146,14 +140,13 @@ function populateBreakdownValueSelector() {
   const breakdown = selectedBreakdown();
   const control = document.querySelector("#breakdown-value-control");
   const selector = document.querySelector("#breakdown-value-selector");
+  const label = document.querySelector("#breakdown-value-label");
   selector.replaceChildren();
   control.hidden = !breakdown;
   if (!breakdown) return;
+  label.textContent = breakdown.label;
   breakdown.values.forEach((value) => {
-    const sample = value.target_count
-      ? `${formatInteger(value.count)} queries, ${formatInteger(value.target_count)} relevant pairs`
-      : `${formatInteger(value.count)} queries`;
-    selector.add(new Option(`${value.label} (${sample})`, value.id));
+    selector.add(new Option(value.label, value.id));
   });
 }
 
@@ -212,10 +205,21 @@ function renderTask() {
     );
     return comparison || left.localeCompare(right);
   });
+  const primaryRanks = new Map(
+    [...grouped.keys()]
+      .sort((left, right) => {
+        const leftValue =
+          grouped.get(left).get(primaryMetric)?.value ?? Number.NEGATIVE_INFINITY;
+        const rightValue =
+          grouped.get(right).get(primaryMetric)?.value ?? Number.NEGATIVE_INFINITY;
+        return rightValue - leftValue || left.localeCompare(right);
+      })
+      .map((solutionId, index) => [solutionId, index + 1]),
+  );
   const rows = matching.map((solutionId) => {
     const solution = state.solutions.get(solutionId);
     const records = grouped.get(solutionId);
-    const rank = matching.indexOf(solutionId) + 1;
+    const rank = primaryRanks.get(solutionId);
     const metricCells = metricOrder.map((metricId) => {
       const record = records.get(metricId);
       if (!record) return '<span class="muted">—</span>';
@@ -239,7 +243,7 @@ function renderTask() {
     <div class="meta-list">
       <span class="meta-chip">Primary metric: ${escapeHtml(labels.get(primaryMetric))}</span>
       <span class="meta-chip">${escapeHtml(datasetLabel(datasetId))}</span>
-      ${breakdownValue ? `<span class="meta-chip">${escapeHtml(breakdown.category === "relevant_documents" ? "Relevant docs" : "Query")} · ${escapeHtml(breakdown.label)}: ${escapeHtml(breakdownValue.label)} · ${formatInteger(breakdownValue.count)} queries${breakdownValue.target_count ? ` · ${formatInteger(breakdownValue.target_count)} relevant pairs` : ""}</span>` : '<span class="meta-chip">All queries</span>'}
+      ${breakdownValue ? `<span class="meta-chip">${escapeHtml(breakdown.category === "relevant_documents" ? "Relevant docs" : "Query")} · ${escapeHtml(breakdown.label)}: ${escapeHtml(breakdownValue.label)} · ${formatInteger(breakdownValue.count)} queries${breakdownValue.target_count ? ` · ${formatInteger(breakdownValue.target_count)} relevant pairs` : ""}</span>` : ""}
     </div>`;
   const breakdownNote = document.querySelector("#breakdown-note");
   breakdownNote.hidden = !breakdownValue;
@@ -260,6 +264,22 @@ function renderTask() {
     toggleSort(state.taskSort, key, metricOrder.includes(key));
     renderTask();
   });
+  installSolutionDetailLinks("#task-table");
+}
+
+function rankForResult(record) {
+  const peers = primaryRecords()
+    .filter(
+      (item) =>
+        item.task_id === record.task_id &&
+        item.dataset_id === record.dataset_id &&
+        item.dataset_version === record.dataset_version,
+    )
+    .sort(
+      (left, right) =>
+        right.value - left.value || left.solution_id.localeCompare(right.solution_id),
+    );
+  return peers.findIndex((item) => item.solution_id === record.solution_id) + 1;
 }
 
 function renderSolution() {
@@ -272,12 +292,7 @@ function renderSolution() {
         if (state.solutionSort.key === "task") return state.tasks.get(record.task_id).title;
         if (state.solutionSort.key === "metric") return record.metric_label;
         if (state.solutionSort.key === "score") return record.value;
-        if (state.solutionSort.key === "rank") {
-          const peers = primaryRecords()
-            .filter((item) => item.task_id === record.task_id)
-            .sort((a, b) => b.value - a.value);
-          return peers.findIndex((item) => item.solution_id === solutionId) + 1;
-        }
+        if (state.solutionSort.key === "rank") return rankForResult(record);
         return `${record.dataset_id} ${record.dataset_version}`;
       };
       return compareValues(value(left), value(right), state.solutionSort.direction);
@@ -291,9 +306,9 @@ function renderSolution() {
           item.dataset_version === record.dataset_version,
       )
       .sort((left, right) => right.value - left.value);
-    const rank = peers.findIndex((item) => item.solution_id === solutionId) + 1;
+    const rank = rankForResult(record);
     return [
-      `<strong>${escapeHtml(state.tasks.get(record.task_id).title)}</strong><br><span class="muted">${escapeHtml(record.task_id)}</span>`,
+      `<strong>${escapeHtml(state.tasks.get(record.task_id).title)}</strong>`,
       escapeHtml(record.metric_label),
       `<span class="score primary">${formatScore(record.value)}</span>`,
       `<span class="rank">${rank} / ${peers.length}</span>`,
@@ -362,17 +377,35 @@ function renderCoverage() {
     ],
     rows,
   );
+  installSolutionDetailLinks("#coverage-table");
+}
+
+function activatePanel(panelId) {
+  document.querySelectorAll(".tab").forEach((tab) => {
+    tab.classList.toggle("active", tab.dataset.panel === panelId);
+  });
+  document.querySelectorAll(".panel").forEach((panel) => {
+    panel.classList.toggle("active", panel.id === panelId);
+  });
 }
 
 function installTabs() {
   document.querySelectorAll(".tab").forEach((button) => {
-    button.addEventListener("click", () => {
-      document.querySelectorAll(".tab").forEach((tab) => tab.classList.remove("active"));
-      document.querySelectorAll(".panel").forEach((panel) => panel.classList.remove("active"));
-      button.classList.add("active");
-      document.querySelector(`#${button.dataset.panel}`).classList.add("active");
-    });
+    button.addEventListener("click", () => activatePanel(button.dataset.panel));
   });
+}
+
+function installSolutionDetailLinks(containerSelector) {
+  document
+    .querySelector(containerSelector)
+    .querySelectorAll(".solution-detail-link")
+    .forEach((button) => {
+      button.addEventListener("click", () => {
+        document.querySelector("#solution-selector").value = button.dataset.solutionId;
+        renderSolution();
+        activatePanel("solution-panel");
+      });
+    });
 }
 
 function installControls() {
