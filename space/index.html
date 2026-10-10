@@ -8,7 +8,7 @@
       content="Code-native evaluation for modern information retrieval solutions"
     />
     <title>Modern IR Bench</title>
-    <link rel="stylesheet" href="styles.css?v=8" />
+    <link rel="stylesheet" href="styles.css?v=9" />
   </head>
   <body>
     <main class="page-shell">
@@ -85,6 +85,11 @@
           binary relevance judgments. Higher scores are better. The leaderboard reports
           retrieval quality only; it does not compare latency or throughput.
         </p>
+        <p>
+          Query breakdowns regroup the existing per-query metrics. Relevant-document
+          breakdowns report Target Recall over documents in the selected group, using the
+          already published Top-10 rankings without rerunning retrieval.
+        </p>
 
         <h2>Reproduction</h2>
         <p>
@@ -111,6 +116,6 @@ uv run python -m benchmarks.modern_ir_v2_1</code></pre>
         </p>
       </section>
     </main>
-    <script src="app.js?v=8" type="module"></script>
+    <script src="app.js?v=9" type="module"></script>
   </body>
 </html>

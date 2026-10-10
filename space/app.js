@@ -112,9 +112,21 @@ function populateBreakdownSelector() {
     .value.split("|");
   const selector = document.querySelector("#breakdown-selector");
   selector.replaceChildren(new Option("Overall", ""));
-  applicableBreakdowns(taskId, datasetId, datasetVersion).forEach((breakdown) =>
-    selector.add(new Option(breakdown.label, breakdown.id)),
-  );
+  const categoryLabels = new Map([
+    ["query", "Query"],
+    ["relevant_documents", "Relevant documents"],
+  ]);
+  const groups = new Map();
+  applicableBreakdowns(taskId, datasetId, datasetVersion).forEach((breakdown) => {
+    const category = breakdown.category || "query";
+    if (!groups.has(category)) {
+      const group = document.createElement("optgroup");
+      group.label = categoryLabels.get(category) || category;
+      groups.set(category, group);
+      selector.append(group);
+    }
+    groups.get(category).append(new Option(breakdown.label, breakdown.id));
+  });
   populateBreakdownValueSelector();
 }
 
@@ -137,9 +149,12 @@ function populateBreakdownValueSelector() {
   selector.replaceChildren();
   control.hidden = !breakdown;
   if (!breakdown) return;
-  breakdown.values.forEach((value) =>
-    selector.add(new Option(`${value.label} (${formatInteger(value.count)})`, value.id)),
-  );
+  breakdown.values.forEach((value) => {
+    const sample = value.target_count
+      ? `${formatInteger(value.count)} queries, ${formatInteger(value.target_count)} relevant pairs`
+      : `${formatInteger(value.count)} queries`;
+    selector.add(new Option(`${value.label} (${sample})`, value.id));
+  });
 }
 
 function selectedBreakdownValue() {
@@ -172,8 +187,9 @@ function renderTask() {
   const breakdown = selectedBreakdown();
   const breakdownValue = selectedBreakdownValue();
   const selected = breakdownValue?.results || overallResults;
+  const primaryMetric = breakdown?.primary_metric || task.primary_metric;
   const metricOrder = [...new Set(selected.map((record) => record.metric_id))].sort(
-    (left, right) => Number(right === task.primary_metric) - Number(left === task.primary_metric),
+    (left, right) => Number(right === primaryMetric) - Number(left === primaryMetric),
   );
   const labels = new Map(selected.map((record) => [record.metric_id, record.metric_label]));
   const grouped = new Map();
@@ -182,7 +198,7 @@ function renderTask() {
     grouped.get(record.solution_id).set(record.metric_id, record);
   });
   if (!state.taskSort.key || (!metricOrder.includes(state.taskSort.key) && state.taskSort.key !== "solution")) {
-    state.taskSort = { key: task.primary_metric, direction: "desc" };
+    state.taskSort = { key: primaryMetric, direction: "desc" };
   }
   const valueForSolution = (solutionId) => {
     if (state.taskSort.key === "solution") return state.solutions.get(solutionId).title;
@@ -203,12 +219,12 @@ function renderTask() {
     const metricCells = metricOrder.map((metricId) => {
       const record = records.get(metricId);
       if (!record) return '<span class="muted">—</span>';
-      const primaryClass = metricId === task.primary_metric ? " primary" : "";
+      const primaryClass = metricId === primaryMetric ? " primary" : "";
       return `<span class="score${primaryClass}">${formatScore(record.value)}</span>`;
     });
     return [
       `<span class="rank">${rank}</span>`,
-      solutionName(solution, records.get(task.primary_metric) || records.values().next().value),
+      solutionName(solution, records.get(primaryMetric) || records.values().next().value),
       ...metricCells,
     ];
   });
@@ -221,9 +237,9 @@ function renderTask() {
       </div>
     </div>
     <div class="meta-list">
-      <span class="meta-chip">Primary metric: ${escapeHtml(labels.get(task.primary_metric))}</span>
+      <span class="meta-chip">Primary metric: ${escapeHtml(labels.get(primaryMetric))}</span>
       <span class="meta-chip">${escapeHtml(datasetLabel(datasetId))}</span>
-      ${breakdownValue ? `<span class="meta-chip">${escapeHtml(breakdown.label)}: ${escapeHtml(breakdownValue.label)} · ${formatInteger(breakdownValue.count)} queries</span>` : '<span class="meta-chip">All queries</span>'}
+      ${breakdownValue ? `<span class="meta-chip">${escapeHtml(breakdown.category === "relevant_documents" ? "Relevant docs" : "Query")} · ${escapeHtml(breakdown.label)}: ${escapeHtml(breakdownValue.label)} · ${formatInteger(breakdownValue.count)} queries${breakdownValue.target_count ? ` · ${formatInteger(breakdownValue.target_count)} relevant pairs` : ""}</span>` : '<span class="meta-chip">All queries</span>'}
     </div>`;
   const breakdownNote = document.querySelector("#breakdown-note");
   breakdownNote.hidden = !breakdownValue;

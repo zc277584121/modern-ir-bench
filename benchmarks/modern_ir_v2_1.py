@@ -34,13 +34,15 @@ QUERY_BREAKDOWN_SPECS = (
     {
         "id": "language",
         "label": "Language",
+        "category": "query",
         "field": "language",
         "description": "The language of the query and its relevant documents.",
         "values": (("zh", "Chinese"), ("en", "English")),
     },
     {
         "id": "query_intent",
-        "label": "Query intent",
+        "label": "Intent",
+        "category": "query",
         "field": "task",
         "description": "The practical intent assigned to the query, not the benchmark Task.",
         "values": (
@@ -55,6 +57,7 @@ QUERY_BREAKDOWN_SPECS = (
     {
         "id": "expression",
         "label": "Expression",
+        "category": "query",
         "field": "expression",
         "description": "How the information need is phrased.",
         "values": (
@@ -66,10 +69,17 @@ QUERY_BREAKDOWN_SPECS = (
     {
         "id": "constraint_level",
         "label": "Constraint level",
+        "category": "query",
         "field": "constraint_level",
         "description": "The number and strength of constraints expressed by the query.",
         "values": (("single", "Single"), ("compound", "Compound"), ("light", "Light")),
     },
+)
+RELEVANT_DOCUMENT_BREAKDOWN_SPECS = (
+    {"id": "relevant_document_language", "label": "Language", "field": "language"},
+    {"id": "relevant_document_domain", "label": "Domain", "field": "domain"},
+    {"id": "relevant_document_form", "label": "Form", "field": "form"},
+    {"id": "relevant_document_length", "label": "Length", "field": "length"},
 )
 SOLUTION_METADATA = {
     "bm25-full": {
@@ -217,6 +227,9 @@ def build_query_breakdowns(
             )
 
     context = report.records[0]
+    primary_metric_id = next(
+        str(record["metric_id"]) for record in report.records if record["primary"]
+    )
     breakdowns: list[dict[str, Any]] = []
     for spec in QUERY_BREAKDOWN_SPECS:
         values = []
@@ -261,7 +274,127 @@ def build_query_breakdowns(
             {
                 "id": spec["id"],
                 "label": spec["label"],
+                "category": spec["category"],
                 "description": spec["description"],
+                "primary_metric": primary_metric_id,
+                "task_id": context["task_id"],
+                "dataset_id": context["dataset_id"],
+                "dataset_version": context["dataset_version"],
+                "values": values,
+            }
+        )
+    return breakdowns
+
+
+def _dimension_label(value: str) -> str:
+    abbreviations = {"ai": "AI", "hr": "HR", "qa": "Q&A"}
+    words = value.replace("/", " / ").replace("_", " ").split()
+    return " ".join(abbreviations.get(word, word.capitalize()) for word in words)
+
+
+def _dimension_values(
+    documents: Iterable[Mapping[str, Any]],
+    field: str,
+) -> list[tuple[str, str]]:
+    values = {str(document["dimensions"][field]) for document in documents}
+    if field == "language":
+        order = ["zh", "en"]
+        labels = {"zh": "Chinese", "en": "English"}
+        return [(value, labels[value]) for value in order if value in values]
+    if field == "length":
+        order = ["short", "medium", "long", "extended", "very_long"]
+        return [(value, _dimension_label(value)) for value in order if value in values]
+    return [(value, _dimension_label(value)) for value in sorted(values)]
+
+
+def _target_recall(ranked_ids: Iterable[str], target_ids: set[str], k: int) -> float:
+    retrieved = set(list(ranked_ids)[:k])
+    return len(retrieved.intersection(target_ids)) / len(target_ids)
+
+
+def build_relevant_document_breakdowns(
+    *,
+    documents: Iterable[Mapping[str, Any]],
+    qrels: Iterable[Mapping[str, Any]],
+    rankings: Iterable[Mapping[str, Any]],
+    report: RunReport,
+) -> list[dict[str, Any]]:
+    document_rows = list(documents)
+    dimensions_by_document = {
+        str(document["doc_id"]): document["dimensions"] for document in document_rows
+    }
+    positive_by_query: dict[str, set[str]] = {}
+    for qrel in qrels:
+        if int(qrel["relevance"]) > 0:
+            positive_by_query.setdefault(str(qrel["query_id"]), set()).add(str(qrel["doc_id"]))
+
+    ranking_rows = list(rankings)
+    context = report.records[0]
+    breakdowns: list[dict[str, Any]] = []
+    for spec in RELEVANT_DOCUMENT_BREAKDOWN_SPECS:
+        values = []
+        for value_id, value_label in _dimension_values(document_rows, str(spec["field"])):
+            targets_by_query = {
+                query_id: {
+                    document_id
+                    for document_id in relevant_ids
+                    if str(dimensions_by_document[document_id][spec["field"]]) == value_id
+                }
+                for query_id, relevant_ids in positive_by_query.items()
+            }
+            targets_by_query = {
+                query_id: target_ids
+                for query_id, target_ids in targets_by_query.items()
+                if target_ids
+            }
+            results = []
+            for solution_id in SOLUTION_METADATA:
+                solution_rows = [
+                    row
+                    for row in ranking_rows
+                    if row["solution_id"] == solution_id
+                    and row["query_id"] in targets_by_query
+                ]
+                for k in (10, 1, 5):
+                    results.append(
+                        {
+                            "solution_id": solution_id,
+                            "metric_id": f"target_recall@{k}",
+                            "metric_label": f"Target Recall@{k}",
+                            "value": round(
+                                statistics.mean(
+                                    _target_recall(
+                                        row["ranked_doc_ids"],
+                                        targets_by_query[str(row["query_id"])],
+                                        k,
+                                    )
+                                    for row in solution_rows
+                                ),
+                                8,
+                            ),
+                            "primary": k == 10,
+                        }
+                    )
+            values.append(
+                {
+                    "id": value_id,
+                    "label": value_label,
+                    "count": len(targets_by_query),
+                    "target_count": sum(len(targets) for targets in targets_by_query.values()),
+                    "results": results,
+                }
+            )
+        breakdowns.append(
+            {
+                "id": spec["id"],
+                "label": spec["label"],
+                "category": "relevant_documents",
+                "description": (
+                    "Measures how often relevant documents in this group appear in each "
+                    "Solution's existing Top-10. Other relevant documents are ignored, not "
+                    "relabeled as negatives. Retrieval is not rerun."
+                ),
+                "primary_metric": "target_recall@10",
                 "task_id": context["task_id"],
                 "dataset_id": context["dataset_id"],
                 "dataset_version": context["dataset_version"],
@@ -273,6 +406,10 @@ def build_query_breakdowns(
 
 def main() -> None:
     queries, rankings = load_public_rankings()
+    documents = list(
+        load_dataset(DATASET_ID, "corpus", split="corpus", revision=DATASET_REVISION)
+    )
+    qrels = list(load_dataset(DATASET_ID, "qrels", split="qrels", revision=DATASET_REVISION))
     solutions = build_saved_ranking_solutions(
         queries=queries,
         rankings=rankings,
@@ -292,6 +429,14 @@ def main() -> None:
     metrics = metrics_by_solution(report.records)
     verify_replay(metrics, expected_metrics(rankings))
     breakdowns = build_query_breakdowns(queries=queries, rankings=rankings, report=report)
+    breakdowns.extend(
+        build_relevant_document_breakdowns(
+            documents=documents,
+            qrels=qrels,
+            rankings=rankings,
+            report=report,
+        )
+    )
     payload = {
         "release": RELEASE_ID,
         "dataset": {
