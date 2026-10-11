@@ -96,7 +96,7 @@
       ],
       "code_url": "https://github.com/zc277584121/modern-ir-bench/blob/1fdc17e61f659910826d3a6836e61930ded77667/benchmarks/pdf_retrieval_solutions/poppler_bm25.py#L10",
       "readme_url": "https://github.com/zc277584121/modern-ir-bench/blob/1fdc17e61f659910826d3a6836e61930ded77667/docs/solutions/pdf-text-layer-bm25.md",
-      "result_url": "https://github.com/zc277584121/modern-ir-bench/tree/codex/improve-space-ux/results/modern-ir-pdf-v1"
+      "result_url": "https://github.com/zc277584121/modern-ir-bench/tree/1cbba61b0a9e691cda8fd83576f5ce9f2a58994a/results/modern-ir-pdf-v1"
     },
     {
       "id": "qwen3-embedding-4b-chunk",

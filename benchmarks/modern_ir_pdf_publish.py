@@ -24,6 +24,7 @@ LIVE_ROOT = PROJECT_ROOT / "artifacts/modern-ir-pdf-live"
 RESULT_ROOT = PROJECT_ROOT / "results/modern-ir-pdf-v1"
 SPACE_RESULTS = PROJECT_ROOT / "space/data/results.json"
 SOLUTION_ID = "poppler-text-layer-bm25-full"
+RESULT_EVIDENCE_COMMIT = "1cbba61b0a9e691cda8fd83576f5ce9f2a58994a"
 METRIC_ORDER = ("ndcg@10", "recall@1", "recall@5", "recall@10", "mrr@10")
 
 
@@ -304,7 +305,7 @@ def _update_space(live: dict, breakdowns: list[dict[str, object]]) -> None:
             "readme_url": f"{source_root}/docs/solutions/pdf-text-layer-bm25.md",
             "result_url": (
                 "https://github.com/zc277584121/modern-ir-bench/tree/"
-                "codex/improve-space-ux/results/modern-ir-pdf-v1"
+                f"{RESULT_EVIDENCE_COMMIT}/results/modern-ir-pdf-v1"
             ),
         }
     )
