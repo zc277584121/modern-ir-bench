@@ -5,6 +5,7 @@ from __future__ import annotations
 import hashlib
 import json
 import math
+import os
 import shutil
 import statistics
 from collections import defaultdict
@@ -23,8 +24,8 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 LIVE_ROOT = PROJECT_ROOT / "artifacts/modern-ir-pdf-live"
 RESULT_ROOT = PROJECT_ROOT / "results/modern-ir-pdf-v1"
 SPACE_RESULTS = PROJECT_ROOT / "space/data/results.json"
-SOLUTION_ID = "poppler-text-layer-bm25-full"
-RESULT_EVIDENCE_COMMIT = "1cbba61b0a9e691cda8fd83576f5ce9f2a58994a"
+SOLUTION_ID = "paddleocr-v5-mobile-bm25-full"
+RESULT_EVIDENCE_COMMIT = os.environ.get("MIR_RESULT_EVIDENCE_COMMIT")
 METRIC_ORDER = ("ndcg@10", "recall@1", "recall@5", "recall@10", "mrr@10")
 
 
@@ -183,11 +184,6 @@ def _build_breakdowns(observations: Dataset) -> list[dict[str, object]]:
         for query_id, ranked_ids in ranked_by_query.items()
     }
     query_ids = set(query_by_id)
-    with_text = {
-        query_id
-        for query_id, relevant_ids in relevant_by_query.items()
-        if any(bool(document_by_id[document_id]["has_text_layer"]) for document_id in relevant_ids)
-    }
     return [
         _query_breakdown(
             breakdown_id="language",
@@ -198,29 +194,6 @@ def _build_breakdowns(observations: Dataset) -> list[dict[str, object]]:
                 ("en", "English", {query_id for query_id in query_ids if query_by_id[query_id]["language"] == "en"}),
             ],
             metrics_by_query=metrics_by_query,
-        ),
-        _query_breakdown(
-            breakdown_id="relevant_pdf_access",
-            label="Relevant PDF access",
-            description=(
-                "Separates queries with at least one relevant PDF containing an existing text layer "
-                "from queries whose relevant PDFs all require OCR or visual understanding."
-            ),
-            groups=[
-                ("text_layer_available", "Text layer available", with_text),
-                ("image_only", "Image-only relevant PDFs", query_ids - with_text),
-            ],
-            metrics_by_query=metrics_by_query,
-        ),
-        _target_breakdown(
-            breakdown_id="relevant_document_text_layer",
-            label="Text layer",
-            description="Recall of relevant PDFs by text-layer availability; retrieval is not rerun.",
-            values=[("true", "Has text layer"), ("false", "Image only")],
-            field="has_text_layer",
-            document_by_id=document_by_id,
-            relevant_by_query=relevant_by_query,
-            ranked_by_query=ranked_by_query,
         ),
         _target_breakdown(
             breakdown_id="relevant_document_transform_tier",
@@ -264,9 +237,9 @@ def _preserve_result(live: dict, observations_path: Path) -> None:
 This directory preserves the first full, live result for the public PDF Retrieval Task.
 It is result evidence, not a Dataset and not a Solution implementation.
 
-The baseline extracts only existing PDF text layers with Poppler and runs full-document
-Milvus BM25. It deliberately does not use OCR or page-image understanding, so image-only
-relevant PDFs expose the baseline's expected failure boundary.
+The baseline OCRs every page with the bilingual PP-OCRv5 Mobile detector and recognizer,
+then runs full-document Milvus BM25. It never reads native PDF text layers and does not
+use layout parsing, chunking, dense embeddings, or reranking.
 
 ## Files
 
@@ -297,18 +270,18 @@ def _update_space(live: dict, breakdowns: list[dict[str, object]]) -> None:
     payload["solutions"] = [solution for solution in payload["solutions"] if solution["id"] != SOLUTION_ID]
     source_commit = str(live["results"][0]["source_commit"])
     source_root = f"https://github.com/zc277584121/modern-ir-bench/blob/{source_commit}"
-    payload["solutions"].append(
-        {
-            **live["solutions"][0],
-            "tags": ["lexical", "full-document", "pdf-text-layer", "milvus"],
-            "code_url": f"{source_root}/benchmarks/pdf_retrieval_solutions/poppler_bm25.py#L10",
-            "readme_url": f"{source_root}/docs/solutions/pdf-text-layer-bm25.md",
-            "result_url": (
-                "https://github.com/zc277584121/modern-ir-bench/tree/"
-                f"{RESULT_EVIDENCE_COMMIT}/results/modern-ir-pdf-v1"
-            ),
-        }
-    )
+    solution = {
+        **live["solutions"][0],
+        "tags": ["ocr", "lexical", "full-document", "local", "milvus"],
+        "code_url": f"{source_root}/benchmarks/pdf_retrieval_solutions/paddleocr_bm25.py#L12",
+        "readme_url": f"{source_root}/docs/solutions/paddleocr-v5-mobile-bm25.md",
+    }
+    if RESULT_EVIDENCE_COMMIT:
+        solution["result_url"] = (
+            "https://github.com/zc277584121/modern-ir-bench/tree/"
+            f"{RESULT_EVIDENCE_COMMIT}/results/modern-ir-pdf-v1"
+        )
+    payload["solutions"].append(solution)
     payload["solutions"].sort(key=lambda item: item["id"])
     payload["results"] = [row for row in payload["results"] if row["task_id"] != TASK_ID]
     payload["results"].extend(live["results"])
@@ -334,8 +307,11 @@ def main() -> None:
     observations = Dataset.from_parquet(str(observation_files[0]))
     if len(observations) != 1000 or set(map(len, observations["ranked_ids"])) != {10}:
         raise ValueError("PDF result must contain 1,000 complete Top-10 rankings")
-    if {row["source_commit"] for row in live["results"]} != {"1fdc17e61f659910826d3a6836e61930ded77667"}:
-        raise ValueError("Unexpected PDF result source commit")
+    if {row["solution_id"] for row in live["results"]} != {SOLUTION_ID}:
+        raise ValueError("Unexpected PDF result Solution")
+    source_commits = {str(row["source_commit"]) for row in live["results"]}
+    if len(source_commits) != 1 or len(next(iter(source_commits))) != 40:
+        raise ValueError("PDF result must point to one full source commit")
     breakdowns = _build_breakdowns(observations)
     _preserve_result(live, observation_files[0])
     _update_space(live, breakdowns)

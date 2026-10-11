@@ -25,6 +25,16 @@ dev = [
     "pytest>=8.0",
     "ruff>=0.12,<1",
 ]
+pdf = [
+    "chardet<6",
+    "paddleocr>=3.3,<4",
+]
+pdf-cpu = [
+    "paddlepaddle==3.2.2",
+]
+pdf-gpu = [
+    "paddlepaddle-gpu==3.3.0",
+]
 
 [build-system]
 requires = ["hatchling"]
@@ -42,12 +52,24 @@ testpaths = ["tests/modern_ir"]
 pythonpath = ["."]
 norecursedirs = [".*", "build", "dist", "results", "legacy"]
 
+[tool.uv]
+conflicts = [
+    [{ group = "benchmark" }, { group = "pdf-gpu" }],
+    [{ group = "pdf-cpu" }, { group = "pdf-gpu" }],
+]
+
 [[tool.uv.index]]
 name = "torch-cu128"
 url = "https://download.pytorch.org/whl/cu128"
+explicit = true
+
+[[tool.uv.index]]
+name = "paddle-cu126"
+url = "https://www.paddlepaddle.org.cn/packages/stable/cu126/"
 explicit = true
 
 [tool.uv.sources]
 torch = [
     { index = "torch-cu128", group = "benchmark", marker = "sys_platform == 'linux' and platform_machine == 'x86_64'" },
 ]
+paddlepaddle-gpu = { index = "paddle-cu126", group = "pdf-gpu" }

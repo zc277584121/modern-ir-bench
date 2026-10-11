@@ -11,12 +11,12 @@ from pathlib import Path
 
 from datasets import DatasetDict
 
+from benchmarks.pdf_retrieval_solutions import build_paddleocr_bm25
 from modern_ir_bench import MetricSet, RunProvenance
 from modern_ir_bench.datasets import load_pdf_retrieval_release
 from modern_ir_bench.metrics import NDCG, MeanReciprocalRank, Recall
-from modern_ir_bench.retrieval import MilvusBM25Solution, TextInput
+from modern_ir_bench.retrieval import TextInput
 from modern_ir_bench.retrieval.indexes.milvus import MilvusLite
-from modern_ir_bench.solutions import PdfTextExtractionSolution
 from modern_ir_bench.tasks import PdfRetrieval
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
@@ -64,7 +64,6 @@ def select_sample(
     """Keep all positives for balanced queries, then add stable distractors."""
 
     document_language = dict(zip(dataset["documents"]["document_id"], dataset["documents"]["language"], strict=True))
-    has_text_layer = dict(zip(dataset["documents"]["document_id"], dataset["documents"]["has_text_layer"], strict=True))
     positives: dict[str, list[str]] = defaultdict(list)
     for row in dataset["qrels"]:
         if row["relevance"] > 0:
@@ -73,19 +72,7 @@ def select_sample(
     query_language = dict(zip(dataset["queries"]["query_id"], dataset["queries"]["language"], strict=True))
     for language in sorted(set(query_language.values())):
         candidates = [query_id for query_id in dataset["queries"]["query_id"] if query_language[query_id] == language]
-        text_grounded = [
-            query_id for query_id in candidates if any(has_text_layer[item] for item in positives[query_id])
-        ]
-        image_only = [
-            query_id for query_id in candidates if not any(has_text_layer[item] for item in positives[query_id])
-        ]
-        text_count = min(len(text_grounded), queries_per_language // 2)
-        chosen = text_grounded[:text_count]
-        chosen.extend(image_only[: queries_per_language - len(chosen)])
-        if len(chosen) < queries_per_language:
-            remaining = [query_id for query_id in candidates if query_id not in set(chosen)]
-            chosen.extend(remaining[: queries_per_language - len(chosen)])
-        selected_queries.extend(chosen)
+        selected_queries.extend(candidates[:queries_per_language])
 
     selected_query_ids = set(selected_queries)
     selected_documents = {
@@ -121,7 +108,7 @@ def main() -> None:
     task = PdfRetrieval(
         id="modern-ir-pdf-retrieval-v1-smoke",
         title="Modern IR PDF Retrieval v1 · smoke",
-        description="Text-layer-only lower bound on a balanced PDF retrieval sample.",
+        description="Lightweight all-page OCR baseline on a balanced PDF retrieval sample.",
         version="1.0.0-smoke",
         datasets={"modern-ir-pdf-v1-smoke": dataset},
         dataset_versions={"modern-ir-pdf-v1-smoke": "local-20261011"},
@@ -134,17 +121,10 @@ def main() -> None:
         query_value=lambda row: TextInput(text=row["query"], language=row["language"]),
         pool_field="language",
     )
-    solution = PdfTextExtractionSolution(
-        id="poppler-text-layer-bm25-full",
-        title="Poppler text layer + BM25 · full document",
-        description="Extract the existing PDF text layer with Poppler, then run language-aware Milvus BM25.",
-        text_solution=MilvusBM25Solution(
-            id="internal-bm25-full",
-            title="Internal BM25 full document",
-            target=MilvusLite(OUTPUT_ROOT / "milvus.db"),
-            candidate_multiplier=2,
-            collection_prefix="modern_ir_pdf_smoke",
-        ),
+    solution = build_paddleocr_bm25(
+        MilvusLite(OUTPUT_ROOT / "milvus.db"),
+        device=os.environ.get("MIR_OCR_DEVICE", "cpu"),
+        cache_dir=OUTPUT_ROOT / "ocr-cache",
     )
     provenance = _smoke_provenance()
     report = task.run([solution], provenance=provenance, status="smoke")
@@ -155,7 +135,7 @@ def main() -> None:
             "documents": len(dataset["documents"]),
             "queries": len(dataset["queries"]),
             "qrels": len(dataset["qrels"]),
-            "documents_with_text_layer": sum(dataset["documents"]["has_text_layer"]),
+            "pages": sum(dataset["documents"]["pages"]),
         },
         "results": report.records,
     }

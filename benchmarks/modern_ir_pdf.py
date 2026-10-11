@@ -4,11 +4,12 @@ from __future__ import annotations
 
 import inspect
 import json
+import logging
 import os
 from pathlib import Path
 
 from benchmarks.modern_ir_pdf_definition import RELEASE_ID, build_task
-from benchmarks.pdf_retrieval_solutions import build_poppler_bm25
+from benchmarks.pdf_retrieval_solutions import build_paddleocr_bm25
 from modern_ir_bench import RunProvenance
 from modern_ir_bench.retrieval.indexes.milvus import MilvusServer
 
@@ -17,12 +18,17 @@ OUTPUT_ROOT = PROJECT_ROOT / "artifacts/modern-ir-pdf-live"
 
 
 def main() -> None:
+    logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
     task = build_task()
     target = MilvusServer(
         os.environ.get("MIR_MILVUS_URI", "http://127.0.0.1:19530"),
         token=os.environ.get("MIR_MILVUS_TOKEN", ""),
     )
-    solution = build_poppler_bm25(target)
+    solution = build_paddleocr_bm25(
+        target,
+        device=os.environ.get("MIR_OCR_DEVICE", "cpu"),
+        cache_dir=PROJECT_ROOT / ".runtime/pdf-ocr/pp-ocrv5-mobile",
+    )
     provenance = RunProvenance.capture(
         source_module="benchmarks.modern_ir_pdf",
         source_path="benchmarks/modern_ir_pdf.py",

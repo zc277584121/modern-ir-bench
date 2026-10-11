@@ -22,7 +22,7 @@ The benchmark content, Qrels, rankings, and scores are unchanged from v2.1.
 
 The Ranked Retrieval leaderboard is recomputed from a reviewed historical Top-10
 ranking artifact. The PDF baseline is a live run tied to pinned public code and data;
-it intentionally reads only existing text layers and does not perform OCR.
+it OCRs every page with PP-OCRv5 Mobile and does not read native PDF text layers.
 
 - [Benchmark code and result evidence](https://github.com/zc277584121/modern-ir-bench)
 - [Public Dataset](https://huggingface.co/datasets/zc277584121/modern-ir-bench)

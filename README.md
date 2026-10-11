@@ -37,14 +37,14 @@ document-understanding effects without regenerating relevance labels.
 Solution to return ranked document IDs. Page splitting, OCR, visual embedding, and
 page-to-document aggregation remain Solution choices rather than Task policy.
 
-The initial local smoke test is deliberately a weak lower bound: Poppler reads only
-existing PDF text layers and delegates retrieval to full-document Milvus BM25. Set the
-two local source paths explicitly before running it:
+The baseline OCRs every page with the small bilingual PP-OCRv5 Mobile detector and
+recognizer, then delegates retrieval to full-document Milvus BM25. Native PDF text
+layers are never read. Set the two local source paths explicitly before running a smoke test:
 
 ```bash
 MIR_PDF_RUN_DIR=/path/to/rendered-pdf-corpus-v1 \
 MIR_TEXT_RELEASE_DIR=/path/to/modern-ir-bench-v2.2-20261010 \
-uv run --group benchmark python -m benchmarks.modern_ir_pdf_smoke
+uv run --group pdf --group pdf-cpu python -m benchmarks.modern_ir_pdf_smoke
 ```
 
 This smoke result is not part of the public leaderboard. Official PDF results must use
@@ -53,11 +53,14 @@ the pinned Hub revision and a clean source commit.
 The maintained public definition and baseline can be run against the pinned Hub release:
 
 ```bash
-uv run python -m benchmarks.modern_ir_pdf
+MIR_OCR_DEVICE=gpu:0 uv run --group pdf --group pdf-gpu python -m benchmarks.modern_ir_pdf
 ```
 
+Use `pdf-cpu` for portable CPU execution or `pdf-gpu` for the CUDA 12.6 runtime;
+both paths use the same pinned OCR models and settings.
+
 The Task/Dataset binding lives in `benchmarks/modern_ir_pdf_definition.py`; the baseline
-Solution lives independently in `benchmarks/pdf_retrieval_solutions/poppler_bm25.py`.
+Solution lives independently in `benchmarks/pdf_retrieval_solutions/paddleocr_bm25.py`.
 
 The Dataset contains only corpus, queries, and binary Qrels. The benchmark pins the immutable
 [`zc277584121/modern-ir-bench`](https://huggingface.co/datasets/zc277584121/modern-ir-bench)

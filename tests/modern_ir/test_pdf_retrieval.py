@@ -11,7 +11,7 @@ from modern_ir_bench import MetricSet
 from modern_ir_bench.core.solution import Solution
 from modern_ir_bench.metrics import NDCG, Recall
 from modern_ir_bench.retrieval import PdfInput, RetrievalResource, SearchHit, TextInput
-from modern_ir_bench.solutions import PdfTextExtractionSolution
+from modern_ir_bench.solutions import PaddleOcrExtractor, PdfTextExtractionSolution
 from modern_ir_bench.tasks import PdfRetrieval
 
 
@@ -33,6 +33,33 @@ class StaticSession:
 
     def close(self) -> None:
         return None
+
+
+class StubOcrPipeline:
+    def __init__(self) -> None:
+        self.calls = 0
+
+    def predict_iter(self, input: str, **kwargs: Any) -> Iterable[Any]:
+        assert Path(input).is_file()
+        self.calls += 1
+        yield {"res": {"rec_texts": ["first line", "low score"], "rec_scores": [0.99, 0.1]}}
+        yield {"res": {"rec_texts": ["second page"], "rec_scores": [0.95]}}
+
+
+def test_paddle_ocr_extracts_every_page_and_caches_by_pdf(tmp_path: Path) -> None:
+    pdf_path = tmp_path / "sample.pdf"
+    pdf_path.write_bytes(b"%PDF-1.4\n%%EOF\n")
+    pipeline = StubOcrPipeline()
+    extractor = PaddleOcrExtractor(cache_dir=tmp_path / "cache", recognition_score_threshold=0.5)
+    extractor._pipeline = pipeline
+    value = PdfInput(path=str(pdf_path), language="en")
+
+    first = extractor.extract(value)
+    second = extractor.extract(value)
+
+    assert first == "first line\n\nsecond page"
+    assert second == first
+    assert pipeline.calls == 1
 
 
 @dataclass(frozen=True, kw_only=True)

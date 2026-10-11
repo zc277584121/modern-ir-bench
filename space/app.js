@@ -27,8 +27,6 @@ const breakdownDisplayByTask = new Map([
     {
       ids: new Set([
         "language",
-        "relevant_pdf_access",
-        "relevant_document_text_layer",
         "relevant_document_transform_tier",
       ]),
       defaultProfile: "relevant_document_transform_tier",
