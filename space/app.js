@@ -92,7 +92,17 @@ function renderTable(headers, rows, tableName, sortState) {
   const body = rows
     .map((row) => `<tr>${row.map((cell) => `<td>${cell}</td>`).join("")}</tr>`)
     .join("");
-  return `<div class="table-wrap"><table><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table></div>`;
+  return `<p class="table-scroll-hint">Swipe horizontally to see all columns →</p>
+    <div class="table-wrap"><table><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table></div>`;
+}
+
+function orderedTasks() {
+  const primaryCount = (taskId) =>
+    primaryRecords().filter((record) => record.task_id === taskId).length;
+  return [...state.tasks.values()].sort(
+    (left, right) =>
+      primaryCount(right.id) - primaryCount(left.id) || left.title.localeCompare(right.title),
+  );
 }
 
 function compareValues(left, right, direction) {
@@ -484,7 +494,7 @@ function installSolutionDetailLinks(containerSelector) {
 
 function installControls() {
   const taskSelector = document.querySelector("#task-selector");
-  [...state.tasks.values()].forEach((task) => taskSelector.add(new Option(task.title, task.id)));
+  orderedTasks().forEach((task) => taskSelector.add(new Option(task.title, task.id)));
   taskSelector.addEventListener("change", () => {
     populateDatasetSelector();
     populateBreakdownSelector();

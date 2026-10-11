@@ -285,8 +285,8 @@ def build_payload() -> dict[str, object]:
         languages=("Chinese", "English"),
         breakdowns=(*text_breakdowns, *pdf_breakdowns),
         notice=(
-            "Ranked Retrieval v2.2 is recomputed from reviewed historical Top-10 rankings. "
-            "PDF Retrieval v1 is recomputed from preserved live observations."
+            "Scores are rebuilt from versioned result evidence. Open a Solution for its "
+            "method notes, code, and provenance."
         ),
     )
 

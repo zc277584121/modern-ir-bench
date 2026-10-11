@@ -178,8 +178,9 @@ export function createProfileController({
         </label>`;
       })
       .join("");
+    const noun = selectedSolutionIds.size === 1 ? "solution" : "solutions";
     document.querySelector("#profile-solution-summary").textContent =
-      `${selectedSolutionIds.size} solutions selected`;
+      `${selectedSolutionIds.size} ${noun} selected`;
 
     container.querySelectorAll("[data-profile-solution]").forEach((input) => {
       input.addEventListener("change", () => {

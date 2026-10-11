@@ -170,6 +170,11 @@ h2 {
   gap: 24px;
   overflow-x: auto;
   border-bottom: 1px solid var(--border);
+  scrollbar-width: none;
+}
+
+.tabs::-webkit-scrollbar {
+  display: none;
 }
 
 .tab {
@@ -310,6 +315,10 @@ select:focus {
   overflow-x: auto;
   border: 1px solid var(--border);
   border-radius: 8px;
+}
+
+.table-scroll-hint {
+  display: none;
 }
 
 table {
@@ -467,5 +476,13 @@ pre {
   .table-wrap {
     width: 100%;
     max-width: 100%;
+  }
+
+  .table-scroll-hint {
+    display: block;
+    margin: 0 0 7px;
+    color: var(--muted);
+    font-size: 12px;
+    text-align: right;
   }
 }
