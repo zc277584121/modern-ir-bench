@@ -7,6 +7,7 @@ from modern_ir_bench.retrieval.dense import DenseRetrievalSolution
 from modern_ir_bench.retrieval.sparse import ChunkedSparseRetrievalSolution
 from modern_ir_bench.retrieval.types import (
     MappedResourceSource,
+    PdfInput,
     RetrievalResource,
     SearchHit,
     SearchSession,
@@ -21,6 +22,7 @@ __all__ = [
     "HuggingFaceOffsetTokenizer",
     "MappedResourceSource",
     "MilvusBM25Solution",
+    "PdfInput",
     "RetrievalResource",
     "SearchHit",
     "SearchSession",

@@ -25,6 +25,40 @@ uv run python -m benchmarks.mock_showcase
 uv run pytest
 ```
 
+## PDF retrieval
+
+The first additional Task is whole-document PDF retrieval over the same semantic corpus.
+Its separate [`zc277584121/modern-ir-bench-pdf`](https://huggingface.co/datasets/zc277584121/modern-ir-bench-pdf)
+Dataset contains 5,000 PDFs, the unchanged 1,000 bilingual queries, and the unchanged
+6,575 binary Qrels. Preserving document IDs lets the Task isolate presentation and
+document-understanding effects without regenerating relevance labels.
+
+`PdfRetrieval` accepts Hugging Face `Pdf(decode=False)` resources and still asks a
+Solution to return ranked document IDs. Page splitting, OCR, visual embedding, and
+page-to-document aggregation remain Solution choices rather than Task policy.
+
+The initial local smoke test is deliberately a weak lower bound: Poppler reads only
+existing PDF text layers and delegates retrieval to full-document Milvus BM25. Set the
+two local source paths explicitly before running it:
+
+```bash
+MIR_PDF_RUN_DIR=/path/to/rendered-pdf-corpus-v1 \
+MIR_TEXT_RELEASE_DIR=/path/to/modern-ir-bench-v2.2-20261010 \
+uv run --group benchmark python -m benchmarks.modern_ir_pdf_smoke
+```
+
+This smoke result is not part of the public leaderboard. Official PDF results must use
+the pinned Hub revision and a clean source commit.
+
+The maintained public definition and baseline can be run against the pinned Hub release:
+
+```bash
+uv run python -m benchmarks.modern_ir_pdf
+```
+
+The Task/Dataset binding lives in `benchmarks/modern_ir_pdf_definition.py`; the baseline
+Solution lives independently in `benchmarks/pdf_retrieval_solutions/poppler_bm25.py`.
+
 The Dataset contains only corpus, queries, and binary Qrels. The benchmark pins the immutable
 [`zc277584121/modern-ir-bench`](https://huggingface.co/datasets/zc277584121/modern-ir-bench)
 Dataset revision. The current Space recomputes every leaderboard metric from the reviewed

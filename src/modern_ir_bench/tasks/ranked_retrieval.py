@@ -37,6 +37,8 @@ class RankedRetrieval(Task):
             }
         ),
     }
+    document_content_field: ClassVar[str | None] = "content"
+    query_content_field: ClassVar[str | None] = "query"
 
     def __init__(
         self,
@@ -81,10 +83,15 @@ class RankedRetrieval(Task):
             raise ValueError("document_id values must be non-empty and unique")
         if not query_ids or len(query_ids) != len(set(query_ids)):
             raise ValueError("query_id values must be non-empty and unique")
-        if any(not value for value in dataset["documents"]["content"]):
-            raise ValueError("document content must be non-empty")
-        if any(not value for value in dataset["queries"]["query"]):
-            raise ValueError("query text must be non-empty")
+        if self.document_content_field is not None and any(
+            not value for value in dataset["documents"][self.document_content_field]
+        ):
+            raise ValueError(f"document {self.document_content_field} must be non-empty")
+        if self.query_content_field is not None and any(
+            not value for value in dataset["queries"][self.query_content_field]
+        ):
+            raise ValueError(f"query {self.query_content_field} must be non-empty")
+        self.validate_document_rows(dataset["documents"])
 
         document_id_set = set(document_ids)
         query_id_set = set(query_ids)
@@ -124,6 +131,11 @@ class RankedRetrieval(Task):
             for row in dataset["qrels"]:
                 if document_pool[row["document_id"]] != query_pool[row["query_id"]]:
                     raise ValueError(f"Qrel crosses independent pools: {row['query_id']} -> {row['document_id']}")
+
+    def validate_document_rows(self, documents: Dataset) -> None:
+        """Validate resource fields beyond the shared ranked-retrieval contract."""
+
+        return
 
     def evaluate(self, *, dataset: Any, solution: Solution) -> Dataset:
         if self.pool_field is None:

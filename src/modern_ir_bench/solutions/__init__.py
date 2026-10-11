@@ -1,6 +1,7 @@
 """Reference and demonstration solutions."""
 
 from modern_ir_bench.retrieval import ChunkedDenseRetrievalSolution, DenseRetrievalSolution
+from modern_ir_bench.solutions.pdf import PdfTextExtractionSolution, PopplerTextExtractor
 from modern_ir_bench.solutions.text import (
     CharacterNGramSolution,
     HybridSolution,
@@ -13,4 +14,6 @@ __all__ = [
     "DenseRetrievalSolution",
     "HybridSolution",
     "InMemoryBM25Solution",
+    "PdfTextExtractionSolution",
+    "PopplerTextExtractor",
 ]

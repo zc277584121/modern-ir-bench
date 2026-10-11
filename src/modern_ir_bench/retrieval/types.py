@@ -18,6 +18,19 @@ class TextInput:
 
 
 @dataclass(frozen=True)
+class PdfInput:
+    """Undecoded PDF payload plus task context needed by a Solution."""
+
+    path: str | None = None
+    data: bytes | None = None
+    language: str | None = None
+
+    def __post_init__(self) -> None:
+        if not self.path and self.data is None:
+            raise ValueError("PdfInput requires a path or bytes")
+
+
+@dataclass(frozen=True)
 class RetrievalResource(Generic[ResourceInput]):
     """One runtime resource, independent of the source Dataset schema."""
 
