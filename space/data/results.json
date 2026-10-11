@@ -11,7 +11,7 @@
       "Chinese",
       "English"
     ],
-    "notice": "Ranked Retrieval v2.2 is recomputed from reviewed historical Top-10 rankings. The PDF baseline is being replaced by an all-page OCR run."
+    "notice": "Ranked Retrieval v2.2 is recomputed from reviewed historical Top-10 rankings. PDF Retrieval v1 is a live run from pinned public code and data."
   },
   "tasks": [
     {
@@ -83,6 +83,20 @@
       "code_url": "https://github.com/zc277584121/modern-ir-bench/blob/2d23239cbafffba0ee515a98ca3912b47aeccbea/benchmarks/modern_ir_solutions/bm25.py#L7",
       "readme_url": "https://github.com/zc277584121/modern-ir-bench/blob/2d23239cbafffba0ee515a98ca3912b47aeccbea/docs/solutions/bm25.md",
       "result_url": "https://github.com/zc277584121/modern-ir-bench/blob/2d23239cbafffba0ee515a98ca3912b47aeccbea/results/modern-ir-v2.2/README.md#L1"
+    },
+    {
+      "id": "paddleocr-v5-mobile-bm25-full",
+      "title": "PP-OCRv5 Mobile + BM25 · full document",
+      "description": "OCR every PDF page with a small bilingual model, then run language-aware Milvus BM25.",
+      "tags": [
+        "ocr",
+        "lexical",
+        "full-document",
+        "local",
+        "milvus"
+      ],
+      "code_url": "https://github.com/zc277584121/modern-ir-bench/blob/cf8c90b911543138b26721232c747e1d509fd951/benchmarks/pdf_retrieval_solutions/paddleocr_bm25.py#L12",
+      "readme_url": "https://github.com/zc277584121/modern-ir-bench/blob/cf8c90b911543138b26721232c747e1d509fd951/docs/solutions/paddleocr-v5-mobile-bm25.md"
     },
     {
       "id": "qwen3-embedding-4b-chunk",
@@ -792,6 +806,101 @@
       "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/2d23239cbafffba0ee515a98ca3912b47aeccbea/results/modern-ir-v2.2/README.md#L1",
       "created_at": "2026-10-10T03:34:57.604060+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.2__modern-ir-bench-v2.2-20261010__bge-m3-sparse-chunk"
+    },
+    {
+      "task_id": "modern-ir-pdf-retrieval-v1",
+      "task_version": "1.0.0",
+      "dataset_id": "modern-ir-bench-pdf-v1-20261011",
+      "dataset_version": "5ac497e8aad7",
+      "solution_id": "paddleocr-v5-mobile-bm25-full",
+      "metric_id": "ndcg@10",
+      "metric_label": "NDCG@10",
+      "value": 0.68438534,
+      "primary": true,
+      "status": "live",
+      "source_commit": "cf8c90b911543138b26721232c747e1d509fd951",
+      "source_module": "benchmarks.modern_ir_pdf",
+      "source_path": "benchmarks/modern_ir_pdf.py",
+      "source_line": 20,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/cf8c90b911543138b26721232c747e1d509fd951/benchmarks/modern_ir_pdf.py#L20",
+      "created_at": "2026-10-11T07:52:12.483742+00:00",
+      "observation_key": "modern-ir-pdf-retrieval-v1__modern-ir-bench-pdf-v1-20261011__paddleocr-v5-mobile-bm25-full"
+    },
+    {
+      "task_id": "modern-ir-pdf-retrieval-v1",
+      "task_version": "1.0.0",
+      "dataset_id": "modern-ir-bench-pdf-v1-20261011",
+      "dataset_version": "5ac497e8aad7",
+      "solution_id": "paddleocr-v5-mobile-bm25-full",
+      "metric_id": "recall@1",
+      "metric_label": "Recall@1",
+      "value": 0.16917137,
+      "primary": false,
+      "status": "live",
+      "source_commit": "cf8c90b911543138b26721232c747e1d509fd951",
+      "source_module": "benchmarks.modern_ir_pdf",
+      "source_path": "benchmarks/modern_ir_pdf.py",
+      "source_line": 20,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/cf8c90b911543138b26721232c747e1d509fd951/benchmarks/modern_ir_pdf.py#L20",
+      "created_at": "2026-10-11T07:52:12.483742+00:00",
+      "observation_key": "modern-ir-pdf-retrieval-v1__modern-ir-bench-pdf-v1-20261011__paddleocr-v5-mobile-bm25-full"
+    },
+    {
+      "task_id": "modern-ir-pdf-retrieval-v1",
+      "task_version": "1.0.0",
+      "dataset_id": "modern-ir-bench-pdf-v1-20261011",
+      "dataset_version": "5ac497e8aad7",
+      "solution_id": "paddleocr-v5-mobile-bm25-full",
+      "metric_id": "recall@5",
+      "metric_label": "Recall@5",
+      "value": 0.50991512,
+      "primary": false,
+      "status": "live",
+      "source_commit": "cf8c90b911543138b26721232c747e1d509fd951",
+      "source_module": "benchmarks.modern_ir_pdf",
+      "source_path": "benchmarks/modern_ir_pdf.py",
+      "source_line": 20,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/cf8c90b911543138b26721232c747e1d509fd951/benchmarks/modern_ir_pdf.py#L20",
+      "created_at": "2026-10-11T07:52:12.483742+00:00",
+      "observation_key": "modern-ir-pdf-retrieval-v1__modern-ir-bench-pdf-v1-20261011__paddleocr-v5-mobile-bm25-full"
+    },
+    {
+      "task_id": "modern-ir-pdf-retrieval-v1",
+      "task_version": "1.0.0",
+      "dataset_id": "modern-ir-bench-pdf-v1-20261011",
+      "dataset_version": "5ac497e8aad7",
+      "solution_id": "paddleocr-v5-mobile-bm25-full",
+      "metric_id": "recall@10",
+      "metric_label": "Recall@10",
+      "value": 0.6653277,
+      "primary": false,
+      "status": "live",
+      "source_commit": "cf8c90b911543138b26721232c747e1d509fd951",
+      "source_module": "benchmarks.modern_ir_pdf",
+      "source_path": "benchmarks/modern_ir_pdf.py",
+      "source_line": 20,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/cf8c90b911543138b26721232c747e1d509fd951/benchmarks/modern_ir_pdf.py#L20",
+      "created_at": "2026-10-11T07:52:12.483742+00:00",
+      "observation_key": "modern-ir-pdf-retrieval-v1__modern-ir-bench-pdf-v1-20261011__paddleocr-v5-mobile-bm25-full"
+    },
+    {
+      "task_id": "modern-ir-pdf-retrieval-v1",
+      "task_version": "1.0.0",
+      "dataset_id": "modern-ir-bench-pdf-v1-20261011",
+      "dataset_version": "5ac497e8aad7",
+      "solution_id": "paddleocr-v5-mobile-bm25-full",
+      "metric_id": "mrr@10",
+      "metric_label": "MRR@10",
+      "value": 0.86575556,
+      "primary": false,
+      "status": "live",
+      "source_commit": "cf8c90b911543138b26721232c747e1d509fd951",
+      "source_module": "benchmarks.modern_ir_pdf",
+      "source_path": "benchmarks/modern_ir_pdf.py",
+      "source_line": 20,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/cf8c90b911543138b26721232c747e1d509fd951/benchmarks/modern_ir_pdf.py#L20",
+      "created_at": "2026-10-11T07:52:12.483742+00:00",
+      "observation_key": "modern-ir-pdf-retrieval-v1__modern-ir-bench-pdf-v1-20261011__paddleocr-v5-mobile-bm25-full"
     }
   ],
   "breakdowns": [
@@ -12163,6 +12272,201 @@
               "metric_id": "target_recall@5",
               "metric_label": "Target Recall@5",
               "value": 0.48449001,
+              "primary": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "language",
+      "label": "Language",
+      "category": "query",
+      "description": "Scores for queries grouped by language.",
+      "primary_metric": "ndcg@10",
+      "task_id": "modern-ir-pdf-retrieval-v1",
+      "dataset_id": "modern-ir-bench-pdf-v1-20261011",
+      "dataset_version": "5ac497e8aad7",
+      "values": [
+        {
+          "id": "zh",
+          "label": "Chinese",
+          "count": 500,
+          "results": [
+            {
+              "solution_id": "paddleocr-v5-mobile-bm25-full",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.70960744,
+              "primary": true
+            },
+            {
+              "solution_id": "paddleocr-v5-mobile-bm25-full",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.17528309,
+              "primary": false
+            },
+            {
+              "solution_id": "paddleocr-v5-mobile-bm25-full",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.52984628,
+              "primary": false
+            },
+            {
+              "solution_id": "paddleocr-v5-mobile-bm25-full",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.69129645,
+              "primary": false
+            },
+            {
+              "solution_id": "paddleocr-v5-mobile-bm25-full",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.88102937,
+              "primary": false
+            }
+          ]
+        },
+        {
+          "id": "en",
+          "label": "English",
+          "count": 500,
+          "results": [
+            {
+              "solution_id": "paddleocr-v5-mobile-bm25-full",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.65916324,
+              "primary": true
+            },
+            {
+              "solution_id": "paddleocr-v5-mobile-bm25-full",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.16305966,
+              "primary": false
+            },
+            {
+              "solution_id": "paddleocr-v5-mobile-bm25-full",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.48998396,
+              "primary": false
+            },
+            {
+              "solution_id": "paddleocr-v5-mobile-bm25-full",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.63935895,
+              "primary": false
+            },
+            {
+              "solution_id": "paddleocr-v5-mobile-bm25-full",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.85048175,
+              "primary": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "relevant_document_transform_tier",
+      "label": "Capture difficulty",
+      "category": "relevant_documents",
+      "description": "Recall of relevant PDFs by rendering and capture difficulty; retrieval is not rerun.",
+      "primary_metric": "target_recall@10",
+      "task_id": "modern-ir-pdf-retrieval-v1",
+      "dataset_id": "modern-ir-bench-pdf-v1-20261011",
+      "dataset_version": "5ac497e8aad7",
+      "values": [
+        {
+          "id": "easy",
+          "label": "Easy",
+          "count": 715,
+          "target_count": 1514,
+          "results": [
+            {
+              "solution_id": "paddleocr-v5-mobile-bm25-full",
+              "metric_id": "target_recall@10",
+              "metric_label": "Target Recall@10",
+              "value": 0.67063492,
+              "primary": true
+            },
+            {
+              "solution_id": "paddleocr-v5-mobile-bm25-full",
+              "metric_id": "target_recall@1",
+              "metric_label": "Target Recall@1",
+              "value": 0.16997558,
+              "primary": false
+            },
+            {
+              "solution_id": "paddleocr-v5-mobile-bm25-full",
+              "metric_id": "target_recall@5",
+              "metric_label": "Target Recall@5",
+              "value": 0.5086791,
+              "primary": false
+            }
+          ]
+        },
+        {
+          "id": "medium",
+          "label": "Medium",
+          "count": 923,
+          "target_count": 2656,
+          "results": [
+            {
+              "solution_id": "paddleocr-v5-mobile-bm25-full",
+              "metric_id": "target_recall@10",
+              "metric_label": "Target Recall@10",
+              "value": 0.67135487,
+              "primary": true
+            },
+            {
+              "solution_id": "paddleocr-v5-mobile-bm25-full",
+              "metric_id": "target_recall@1",
+              "metric_label": "Target Recall@1",
+              "value": 0.17211959,
+              "primary": false
+            },
+            {
+              "solution_id": "paddleocr-v5-mobile-bm25-full",
+              "metric_id": "target_recall@5",
+              "metric_label": "Target Recall@5",
+              "value": 0.50357373,
+              "primary": false
+            }
+          ]
+        },
+        {
+          "id": "hard",
+          "label": "Hard",
+          "count": 873,
+          "target_count": 2405,
+          "results": [
+            {
+              "solution_id": "paddleocr-v5-mobile-bm25-full",
+              "metric_id": "target_recall@10",
+              "metric_label": "Target Recall@10",
+              "value": 0.59418426,
+              "primary": true
+            },
+            {
+              "solution_id": "paddleocr-v5-mobile-bm25-full",
+              "metric_id": "target_recall@1",
+              "metric_label": "Target Recall@1",
+              "value": 0.13942478,
+              "primary": false
+            },
+            {
+              "solution_id": "paddleocr-v5-mobile-bm25-full",
+              "metric_id": "target_recall@5",
+              "metric_label": "Target Recall@5",
+              "value": 0.44089578,
               "primary": false
             }
           ]
