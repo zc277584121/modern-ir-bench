@@ -17,7 +17,7 @@ from modern_ir_bench.retrieval import PdfInput, RetrievalResource, SearchHit, Te
 logger = logging.getLogger(__name__)
 
 
-class PdfTextExtractor(Protocol):
+class PdfOcrExtractor(Protocol):
     """Convert one PDF into searchable text."""
 
     @property
@@ -128,18 +128,18 @@ class PaddleOcrExtractor:
 
 
 @dataclass(frozen=True, kw_only=True)
-class PdfTextExtractionSolution(Solution):
-    """Extract PDF text, then delegate indexing and search to a text Solution."""
+class PdfOcrRetrievalSolution(Solution):
+    """OCR complete PDFs, then delegate indexing and search to a text Solution."""
 
     text_solution: Solution
-    extractor: PdfTextExtractor
+    extractor: PdfOcrExtractor
     empty_document_text: str = "[no extractable PDF text]"
     progress_every: int = 100
 
     def prepare(
         self,
         resources: Iterable[RetrievalResource[PdfInput]],
-    ) -> PdfTextExtractionSession:
+    ) -> PdfOcrRetrievalSession:
         extracted: list[RetrievalResource[TextInput]] = []
         empty_documents = 0
         started_at = time.monotonic()
@@ -163,7 +163,7 @@ class PdfTextExtractionSolution(Solution):
                     index / elapsed,
                 )
         session = self.text_solution.prepare(extracted)
-        return PdfTextExtractionSession(
+        return PdfOcrRetrievalSession(
             session=session,
             extractor_id=self.extractor.id,
             documents=len(extracted),
@@ -174,7 +174,7 @@ class PdfTextExtractionSolution(Solution):
         self.text_solution.release()
 
 
-class PdfTextExtractionSession:
+class PdfOcrRetrievalSession:
     def __init__(
         self,
         *,

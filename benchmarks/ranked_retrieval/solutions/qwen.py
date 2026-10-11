@@ -1,16 +1,16 @@
 """Qwen Solution definition."""
 
-from benchmarks.modern_ir_solutions.runtime import text_of
-from benchmarks.modern_ir_solutions.types import Runtime, SolutionSpec
+from benchmarks.ranked_retrieval.solutions.runtime import text_of
+from benchmarks.ranked_retrieval.solutions.types import Runtime, SolutionSpec
 from modern_ir_bench.retrieval import ChunkedDenseRetrievalSolution
 from modern_ir_bench.retrieval.indexes.milvus import MilvusDenseIndex
 
 
-def build_qwen_chunk(runtime: Runtime):
+def _build_qwen_chunk(runtime: Runtime, spec: SolutionSpec):
     return ChunkedDenseRetrievalSolution(
-        id="qwen3-embedding-4b-chunk",
-        title="Qwen3 Embedding 4B · 768-token chunks",
-        description="Pinned Qwen3 Embedding 4B over shared chunks with Milvus FLAT search.",
+        id=spec.id,
+        title=spec.title,
+        description=spec.description,
         embedding=runtime.qwen,
         index=MilvusDenseIndex(
             target=runtime.target,
@@ -31,7 +31,7 @@ SPECS = (
         "Qwen3 Embedding 4B · 768-token chunks",
         "Pinned Qwen3 Embedding 4B over shared chunks with Milvus FLAT search.",
         ("dense", "local", "chunked", "milvus"),
-        build_qwen_chunk,
+        _build_qwen_chunk,
         "docs/solutions/qwen3-embedding-4b.md",
     ),
 )

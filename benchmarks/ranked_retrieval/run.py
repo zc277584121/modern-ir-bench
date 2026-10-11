@@ -9,16 +9,16 @@ import json
 from datetime import datetime, timezone
 from pathlib import Path
 
-from benchmarks.modern_ir_definition import (
+from benchmarks.ranked_retrieval.definition import (
     DATASET_ID,
     DATASET_REVISION,
     RELEASE_ID,
     build_task,
 )
-from benchmarks.modern_ir_solutions import build_solutions, solution_metadata
+from benchmarks.ranked_retrieval.solutions import build_solutions, solution_metadata
 from modern_ir_bench import RunProvenance
 
-PROJECT_ROOT = Path(__file__).resolve().parents[1]
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
 OUTPUT_ROOT = PROJECT_ROOT / "artifacts/modern-ir-live"
 
 
@@ -51,8 +51,8 @@ def _write_rankings(report, path: Path, *, top_k: int) -> tuple[int, str]:
 def main() -> None:
     task = build_task()
     provenance = RunProvenance.capture(
-        source_module="benchmarks.modern_ir",
-        source_path="benchmarks/modern_ir.py",
+        source_module="benchmarks.ranked_retrieval.run",
+        source_path="benchmarks/ranked_retrieval/run.py",
         source_line=inspect.getsourcelines(main)[1],
     )
     report = task.run(

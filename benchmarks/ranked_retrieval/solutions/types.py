@@ -12,19 +12,22 @@ from modern_ir_bench.retrieval.indexes.milvus import MilvusServer
 
 
 @dataclass(frozen=True)
-class SolutionSpec:
-    id: str
-    title: str
-    description: str
-    tags: tuple[str, ...]
-    builder: Callable[[Runtime], Solution]
-    readme_path: str
-
-
-@dataclass(frozen=True)
 class Runtime:
     target: MilvusServer
     chunker: TokenTextChunker
     voyage: VoyageEmbedding
     qwen: SentenceTransformersEmbedding
     bge_m3: BgeM3Embedding
+
+
+@dataclass(frozen=True)
+class SolutionSpec:
+    id: str
+    title: str
+    description: str
+    tags: tuple[str, ...]
+    factory: Callable[[Runtime, SolutionSpec], Solution]
+    readme_path: str
+
+    def build(self, runtime: Runtime) -> Solution:
+        return self.factory(runtime, self)

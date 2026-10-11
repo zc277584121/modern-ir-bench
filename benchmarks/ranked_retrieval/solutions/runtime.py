@@ -5,7 +5,7 @@ from __future__ import annotations
 import os
 from pathlib import Path
 
-from benchmarks.modern_ir_solutions.types import Runtime
+from benchmarks.ranked_retrieval.solutions.types import Runtime
 from modern_ir_bench.embeddings import BgeM3Embedding, SentenceTransformersEmbedding, VoyageEmbedding
 from modern_ir_bench.retrieval import HuggingFaceOffsetTokenizer, TextInput, TokenTextChunker
 from modern_ir_bench.retrieval.indexes.milvus import MilvusServer
@@ -20,7 +20,7 @@ def text_of(value: TextInput) -> str:
 
 
 def build_runtime() -> Runtime:
-    project_root = Path(__file__).resolve().parents[2]
+    project_root = Path(__file__).resolve().parents[3]
     target = MilvusServer(
         os.environ.get("MIR_MILVUS_URI", "http://127.0.0.1:19530"),
         token=os.environ.get("MIR_MILVUS_TOKEN", ""),

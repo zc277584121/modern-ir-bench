@@ -1,167 +1,127 @@
 # Modern IR Bench
 
-Modern IR Bench is a code-native benchmark for modern information retrieval solutions. A participant can be a model, an algorithm, a multi-stage retrieval pipeline, a RAG system, or an agent memory system.
+Modern IR Bench is a code-native benchmark for modern information retrieval.
+A Solution may be a model, a lexical method, a multi-stage retrieval pipeline,
+or another system that implements a Task's runtime contract.
 
-The project is intentionally Python-only: executable Task and Solution definitions are
-the source of truth. Result artifacts remain separate from executable Solutions and
-carry their own provenance.
+Python is the only configuration language. Task definitions, Dataset bindings,
+Solution construction, and metrics are executable code; result evidence is kept
+separately and the Hugging Face Space is generated from that evidence.
 
-## Current release
+## Published benchmarks
 
-The current reviewed release is Modern IR Ranked Retrieval v2.2: a bilingual synthetic
-retrieval benchmark with 5,000 documents, 1,000 queries, and 6,575 positive binary
-Qrels.
-Its public leaderboard compares seven retrieval Solutions spanning full-document and
-chunked BM25, local dense and learned-sparse models, and hosted dense embeddings.
+### Ranked Retrieval v2.2
 
-v2.2 is a schema-only migration from v2.1. It renames the Query field `task` to
-`query_intent`; Query IDs and text, Corpus documents, Qrels, rankings, and scores are unchanged.
+- 5,000 bilingual text documents
+- 1,000 queries
+- 6,575 positive binary Qrels
+- seven lexical, dense, and learned-sparse Solutions
+- immutable historical Top-10 rankings in `results/modern-ir-v2.2/`
+- Dataset: [`zc277584121/modern-ir-bench`](https://huggingface.co/datasets/zc277584121/modern-ir-bench)
 
-The earlier deterministic mock showcase remains available as a framework smoke test:
-
-```bash
-uv sync
-uv run python -m benchmarks.mock_showcase
-uv run pytest
-```
-
-## PDF retrieval
-
-The first additional Task is whole-document PDF retrieval over the same semantic corpus.
-Its separate [`zc277584121/modern-ir-bench-pdf`](https://huggingface.co/datasets/zc277584121/modern-ir-bench-pdf)
-Dataset contains 5,000 PDFs, the unchanged 1,000 bilingual queries, and the unchanged
-6,575 binary Qrels. Preserving document IDs lets the Task isolate presentation and
-document-understanding effects without regenerating relevance labels.
-
-`PdfRetrieval` accepts Hugging Face `Pdf(decode=False)` resources and still asks a
-Solution to return ranked document IDs. Page splitting, OCR, visual embedding, and
-page-to-document aggregation remain Solution choices rather than Task policy.
-
-The baseline OCRs every page with the small bilingual PP-OCRv5 Mobile detector and
-recognizer, then delegates retrieval to full-document Milvus BM25. Native PDF text
-layers are never read. Set the two local source paths explicitly before running a smoke test:
+Run every maintained Solution:
 
 ```bash
-MIR_PDF_RUN_DIR=/path/to/rendered-pdf-corpus-v1 \
-MIR_TEXT_RELEASE_DIR=/path/to/modern-ir-bench-v2.2-20261010 \
-uv run --group pdf --group pdf-cpu python -m benchmarks.modern_ir_pdf_smoke
+uv sync --group benchmark
+uv run python -m benchmarks.ranked_retrieval.run
 ```
 
-This smoke result is not part of the public leaderboard. Official PDF results must use
-the pinned Hub revision and a clean source commit.
+### PDF Retrieval v1
 
-The maintained public definition and baseline can be run against the pinned Hub release:
+The PDF Task keeps the same semantic documents, queries, document IDs, and Qrels,
+but replaces each text resource with a rendered PDF. Solutions decide how to read
+pages and how to retrieve whole document IDs.
+
+The first baseline OCRs every page with PP-OCRv5 Mobile and then runs full-document
+Milvus BM25. It never reads a native PDF text layer. Its preserved live observations
+are in `results/modern-ir-pdf-v1/`.
+
+- Dataset: [`zc277584121/modern-ir-bench-pdf`](https://huggingface.co/datasets/zc277584121/modern-ir-bench-pdf)
+
+Run the baseline:
 
 ```bash
-MIR_OCR_DEVICE=gpu:0 uv run --group pdf --group pdf-gpu python -m benchmarks.modern_ir_pdf
+uv sync --group pdf --group pdf-gpu
+MIR_OCR_DEVICE=gpu:0 uv run python -m benchmarks.pdf_retrieval.run
 ```
 
-Use `pdf-cpu` for portable CPU execution or `pdf-gpu` for the CUDA 12.6 runtime;
-both paths use the same pinned OCR models and settings.
+Use `pdf-cpu` and `MIR_OCR_DEVICE=cpu` for a portable CPU run.
 
-The Task/Dataset binding lives in `benchmarks/modern_ir_pdf_definition.py`; the baseline
-Solution lives independently in `benchmarks/pdf_retrieval_solutions/paddleocr_bm25.py`.
+## Repository layout
 
-The Dataset contains only corpus, queries, and binary Qrels. The benchmark pins the immutable
-[`zc277584121/modern-ir-bench`](https://huggingface.co/datasets/zc277584121/modern-ir-bench)
-Dataset revision. The current Space recomputes every leaderboard metric from the reviewed
-historical Top-10 artifact under `results/modern-ir-v2.2/`:
+```text
+src/modern_ir_bench/             reusable framework and retrieval components
+benchmarks/ranked_retrieval/     text Task, Dataset binding, and Solutions
+benchmarks/pdf_retrieval/        PDF Task, Dataset binding, and OCR baseline
+benchmarks/reporting.py          slices derived from saved rankings
+benchmarks/publish.py            the only Space-data publisher
+results/                         immutable result evidence
+space/                           static, read-only Hugging Face Space
+docs/solutions/                  human-readable Solution notes
+tests/                           framework and integration tests
+```
+
+There are four intentionally separate layers:
+
+1. `src/modern_ir_bench/` defines reusable contracts and implementations.
+2. `benchmarks/` composes concrete Tasks, Datasets, metrics, and Solutions.
+3. `results/` preserves enough evidence to recompute published scores.
+4. `space/` presents a generated leaderboard and contains no evaluation logic.
+
+## Core model
+
+```text
+Task
+├── owns the evaluation protocol and metrics
+├── binds one or more Hugging Face Dataset releases
+└── runs every supplied Solution on every bound Dataset
+
+Dataset
+└── versioned data adapted to one Task contract
+
+Solution
+└── model, algorithm, retriever, pipeline, or agent under evaluation
+
+Observation
+└── per-sample evidence produced by Task × Dataset × Solution
+```
+
+`Task.run()` performs the Solution × Dataset Cartesian product. A Task defines the
+data contract it needs; Dataset adapters preserve useful labels but do not dictate
+batching, indexing, OCR, chunking, or retrieval policy. Those runtime choices belong
+to Solutions.
+
+## Publish the Space
+
+The Space JSON is never hand-edited and no Task appends to an existing payload.
+One command validates both result artifacts, recomputes metrics and slices, merges
+the reports, and writes `space/data/results.json` from scratch:
 
 ```bash
-uv run python -m benchmarks.modern_ir_publish
+uv run python -m benchmarks.publish
+uv run python -m benchmarks.publish --check
 ```
 
-This path treats saved rankings as a `RankingArtifact`, never as a fake Solution. The
-Space labels the rows `historical-artifact` because the original private run predates
-the public executable catalog and was not tied to a public Git commit.
+Publishing requires a clean commit because Solution links are pinned to that commit.
 
-Run all seven maintained Solutions from model inference through Milvus indexing and
-search:
-
-```bash
-uv run --group benchmark python -m benchmarks.modern_ir
-```
-
-The Task owns independent Chinese and English candidate pools. The Solution catalog
-contains full/chunk BM25, Voyage 4 Large, Qwen3 Embedding 4B, and BGE-M3 dense and
-learned-sparse implementations. Shared chunking, model revisions, query instructions,
-Milvus index types, and candidate depths are explicit in
-[`benchmarks/modern_ir_solutions/`](benchmarks/modern_ir_solutions/). Set
-`MIR_DEVICE`, `MIR_MILVUS_URI`, and `MIR_MILVUS_TOKEN` when local defaults are not
-appropriate.
-
-Run the Space locally:
+Run the static Space locally:
 
 ```bash
 cd space
 python -m http.server 7861
 ```
 
-## Core model
+## Add a benchmark
 
-```text
-Task
-├── declares its Hugging Face Dataset contract
-├── owns metrics and evaluation semantics
-└── decides how to call a Solution
+Create a small package under `benchmarks/` containing a Task/Dataset definition,
+one or more Solution constructors, and a direct `run.py` entry point. Reuse framework
+components from `src/modern_ir_bench/`; add new abstractions only when two real Tasks
+need them. No YAML registry or compatibility wrapper is required.
 
-Solution
-└── model, algorithm, retriever, pipeline, or agent being evaluated
-
-Observation
-└── sample-level evidence produced by a Task
-
-Metric
-└── scores task-specific Observations
-```
-
-Datasets use Hugging Face `Dataset` and `IterableDataset` directly. Adapters are ordinary Python functions, and ingestion/search phases remain explicit inside each task and solution.
-
-## Retrieval indexes
-
-Milvus is the default production-facing dense index path. The three deployment
-families are explicit so unsupported settings fail early instead of being silently
-ignored:
-
-```python
-from modern_ir_bench.retrieval.indexes import NumpyFlatIndex, VerifiedDenseIndex
-from modern_ir_bench.retrieval.indexes.milvus import MilvusDenseIndex, MilvusLite
-
-index = VerifiedDenseIndex(
-    primary=MilvusDenseIndex(
-        target=MilvusLite("artifacts/example.db"),
-        metric="COSINE",
-    ),
-    oracle=NumpyFlatIndex(metric="COSINE"),
-)
-```
-
-The primary Milvus result is returned to the Task. The independent exhaustive
-NumPy search retains index-recall evidence that helps separate model quality from
-index, consistency, or integration errors. Both backends receive the exact same
-embedding batches through one `DenseIndex` lifecycle: `open`, `add`, `seal`,
-`search`, and `close`.
-
-Milvus sessions always use an isolated temporary collection, Strong consistency,
-and record the requested and actual index descriptions plus client/server versions.
-The framework currently validates Milvus Lite with a real integration test; Server
-and Zilliz Cloud use the same client implementation with deployment-specific index
-validation.
-
-## Add an experiment
-
-Create an executable module under `benchmarks/`, construct datasets, tasks, metrics, and solutions, then run it directly:
+## Development
 
 ```bash
-uv run python -m benchmarks.your_experiment
+uv sync --group dev
+uv run ruff check .
+uv run pytest
 ```
-
-No YAML registry or parallel configuration language is required.
-
-## Publishing model
-
-The Space is a read-only view of maintainer-approved results. Contributions arrive through GitHub pull requests; there is no public model upload or shared evaluation runtime. Dataset releases are immutable, and new data is published as a new version.
-
-The full refactor design is maintained in `.local.PLAN.md`. Earlier experimental
-implementations and generated artifacts remain recoverable from Git history and the
-archived experiment branches; they are intentionally excluded from the current tree.

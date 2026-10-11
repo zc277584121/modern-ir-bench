@@ -72,11 +72,17 @@ def _adapt_ranked_retrieval_rows(
                 "document_id": [row["doc_id"] for row in documents],
                 "content": [f"{row['title']}\n\n{row['text']}" for row in documents],
                 "language": [str(row["dimensions"]["language"]) for row in documents],
+                "domain": [str(row["dimensions"]["domain"]) for row in documents],
+                "form": [str(row["dimensions"]["form"]) for row in documents],
+                "length": [str(row["dimensions"]["length"]) for row in documents],
             },
             features=Features(
                 {
                     **RankedRetrieval.dataset_features["documents"],
                     "language": Value("string"),
+                    "domain": Value("string"),
+                    "form": Value("string"),
+                    "length": Value("string"),
                 }
             ),
         ),
@@ -85,11 +91,17 @@ def _adapt_ranked_retrieval_rows(
                 "query_id": [row["query_id"] for row in queries],
                 "query": [row["text"] for row in queries],
                 "language": [str(row["language"]) for row in queries],
+                "query_intent": [str(row["query_intent"]) for row in queries],
+                "expression": [str(row["expression"]) for row in queries],
+                "constraint_level": [str(row["constraint_level"]) for row in queries],
             },
             features=Features(
                 {
                     **RankedRetrieval.dataset_features["queries"],
                     "language": Value("string"),
+                    "query_intent": Value("string"),
+                    "expression": Value("string"),
+                    "constraint_level": Value("string"),
                 }
             ),
         ),

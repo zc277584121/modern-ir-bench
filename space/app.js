@@ -1,4 +1,4 @@
-import { createProfileController } from "./profile.js?v=2";
+import { createProfileController } from "./profile.js";
 
 const state = {
   payload: null,

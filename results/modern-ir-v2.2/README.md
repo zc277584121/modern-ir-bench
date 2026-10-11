@@ -20,7 +20,7 @@ and pinned Dataset revision, but does not claim that replaying the artifact is
 model inference.
 
 Maintained executable definitions for all seven Solutions now live in
-[`benchmarks/modern_ir_solutions/`](../../benchmarks/modern_ir_solutions/).
+[`benchmarks/ranked_retrieval/solutions/`](../../benchmarks/ranked_retrieval/solutions/).
 A future live run can replace this artifact while preserving the same Task and
 Space schema.
 

@@ -21,7 +21,11 @@ venv/
 /reports/
 /.runtime/
 /results/*
+!/results/README.md
 !/results/modern-ir-v2.2/
+!/results/modern-ir-v2.2/**
+!/results/modern-ir-pdf-v1/
+!/results/modern-ir-pdf-v1/**
 /pytest-of-zhangchen/
 
 # Embedding cache and numpy files

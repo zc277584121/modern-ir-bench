@@ -11,7 +11,7 @@ from modern_ir_bench import MetricSet
 from modern_ir_bench.core.solution import Solution
 from modern_ir_bench.metrics import NDCG, Recall
 from modern_ir_bench.retrieval import PdfInput, RetrievalResource, SearchHit, TextInput
-from modern_ir_bench.solutions import PaddleOcrExtractor, PdfTextExtractionSolution
+from modern_ir_bench.solutions import PaddleOcrExtractor, PdfOcrRetrievalSolution
 from modern_ir_bench.tasks import PdfRetrieval
 
 
@@ -124,7 +124,7 @@ def test_pdf_task_reuses_ranked_retrieval_with_pdf_resources(tmp_path: Path) -> 
         pool_field="language",
     )
     task.validate_dataset(dataset)
-    solution = PdfTextExtractionSolution(
+    solution = PdfOcrRetrievalSolution(
         id="pdf-text-static",
         title="PDF text static",
         text_solution=RecordingTextSolution(id="static", title="Static"),

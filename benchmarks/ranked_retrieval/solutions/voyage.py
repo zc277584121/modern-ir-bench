@@ -1,16 +1,16 @@
 """Voyage Solution definitions."""
 
-from benchmarks.modern_ir_solutions.runtime import text_of
-from benchmarks.modern_ir_solutions.types import Runtime, SolutionSpec
+from benchmarks.ranked_retrieval.solutions.runtime import text_of
+from benchmarks.ranked_retrieval.solutions.types import Runtime, SolutionSpec
 from modern_ir_bench.retrieval import ChunkedDenseRetrievalSolution, DenseRetrievalSolution
 from modern_ir_bench.retrieval.indexes.milvus import MilvusDenseIndex
 
 
-def build_voyage_full(runtime: Runtime):
+def _build_voyage_full(runtime: Runtime, spec: SolutionSpec):
     return DenseRetrievalSolution(
-        id="voyage-4-large-full",
-        title="Voyage 4 Large · full document",
-        description="Voyage 4 Large embeddings with Milvus FLAT cosine search.",
+        id=spec.id,
+        title=spec.title,
+        description=spec.description,
         embedding=runtime.voyage,
         index=MilvusDenseIndex(
             target=runtime.target,
@@ -23,11 +23,11 @@ def build_voyage_full(runtime: Runtime):
     )
 
 
-def build_voyage_chunk(runtime: Runtime):
+def _build_voyage_chunk(runtime: Runtime, spec: SolutionSpec):
     return ChunkedDenseRetrievalSolution(
-        id="voyage-4-large-chunk",
-        title="Voyage 4 Large · 768-token chunks",
-        description="Voyage 4 Large embeddings over shared chunks with Milvus FLAT search.",
+        id=spec.id,
+        title=spec.title,
+        description=spec.description,
         embedding=runtime.voyage,
         index=MilvusDenseIndex(
             target=runtime.target,
@@ -48,7 +48,7 @@ SPECS = (
         "Voyage 4 Large · full document",
         "Voyage 4 Large full-document embeddings with Milvus FLAT search.",
         ("dense", "hosted", "full-document", "milvus"),
-        build_voyage_full,
+        _build_voyage_full,
         "docs/solutions/voyage-4-large.md",
     ),
     SolutionSpec(
@@ -56,7 +56,7 @@ SPECS = (
         "Voyage 4 Large · 768-token chunks",
         "Voyage 4 Large embeddings over shared chunks with Milvus FLAT search.",
         ("dense", "hosted", "chunked", "milvus"),
-        build_voyage_chunk,
+        _build_voyage_chunk,
         "docs/solutions/voyage-4-large.md",
     ),
 )

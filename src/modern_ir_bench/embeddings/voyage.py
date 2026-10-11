@@ -101,7 +101,12 @@ class VoyageEmbedding:
             yield batch
 
     def _embed_with_retry(self, texts: list[str], kind: str) -> Any:
-        from voyageai.error import RateLimitError
+        try:
+            from voyageai.error import RateLimitError
+
+            rate_limit_errors: tuple[type[BaseException], ...] = (RateLimitError,)
+        except ImportError:
+            rate_limit_errors = ()
 
         for attempt in range(self.max_rate_limit_retries + 1):
             try:
@@ -111,7 +116,7 @@ class VoyageEmbedding:
                     input_type=kind,
                     output_dimension=self.dimension,
                 )
-            except RateLimitError:
+            except rate_limit_errors:
                 if attempt == self.max_rate_limit_retries:
                     raise
                 sleep(min(120, 10 * 2**attempt))
