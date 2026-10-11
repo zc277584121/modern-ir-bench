@@ -50,7 +50,8 @@ Run the portable local dense Solution. The first run performs OCR on CPU; later
 runs reuse its content-addressed cache:
 
 ```bash
-MIR_DEVICE=cuda:0 uv run --group benchmark --group pdf --group pdf-cpu \
+MIR_DEVICE=cuda:0 MIR_MILVUS_LITE_PATH=.runtime/pdf-benchmark.db \
+  uv run --group benchmark --group pdf --group pdf-cpu \
   python -m benchmarks.pdf_retrieval.run \
   --solution paddleocr-v5-mobile-bge-m3-full
 ```

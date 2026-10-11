@@ -12,7 +12,7 @@ from pathlib import Path
 from benchmarks.pdf_retrieval.definition import RELEASE_ID, build_task
 from benchmarks.pdf_retrieval.solutions import SOLUTION_SPECS, build_solutions
 from modern_ir_bench import RunProvenance
-from modern_ir_bench.retrieval.indexes.milvus import MilvusServer
+from modern_ir_bench.retrieval.indexes.milvus import MilvusLite, MilvusServer
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 OUTPUT_ROOT = PROJECT_ROOT / "artifacts/modern-ir-pdf-live"
@@ -33,9 +33,14 @@ def main() -> None:
     arguments = _arguments()
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
     task = build_task()
-    target = MilvusServer(
-        os.environ.get("MIR_MILVUS_URI", "http://127.0.0.1:19530"),
-        token=os.environ.get("MIR_MILVUS_TOKEN", ""),
+    lite_path = os.environ.get("MIR_MILVUS_LITE_PATH")
+    target = (
+        MilvusLite(lite_path)
+        if lite_path
+        else MilvusServer(
+            os.environ.get("MIR_MILVUS_URI", "http://127.0.0.1:19530"),
+            token=os.environ.get("MIR_MILVUS_TOKEN", ""),
+        )
     )
     solutions = build_solutions(
         target=target,
