@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "artifact_type": "live-pdf-retrieval-observations",
+  "release": "modern-ir-bench-pdf-v1-20261011",
+  "dataset": {
+    "repository": "zc277584121/modern-ir-bench-pdf",
+    "revision": "5ac497e8aad79c9c0843c46eb97bb9900f3b109b"
+  },
+  "source_commit": "1fdc17e61f659910826d3a6836e61930ded77667",
+  "solution": "poppler-text-layer-bm25-full",
+  "queries": 1000,
+  "top_k": 10,
+  "results_sha256": "138db62c4f6d7eb92c72abf5ffbfba002882f34eb46cb2d938c3a387c23f360f",
+  "observations_sha256": "7f0cd166966f610f23eff6041af70dd725c8f41c60cd4d6dd9de87c009c207ff"
+}

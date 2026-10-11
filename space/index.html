@@ -8,7 +8,7 @@
       content="Code-native evaluation for modern information retrieval solutions"
     />
     <title>Modern IR Bench</title>
-    <link rel="stylesheet" href="styles.css?v=12" />
+    <link rel="stylesheet" href="styles.css?v=13" />
     <link rel="stylesheet" href="profile.css?v=1" />
   </head>
   <body>
@@ -24,7 +24,7 @@
         </div>
       </header>
       <div id="summary" class="summary" aria-live="polite"></div>
-      <div id="release-notice" class="notice" hidden></div>
+      <div id="release-notice" class="release-note" hidden></div>
       <div id="error-notice" class="notice" aria-live="polite" hidden></div>
 
       <nav class="tabs" aria-label="Benchmark views">
@@ -127,14 +127,18 @@
         </p>
         <pre><code>git checkout &lt;source_commit&gt;
 uv sync --group benchmark
-uv run python -m benchmarks.modern_ir</code></pre>
+uv run python -m benchmarks.modern_ir
+uv run python -m benchmarks.modern_ir_pdf</code></pre>
 
         <h2>Publication</h2>
         <p>
           This Space is read-only. New Tasks, Datasets, Solutions, and experiments are
           reviewed through <a href="https://github.com/zc277584121/modern-ir-bench">GitHub pull requests</a>
-          and run in the maintained environment. The benchmark data are published as a
-          <a href="https://huggingface.co/datasets/zc277584121/modern-ir-bench">Hugging Face Dataset</a>.
+          and run in the maintained environment. The benchmark data are published as
+          separate Hugging Face Datasets for
+          <a href="https://huggingface.co/datasets/zc277584121/modern-ir-bench">text retrieval</a>
+          and
+          <a href="https://huggingface.co/datasets/zc277584121/modern-ir-bench-pdf">PDF retrieval</a>.
         </p>
 
         <h2>Result model</h2>
@@ -150,6 +154,6 @@ uv run python -m benchmarks.modern_ir</code></pre>
         </p>
       </section>
     </main>
-    <script src="app.js?v=13" type="module"></script>
+    <script src="app.js?v=14" type="module"></script>
   </body>
 </html>

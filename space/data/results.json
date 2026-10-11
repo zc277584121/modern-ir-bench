@@ -1,7 +1,7 @@
 {
   "benchmark": {
     "title": "Modern IR Bench",
-    "release": "modern-ir-bench-v2.2-20261010",
+    "release": "modern-ir-bench-public-20261011",
     "counts": {
       "documents": 5000,
       "queries": 1000,
@@ -11,9 +11,16 @@
       "Chinese",
       "English"
     ],
-    "notice": "v2.2 scores are recomputed from the reviewed historical Top-10 ranking artifact. Solution links open the maintained executable definitions; result evidence is linked separately."
+    "notice": "Ranked Retrieval v2.2 is recomputed from reviewed historical Top-10 rankings. PDF Retrieval v1 is a live run from pinned public code and data."
   },
   "tasks": [
+    {
+      "id": "modern-ir-pdf-retrieval-v1",
+      "title": "Modern IR PDF Retrieval v1",
+      "description": "Retrieve whole PDFs across generated layouts, scans, screenshots, annotations, compression, and camera-capture conditions.",
+      "version": "1.0.0",
+      "primary_metric": "ndcg@10"
+    },
     {
       "id": "modern-ir-ranked-retrieval-v2.2",
       "title": "Modern IR Ranked Retrieval v2.2",
@@ -76,6 +83,20 @@
       "code_url": "https://github.com/zc277584121/modern-ir-bench/blob/2d23239cbafffba0ee515a98ca3912b47aeccbea/benchmarks/modern_ir_solutions/bm25.py#L7",
       "readme_url": "https://github.com/zc277584121/modern-ir-bench/blob/2d23239cbafffba0ee515a98ca3912b47aeccbea/docs/solutions/bm25.md",
       "result_url": "https://github.com/zc277584121/modern-ir-bench/blob/2d23239cbafffba0ee515a98ca3912b47aeccbea/results/modern-ir-v2.2/README.md#L1"
+    },
+    {
+      "id": "poppler-text-layer-bm25-full",
+      "title": "Poppler text layer + BM25 · full document",
+      "description": "Extract existing PDF text layers with Poppler, then run language-aware Milvus BM25.",
+      "tags": [
+        "lexical",
+        "full-document",
+        "pdf-text-layer",
+        "milvus"
+      ],
+      "code_url": "https://github.com/zc277584121/modern-ir-bench/blob/1fdc17e61f659910826d3a6836e61930ded77667/benchmarks/pdf_retrieval_solutions/poppler_bm25.py#L10",
+      "readme_url": "https://github.com/zc277584121/modern-ir-bench/blob/1fdc17e61f659910826d3a6836e61930ded77667/docs/solutions/pdf-text-layer-bm25.md",
+      "result_url": "https://github.com/zc277584121/modern-ir-bench/tree/codex/improve-space-ux/results/modern-ir-pdf-v1"
     },
     {
       "id": "qwen3-embedding-4b-chunk",
@@ -785,6 +806,101 @@
       "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/2d23239cbafffba0ee515a98ca3912b47aeccbea/results/modern-ir-v2.2/README.md#L1",
       "created_at": "2026-10-10T03:34:57.604060+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.2__modern-ir-bench-v2.2-20261010__bge-m3-sparse-chunk"
+    },
+    {
+      "task_id": "modern-ir-pdf-retrieval-v1",
+      "task_version": "1.0.0",
+      "dataset_id": "modern-ir-bench-pdf-v1-20261011",
+      "dataset_version": "5ac497e8aad7",
+      "solution_id": "poppler-text-layer-bm25-full",
+      "metric_id": "ndcg@10",
+      "metric_label": "NDCG@10",
+      "value": 0.19778905,
+      "primary": true,
+      "status": "live",
+      "source_commit": "1fdc17e61f659910826d3a6836e61930ded77667",
+      "source_module": "benchmarks.modern_ir_pdf",
+      "source_path": "benchmarks/modern_ir_pdf.py",
+      "source_line": 19,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/1fdc17e61f659910826d3a6836e61930ded77667/benchmarks/modern_ir_pdf.py#L19",
+      "created_at": "2026-10-11T06:27:59.630198+00:00",
+      "observation_key": "modern-ir-pdf-retrieval-v1__modern-ir-bench-pdf-v1-20261011__poppler-text-layer-bm25-full"
+    },
+    {
+      "task_id": "modern-ir-pdf-retrieval-v1",
+      "task_version": "1.0.0",
+      "dataset_id": "modern-ir-bench-pdf-v1-20261011",
+      "dataset_version": "5ac497e8aad7",
+      "solution_id": "poppler-text-layer-bm25-full",
+      "metric_id": "recall@1",
+      "metric_label": "Recall@1",
+      "value": 0.07038287,
+      "primary": false,
+      "status": "live",
+      "source_commit": "1fdc17e61f659910826d3a6836e61930ded77667",
+      "source_module": "benchmarks.modern_ir_pdf",
+      "source_path": "benchmarks/modern_ir_pdf.py",
+      "source_line": 19,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/1fdc17e61f659910826d3a6836e61930ded77667/benchmarks/modern_ir_pdf.py#L19",
+      "created_at": "2026-10-11T06:27:59.630198+00:00",
+      "observation_key": "modern-ir-pdf-retrieval-v1__modern-ir-bench-pdf-v1-20261011__poppler-text-layer-bm25-full"
+    },
+    {
+      "task_id": "modern-ir-pdf-retrieval-v1",
+      "task_version": "1.0.0",
+      "dataset_id": "modern-ir-bench-pdf-v1-20261011",
+      "dataset_version": "5ac497e8aad7",
+      "solution_id": "poppler-text-layer-bm25-full",
+      "metric_id": "recall@5",
+      "metric_label": "Recall@5",
+      "value": 0.13134741,
+      "primary": false,
+      "status": "live",
+      "source_commit": "1fdc17e61f659910826d3a6836e61930ded77667",
+      "source_module": "benchmarks.modern_ir_pdf",
+      "source_path": "benchmarks/modern_ir_pdf.py",
+      "source_line": 19,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/1fdc17e61f659910826d3a6836e61930ded77667/benchmarks/modern_ir_pdf.py#L19",
+      "created_at": "2026-10-11T06:27:59.630198+00:00",
+      "observation_key": "modern-ir-pdf-retrieval-v1__modern-ir-bench-pdf-v1-20261011__poppler-text-layer-bm25-full"
+    },
+    {
+      "task_id": "modern-ir-pdf-retrieval-v1",
+      "task_version": "1.0.0",
+      "dataset_id": "modern-ir-bench-pdf-v1-20261011",
+      "dataset_version": "5ac497e8aad7",
+      "solution_id": "poppler-text-layer-bm25-full",
+      "metric_id": "recall@10",
+      "metric_label": "Recall@10",
+      "value": 0.14751018,
+      "primary": false,
+      "status": "live",
+      "source_commit": "1fdc17e61f659910826d3a6836e61930ded77667",
+      "source_module": "benchmarks.modern_ir_pdf",
+      "source_path": "benchmarks/modern_ir_pdf.py",
+      "source_line": 19,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/1fdc17e61f659910826d3a6836e61930ded77667/benchmarks/modern_ir_pdf.py#L19",
+      "created_at": "2026-10-11T06:27:59.630198+00:00",
+      "observation_key": "modern-ir-pdf-retrieval-v1__modern-ir-bench-pdf-v1-20261011__poppler-text-layer-bm25-full"
+    },
+    {
+      "task_id": "modern-ir-pdf-retrieval-v1",
+      "task_version": "1.0.0",
+      "dataset_id": "modern-ir-bench-pdf-v1-20261011",
+      "dataset_version": "5ac497e8aad7",
+      "solution_id": "poppler-text-layer-bm25-full",
+      "metric_id": "mrr@10",
+      "metric_label": "MRR@10",
+      "value": 0.44546548,
+      "primary": false,
+      "status": "live",
+      "source_commit": "1fdc17e61f659910826d3a6836e61930ded77667",
+      "source_module": "benchmarks.modern_ir_pdf",
+      "source_path": "benchmarks/modern_ir_pdf.py",
+      "source_line": 19,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/1fdc17e61f659910826d3a6836e61930ded77667/benchmarks/modern_ir_pdf.py#L19",
+      "created_at": "2026-10-11T06:27:59.630198+00:00",
+      "observation_key": "modern-ir-pdf-retrieval-v1__modern-ir-bench-pdf-v1-20261011__poppler-text-layer-bm25-full"
     }
   ],
   "breakdowns": [
@@ -12156,6 +12272,367 @@
               "metric_id": "target_recall@5",
               "metric_label": "Target Recall@5",
               "value": 0.48449001,
+              "primary": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "language",
+      "label": "Language",
+      "category": "query",
+      "description": "Scores for queries grouped by language.",
+      "primary_metric": "ndcg@10",
+      "task_id": "modern-ir-pdf-retrieval-v1",
+      "dataset_id": "modern-ir-bench-pdf-v1-20261011",
+      "dataset_version": "5ac497e8aad7",
+      "values": [
+        {
+          "id": "zh",
+          "label": "Chinese",
+          "count": 500,
+          "results": [
+            {
+              "solution_id": "poppler-text-layer-bm25-full",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.19187586,
+              "primary": true
+            },
+            {
+              "solution_id": "poppler-text-layer-bm25-full",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.067309,
+              "primary": false
+            },
+            {
+              "solution_id": "poppler-text-layer-bm25-full",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.12612917,
+              "primary": false
+            },
+            {
+              "solution_id": "poppler-text-layer-bm25-full",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.14295668,
+              "primary": false
+            },
+            {
+              "solution_id": "poppler-text-layer-bm25-full",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.43738413,
+              "primary": false
+            }
+          ]
+        },
+        {
+          "id": "en",
+          "label": "English",
+          "count": 500,
+          "results": [
+            {
+              "solution_id": "poppler-text-layer-bm25-full",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.20370223,
+              "primary": true
+            },
+            {
+              "solution_id": "poppler-text-layer-bm25-full",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.07345674,
+              "primary": false
+            },
+            {
+              "solution_id": "poppler-text-layer-bm25-full",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.13656565,
+              "primary": false
+            },
+            {
+              "solution_id": "poppler-text-layer-bm25-full",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.15206368,
+              "primary": false
+            },
+            {
+              "solution_id": "poppler-text-layer-bm25-full",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.45354683,
+              "primary": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "relevant_pdf_access",
+      "label": "Relevant PDF access",
+      "category": "query",
+      "description": "Separates queries with at least one relevant PDF containing an existing text layer from queries whose relevant PDFs all require OCR or visual understanding.",
+      "primary_metric": "ndcg@10",
+      "task_id": "modern-ir-pdf-retrieval-v1",
+      "dataset_id": "modern-ir-bench-pdf-v1-20261011",
+      "dataset_version": "5ac497e8aad7",
+      "values": [
+        {
+          "id": "text_layer_available",
+          "label": "Text layer available",
+          "count": 621,
+          "results": [
+            {
+              "solution_id": "poppler-text-layer-bm25-full",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.31850088,
+              "primary": true
+            },
+            {
+              "solution_id": "poppler-text-layer-bm25-full",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.11333795,
+              "primary": false
+            },
+            {
+              "solution_id": "poppler-text-layer-bm25-full",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.21150951,
+              "primary": false
+            },
+            {
+              "solution_id": "poppler-text-layer-bm25-full",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.23753652,
+              "primary": false
+            },
+            {
+              "solution_id": "poppler-text-layer-bm25-full",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.71733571,
+              "primary": false
+            }
+          ]
+        },
+        {
+          "id": "image_only",
+          "label": "Image-only relevant PDFs",
+          "count": 379,
+          "results": [
+            {
+              "solution_id": "poppler-text-layer-bm25-full",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.0,
+              "primary": true
+            },
+            {
+              "solution_id": "poppler-text-layer-bm25-full",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.0,
+              "primary": false
+            },
+            {
+              "solution_id": "poppler-text-layer-bm25-full",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.0,
+              "primary": false
+            },
+            {
+              "solution_id": "poppler-text-layer-bm25-full",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.0,
+              "primary": false
+            },
+            {
+              "solution_id": "poppler-text-layer-bm25-full",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.0,
+              "primary": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "relevant_document_text_layer",
+      "label": "Text layer",
+      "category": "relevant_documents",
+      "description": "Recall of relevant PDFs by text-layer availability; retrieval is not rerun.",
+      "primary_metric": "target_recall@10",
+      "task_id": "modern-ir-pdf-retrieval-v1",
+      "dataset_id": "modern-ir-bench-pdf-v1-20261011",
+      "dataset_version": "5ac497e8aad7",
+      "values": [
+        {
+          "id": "true",
+          "label": "Has text layer",
+          "count": 621,
+          "target_count": 1092,
+          "results": [
+            {
+              "solution_id": "poppler-text-layer-bm25-full",
+              "metric_id": "target_recall@10",
+              "metric_label": "Target Recall@10",
+              "value": 0.87082087,
+              "primary": true
+            },
+            {
+              "solution_id": "poppler-text-layer-bm25-full",
+              "metric_id": "target_recall@1",
+              "metric_label": "Target Recall@1",
+              "value": 0.42202477,
+              "primary": false
+            },
+            {
+              "solution_id": "poppler-text-layer-bm25-full",
+              "metric_id": "target_recall@5",
+              "metric_label": "Target Recall@5",
+              "value": 0.77456867,
+              "primary": false
+            }
+          ]
+        },
+        {
+          "id": "false",
+          "label": "Image only",
+          "count": 997,
+          "target_count": 5483,
+          "results": [
+            {
+              "solution_id": "poppler-text-layer-bm25-full",
+              "metric_id": "target_recall@10",
+              "metric_label": "Target Recall@10",
+              "value": 0.0,
+              "primary": true
+            },
+            {
+              "solution_id": "poppler-text-layer-bm25-full",
+              "metric_id": "target_recall@1",
+              "metric_label": "Target Recall@1",
+              "value": 0.0,
+              "primary": false
+            },
+            {
+              "solution_id": "poppler-text-layer-bm25-full",
+              "metric_id": "target_recall@5",
+              "metric_label": "Target Recall@5",
+              "value": 0.0,
+              "primary": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "relevant_document_transform_tier",
+      "label": "Capture difficulty",
+      "category": "relevant_documents",
+      "description": "Recall of relevant PDFs by rendering and capture difficulty; retrieval is not rerun.",
+      "primary_metric": "target_recall@10",
+      "task_id": "modern-ir-pdf-retrieval-v1",
+      "dataset_id": "modern-ir-bench-pdf-v1-20261011",
+      "dataset_version": "5ac497e8aad7",
+      "values": [
+        {
+          "id": "easy",
+          "label": "Easy",
+          "count": 715,
+          "target_count": 1514,
+          "results": [
+            {
+              "solution_id": "poppler-text-layer-bm25-full",
+              "metric_id": "target_recall@10",
+              "metric_label": "Target Recall@10",
+              "value": 0.6368587,
+              "primary": true
+            },
+            {
+              "solution_id": "poppler-text-layer-bm25-full",
+              "metric_id": "target_recall@1",
+              "metric_label": "Target Recall@1",
+              "value": 0.31451437,
+              "primary": false
+            },
+            {
+              "solution_id": "poppler-text-layer-bm25-full",
+              "metric_id": "target_recall@5",
+              "metric_label": "Target Recall@5",
+              "value": 0.56861805,
+              "primary": false
+            }
+          ]
+        },
+        {
+          "id": "medium",
+          "label": "Medium",
+          "count": 923,
+          "target_count": 2656,
+          "results": [
+            {
+              "solution_id": "poppler-text-layer-bm25-full",
+              "metric_id": "target_recall@10",
+              "metric_label": "Target Recall@10",
+              "value": 0.0,
+              "primary": true
+            },
+            {
+              "solution_id": "poppler-text-layer-bm25-full",
+              "metric_id": "target_recall@1",
+              "metric_label": "Target Recall@1",
+              "value": 0.0,
+              "primary": false
+            },
+            {
+              "solution_id": "poppler-text-layer-bm25-full",
+              "metric_id": "target_recall@5",
+              "metric_label": "Target Recall@5",
+              "value": 0.0,
+              "primary": false
+            }
+          ]
+        },
+        {
+          "id": "hard",
+          "label": "Hard",
+          "count": 873,
+          "target_count": 2405,
+          "results": [
+            {
+              "solution_id": "poppler-text-layer-bm25-full",
+              "metric_id": "target_recall@10",
+              "metric_label": "Target Recall@10",
+              "value": 0.0,
+              "primary": true
+            },
+            {
+              "solution_id": "poppler-text-layer-bm25-full",
+              "metric_id": "target_recall@1",
+              "metric_label": "Target Recall@1",
+              "value": 0.0,
+              "primary": false
+            },
+            {
+              "solution_id": "poppler-text-layer-bm25-full",
+              "metric_id": "target_recall@5",
+              "metric_label": "Target Recall@5",
+              "value": 0.0,
               "primary": false
             }
           ]

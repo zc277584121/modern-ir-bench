@@ -155,6 +155,16 @@ h2 {
   font-size: 14px;
 }
 
+.release-note {
+  margin: 0 0 20px;
+  padding: 11px 13px;
+  border: 1px solid #dbe3ee;
+  border-radius: 8px;
+  background: #f8fafc;
+  color: #475569;
+  font-size: 14px;
+}
+
 .tabs {
   display: flex;
   gap: 24px;

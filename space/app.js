@@ -22,6 +22,18 @@ const breakdownDisplayByTask = new Map([
       defaultProfile: "relevant_document_domain",
     },
   ],
+  [
+    "modern-ir-pdf-retrieval-v1",
+    {
+      ids: new Set([
+        "language",
+        "relevant_pdf_access",
+        "relevant_document_text_layer",
+        "relevant_document_transform_tier",
+      ]),
+      defaultProfile: "relevant_document_transform_tier",
+    },
+  ],
 ]);
 
 const escapeHtml = (value) =>
@@ -36,6 +48,8 @@ const formatScore = (value) => Number(value).toFixed(3);
 const formatInteger = (value) => Number(value).toLocaleString("en-US");
 
 function datasetLabel(datasetId) {
+  const pdfRelease = datasetId.match(/^modern-ir-bench-pdf-v(\d+(?:\.\d+)?)/);
+  if (pdfRelease) return `Modern IR PDF v${pdfRelease[1]}`;
   const release = datasetId.match(/^modern-ir-bench-v(\d+(?:\.\d+)?)/);
   if (release) return `Modern IR Bench v${release[1]}`;
   return datasetId.replace(/-\d{8}$/, "");
