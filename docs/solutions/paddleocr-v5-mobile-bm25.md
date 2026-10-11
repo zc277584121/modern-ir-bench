@@ -32,6 +32,6 @@ The cache changes runtime only; it does not use Dataset labels or affect ranking
 - Primary metric: NDCG@10
 
 The maintained Solution definition is
-[`benchmarks/pdf_retrieval/solution.py`](../../benchmarks/pdf_retrieval/solution.py).
+[`benchmarks/pdf_retrieval/solutions/ocr.py`](../../benchmarks/pdf_retrieval/solutions/ocr.py).
 The public Task and Dataset binding is kept separately in
 [`benchmarks/pdf_retrieval/definition.py`](../../benchmarks/pdf_retrieval/definition.py).

@@ -32,27 +32,38 @@ The PDF Task keeps the same semantic documents, queries, document IDs, and Qrels
 but replaces each text resource with a rendered PDF. Solutions decide how to read
 pages and how to retrieve whole document IDs.
 
-The first baseline OCRs every page with PP-OCRv5 Mobile and then runs full-document
-Milvus BM25. It never reads a native PDF text layer. Its preserved live observations
-are in `results/modern-ir-pdf-v1/`.
+The published baseline OCRs every page with PP-OCRv5 Mobile and then runs
+full-document Milvus BM25. The executable catalog also contains local dense,
+hosted dense, and OCR-free visual Solutions. None reads a native PDF text layer.
+Preserved baseline observations are in `results/modern-ir-pdf-v1/`.
 
 - Dataset: [`zc277584121/modern-ir-bench-pdf`](https://huggingface.co/datasets/zc277584121/modern-ir-bench-pdf)
+- Design and Solution matrix: [`docs/pdf-solutions.md`](docs/pdf-solutions.md)
 
-Run the baseline:
+List the Solution choices:
 
 ```bash
-uv sync --group pdf --group pdf-gpu
-MIR_OCR_DEVICE=gpu:0 uv run python -m benchmarks.pdf_retrieval.run
+uv run --group benchmark --group pdf python -m benchmarks.pdf_retrieval.run --help
 ```
 
-Use `pdf-cpu` and `MIR_OCR_DEVICE=cpu` for a portable CPU run.
+Run the portable local dense Solution. The first run performs OCR on CPU; later
+runs reuse its content-addressed cache:
+
+```bash
+MIR_DEVICE=cuda:0 uv run --group benchmark --group pdf --group pdf-cpu \
+  python -m benchmarks.pdf_retrieval.run \
+  --solution paddleocr-v5-mobile-bge-m3-full
+```
+
+GPU PaddleOCR uses the mutually exclusive `pdf-gpu` environment and is best run
+first as the BM25 baseline to populate the shared OCR cache.
 
 ## Repository layout
 
 ```text
 src/modern_ir_bench/             reusable framework and retrieval components
 benchmarks/ranked_retrieval/     text Task, Dataset binding, and Solutions
-benchmarks/pdf_retrieval/        PDF Task, Dataset binding, and OCR baseline
+benchmarks/pdf_retrieval/        PDF Task, Dataset binding, and Solution catalog
 benchmarks/reporting.py          slices derived from saved rankings
 benchmarks/publish.py            the only Space-data publisher
 results/                         immutable result evidence

@@ -1,7 +1,7 @@
 """Reference and demonstration solutions."""
 
 from modern_ir_bench.retrieval import ChunkedDenseRetrievalSolution, DenseRetrievalSolution
-from modern_ir_bench.solutions.pdf import PaddleOcrExtractor, PdfOcrRetrievalSolution
+from modern_ir_bench.solutions.pdf import PaddleOcrExtractor, PdfOcrRetrievalSolution, PdfPageRenderer
 from modern_ir_bench.solutions.text import (
     CharacterNGramSolution,
     HybridSolution,
@@ -16,4 +16,5 @@ __all__ = [
     "InMemoryBM25Solution",
     "PaddleOcrExtractor",
     "PdfOcrRetrievalSolution",
+    "PdfPageRenderer",
 ]

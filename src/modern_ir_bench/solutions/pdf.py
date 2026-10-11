@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import hashlib
+import json
 import logging
 import tempfile
 import time
@@ -24,6 +25,91 @@ class PdfOcrExtractor(Protocol):
     def id(self) -> str: ...
 
     def extract(self, value: PdfInput) -> str: ...
+
+
+@dataclass(frozen=True)
+class PdfPageRenderer:
+    """Render PDF pages to consistently sized cached JPEG images."""
+
+    cache_dir: Path
+    scale: float = 2.0
+    max_side: int = 1600
+    jpeg_quality: int = 88
+
+    def __post_init__(self) -> None:
+        if self.scale <= 0 or self.max_side < 1:
+            raise ValueError("scale and max_side must be positive")
+        if not 1 <= self.jpeg_quality <= 100:
+            raise ValueError("jpeg_quality must be between 1 and 100")
+        object.__setattr__(self, "cache_dir", Path(self.cache_dir))
+
+    @property
+    def id(self) -> str:
+        return f"pdfium-scale-{self.scale:g}-max-{self.max_side}-jpeg-{self.jpeg_quality}"
+
+    def render(self, value: PdfInput) -> list[Path]:
+        digest = self._pdf_digest(value)
+        renderer_digest = hashlib.sha256(self.id.encode()).hexdigest()[:12]
+        output_dir = self.cache_dir / renderer_digest / digest
+        manifest_path = output_dir / "manifest.json"
+        if manifest_path.is_file():
+            manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+            pages = [output_dir / name for name in manifest["pages"]]
+            if manifest.get("renderer") == self.id and pages and all(page.is_file() for page in pages):
+                return pages
+
+        import pypdfium2 as pdfium
+        from PIL import Image
+
+        source: str | bytes
+        if value.path and Path(value.path).is_file():
+            source = str(Path(value.path))
+        elif value.data is not None:
+            source = value.data
+        else:
+            raise FileNotFoundError(f"PDF path is not accessible: {value.path}")
+
+        output_dir.mkdir(parents=True, exist_ok=True)
+        document = pdfium.PdfDocument(source)
+        page_names = []
+        try:
+            for page_index in range(len(document)):
+                page_name = f"page-{page_index + 1:04d}.jpg"
+                page_path = output_dir / page_name
+                if not page_path.is_file():
+                    page = document[page_index]
+                    try:
+                        image = page.render(scale=self.scale).to_pil().convert("RGB")
+                        if max(image.size) > self.max_side:
+                            image.thumbnail((self.max_side, self.max_side), Image.Resampling.LANCZOS)
+                        temporary = page_path.with_suffix(".tmp.jpg")
+                        image.save(temporary, format="JPEG", quality=self.jpeg_quality, optimize=True)
+                        temporary.replace(page_path)
+                    finally:
+                        page.close()
+                page_names.append(page_name)
+        finally:
+            document.close()
+        temporary_manifest = manifest_path.with_suffix(".tmp")
+        temporary_manifest.write_text(
+            json.dumps({"renderer": self.id, "pages": page_names}, indent=2) + "\n",
+            encoding="utf-8",
+        )
+        temporary_manifest.replace(manifest_path)
+        return [output_dir / name for name in page_names]
+
+    @staticmethod
+    def _pdf_digest(value: PdfInput) -> str:
+        digest = hashlib.sha256()
+        if value.path and Path(value.path).is_file():
+            with Path(value.path).open("rb") as stream:
+                while block := stream.read(1024 * 1024):
+                    digest.update(block)
+        elif value.data is not None:
+            digest.update(value.data)
+        else:
+            raise FileNotFoundError(f"PDF path is not accessible: {value.path}")
+        return digest.hexdigest()
 
 
 class OcrPipeline(Protocol):

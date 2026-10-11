@@ -7,6 +7,7 @@ from modern_ir_bench.embeddings.sentence_transformers import (
 )
 from modern_ir_bench.embeddings.sparse import SparseEmbedding, SparseVector
 from modern_ir_bench.embeddings.voyage import VoyageEmbedding
+from modern_ir_bench.embeddings.voyage_multimodal import VoyageMultimodalEmbedding
 
 __all__ = [
     "BgeM3Embedding",
@@ -15,4 +16,5 @@ __all__ = [
     "SparseEmbedding",
     "SparseVector",
     "VoyageEmbedding",
+    "VoyageMultimodalEmbedding",
 ]

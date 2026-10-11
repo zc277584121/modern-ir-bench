@@ -22,8 +22,7 @@ from benchmarks.pdf_retrieval.definition import (
 from benchmarks.pdf_retrieval.definition import (
     build_task as build_pdf_task,
 )
-from benchmarks.pdf_retrieval.solution import SOLUTION_ID as PDF_SOLUTION_ID
-from benchmarks.pdf_retrieval.solution import solution_metadata as pdf_solution_metadata
+from benchmarks.pdf_retrieval.solutions import solution_metadata as pdf_solution_metadata
 from benchmarks.ranked_retrieval.definition import (
     DATASET_REVISION as TEXT_DATASET_REVISION,
 )
@@ -43,6 +42,7 @@ from modern_ir_bench.results import RankingArtifact
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 TEXT_RESULT_ROOT = PROJECT_ROOT / "results/modern-ir-v2.2"
 PDF_RESULT_ROOT = PROJECT_ROOT / "results/modern-ir-pdf-v1"
+PDF_SOLUTION_ID = "paddleocr-v5-mobile-bm25-full"
 SPACE_RESULTS = PROJECT_ROOT / "space/data/results.json"
 
 TEXT_QUERY_DIMENSIONS = (
@@ -202,7 +202,7 @@ def _pdf_release(repository_url: str, commit: str) -> tuple[RunReport, list[dict
     task = build_pdf_task()
     dataset = task.datasets[PDF_RELEASE_ID]
     task.validate_dataset(dataset)
-    metadata = pdf_solution_metadata(repository_url, commit)
+    metadata = pdf_solution_metadata(repository_url, commit)[PDF_SOLUTION_ID]
     metadata["result_url"] = f"{repository_url}/tree/{commit}/results/modern-ir-pdf-v1"
     first = saved["results"][0]
     provenance = RunProvenance(

@@ -28,6 +28,7 @@ dev = [
 pdf = [
     "chardet<6",
     "paddleocr>=3.3,<4",
+    "pypdfium2>=4.30,<6",
 ]
 pdf-cpu = [
     "paddlepaddle==3.2.2",
