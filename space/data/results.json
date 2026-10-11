@@ -96,7 +96,8 @@
         "milvus"
       ],
       "code_url": "https://github.com/zc277584121/modern-ir-bench/blob/cf8c90b911543138b26721232c747e1d509fd951/benchmarks/pdf_retrieval_solutions/paddleocr_bm25.py#L12",
-      "readme_url": "https://github.com/zc277584121/modern-ir-bench/blob/cf8c90b911543138b26721232c747e1d509fd951/docs/solutions/paddleocr-v5-mobile-bm25.md"
+      "readme_url": "https://github.com/zc277584121/modern-ir-bench/blob/cf8c90b911543138b26721232c747e1d509fd951/docs/solutions/paddleocr-v5-mobile-bm25.md",
+      "result_url": "https://github.com/zc277584121/modern-ir-bench/tree/f2272e6bc1409b94f97626d647b9a85a41afe578/results/modern-ir-pdf-v1"
     },
     {
       "id": "qwen3-embedding-4b-chunk",
