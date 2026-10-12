@@ -2,13 +2,14 @@
   "schema_version": 1,
   "artifact_type": "live-top-k-rankings",
   "release": "modern-ir-bench-pdf-v1-20261011",
-  "published_at": "2026-10-12T00:17:46.696315+00:00",
+  "published_at": "2026-10-12T00:22:38.724613+00:00",
   "dataset": {
     "repository": "zc277584121/modern-ir-bench-pdf",
     "revision": "5ac497e8aad79c9c0843c46eb97bb9900f3b109b"
   },
   "solutions": [
     "paddleocr-v5-mobile-bge-m3-full",
+    "paddleocr-v5-mobile-bm25-bge-m3-rrf",
     "paddleocr-v5-mobile-bm25-full"
   ],
   "source_runs": {
@@ -20,13 +21,21 @@
       "created_at": "2026-10-11T15:50:26.972185+00:00",
       "origin": "verified-live-run"
     },
+    "paddleocr-v5-mobile-bm25-bge-m3-rrf": {
+      "source_commit": "b5bd00aca0f10d009331e8ebc149b31acd05de3b",
+      "source_module": "benchmarks.pdf_retrieval.run",
+      "source_path": "benchmarks/pdf_retrieval/run.py",
+      "source_line": 33,
+      "created_at": "2026-10-12T00:18:35.569781+00:00",
+      "origin": "verified-live-run"
+    },
     "paddleocr-v5-mobile-bm25-full": {
       "source_commit": "cf8c90b911543138b26721232c747e1d509fd951",
       "origin": "legacy-live-observations"
     }
   },
   "queries": 1000,
-  "ranking_rows": 2000,
+  "ranking_rows": 3000,
   "top_k": 10,
-  "rankings_sha256": "3b36f5aa94b08e335e9a870f12a1bc9f8b1d25e414282e9c8e93724f830b992c"
+  "rankings_sha256": "3682548be67b5699fa2463e5229712973c91fc8c960e89fc1d159a0e92981753"
 }

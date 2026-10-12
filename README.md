@@ -37,6 +37,9 @@ full-document Milvus BM25. The executable catalog also contains local dense,
 hybrid, hosted dense, and OCR-free visual Solutions. None reads a native PDF text
 layer. Published Top-10 rankings are in `results/modern-ir-pdf-v1/`.
 
+The cross-modal catalog also includes an equal-weight RRF Solution that combines
+full-document OCR/BM25 ranks with OCR-free page-image ranks.
+
 - Dataset: [`zc277584121/modern-ir-bench-pdf`](https://huggingface.co/datasets/zc277584121/modern-ir-bench-pdf)
 - Design and Solution matrix: [`docs/pdf-solutions.md`](docs/pdf-solutions.md)
 

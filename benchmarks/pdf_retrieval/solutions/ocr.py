@@ -43,13 +43,29 @@ def _bge_m3(runtime: Runtime) -> DenseRetrievalSolution:
     )
 
 
-def _build_bm25(runtime: Runtime, spec: SolutionSpec) -> PdfOcrRetrievalSolution:
+def build_bm25_pdf_component(
+    runtime: Runtime,
+    *,
+    solution_id: str,
+    title: str,
+    description: str,
+) -> PdfOcrRetrievalSolution:
+    """Build the reusable PDF-to-OCR-to-BM25 retrieval path."""
     return PdfOcrRetrievalSolution(
-        id=spec.id,
-        title=spec.title,
-        description=spec.description,
+        id=solution_id,
+        title=title,
+        description=description,
         extractor=runtime.ocr,
         text_solution=_bm25(runtime),
+    )
+
+
+def _build_bm25(runtime: Runtime, spec: SolutionSpec) -> PdfOcrRetrievalSolution:
+    return build_bm25_pdf_component(
+        runtime,
+        solution_id=spec.id,
+        title=spec.title,
+        description=spec.description,
     )
 
 
