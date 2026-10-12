@@ -9,6 +9,7 @@ from modern_ir_bench.core import Solution
 from modern_ir_bench.embeddings import (
     BgeM3Embedding,
     OpenRouterEmbedding,
+    OvisOmniEmbedding,
     SentenceTransformersEmbedding,
     VoyageMultimodalEmbedding,
 )
@@ -25,6 +26,8 @@ class Runtime:
     voyage_multimodal: VoyageMultimodalEmbedding
     embedding_gemma: SentenceTransformersEmbedding
     wemm: SentenceTransformersEmbedding
+    managed_visual: dict[str, OpenRouterEmbedding]
+    ovis_omni: OvisOmniEmbedding
     page_renderer: PdfPageRenderer
 
 

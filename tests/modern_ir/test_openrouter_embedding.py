@@ -5,6 +5,7 @@ import threading
 import time
 from pathlib import Path
 from types import ModuleType
+from typing import ClassVar
 
 import numpy as np
 
@@ -101,3 +102,42 @@ def test_openrouter_runs_small_batches_concurrently(monkeypatch) -> None:
 
     assert vectors.shape == (2, 2)
     assert peak_active == 2
+
+
+def test_openrouter_encodes_image_paths_and_caches_by_content(monkeypatch, tmp_path: Path) -> None:
+    calls = []
+
+    class Response:
+        status_code = 200
+        text = ""
+        headers: ClassVar[dict[str, str]] = {}
+
+        def json(self):
+            return {"data": [{"index": 0, "embedding": [1.0, 0.0]}]}
+
+    def post(url, *, headers, json, timeout):
+        calls.append(json)
+        return Response()
+
+    requests = ModuleType("requests")
+    requests.post = post
+    requests.RequestException = OSError
+    monkeypatch.setitem(sys.modules, "requests", requests)
+    monkeypatch.setenv("OPENROUTER_API_KEY", "secret")
+
+    first = tmp_path / "first.jpg"
+    second = tmp_path / "second.jpg"
+    first.write_bytes(b"same image bytes")
+    second.write_bytes(first.read_bytes())
+    embedding = OpenRouterEmbedding(
+        model="provider/multimodal-model",
+        dimension=2,
+        batch_size=1,
+        cache_path=tmp_path / "vectors.sqlite3",
+    )
+
+    assert embedding.encode_documents([first]).shape == (1, 2)
+    assert embedding.encode_documents([second]).shape == (1, 2)
+    image_url = calls[0]["input"][0]["content"][0]["image_url"]["url"]
+    assert image_url.startswith("data:image/jpeg;base64,")
+    assert len(calls) == 1

@@ -17,6 +17,7 @@ class Runtime:
     chunker: TokenTextChunker
     voyage: VoyageEmbedding
     qwen: dict[str, DenseEmbedding]
+    managed: dict[str, DenseEmbedding]
     embedding_gemma: DenseEmbedding
     bge_m3: BgeM3Embedding
 

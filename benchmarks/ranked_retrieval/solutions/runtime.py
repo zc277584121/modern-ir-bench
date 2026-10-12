@@ -80,6 +80,26 @@ def build_runtime() -> Runtime:
                 request_concurrency=int(os.environ.get("MIR_OPENROUTER_CONCURRENCY", "4")),
             ),
         },
+        managed={
+            "gemini-embedding-2": OpenRouterEmbedding(
+                model="google/gemini-embedding-2",
+                dimension=3072,
+                batch_size=int(os.environ.get("MIR_OPENROUTER_BATCH_SIZE", "16")),
+                document_input_type="search_document",
+                query_input_type="search_query",
+                cache_path=project_root / ".runtime/openrouter/gemini-embedding-2.sqlite3",
+                request_concurrency=int(os.environ.get("MIR_OPENROUTER_CONCURRENCY", "4")),
+            ),
+            "pplx-embed-v1-4b": OpenRouterEmbedding(
+                model="perplexity/pplx-embed-v1-4b",
+                dimension=2560,
+                batch_size=int(os.environ.get("MIR_OPENROUTER_BATCH_SIZE", "16")),
+                document_input_type="search_document",
+                query_input_type="search_query",
+                cache_path=project_root / ".runtime/openrouter/pplx-embed-v1-4b.sqlite3",
+                request_concurrency=int(os.environ.get("MIR_OPENROUTER_CONCURRENCY", "4")),
+            ),
+        },
         embedding_gemma=SentenceTransformersEmbedding(
             model=EMBEDDING_GEMMA_2_MODEL,
             revision=EMBEDDING_GEMMA_2_REVISION,

@@ -6,17 +6,24 @@ from modern_ir_bench.retrieval import ChunkedDenseRetrievalSolution
 from modern_ir_bench.retrieval.indexes.milvus import MilvusDenseIndex
 
 
-def _build_qwen_chunk(runtime: Runtime, spec: SolutionSpec, *, embedding_key: str):
+def build_qwen_chunk_component(
+    runtime: Runtime,
+    *,
+    solution_id: str,
+    title: str,
+    description: str,
+    embedding_key: str,
+):
     return ChunkedDenseRetrievalSolution(
-        id=spec.id,
-        title=spec.title,
-        description=spec.description,
+        id=solution_id,
+        title=title,
+        description=description,
         embedding=runtime.qwen[embedding_key],
         index=MilvusDenseIndex(
             target=runtime.target,
             metric="COSINE",
             index_type="FLAT",
-            collection_prefix=f"modern_ir_{spec.id.replace('-', '_')}",
+            collection_prefix=f"modern_ir_{solution_id.replace('-', '_')}",
         ),
         chunker=runtime.chunker,
         candidate_multiplier=3,
@@ -26,15 +33,49 @@ def _build_qwen_chunk(runtime: Runtime, spec: SolutionSpec, *, embedding_key: st
 
 
 def _build_qwen_0_6b_chunk(runtime: Runtime, spec: SolutionSpec):
-    return _build_qwen_chunk(runtime, spec, embedding_key="0.6b-local")
+    return build_qwen_chunk_component(
+        runtime,
+        solution_id=spec.id,
+        title=spec.title,
+        description=spec.description,
+        embedding_key="0.6b-local",
+    )
 
 
 def _build_qwen_4b_chunk(runtime: Runtime, spec: SolutionSpec):
-    return _build_qwen_chunk(runtime, spec, embedding_key="4b-local")
+    return build_qwen_chunk_component(
+        runtime,
+        solution_id=spec.id,
+        title=spec.title,
+        description=spec.description,
+        embedding_key="4b-local",
+    )
 
 
 def _build_qwen_8b_openrouter_chunk(runtime: Runtime, spec: SolutionSpec):
-    return _build_qwen_chunk(runtime, spec, embedding_key="8b-openrouter")
+    return build_qwen_chunk_component(
+        runtime,
+        solution_id=spec.id,
+        title=spec.title,
+        description=spec.description,
+        embedding_key="8b-openrouter",
+    )
+
+
+def build_qwen_8b_chunk_component(
+    runtime: Runtime,
+    *,
+    solution_id: str,
+    title: str,
+    description: str,
+):
+    return build_qwen_chunk_component(
+        runtime,
+        solution_id=solution_id,
+        title=title,
+        description=description,
+        embedding_key="8b-openrouter",
+    )
 
 
 SPECS = (

@@ -9,13 +9,23 @@ from typing import Any
 from benchmarks.ranked_retrieval.solutions.bge_m3 import SPECS as BGE_M3_SPECS
 from benchmarks.ranked_retrieval.solutions.bm25 import SPECS as BM25_SPECS
 from benchmarks.ranked_retrieval.solutions.embedding_gemma import SPECS as EMBEDDING_GEMMA_SPECS
+from benchmarks.ranked_retrieval.solutions.hybrid import SPECS as HYBRID_SPECS
+from benchmarks.ranked_retrieval.solutions.managed import SPECS as MANAGED_SPECS
 from benchmarks.ranked_retrieval.solutions.qwen import SPECS as QWEN_SPECS
 from benchmarks.ranked_retrieval.solutions.runtime import build_runtime
 from benchmarks.ranked_retrieval.solutions.voyage import SPECS as VOYAGE_SPECS
 from benchmarks.solution_docs import load_solution_readme
 from modern_ir_bench.core import Solution
 
-SOLUTION_SPECS = (*BM25_SPECS, *VOYAGE_SPECS, *QWEN_SPECS, *EMBEDDING_GEMMA_SPECS, *BGE_M3_SPECS)
+SOLUTION_SPECS = (
+    *BM25_SPECS,
+    *VOYAGE_SPECS,
+    *QWEN_SPECS,
+    *MANAGED_SPECS,
+    *EMBEDDING_GEMMA_SPECS,
+    *BGE_M3_SPECS,
+    *HYBRID_SPECS,
+)
 SOLUTION_SPECS_BY_ID = {spec.id: spec for spec in SOLUTION_SPECS}
 
 

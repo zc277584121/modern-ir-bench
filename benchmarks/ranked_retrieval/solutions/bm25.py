@@ -15,15 +15,31 @@ def _build_bm25_full(runtime: Runtime, spec: SolutionSpec):
     )
 
 
-def _build_bm25_chunk(runtime: Runtime, spec: SolutionSpec):
+def build_bm25_chunk_component(
+    runtime: Runtime,
+    *,
+    solution_id: str,
+    title: str,
+    description: str,
+    collection_prefix: str = "modern_ir_bm25_chunk",
+):
     return MilvusBM25Solution(
-        id=spec.id,
-        title=spec.title,
-        description=spec.description,
+        id=solution_id,
+        title=title,
+        description=description,
         target=runtime.target,
         chunker=runtime.chunker,
         candidate_multiplier=3,
-        collection_prefix="modern_ir_bm25_chunk",
+        collection_prefix=collection_prefix,
+    )
+
+
+def _build_bm25_chunk(runtime: Runtime, spec: SolutionSpec):
+    return build_bm25_chunk_component(
+        runtime,
+        solution_id=spec.id,
+        title=spec.title,
+        description=spec.description,
     )
 
 

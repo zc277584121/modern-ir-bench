@@ -8,6 +8,8 @@ from pathlib import Path
 from benchmarks.model_settings import (
     EMBEDDING_GEMMA_2_MODEL,
     EMBEDDING_GEMMA_2_REVISION,
+    OVIS_OMNI_3B_MODEL,
+    OVIS_OMNI_3B_REVISION,
     WEMM_2B_MODEL,
     WEMM_2B_REVISION,
     stable_local_model_kwargs,
@@ -16,6 +18,7 @@ from benchmarks.pdf_retrieval.solutions.types import Runtime
 from modern_ir_bench.embeddings import (
     BgeM3Embedding,
     OpenRouterEmbedding,
+    OvisOmniEmbedding,
     SentenceTransformersEmbedding,
     VoyageMultimodalEmbedding,
 )
@@ -78,6 +81,34 @@ def build_runtime(*, target: MilvusTarget, project_root: Path) -> Runtime:
             model_kwargs=stable_local_model_kwargs(device),
             document_method="encode_document",
             query_method="encode_query",
+        ),
+        managed_visual={
+            "gemini-embedding-2": OpenRouterEmbedding(
+                model="google/gemini-embedding-2",
+                dimension=3072,
+                batch_size=int(os.environ.get("MIR_OPENROUTER_IMAGE_BATCH_SIZE", "8")),
+                document_input_type="search_document",
+                query_input_type="search_query",
+                cache_path=runtime_root / "openrouter/gemini-embedding-2-images.sqlite3",
+                request_concurrency=int(os.environ.get("MIR_OPENROUTER_IMAGE_CONCURRENCY", "4")),
+            ),
+            "llama-nemotron-embed-vl-1b-v2": OpenRouterEmbedding(
+                model="nvidia/llama-nemotron-embed-vl-1b-v2:free",
+                dimension=2048,
+                batch_size=int(os.environ.get("MIR_OPENROUTER_IMAGE_BATCH_SIZE", "8")),
+                document_input_type="search_document",
+                query_input_type="search_query",
+                cache_path=runtime_root / "openrouter/llama-nemotron-embed-vl-1b-v2-images.sqlite3",
+                request_concurrency=int(os.environ.get("MIR_OPENROUTER_IMAGE_CONCURRENCY", "4")),
+            ),
+        },
+        ovis_omni=OvisOmniEmbedding(
+            model=OVIS_OMNI_3B_MODEL,
+            revision=OVIS_OMNI_3B_REVISION,
+            cache_path=runtime_root / "pdf-embeddings/ovis-omni-embedding-3b.sqlite3",
+            batch_size=int(os.environ.get("MIR_OVIS_BATCH_SIZE", "1")),
+            device=device,
+            max_image_pixels=int(os.environ.get("MIR_OVIS_MAX_IMAGE_PIXELS", "2007040")),
         ),
         page_renderer=PdfPageRenderer(
             cache_dir=runtime_root / "pdf-pages/pdfium-v1",

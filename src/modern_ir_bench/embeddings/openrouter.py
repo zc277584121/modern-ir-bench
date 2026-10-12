@@ -3,9 +3,11 @@
 from __future__ import annotations
 
 import os
+from base64 import b64encode
 from collections.abc import Sequence
 from concurrent.futures import ThreadPoolExecutor
 from hashlib import sha256
+from mimetypes import guess_type
 from pathlib import Path
 from time import sleep
 from typing import Any, Literal
@@ -16,7 +18,7 @@ from modern_ir_bench.embeddings.sqlite_cache import SqliteVectorCache
 
 
 class OpenRouterEmbedding:
-    """Embed text with distinct document/query input types and a durable cache."""
+    """Embed text or images with distinct document/query types and a durable cache."""
 
     def __init__(
         self,
@@ -65,20 +67,20 @@ class OpenRouterEmbedding:
         *,
         kind: Literal["document", "query"],
     ) -> np.ndarray:
-        texts = list(inputs)
-        if any(not isinstance(text, str) for text in texts):
-            raise TypeError("OpenRouterEmbedding only accepts strings")
-        if not texts:
+        values = list(inputs)
+        if any(not isinstance(value, (str, Path)) for value in values):
+            raise TypeError("OpenRouterEmbedding accepts strings and image Paths")
+        if not values:
             return np.empty((0, self.dimension), dtype=np.float32)
 
         input_type = self.document_input_type if kind == "document" else self.query_input_type
-        keys = [self._cache_key(text, input_type) for text in texts]
+        keys = [self._cache_key(value, input_type) for value in values]
         cached = self.cache.read(keys)
-        missing: list[tuple[str, str]] = []
+        missing: list[tuple[str, str | Path]] = []
         seen: set[str] = set()
-        for key, text in zip(keys, texts, strict=True):
+        for key, value in zip(keys, values, strict=True):
             if key not in cached and key not in seen:
-                missing.append((key, text))
+                missing.append((key, value))
                 seen.add(key)
 
         batches = [
@@ -87,7 +89,7 @@ class OpenRouterEmbedding:
         ]
         with ThreadPoolExecutor(max_workers=self.request_concurrency) as executor:
             requests = [
-                executor.submit(self._request, [text for _, text in batch], input_type)
+                executor.submit(self._request, [value for _, value in batch], input_type)
                 for batch in batches
             ]
             for batch, request in zip(batches, requests, strict=True):
@@ -100,7 +102,7 @@ class OpenRouterEmbedding:
                 self.cache.write(values)
         return np.asarray([cached[key] for key in keys], dtype=np.float32)
 
-    def _request(self, texts: list[str], input_type: str) -> list[list[float]]:
+    def _request(self, values: list[str | Path], input_type: str) -> list[list[float]]:
         import requests
 
         api_key = os.environ.get(self.api_key_env)
@@ -108,7 +110,7 @@ class OpenRouterEmbedding:
             raise RuntimeError(f"{self.api_key_env} is required for {self.model_id}")
         payload = {
             "model": self.model_id,
-            "input": texts,
+            "input": [self._api_input(value) for value in values],
             "input_type": input_type,
             "dimensions": self.dimension,
             "encoding_format": "float",
@@ -151,6 +153,30 @@ class OpenRouterEmbedding:
             raise ValueError(f"OpenRouter returned {len(values)} dimensions; expected {self.dimension}")
         return values
 
-    def _cache_key(self, text: str, input_type: str) -> str:
-        value = f"openrouter\0{self.model_id}\0{self.dimension}\0{input_type}\0{text}"
-        return sha256(value.encode()).hexdigest()
+    @staticmethod
+    def _api_input(value: str | Path) -> str | dict[str, object]:
+        if isinstance(value, str):
+            return value
+        mime_type = guess_type(value.name)[0] or "application/octet-stream"
+        encoded = b64encode(value.read_bytes()).decode()
+        return {
+            "content": [
+                {
+                    "type": "image_url",
+                    "image_url": {"url": f"data:{mime_type};base64,{encoded}"},
+                }
+            ]
+        }
+
+    def _cache_key(self, value: str | Path, input_type: str) -> str:
+        digest = sha256()
+        digest.update(f"openrouter\0{self.model_id}\0{self.dimension}\0{input_type}\0".encode())
+        if isinstance(value, str):
+            digest.update(b"text\0")
+            digest.update(value.encode())
+        else:
+            digest.update(b"image\0")
+            with value.open("rb") as stream:
+                while block := stream.read(1024 * 1024):
+                    digest.update(block)
+        return digest.hexdigest()

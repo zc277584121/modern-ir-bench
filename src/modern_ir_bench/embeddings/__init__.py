@@ -2,6 +2,7 @@
 
 from modern_ir_bench.embeddings.bge_m3 import BgeM3Embedding
 from modern_ir_bench.embeddings.openrouter import OpenRouterEmbedding
+from modern_ir_bench.embeddings.ovis_omni import OvisOmniEmbedding
 from modern_ir_bench.embeddings.protocols import DenseEmbedding
 from modern_ir_bench.embeddings.sentence_transformers import (
     SentenceTransformersEmbedding,
@@ -14,6 +15,7 @@ __all__ = [
     "BgeM3Embedding",
     "DenseEmbedding",
     "OpenRouterEmbedding",
+    "OvisOmniEmbedding",
     "SentenceTransformersEmbedding",
     "SparseEmbedding",
     "SparseVector",
