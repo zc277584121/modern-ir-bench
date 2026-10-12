@@ -127,7 +127,8 @@ def _text_release(repository_url: str, commit: str) -> tuple[RunReport, list[dic
         repository_url=repository_url,
         created_at=str(artifact.manifest.get("published_at", datetime.now(timezone.utc).isoformat())),
     )
-    metadata = text_solution_metadata(repository_url, commit)
+    all_metadata = text_solution_metadata(repository_url, commit)
+    metadata = {solution_id: all_metadata[solution_id] for solution_id in artifact.rankings}
     result_url = f"{repository_url}/tree/{commit}/results/modern-ir-v2.2"
     for values in metadata.values():
         values["result_url"] = result_url

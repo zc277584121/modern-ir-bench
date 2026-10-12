@@ -49,7 +49,7 @@ line-length = 120
 target-version = "py310"
 
 [tool.pytest.ini_options]
-testpaths = ["tests/modern_ir"]
+testpaths = ["tests"]
 pythonpath = ["."]
 norecursedirs = [".*", "build", "dist", "results", "legacy"]
 

@@ -300,8 +300,9 @@ function populateReleaseSelector() {
 }
 
 function solutionHasSelectedTags(solutionId) {
+  if (state.selectedSolutionTags.size === 0) return true;
   const tags = new Set(state.solutions.get(solutionId)?.tags || []);
-  return [...state.selectedSolutionTags].every((tag) => tags.has(tag));
+  return [...state.selectedSolutionTags].some((tag) => tags.has(tag));
 }
 
 function solutionTagLabel(tag) {
@@ -507,7 +508,7 @@ function renderLeaderboard() {
     : "";
   const leaderboard = document.querySelector("#leaderboard-table");
   if (rows.length === 0) {
-    leaderboard.innerHTML = '<p class="empty-state">No solutions match all selected tags.</p>';
+    leaderboard.innerHTML = '<p class="empty-state">No solutions match the selected tags.</p>';
     return;
   }
   leaderboard.innerHTML = renderTable(

@@ -8,9 +8,9 @@ import logging
 import os
 from pathlib import Path
 
-from benchmarks.pdf_retrieval.artifacts import write_run_artifacts
 from benchmarks.pdf_retrieval.definition import DATASET_ID, DATASET_REVISION, RELEASE_ID, build_task
 from benchmarks.pdf_retrieval.solutions import SOLUTION_SPECS, build_solutions
+from benchmarks.ranking_evidence import write_run_artifacts
 from modern_ir_bench import RunProvenance
 from modern_ir_bench.retrieval.indexes.milvus import MilvusLite, MilvusServer
 

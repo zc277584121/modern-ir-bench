@@ -15,11 +15,16 @@ from benchmarks.solution_docs import load_solution_readme
 from modern_ir_bench.core import Solution
 
 SOLUTION_SPECS = (*BM25_SPECS, *VOYAGE_SPECS, *QWEN_SPECS, *BGE_M3_SPECS)
+SOLUTION_SPECS_BY_ID = {spec.id: spec for spec in SOLUTION_SPECS}
 
 
-def build_solutions() -> list[Solution]:
+def build_solutions(solution_ids: list[str] | None = None) -> list[Solution]:
+    selected = solution_ids or [spec.id for spec in SOLUTION_SPECS]
+    unknown = set(selected).difference(SOLUTION_SPECS_BY_ID)
+    if unknown:
+        raise ValueError(f"Unknown Ranked Retrieval Solution ids: {sorted(unknown)}")
     runtime = build_runtime()
-    return [spec.build(runtime) for spec in SOLUTION_SPECS]
+    return [SOLUTION_SPECS_BY_ID[solution_id].build(runtime) for solution_id in selected]
 
 
 def solution_metadata(repository_url: str, commit: str) -> dict[str, dict[str, Any]]:

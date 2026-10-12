@@ -126,6 +126,38 @@ cd space
 python -m http.server 7861
 ```
 
+## Add a Solution
+
+Add the implementation and `SolutionSpec` under the matching Task's `solutions/`
+package, then add its Markdown notes under `docs/solutions/`. The spec is the single
+catalog entry for its id, title, description, tags, factory, and README path. The
+Space derives the Solution name, filters, README preview, and source links from it.
+
+Commit the source before running an evaluation so the result can pin an immutable
+Git revision. Run only the new Solution:
+
+```bash
+uv run --group benchmark python -m benchmarks.ranked_retrieval.run \
+  --solution <solution-id>
+
+uv run --group benchmark --group pdf --group pdf-cpu \
+  python -m benchmarks.pdf_retrieval.run \
+  --solution <solution-id>
+```
+
+Each command prints the verified run-artifact directory it created. Merge that
+directory into the corresponding ranking release without rerunning existing
+Solutions:
+
+```bash
+uv run python -m benchmarks.ranked_retrieval.release --run <run-artifact-directory>
+uv run python -m benchmarks.pdf_retrieval.release --run <run-artifact-directory>
+```
+
+Commit the updated ranking evidence, then rebuild the Space payload with
+`benchmarks.publish`. A Solution that has code but no published ranking is omitted
+from the Space until its evidence is merged.
+
 ## Add a benchmark
 
 Create a small package under `benchmarks/` containing a Task/Dataset definition,
