@@ -524,11 +524,8 @@ function installControls() {
 
 function updateControlVisibility() {
   document.querySelector("#task-control").hidden = state.tasks.size <= 1;
-  document.querySelector("#dataset-control").hidden =
-    document.querySelector("#dataset-selector").options.length <= 1;
-  document.querySelector("#task-controls").hidden =
-    document.querySelector("#task-control").hidden &&
-    document.querySelector("#dataset-control").hidden;
+  document.querySelector("#dataset-control").hidden = false;
+  document.querySelector("#task-controls").hidden = false;
   document.querySelector("#coverage-tab").hidden = state.tasks.size <= 1;
 }
 
