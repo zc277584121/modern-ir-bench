@@ -598,7 +598,7 @@ function refreshBreakdownContext() {
 }
 
 async function main() {
-  const response = await fetch("data/results.json");
+  const response = await fetch("data/results.json", { cache: "no-store" });
   if (!response.ok) throw new Error(`Unable to load benchmark data: ${response.status}`);
   state.payload = await response.json();
   state.tasks = new Map(state.payload.tasks.map((task) => [task.id, task]));
