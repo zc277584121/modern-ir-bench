@@ -106,7 +106,7 @@ def build_runtime(*, target: MilvusTarget, project_root: Path) -> Runtime:
             model=OVIS_OMNI_3B_MODEL,
             revision=OVIS_OMNI_3B_REVISION,
             cache_path=runtime_root / "pdf-embeddings/ovis-omni-embedding-3b.sqlite3",
-            batch_size=int(os.environ.get("MIR_OVIS_BATCH_SIZE", "1")),
+            batch_size=int(os.environ.get("MIR_OVIS_BATCH_SIZE", "4")),
             device=device,
             max_image_pixels=int(os.environ.get("MIR_OVIS_MAX_IMAGE_PIXELS", "2007040")),
         ),
