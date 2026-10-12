@@ -15,7 +15,7 @@ separately and the Hugging Face Space is generated from that evidence.
 - 5,000 bilingual text documents
 - 1,000 queries
 - 6,575 positive binary Qrels
-- seven lexical, dense, and learned-sparse Solutions
+- seven published lexical, dense, and learned-sparse Solutions
 - immutable historical Top-10 rankings in `results/modern-ir-v2.2/`
 - Dataset: [`zc277584121/modern-ir-bench`](https://huggingface.co/datasets/zc277584121/modern-ir-bench)
 
@@ -34,8 +34,9 @@ pages and how to retrieve whole document IDs.
 
 The published baseline OCRs every page with PP-OCRv5 Mobile and then runs
 full-document Milvus BM25. The executable catalog also contains local dense,
-hybrid, hosted dense, and OCR-free visual Solutions. None reads a native PDF text
-layer. Published Top-10 rankings are in `results/modern-ir-pdf-v1/`.
+hybrid, hosted dense, and OCR-free visual Solutions, including EmbeddingGemma 2
+and WeMM 2B candidates. None reads a native PDF text layer. Published Top-10
+rankings are in `results/modern-ir-pdf-v1/`.
 
 The cross-modal catalog also includes an equal-weight RRF Solution that combines
 full-document OCR/BM25 ranks with OCR-free page-image ranks.
@@ -144,6 +145,10 @@ uv run --group benchmark --group pdf --group pdf-cpu \
   python -m benchmarks.pdf_retrieval.run \
   --solution <solution-id>
 ```
+
+Set `MIR_MILVUS_LITE_PATH` on either command to use an isolated local database
+instead of a Milvus Server. Visual models that depend on Qwen media utilities
+add the `multimodal` dependency group.
 
 Each command prints the verified run-artifact directory it created. Merge that
 directory into the corresponding ranking release without rerunning existing

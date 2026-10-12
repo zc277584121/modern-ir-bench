@@ -6,17 +6,18 @@ from collections.abc import Callable
 from dataclasses import dataclass
 
 from modern_ir_bench.core import Solution
-from modern_ir_bench.embeddings import BgeM3Embedding, SentenceTransformersEmbedding, VoyageEmbedding
+from modern_ir_bench.embeddings import BgeM3Embedding, DenseEmbedding, VoyageEmbedding
 from modern_ir_bench.retrieval import TokenTextChunker
-from modern_ir_bench.retrieval.indexes.milvus import MilvusServer
+from modern_ir_bench.retrieval.indexes.milvus.target import MilvusTarget
 
 
 @dataclass(frozen=True)
 class Runtime:
-    target: MilvusServer
+    target: MilvusTarget
     chunker: TokenTextChunker
     voyage: VoyageEmbedding
-    qwen: SentenceTransformersEmbedding
+    qwen: dict[str, DenseEmbedding]
+    embedding_gemma: DenseEmbedding
     bge_m3: BgeM3Embedding
 
 

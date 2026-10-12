@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-import sqlite3
-import struct
 from collections.abc import Iterable, Sequence
 from hashlib import sha256
 from pathlib import Path
@@ -11,6 +9,8 @@ from time import sleep
 from typing import Any, Literal
 
 import numpy as np
+
+from modern_ir_bench.embeddings.sqlite_cache import SqliteVectorCache
 
 
 class VoyageEmbedding:
@@ -33,6 +33,7 @@ class VoyageEmbedding:
         self.batch_size = batch_size
         self.max_batch_tokens = max_batch_tokens
         self.cache_path = cache_path
+        self.cache = SqliteVectorCache(cache_path)
         self.max_rate_limit_retries = max_rate_limit_retries
         self._client: Any | None = None
 
@@ -126,38 +127,10 @@ class VoyageEmbedding:
         return sha256(f"{self.model_id}\0{self.dimension}\0{kind}\0{text}".encode()).hexdigest()
 
     def _read_cache(self, keys: Sequence[str]) -> dict[str, list[float]]:
-        if self.cache_path is None or not self.cache_path.exists() or not keys:
-            return {}
-        found: dict[str, list[float]] = {}
-        with sqlite3.connect(self.cache_path) as connection:
-            self._create_cache(connection)
-            for start in range(0, len(keys), 500):
-                batch = keys[start : start + 500]
-                rows = connection.execute(
-                    f"SELECT cache_key, dimension, vector FROM embeddings "
-                    f"WHERE cache_key IN ({','.join('?' for _ in batch)})",
-                    list(batch),
-                )
-                found.update({key: list(struct.unpack(f"<{dimension}f", blob)) for key, dimension, blob in rows})
-        return found
+        return self.cache.read(keys)
 
     def _write_cache(self, values: dict[str, list[float]]) -> None:
-        if self.cache_path is None or not values:
-            return
-        self.cache_path.parent.mkdir(parents=True, exist_ok=True)
-        rows = [(key, len(vector), struct.pack(f"<{len(vector)}f", *vector)) for key, vector in values.items()]
-        with sqlite3.connect(self.cache_path) as connection:
-            self._create_cache(connection)
-            connection.executemany(
-                "INSERT OR REPLACE INTO embeddings(cache_key, dimension, vector) VALUES (?, ?, ?)",
-                rows,
-            )
-
-    @staticmethod
-    def _create_cache(connection: sqlite3.Connection) -> None:
-        connection.execute(
-            "CREATE TABLE IF NOT EXISTS embeddings (cache_key TEXT PRIMARY KEY, dimension INTEGER, vector BLOB)"
-        )
+        self.cache.write(values)
 
     def encode_documents(self, inputs: Sequence[Any]) -> np.ndarray:
         return self._encode(inputs, kind="document")

@@ -1,6 +1,7 @@
 """Embedding component contracts and implementations."""
 
 from modern_ir_bench.embeddings.bge_m3 import BgeM3Embedding
+from modern_ir_bench.embeddings.openrouter import OpenRouterEmbedding
 from modern_ir_bench.embeddings.protocols import DenseEmbedding
 from modern_ir_bench.embeddings.sentence_transformers import (
     SentenceTransformersEmbedding,
@@ -12,6 +13,7 @@ from modern_ir_bench.embeddings.voyage_multimodal import VoyageMultimodalEmbeddi
 __all__ = [
     "BgeM3Embedding",
     "DenseEmbedding",
+    "OpenRouterEmbedding",
     "SentenceTransformersEmbedding",
     "SparseEmbedding",
     "SparseVector",

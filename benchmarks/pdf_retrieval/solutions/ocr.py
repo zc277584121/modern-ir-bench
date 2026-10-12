@@ -145,7 +145,10 @@ SPECS = (
     SolutionSpec(
         id="paddleocr-v5-mobile-voyage-4-large-full",
         title="PP-OCRv5 Mobile + Voyage 4 Large · full document",
-        description="OCR every page, embed each complete document with Voyage 4 Large, then search with Milvus FLAT.",
+        description=(
+            "OCR every page, embed each complete document with Voyage 4 Large through OpenRouter, "
+            "then search with Milvus FLAT."
+        ),
         tags=("ocr", "dense", "managed-api", "full-document"),
         factory=_build_voyage,
         readme_path="docs/solutions/paddleocr-v5-mobile-voyage-4-large.md",

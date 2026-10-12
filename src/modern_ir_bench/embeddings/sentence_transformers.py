@@ -2,14 +2,14 @@
 
 from __future__ import annotations
 
-from collections.abc import Sequence
-from typing import Any
+from collections.abc import Mapping, Sequence
+from typing import Any, Literal
 
 import numpy as np
 
 
 class SentenceTransformersEmbedding:
-    """Use one fixed Sentence Transformers model for documents and queries."""
+    """Use one pinned Sentence Transformers model for documents and queries."""
 
     def __init__(
         self,
@@ -26,6 +26,11 @@ class SentenceTransformersEmbedding:
         document_prompt_name: str | None = None,
         query_prompt_name: str | None = None,
         dimension: int | None = None,
+        model_kwargs: Mapping[str, Any] | None = None,
+        config_kwargs: Mapping[str, Any] | None = None,
+        encode_kwargs: Mapping[str, Any] | None = None,
+        document_method: Literal["encode", "encode_document"] = "encode",
+        query_method: Literal["encode", "encode_query"] = "encode",
     ) -> None:
         if not model:
             raise ValueError("model must be non-empty")
@@ -47,6 +52,11 @@ class SentenceTransformersEmbedding:
         self.device = device
         self.trust_remote_code = trust_remote_code
         self.local_files_only = local_files_only
+        self.model_kwargs = dict(model_kwargs or {})
+        self.config_kwargs = dict(config_kwargs or {})
+        self.encode_kwargs = dict(encode_kwargs or {})
+        self.document_method = document_method
+        self.query_method = query_method
         self._model: Any | None = None
         self._dimension = dimension
 
@@ -61,6 +71,8 @@ class SentenceTransformersEmbedding:
             device=self.device,
             trust_remote_code=self.trust_remote_code,
             local_files_only=self.local_files_only,
+            model_kwargs=self.model_kwargs,
+            config_kwargs=self.config_kwargs,
         )
         return self._model
 
@@ -86,22 +98,22 @@ class SentenceTransformersEmbedding:
         *,
         prompt: str | None,
         prompt_name: str | None,
+        method: Literal["encode", "encode_document", "encode_query"],
     ) -> np.ndarray:
-        texts = list(inputs)
-        if any(not isinstance(text, str) for text in texts):
-            raise TypeError("SentenceTransformersEmbedding only accepts strings")
+        values = list(inputs)
         prompt_arguments = {}
         if prompt is not None:
             prompt_arguments["prompt"] = prompt
         if prompt_name is not None:
             prompt_arguments["prompt_name"] = prompt_name
         return np.asarray(
-            self._load_model().encode(
-                texts,
+            getattr(self._load_model(), method)(
+                values,
                 batch_size=self.batch_size,
                 normalize_embeddings=self.normalize,
                 convert_to_numpy=True,
                 show_progress_bar=False,
+                **self.encode_kwargs,
                 **prompt_arguments,
             ),
             dtype=np.float32,
@@ -112,6 +124,7 @@ class SentenceTransformersEmbedding:
             inputs,
             prompt=self.document_prompt,
             prompt_name=self.document_prompt_name,
+            method=self.document_method,
         )
 
     def encode_queries(self, inputs: Sequence[Any]) -> np.ndarray:
@@ -119,6 +132,7 @@ class SentenceTransformersEmbedding:
             inputs,
             prompt=self.query_prompt,
             prompt_name=self.query_prompt_name,
+            method=self.query_method,
         )
 
     def release(self) -> None:

@@ -2,13 +2,20 @@
 
 from __future__ import annotations
 
+from functools import partial
+
 from benchmarks.pdf_retrieval.solutions.types import Runtime, SolutionSpec
-from modern_ir_bench.retrieval import ChunkedDenseRetrievalSolution, TextInput
+from modern_ir_bench.retrieval import ChunkedDenseRetrievalSolution, PdfInput, TextInput
 from modern_ir_bench.retrieval.indexes.milvus import MilvusDenseIndex
+from modern_ir_bench.solutions import PdfPageRenderer
 
 
 def _query_text(value: TextInput) -> str:
     return value.text
+
+
+def _render_page_images(renderer: PdfPageRenderer, value: PdfInput) -> list[dict[str, str]]:
+    return [{"image": str(path)} for path in renderer.render(value)]
 
 
 def build_voyage_pages_component(
@@ -48,6 +55,44 @@ def _build_voyage_pages(runtime: Runtime, spec: SolutionSpec) -> ChunkedDenseRet
     )
 
 
+def _build_embedding_gemma_pages(runtime: Runtime, spec: SolutionSpec) -> ChunkedDenseRetrievalSolution:
+    return ChunkedDenseRetrievalSolution(
+        id=spec.id,
+        title=spec.title,
+        description=spec.description,
+        embedding=runtime.embedding_gemma,
+        index=MilvusDenseIndex(
+            target=runtime.target,
+            metric="COSINE",
+            index_type="FLAT",
+            collection_prefix="modern_ir_pdf_embedding_gemma_2_pages",
+        ),
+        chunker=partial(_render_page_images, runtime.page_renderer),
+        chunk_batch_size=runtime.embedding_gemma.batch_size,
+        candidate_multiplier=3,
+        query_input=_query_text,
+    )
+
+
+def _build_wemm_pages(runtime: Runtime, spec: SolutionSpec) -> ChunkedDenseRetrievalSolution:
+    return ChunkedDenseRetrievalSolution(
+        id=spec.id,
+        title=spec.title,
+        description=spec.description,
+        embedding=runtime.wemm,
+        index=MilvusDenseIndex(
+            target=runtime.target,
+            metric="COSINE",
+            index_type="FLAT",
+            collection_prefix="modern_ir_pdf_wemm_2b_pages",
+        ),
+        chunker=partial(_render_page_images, runtime.page_renderer),
+        chunk_batch_size=runtime.wemm.batch_size,
+        candidate_multiplier=3,
+        query_input=_query_text,
+    )
+
+
 SPECS = (
     SolutionSpec(
         id="voyage-multimodal-3-5-pages",
@@ -56,5 +101,21 @@ SPECS = (
         tags=("visual", "dense", "managed-api", "page-level", "ocr-free"),
         factory=_build_voyage_pages,
         readme_path="docs/solutions/voyage-multimodal-3-5-pages.md",
+    ),
+    SolutionSpec(
+        id="embedding-gemma-2-pages",
+        title="EmbeddingGemma 2 · page images",
+        description="Render PDF pages as images, retrieve them with local EmbeddingGemma 2, then collapse to documents.",
+        tags=("visual", "dense", "self-hosted", "page-level", "ocr-free"),
+        factory=_build_embedding_gemma_pages,
+        readme_path="docs/solutions/embedding-gemma-2-pages.md",
+    ),
+    SolutionSpec(
+        id="wemm-embedding-2b-pages",
+        title="WeMM Embedding 2B · page images",
+        description="Render PDF pages as images, retrieve them with local WeMM Embedding 2B, then collapse to documents.",
+        tags=("visual", "dense", "self-hosted", "page-level", "ocr-free"),
+        factory=_build_wemm_pages,
+        readme_path="docs/solutions/wemm-embedding-2b-pages.md",
     ),
 )
