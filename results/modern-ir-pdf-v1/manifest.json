@@ -2,7 +2,7 @@
   "schema_version": 1,
   "artifact_type": "live-top-k-rankings",
   "release": "modern-ir-bench-pdf-v1-20261011",
-  "published_at": "2026-10-12T00:22:38.724613+00:00",
+  "published_at": "2026-10-12T02:45:30.758976+00:00",
   "dataset": {
     "repository": "zc277584121/modern-ir-bench-pdf",
     "revision": "5ac497e8aad79c9c0843c46eb97bb9900f3b109b"
@@ -10,7 +10,8 @@
   "solutions": [
     "paddleocr-v5-mobile-bge-m3-full",
     "paddleocr-v5-mobile-bm25-bge-m3-rrf",
-    "paddleocr-v5-mobile-bm25-full"
+    "paddleocr-v5-mobile-bm25-full",
+    "voyage-multimodal-3-5-pages"
   ],
   "source_runs": {
     "paddleocr-v5-mobile-bge-m3-full": {
@@ -32,10 +33,18 @@
     "paddleocr-v5-mobile-bm25-full": {
       "source_commit": "cf8c90b911543138b26721232c747e1d509fd951",
       "origin": "legacy-live-observations"
+    },
+    "voyage-multimodal-3-5-pages": {
+      "source_commit": "a93eea39dfcc15f59d72dd5021ba75ce039a30e8",
+      "source_module": "benchmarks.pdf_retrieval.run",
+      "source_path": "benchmarks/pdf_retrieval/run.py",
+      "source_line": 33,
+      "created_at": "2026-10-12T02:15:39.205995+00:00",
+      "origin": "verified-live-run"
     }
   },
   "queries": 1000,
-  "ranking_rows": 3000,
+  "ranking_rows": 4000,
   "top_k": 10,
-  "rankings_sha256": "3682548be67b5699fa2463e5229712973c91fc8c960e89fc1d159a0e92981753"
+  "rankings_sha256": "0c979c7ddfa5eeee39784f24e879a11d807e68ed57a1474c9740152c825d106b"
 }
