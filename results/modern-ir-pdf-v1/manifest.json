@@ -2,19 +2,30 @@
   "schema_version": 1,
   "artifact_type": "live-top-k-rankings",
   "release": "modern-ir-bench-pdf-v1-20261011",
-  "published_at": "2026-10-12T02:50:12.906439+00:00",
+  "published_at": "2026-10-12T12:00:57.840659+00:00",
   "dataset": {
     "repository": "zc277584121/modern-ir-bench-pdf",
     "revision": "5ac497e8aad79c9c0843c46eb97bb9900f3b109b"
   },
   "solutions": [
+    "embedding-gemma-2-pages",
     "paddleocr-v5-mobile-bge-m3-full",
     "paddleocr-v5-mobile-bm25-bge-m3-rrf",
     "paddleocr-v5-mobile-bm25-full",
     "paddleocr-v5-mobile-bm25-voyage-multimodal-3-5-rrf",
-    "voyage-multimodal-3-5-pages"
+    "paddleocr-v5-mobile-voyage-4-large-full",
+    "voyage-multimodal-3-5-pages",
+    "wemm-embedding-2b-pages"
   ],
   "source_runs": {
+    "embedding-gemma-2-pages": {
+      "source_commit": "09dd705ecaa5e3f00ba8c6cd1769fd4712402ea9",
+      "source_module": "benchmarks.pdf_retrieval.run",
+      "source_path": "benchmarks/pdf_retrieval/run.py",
+      "source_line": 33,
+      "created_at": "2026-10-12T09:38:24.354152+00:00",
+      "origin": "verified-live-run"
+    },
     "paddleocr-v5-mobile-bge-m3-full": {
       "source_commit": "55fac5fe32ea4098f9ecc196a275990c4a486bc9",
       "source_module": "benchmarks.pdf_retrieval.run",
@@ -43,6 +54,14 @@
       "created_at": "2026-10-12T02:46:15.107677+00:00",
       "origin": "verified-live-run"
     },
+    "paddleocr-v5-mobile-voyage-4-large-full": {
+      "source_commit": "3d5aa22c8ca695688921572cd27ce784dae1cc86",
+      "source_module": "benchmarks.pdf_retrieval.run",
+      "source_path": "benchmarks/pdf_retrieval/run.py",
+      "source_line": 33,
+      "created_at": "2026-10-12T09:47:24.148007+00:00",
+      "origin": "verified-live-run"
+    },
     "voyage-multimodal-3-5-pages": {
       "source_commit": "a93eea39dfcc15f59d72dd5021ba75ce039a30e8",
       "source_module": "benchmarks.pdf_retrieval.run",
@@ -50,10 +69,18 @@
       "source_line": 33,
       "created_at": "2026-10-12T02:15:39.205995+00:00",
       "origin": "verified-live-run"
+    },
+    "wemm-embedding-2b-pages": {
+      "source_commit": "04170594685669b193752503357ac9b1d38b0667",
+      "source_module": "benchmarks.pdf_retrieval.run",
+      "source_path": "benchmarks/pdf_retrieval/run.py",
+      "source_line": 33,
+      "created_at": "2026-10-12T10:55:30.651930+00:00",
+      "origin": "verified-live-run"
     }
   },
   "queries": 1000,
-  "ranking_rows": 5000,
+  "ranking_rows": 8000,
   "top_k": 10,
-  "rankings_sha256": "1ec7d9916a2450092f6168908da1a55adda1def8e689e59e83b4c36d7015d0ad"
+  "rankings_sha256": "4bb93d5a4cf98a5d623e18fa6d52d97fc1a7f7d9de1b909526ec8a727685c317"
 }
