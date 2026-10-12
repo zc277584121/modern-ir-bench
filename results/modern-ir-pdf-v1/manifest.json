@@ -2,13 +2,15 @@
   "schema_version": 1,
   "artifact_type": "live-top-k-rankings",
   "release": "modern-ir-bench-pdf-v1-20261011",
-  "published_at": "2026-10-12T12:00:57.840659+00:00",
+  "published_at": "2026-10-12T17:41:19.189168+00:00",
   "dataset": {
     "repository": "zc277584121/modern-ir-bench-pdf",
     "revision": "5ac497e8aad79c9c0843c46eb97bb9900f3b109b"
   },
   "solutions": [
     "embedding-gemma-2-pages",
+    "gemini-embedding-2-pages",
+    "llama-nemotron-embed-vl-1b-v2-pages",
     "paddleocr-v5-mobile-bge-m3-full",
     "paddleocr-v5-mobile-bm25-bge-m3-rrf",
     "paddleocr-v5-mobile-bm25-full",
@@ -24,6 +26,22 @@
       "source_path": "benchmarks/pdf_retrieval/run.py",
       "source_line": 33,
       "created_at": "2026-10-12T09:38:24.354152+00:00",
+      "origin": "verified-live-run"
+    },
+    "gemini-embedding-2-pages": {
+      "source_commit": "3f791d3b1bcf87580f547680af73e810996e5e75",
+      "source_module": "benchmarks.pdf_retrieval.run",
+      "source_path": "benchmarks/pdf_retrieval/run.py",
+      "source_line": 33,
+      "created_at": "2026-10-12T15:49:54.043734+00:00",
+      "origin": "verified-live-run"
+    },
+    "llama-nemotron-embed-vl-1b-v2-pages": {
+      "source_commit": "3f791d3b1bcf87580f547680af73e810996e5e75",
+      "source_module": "benchmarks.pdf_retrieval.run",
+      "source_path": "benchmarks/pdf_retrieval/run.py",
+      "source_line": 33,
+      "created_at": "2026-10-12T15:43:34.274272+00:00",
       "origin": "verified-live-run"
     },
     "paddleocr-v5-mobile-bge-m3-full": {
@@ -80,7 +98,7 @@
     }
   },
   "queries": 1000,
-  "ranking_rows": 8000,
+  "ranking_rows": 10000,
   "top_k": 10,
-  "rankings_sha256": "4bb93d5a4cf98a5d623e18fa6d52d97fc1a7f7d9de1b909526ec8a727685c317"
+  "rankings_sha256": "62417e1b9d849b895328be6f0a44212cd8745cfd2faeb4ab1ff2097bd45454fa"
 }
