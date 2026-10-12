@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import os
 from collections.abc import Sequence
+from concurrent.futures import ThreadPoolExecutor
 from hashlib import sha256
 from pathlib import Path
 from time import sleep
@@ -29,13 +30,14 @@ class OpenRouterEmbedding:
         api_key_env: str = "OPENROUTER_API_KEY",
         timeout_seconds: float = 300,
         max_retries: int = 6,
+        request_concurrency: int = 4,
     ) -> None:
         if not model:
             raise ValueError("model must be non-empty")
         if dimension < 1 or batch_size < 1:
             raise ValueError("dimension and batch size must be positive")
-        if timeout_seconds <= 0 or max_retries < 0:
-            raise ValueError("timeout must be positive and retries non-negative")
+        if timeout_seconds <= 0 or max_retries < 0 or request_concurrency < 1:
+            raise ValueError("timeout and concurrency must be positive and retries non-negative")
         self.model_id = model
         self._dimension = dimension
         self.batch_size = batch_size
@@ -44,6 +46,7 @@ class OpenRouterEmbedding:
         self.api_key_env = api_key_env
         self.timeout_seconds = timeout_seconds
         self.max_retries = max_retries
+        self.request_concurrency = request_concurrency
         self.cache = SqliteVectorCache(cache_path)
 
     @property
@@ -78,15 +81,23 @@ class OpenRouterEmbedding:
                 missing.append((key, text))
                 seen.add(key)
 
-        for start in range(0, len(missing), self.batch_size):
-            batch = missing[start : start + self.batch_size]
-            vectors = self._request([text for _, text in batch], input_type)
-            values = {
-                key: self._validate_vector(vector)
-                for (key, _), vector in zip(batch, vectors, strict=True)
-            }
-            cached.update(values)
-            self.cache.write(values)
+        batches = [
+            missing[start : start + self.batch_size]
+            for start in range(0, len(missing), self.batch_size)
+        ]
+        with ThreadPoolExecutor(max_workers=self.request_concurrency) as executor:
+            requests = [
+                executor.submit(self._request, [text for _, text in batch], input_type)
+                for batch in batches
+            ]
+            for batch, request in zip(batches, requests, strict=True):
+                vectors = request.result()
+                values = {
+                    key: self._validate_vector(vector)
+                    for (key, _), vector in zip(batch, vectors, strict=True)
+                }
+                cached.update(values)
+                self.cache.write(values)
         return np.asarray([cached[key] for key in keys], dtype=np.float32)
 
     def _request(self, texts: list[str], input_type: str) -> list[list[float]]:

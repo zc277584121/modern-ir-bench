@@ -77,6 +77,7 @@ def build_runtime() -> Runtime:
                 document_input_type="search_document",
                 query_input_type="search_query",
                 cache_path=project_root / ".runtime/openrouter/qwen3-embedding-8b.sqlite3",
+                request_concurrency=int(os.environ.get("MIR_OPENROUTER_CONCURRENCY", "4")),
             ),
         },
         embedding_gemma=SentenceTransformersEmbedding(

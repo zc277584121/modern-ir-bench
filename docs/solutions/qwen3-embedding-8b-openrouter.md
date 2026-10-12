@@ -6,4 +6,6 @@ Embeddings API. Documents and queries use the API's `search_document` and
 chunks, and Milvus performs exact cosine search over 4096-dimensional vectors.
 
 Responses are cached by model, dimension, input type, and exact input text so an
-interrupted run can resume without purchasing the same embedding twice.
+interrupted run can resume without purchasing the same embedding twice. Small
+requests run concurrently because this endpoint is substantially more reliable
+with 16 inputs per request than with one large request.

@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import sys
+import threading
+import time
 from pathlib import Path
 from types import ModuleType
 
@@ -56,3 +58,46 @@ def test_openrouter_uses_input_types_and_persistent_cache(monkeypatch, tmp_path:
     assert [call[2]["input_type"] for call in calls] == ["search_document", "search_query"]
     assert calls[0][2]["dimensions"] == 2
     assert calls[0][1]["Authorization"] == "Bearer secret"
+
+
+def test_openrouter_runs_small_batches_concurrently(monkeypatch) -> None:
+    active = 0
+    peak_active = 0
+    lock = threading.Lock()
+
+    class Response:
+        status_code = 200
+        text = ""
+
+        def __init__(self) -> None:
+            self.headers = {}
+
+        def json(self):
+            return {"data": [{"index": 0, "embedding": [1.0, 0.0]}]}
+
+    def post(url, *, headers, json, timeout):
+        nonlocal active, peak_active
+        with lock:
+            active += 1
+            peak_active = max(peak_active, active)
+        time.sleep(0.05)
+        with lock:
+            active -= 1
+        return Response()
+
+    requests = ModuleType("requests")
+    requests.post = post
+    requests.RequestException = OSError
+    monkeypatch.setitem(sys.modules, "requests", requests)
+    monkeypatch.setenv("OPENROUTER_API_KEY", "secret")
+
+    embedding = OpenRouterEmbedding(
+        model="provider/model",
+        dimension=2,
+        batch_size=1,
+        request_concurrency=2,
+    )
+    vectors = embedding.encode_documents(["one", "two"])
+
+    assert vectors.shape == (2, 2)
+    assert peak_active == 2

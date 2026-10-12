@@ -17,4 +17,5 @@ retrieval representation. It does not use the native PDF text layer, layout
 parsing, chunking, or reranking.
 
 Embeddings are cached by model, dimension, input type, and exact OCR text so an
-interrupted run can resume without repeating completed API calls.
+interrupted run can resume without repeating completed API calls. Independent
+small requests run concurrently to keep the hosted path responsive.

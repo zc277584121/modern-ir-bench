@@ -47,6 +47,7 @@ def build_runtime(*, target: MilvusTarget, project_root: Path) -> Runtime:
             document_input_type="document",
             query_input_type="query",
             cache_path=runtime_root / "openrouter/voyage-4-large.sqlite3",
+            request_concurrency=int(os.environ.get("MIR_OPENROUTER_CONCURRENCY", "4")),
         ),
         voyage_multimodal=VoyageMultimodalEmbedding(
             model="voyage-multimodal-3.5",
