@@ -37,7 +37,7 @@ def build_runtime(*, target: MilvusTarget, project_root: Path) -> Runtime:
         voyage_multimodal=VoyageMultimodalEmbedding(
             model="voyage-multimodal-3.5",
             dimension=1024,
-            batch_size=32,
+            batch_size=int(os.environ.get("MIR_VOYAGE_MULTIMODAL_BATCH_SIZE", "64")),
             cache_path=runtime_root / "pdf-embeddings/voyage-multimodal-3.5.sqlite3",
         ),
         page_renderer=PdfPageRenderer(

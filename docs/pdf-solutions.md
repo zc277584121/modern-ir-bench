@@ -38,6 +38,10 @@ rather than a valid baseline for this Dataset.
 - OCR text is cached by PDF content hash.
 - Rendered pages are cached by renderer configuration and PDF content hash.
 - Hosted embeddings are cached by model, mode, dimension, and input content.
+- Voyage Multimodal uses batches of 64 pages by default. With the renderer's
+  1,600-pixel maximum side, even 64 square pages remain below the API's 320K
+  multimodal-token request limit. Override it with
+  `MIR_VOYAGE_MULTIMODAL_BATCH_SIZE` when project limits differ.
 - Every benchmark run creates isolated Milvus collections and drops them after
   the evaluation session closes.
 
