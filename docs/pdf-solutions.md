@@ -38,10 +38,10 @@ rather than a valid baseline for this Dataset.
 - OCR text is cached by PDF content hash.
 - Rendered pages are cached by renderer configuration and PDF content hash.
 - Hosted embeddings are cached by model, mode, dimension, and input content.
-- Voyage Multimodal uses batches of 64 pages by default. With the renderer's
-  1,600-pixel maximum side, even 64 square pages remain below the API's 320K
-  multimodal-token request limit. Override it with
-  `MIR_VOYAGE_MULTIMODAL_BATCH_SIZE` when project limits differ.
+- Voyage Multimodal uses batches of 32 pages by default. This keeps image upload
+  bodies manageable even though the API token limit would permit larger batches.
+  Override it with `MIR_VOYAGE_MULTIMODAL_BATCH_SIZE` when project limits and
+  network conditions differ.
 - Two multimodal requests may run concurrently so network and service latency do
   not serialize the full indexing pass. Set `MIR_VOYAGE_MULTIMODAL_CONCURRENCY`
   to match the active project RPM limit.
