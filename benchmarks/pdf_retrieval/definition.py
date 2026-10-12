@@ -41,7 +41,7 @@ def build_task() -> PdfRetrieval:
             secondary=[Recall(k=1), Recall(k=5), Recall(k=10), MeanReciprocalRank(k=10)],
         ),
         top_k=10,
-        query_batch_size=16,
+        query_batch_size=64,
         query_value=_query_value,
         pool_field="language",
     )
