@@ -309,9 +309,11 @@ function solutionHasTag(solutionId, tag = selectedSolutionTag()) {
 
 function solutionTagLabel(tag) {
   const labels = {
+    "managed-api": "Managed API",
     ocr: "OCR",
     "ocr-free": "OCR-free",
     rrf: "RRF",
+    "self-hosted": "Self-hosted",
   };
   return labels[tag] || tag
     .replaceAll("-", " ")

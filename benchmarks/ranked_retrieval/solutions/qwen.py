@@ -30,7 +30,7 @@ SPECS = (
         "qwen3-embedding-4b-chunk",
         "Qwen3 Embedding 4B · 768-token chunks",
         "Pinned Qwen3 Embedding 4B over shared chunks with Milvus FLAT search.",
-        ("dense", "local", "chunked", "milvus"),
+        ("dense", "self-hosted", "chunked"),
         _build_qwen_chunk,
         "docs/solutions/qwen3-embedding-4b.md",
     ),

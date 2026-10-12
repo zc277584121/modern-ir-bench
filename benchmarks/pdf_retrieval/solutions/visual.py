@@ -53,7 +53,7 @@ SPECS = (
         id="voyage-multimodal-3-5-pages",
         title="Voyage Multimodal 3.5 · page images",
         description="Render PDF pages as images, retrieve pages without OCR, then collapse page hits to documents.",
-        tags=("visual", "dense", "hosted", "page-level", "ocr-free", "milvus"),
+        tags=("visual", "dense", "managed-api", "page-level", "ocr-free"),
         factory=_build_voyage_pages,
         readme_path="docs/solutions/voyage-multimodal-3-5-pages.md",
     ),
