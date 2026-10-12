@@ -321,18 +321,19 @@ export function createProfileController({
       (breakdown) => breakdown.values.length >= 2,
     );
     const section = document.querySelector("#profile-section");
-    section.hidden = availableBreakdowns.length === 0;
-    if (!availableBreakdowns.length) return;
+    const records = getOverallRecords();
+    section.hidden = availableBreakdowns.length === 0 || records.length === 0;
+    if (!availableBreakdowns.length || !records.length) return;
 
     const availableSolutionIds = new Set(
-      getOverallRecords().map((record) => record.solution_id),
+      records.map((record) => record.solution_id),
     );
     selectedSolutionIds = new Set(
       [...selectedSolutionIds].filter((solutionId) => availableSolutionIds.has(solutionId)),
     );
     if (resetSolutions || selectedSolutionIds.size === 0) {
       selectedSolutionIds = new Set(
-        getOverallRecords()
+        records
           .slice(0, 3)
           .map((record) => record.solution_id),
       );

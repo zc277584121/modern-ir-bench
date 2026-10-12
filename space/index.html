@@ -36,8 +36,16 @@
               <select id="dataset-selector"></select>
             </div>
             <div id="solution-tag-control" class="control">
-              <label for="solution-tag-selector">Solution tag</label>
-              <select id="solution-tag-selector"></select>
+              <span id="solution-tag-label" class="control-label">Solution tags</span>
+              <details id="solution-tag-picker" class="tag-picker" aria-labelledby="solution-tag-label">
+                <summary id="solution-tag-summary">All tags</summary>
+                <div class="tag-picker-panel">
+                  <div class="tag-picker-actions">
+                    <button id="clear-solution-tags" type="button">Clear</button>
+                  </div>
+                  <div id="solution-tag-options" class="tag-options"></div>
+                </div>
+              </details>
             </div>
           </div>
           <div class="control-group breakdown-controls">

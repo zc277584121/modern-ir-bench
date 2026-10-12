@@ -4,6 +4,7 @@ const state = {
   payload: null,
   tasks: new Map(),
   solutions: new Map(),
+  selectedSolutionTags: new Set(),
   leaderboardSort: { key: null, direction: "desc" },
   profileMetricId: null,
   profile: null,
@@ -298,13 +299,9 @@ function populateReleaseSelector() {
   });
 }
 
-function selectedSolutionTag() {
-  return document.querySelector("#solution-tag-selector")?.value || "";
-}
-
-function solutionHasTag(solutionId, tag = selectedSolutionTag()) {
-  if (!tag) return true;
-  return (state.solutions.get(solutionId)?.tags || []).includes(tag);
+function solutionHasSelectedTags(solutionId) {
+  const tags = new Set(state.solutions.get(solutionId)?.tags || []);
+  return [...state.selectedSolutionTags].every((tag) => tags.has(tag));
 }
 
 function solutionTagLabel(tag) {
@@ -320,9 +317,28 @@ function solutionTagLabel(tag) {
     .replace(/\b\w/g, (character) => character.toUpperCase());
 }
 
-function populateSolutionTagSelector() {
-  const selector = document.querySelector("#solution-tag-selector");
-  const previous = selector.value;
+function renderSolutionTagSummary() {
+  const summary = document.querySelector("#solution-tag-summary");
+  const selected = [...state.selectedSolutionTags];
+  if (selected.length === 0) {
+    summary.textContent = "All tags";
+  } else if (selected.length === 1) {
+    summary.textContent = solutionTagLabel(selected[0]);
+  } else {
+    summary.textContent = `${selected.length} tags selected`;
+  }
+  document.querySelector("#clear-solution-tags").disabled = selected.length === 0;
+}
+
+function applySolutionTagFilter() {
+  renderSolutionTagSummary();
+  resetResultSorts();
+  renderLeaderboard();
+  state.profile.refresh(true);
+}
+
+function populateSolutionTagPicker() {
+  const container = document.querySelector("#solution-tag-options");
   const { taskId, datasetId, datasetVersion } = currentTaskDataset();
   const solutionIds = new Set(
     primaryRecords()
@@ -341,13 +357,28 @@ function populateSolutionTagSelector() {
     });
   });
 
-  selector.replaceChildren(new Option(`All solutions (${solutionIds.size})`, ""));
-  [...counts.entries()]
+  state.selectedSolutionTags = new Set(
+    [...state.selectedSolutionTags].filter((tag) => counts.has(tag)),
+  );
+  container.innerHTML = [...counts.entries()]
     .sort(([left], [right]) => solutionTagLabel(left).localeCompare(solutionTagLabel(right)))
-    .forEach(([tag, count]) => {
-      selector.add(new Option(`${solutionTagLabel(tag)} (${count})`, tag));
+    .map(([tag, count]) => `<label class="tag-option">
+      <input type="checkbox" data-solution-tag="${escapeHtml(tag)}"${state.selectedSolutionTags.has(tag) ? " checked" : ""} />
+      <span>${escapeHtml(solutionTagLabel(tag))}</span>
+      <span class="tag-option-count">${formatInteger(count)}</span>
+    </label>`)
+    .join("");
+  container.querySelectorAll("[data-solution-tag]").forEach((input) => {
+    input.addEventListener("change", () => {
+      if (input.checked) {
+        state.selectedSolutionTags.add(input.dataset.solutionTag);
+      } else {
+        state.selectedSolutionTags.delete(input.dataset.solutionTag);
+      }
+      applySolutionTagFilter();
     });
-  selector.value = counts.has(previous) ? previous : "";
+  });
+  renderSolutionTagSummary();
 }
 
 function currentTaskDataset() {
@@ -365,7 +396,7 @@ function currentOverallPrimaryRecords() {
         record.task_id === taskId &&
         record.dataset_id === datasetId &&
         record.dataset_version === datasetVersion &&
-        solutionHasTag(record.solution_id),
+        solutionHasSelectedTags(record.solution_id),
     )
     .sort(
       (left, right) =>
@@ -381,7 +412,7 @@ function currentEvaluation() {
       record.task_id === taskId &&
       record.dataset_id === datasetId &&
       record.dataset_version === datasetVersion &&
-      solutionHasTag(record.solution_id),
+      solutionHasSelectedTags(record.solution_id),
   );
   const breakdown = selectedBreakdown();
   const breakdownValue = selectedBreakdownValue();
@@ -390,7 +421,7 @@ function currentEvaluation() {
     breakdown,
     breakdownValue,
     results: breakdownValue
-      ? breakdownValue.results.filter((record) => solutionHasTag(record.solution_id))
+      ? breakdownValue.results.filter((record) => solutionHasSelectedTags(record.solution_id))
       : overallResults,
     primaryMetric,
   };
@@ -474,7 +505,12 @@ function renderLeaderboard() {
   breakdownNote.textContent = breakdownValue
     ? `${breakdown.description}${breakdownValue.count < 30 ? " This group is small, so its ranking may be unstable." : ""}`
     : "";
-  document.querySelector("#leaderboard-table").innerHTML = renderTable(
+  const leaderboard = document.querySelector("#leaderboard-table");
+  if (rows.length === 0) {
+    leaderboard.innerHTML = '<p class="empty-state">No solutions match all selected tags.</p>';
+    return;
+  }
+  leaderboard.innerHTML = renderTable(
     [
       { label: "Rank" },
       { label: "Solution", key: "solution" },
@@ -571,10 +607,12 @@ function installControls() {
   document
     .querySelector("#breakdown-value-selector")
     .addEventListener("change", refreshBreakdownContext);
-  document.querySelector("#solution-tag-selector").addEventListener("change", () => {
-    resetResultSorts();
-    renderLeaderboard();
-    state.profile.refresh(true);
+  document.querySelector("#clear-solution-tags").addEventListener("click", () => {
+    state.selectedSolutionTags.clear();
+    document.querySelectorAll("[data-solution-tag]").forEach((input) => {
+      input.checked = false;
+    });
+    applySolutionTagFilter();
   });
 }
 
@@ -585,7 +623,7 @@ function resetResultSorts() {
 
 function refreshDatasetContext() {
   populateBreakdownSelector();
-  populateSolutionTagSelector();
+  populateSolutionTagPicker();
   resetResultSorts();
   renderLeaderboard();
   state.profile.refresh(true);
@@ -629,7 +667,7 @@ async function main() {
   state.profile.install();
   populateDatasetSelector();
   populateBreakdownSelector();
-  populateSolutionTagSelector();
+  populateSolutionTagPicker();
   document.querySelector("#task-control").hidden = orderedTaskGroups().length <= 1;
   renderLeaderboard();
   state.profile.refresh(true);
