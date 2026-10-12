@@ -45,12 +45,20 @@ const escapeHtml = (value) =>
 const formatScore = (value) => Number(value).toFixed(3);
 const formatInteger = (value) => Number(value).toLocaleString("en-US");
 
-function datasetLabel(datasetId) {
+function taskLabel(task) {
+  return task.title.replace(/\s+v\d+(?:\.\d+)*$/, "");
+}
+
+function datasetPresentation(datasetId) {
   const pdfRelease = datasetId.match(/^modern-ir-bench-pdf-v(\d+(?:\.\d+)?)/);
-  if (pdfRelease) return `Modern IR PDF v${pdfRelease[1]}`;
+  if (pdfRelease) {
+    return { title: "Modern IR PDF", release: `v${pdfRelease[1]}` };
+  }
   const release = datasetId.match(/^modern-ir-bench-v(\d+(?:\.\d+)?)/);
-  if (release) return `Modern IR Bench v${release[1]}`;
-  return datasetId.replace(/-\d{8}$/, "");
+  if (release) {
+    return { title: "Modern IR Bench", release: `v${release[1]}` };
+  }
+  return { title: datasetId.replace(/-\d{8}$/, ""), release: "" };
 }
 
 function solutionCodeLink(solution) {
@@ -138,7 +146,8 @@ function taskDatasets(taskId) {
     const value = `${record.dataset_id}|${record.dataset_version}`;
     if (seen.has(value)) return [];
     seen.add(value);
-    return [{ value, label: datasetLabel(record.dataset_id) }];
+    const presentation = datasetPresentation(record.dataset_id);
+    return [{ value, ...presentation }];
   });
 }
 
@@ -213,9 +222,20 @@ function selectedBreakdownValue() {
 function populateDatasetSelector() {
   const selector = document.querySelector("#dataset-selector");
   selector.replaceChildren();
-  taskDatasets(document.querySelector("#task-selector").value).forEach((option) =>
-    selector.add(new Option(option.label, option.value)),
-  );
+  taskDatasets(document.querySelector("#task-selector").value).forEach((dataset) => {
+    const option = new Option(dataset.title, dataset.value);
+    option.dataset.release = dataset.release;
+    selector.add(option);
+  });
+  updateDatasetRelease();
+}
+
+function updateDatasetRelease() {
+  const selected = document.querySelector("#dataset-selector").selectedOptions[0];
+  const release = selected?.dataset.release;
+  document.querySelector("#dataset-release").textContent = release
+    ? `Latest · ${release}`
+    : "Latest";
 }
 
 function selectedSolutionTag() {
@@ -468,7 +488,7 @@ function installSolutionPreviews() {
 
 function installControls() {
   const taskSelector = document.querySelector("#task-selector");
-  orderedTasks().forEach((task) => taskSelector.add(new Option(task.title, task.id)));
+  orderedTasks().forEach((task) => taskSelector.add(new Option(taskLabel(task), task.id)));
   taskSelector.addEventListener("change", () => {
     refreshDatasetContext(true);
   });
@@ -497,6 +517,7 @@ function resetResultSorts() {
 
 function refreshDatasetContext(rebuildDatasets) {
   if (rebuildDatasets) populateDatasetSelector();
+  if (!rebuildDatasets) updateDatasetRelease();
   populateBreakdownSelector();
   populateSolutionTagSelector();
   resetResultSorts();
