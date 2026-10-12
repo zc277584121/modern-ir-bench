@@ -232,12 +232,16 @@ h2 {
   margin-bottom: 16px;
 }
 
-.leaderboard-controls {
+.evaluation-context {
+  margin-top: 16px;
+}
+
+.evaluation-controls {
   display: flex;
   align-items: end;
   justify-content: space-between;
   gap: 24px;
-  margin: 16px 0;
+  margin-bottom: 16px;
 }
 
 .control-group {
@@ -310,6 +314,15 @@ table {
 th:nth-child(2),
 td:nth-child(2) {
   min-width: 240px;
+}
+
+.result-table-solution {
+  min-width: 0;
+}
+
+.result-table-solution th:nth-child(2),
+.result-table-solution td:nth-child(2) {
+  min-width: 0;
 }
 
 th {
@@ -443,15 +456,24 @@ pre {
     grid-template-columns: 1fr;
   }
 
-  .leaderboard-controls {
+  .evaluation-controls {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(150px, 0.72fr);
+    grid-template-columns: minmax(0, 1fr);
     gap: 10px;
   }
 
   .control-group {
     grid-auto-flow: row;
     grid-auto-columns: 1fr;
+  }
+
+  .task-controls {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .breakdown-controls {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    margin-left: 0;
   }
 
   .table-wrap {

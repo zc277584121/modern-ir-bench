@@ -19,13 +19,13 @@
       <div id="error-notice" class="notice" aria-live="polite" hidden></div>
 
       <nav class="tabs" aria-label="Benchmark views">
-        <button class="tab active" data-panel="task-panel">Leaderboard</button>
+        <button class="tab active" data-panel="leaderboard-panel">Leaderboard</button>
         <button class="tab" data-panel="solution-panel">By solution</button>
         <button class="tab" data-panel="about-panel">About</button>
       </nav>
 
-      <section id="task-panel" class="panel active">
-        <div class="leaderboard-controls">
+      <section id="evaluation-context" class="evaluation-context" aria-label="Evaluation context">
+        <div class="evaluation-controls">
           <div id="task-controls" class="control-group task-controls">
             <div id="task-control" class="control">
               <label for="task-selector">Task</label>
@@ -48,7 +48,10 @@
           </div>
         </div>
         <p id="breakdown-note" class="breakdown-note" hidden></p>
-        <div id="task-table"></div>
+      </section>
+
+      <section id="leaderboard-panel" class="panel active">
+        <div id="leaderboard-table"></div>
 
         <section id="profile-section" class="profile-section" aria-labelledby="profile-title">
           <div class="profile-header">
@@ -72,13 +75,13 @@
       </section>
 
       <section id="solution-panel" class="panel">
-        <div id="solution-context" class="task-note"></div>
         <div class="controls single-column">
           <div class="control">
             <label for="solution-selector">Solution</label>
             <select id="solution-selector"></select>
           </div>
         </div>
+        <div id="solution-context" class="task-note"></div>
         <div id="solution-table"></div>
       </section>
 

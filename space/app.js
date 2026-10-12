@@ -4,8 +4,8 @@ const state = {
   payload: null,
   tasks: new Map(),
   solutions: new Map(),
-  taskSort: { key: null, direction: "desc" },
-  solutionSort: { key: "task", direction: "asc" },
+  leaderboardSort: { key: null, direction: "desc" },
+  solutionSort: { key: null, direction: "asc" },
   profile: null,
 };
 
@@ -91,8 +91,11 @@ function renderTable(headers, rows, tableName, sortState) {
   const body = rows
     .map((row) => `<tr>${row.map((cell) => `<td>${cell}</td>`).join("")}</tr>`)
     .join("");
-  return `<p class="table-scroll-hint">Swipe horizontally to see all columns →</p>
-    <div class="table-wrap"><table><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table></div>`;
+  const scrollHint = tableName === "solution"
+    ? ""
+    : '<p class="table-scroll-hint">Swipe horizontally to see all columns →</p>';
+  return `${scrollHint}
+    <div class="table-wrap"><table class="result-table result-table-${escapeHtml(tableName)}"><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table></div>`;
 }
 
 function orderedTasks() {
@@ -246,11 +249,8 @@ function currentOverallPrimaryRecords() {
     );
 }
 
-function renderTask() {
-  const taskId = document.querySelector("#task-selector").value;
-  const [datasetId, datasetVersion] = document
-    .querySelector("#dataset-selector")
-    .value.split("|");
+function currentEvaluation() {
+  const { taskId, datasetId, datasetVersion } = currentTaskDataset();
   const task = state.tasks.get(taskId);
   const overallResults = state.payload.results.filter(
     (record) =>
@@ -260,29 +260,59 @@ function renderTask() {
   );
   const breakdown = selectedBreakdown();
   const breakdownValue = selectedBreakdownValue();
-  const selected = breakdownValue?.results || overallResults;
   const primaryMetric = breakdown?.primary_metric || task.primary_metric;
-  const metricOrder = [...new Set(selected.map((record) => record.metric_id))].sort(
+  return {
+    taskId,
+    datasetId,
+    datasetVersion,
+    task,
+    overallResults,
+    breakdown,
+    breakdownValue,
+    results: breakdownValue?.results || overallResults,
+    primaryMetric,
+  };
+}
+
+function metricCatalog(results, primaryMetric) {
+  const labels = new Map(results.map((record) => [record.metric_id, record.metric_label]));
+  const order = [...labels.keys()].sort(
     (left, right) => Number(right === primaryMetric) - Number(left === primaryMetric),
   );
-  const labels = new Map(selected.map((record) => [record.metric_id, record.metric_label]));
+  return { labels, order };
+}
+
+function renderLeaderboard() {
+  const evaluation = currentEvaluation();
+  const {
+    breakdown,
+    breakdownValue,
+    primaryMetric,
+    results: selected,
+  } = evaluation;
+  const { labels, order: metricOrder } = metricCatalog(selected, primaryMetric);
   const grouped = new Map();
   selected.forEach((record) => {
     if (!grouped.has(record.solution_id)) grouped.set(record.solution_id, new Map());
     grouped.get(record.solution_id).set(record.metric_id, record);
   });
-  if (!state.taskSort.key || (!metricOrder.includes(state.taskSort.key) && state.taskSort.key !== "solution")) {
-    state.taskSort = { key: primaryMetric, direction: "desc" };
+  if (!state.leaderboardSort.key || (!metricOrder.includes(state.leaderboardSort.key) && state.leaderboardSort.key !== "solution")) {
+    state.leaderboardSort = { key: primaryMetric, direction: "desc" };
   }
   const valueForSolution = (solutionId) => {
-    if (state.taskSort.key === "solution") return state.solutions.get(solutionId).title;
-    return grouped.get(solutionId).get(state.taskSort.key)?.value ?? Number.NEGATIVE_INFINITY;
+    if (state.leaderboardSort.key === "solution") {
+      return state.solutions.get(solutionId).title;
+    }
+    return (
+      grouped.get(solutionId).get(state.leaderboardSort.key)?.value ??
+      Number.NEGATIVE_INFINITY
+    );
   };
   const matching = [...grouped.keys()].sort((left, right) => {
     const comparison = compareValues(
       valueForSolution(left),
       valueForSolution(right),
-      state.taskSort.direction,
+      state.leaderboardSort.direction,
     );
     return comparison || left.localeCompare(right);
   });
@@ -319,95 +349,100 @@ function renderTask() {
   breakdownNote.textContent = breakdownValue
     ? `${breakdown.description}${breakdownValue.count < 30 ? " This group is small, so its ranking may be unstable." : ""}`
     : "";
-  document.querySelector("#task-table").innerHTML = renderTable(
+  document.querySelector("#leaderboard-table").innerHTML = renderTable(
     [
       { label: "Rank" },
       { label: "Solution", key: "solution" },
       ...metricOrder.map((id) => ({ label: labels.get(id), key: id })),
     ],
     rows,
-    "task",
-    state.taskSort,
+    "leaderboard",
+    state.leaderboardSort,
   );
-  installSortButtons("#task-table", "task", (key) => {
-    toggleSort(state.taskSort, key, metricOrder.includes(key));
-    renderTask();
+  installSortButtons("#leaderboard-table", "leaderboard", (key) => {
+    toggleSort(state.leaderboardSort, key, metricOrder.includes(key));
+    renderLeaderboard();
   });
 }
 
+function populateSolutionSelector() {
+  const selector = document.querySelector("#solution-selector");
+  const previous = selector.value;
+  const availableIds = [
+    ...new Set(currentEvaluation().overallResults.map((record) => record.solution_id)),
+  ].sort((left, right) =>
+    state.solutions.get(left).title.localeCompare(state.solutions.get(right).title),
+  );
+  selector.replaceChildren();
+  availableIds.forEach((solutionId) => {
+    selector.add(new Option(state.solutions.get(solutionId).title, solutionId));
+  });
+  if (availableIds.includes(previous)) selector.value = previous;
+}
+
 function renderSolution() {
+  const evaluation = currentEvaluation();
   const solutionId = document.querySelector("#solution-selector").value;
   const solution = state.solutions.get(solutionId);
-  const matching = state.payload.results.filter(
-    (record) => record.solution_id === solutionId,
+  if (!solution) return;
+
+  const { labels, order: metricOrder } = metricCatalog(
+    evaluation.results,
+    evaluation.primaryMetric,
   );
-  const metricLabels = new Map(
-    matching.map((record) => [record.metric_id, record.metric_label]),
+  const solutionRecords = new Map(
+    evaluation.results
+      .filter((record) => record.solution_id === solutionId)
+      .map((record) => [record.metric_id, record]),
   );
-  const primaryMetricIds = new Set(
-    [...state.tasks.values()].map((task) => task.primary_metric),
-  );
-  const metricOrder = [...metricLabels.keys()].sort(
-    (left, right) =>
-      Number(primaryMetricIds.has(right)) - Number(primaryMetricIds.has(left)),
-  );
-  const grouped = new Map();
-  matching.forEach((record) => {
-    const key = `${record.task_id}|${record.dataset_id}|${record.dataset_version}`;
-    if (!grouped.has(key)) {
-      grouped.set(key, {
-        taskId: record.task_id,
-        datasetId: record.dataset_id,
-        datasetVersion: record.dataset_version,
-        metrics: new Map(),
-      });
-    }
-    grouped.get(key).metrics.set(record.metric_id, record);
-  });
-  const validSortKeys = new Set(["task", "dataset", ...metricOrder]);
-  if (!validSortKeys.has(state.solutionSort.key)) {
-    state.solutionSort = { key: "task", direction: "asc" };
-  }
-  const evaluations = [...grouped.values()].sort((left, right) => {
-    const value = (evaluation) => {
-      if (state.solutionSort.key === "task") {
-        return state.tasks.get(evaluation.taskId).title;
-      }
-      if (state.solutionSort.key === "dataset") {
-        return `${datasetLabel(evaluation.datasetId)} ${evaluation.datasetVersion}`;
-      }
-      return (
-        evaluation.metrics.get(state.solutionSort.key)?.value ??
-        Number.NEGATIVE_INFINITY
+  const metricRows = metricOrder.map((metricId) => {
+    const record = solutionRecords.get(metricId);
+    const peers = evaluation.results
+      .filter((item) => item.metric_id === metricId)
+      .sort(
+        (left, right) =>
+          right.value - left.value || left.solution_id.localeCompare(right.solution_id),
       );
+    const rank = record
+      ? peers.findIndex((item) => item.solution_id === solutionId) + 1
+      : null;
+    return {
+      metricId,
+      metricLabel: labels.get(metricId),
+      score: record?.value ?? Number.NEGATIVE_INFINITY,
+      rank,
+      peerCount: peers.length,
     };
-    const comparison = compareValues(
-      value(left),
-      value(right),
-      state.solutionSort.direction,
-    );
-    return (
-      comparison ||
-      left.taskId.localeCompare(right.taskId) ||
-      left.datasetId.localeCompare(right.datasetId)
-    );
   });
-  const rows = evaluations.map((evaluation) => {
-    const task = state.tasks.get(evaluation.taskId);
-    const metricCells = metricOrder.map((metricId) => {
-      const record = evaluation.metrics.get(metricId);
-      if (!record) return '<span class="muted">—</span>';
-      const primaryClass = metricId === task.primary_metric ? " primary" : "";
-      return `<span class="score${primaryClass}">${formatScore(record.value)}</span>`;
+  if (state.solutionSort.key) {
+    metricRows.sort((left, right) => {
+      const leftValue = state.solutionSort.key === "metric"
+        ? left.metricLabel
+        : left[state.solutionSort.key] ?? Number.POSITIVE_INFINITY;
+      const rightValue = state.solutionSort.key === "metric"
+        ? right.metricLabel
+        : right[state.solutionSort.key] ?? Number.POSITIVE_INFINITY;
+      return compareValues(leftValue, rightValue, state.solutionSort.direction);
     });
+  }
+  const rows = metricRows.map((row) => {
+    const primaryClass = row.metricId === evaluation.primaryMetric ? " primary" : "";
     return [
-      `<strong>${escapeHtml(task.title)}</strong>`,
-      escapeHtml(datasetLabel(evaluation.datasetId)),
-      ...metricCells,
+      row.metricId === evaluation.primaryMetric
+        ? `<strong>${escapeHtml(row.metricLabel)}</strong>`
+        : escapeHtml(row.metricLabel),
+      Number.isFinite(row.score)
+        ? `<span class="score${primaryClass}">${formatScore(row.score)}</span>`
+        : '<span class="muted">—</span>',
+      row.rank
+        ? `<span class="rank">${row.rank} / ${row.peerCount}</span>`
+        : '<span class="muted">—</span>',
     ];
   });
 
-  const sourceRecord = matching[0];
+  const sourceRecord = evaluation.overallResults.find(
+    (record) => record.solution_id === solutionId,
+  );
   document.querySelector("#solution-context").innerHTML = `
     <div class="task-note-header">
       <div>
@@ -419,19 +454,16 @@ function renderSolution() {
     </div>`;
   document.querySelector("#solution-table").innerHTML = renderTable(
     [
-      { label: "Task", key: "task" },
-      { label: "Dataset release", key: "dataset" },
-      ...metricOrder.map((metricId) => ({
-        label: metricLabels.get(metricId),
-        key: metricId,
-      })),
+      { label: "Metric", key: "metric" },
+      { label: "Score", key: "score" },
+      { label: "Rank", key: "rank" },
     ],
     rows,
     "solution",
     state.solutionSort,
   );
   installSortButtons("#solution-table", "solution", (key) => {
-    toggleSort(state.solutionSort, key, metricOrder.includes(key));
+    toggleSort(state.solutionSort, key, ["score", "rank"].includes(key));
     renderSolution();
   });
 }
@@ -443,6 +475,7 @@ function activatePanel(panelId) {
   document.querySelectorAll(".panel").forEach((panel) => {
     panel.classList.toggle("active", panel.id === panelId);
   });
+  document.querySelector("#evaluation-context").hidden = panelId === "about-panel";
 }
 
 function installTabs() {
@@ -509,30 +542,47 @@ function installControls() {
   const taskSelector = document.querySelector("#task-selector");
   orderedTasks().forEach((task) => taskSelector.add(new Option(task.title, task.id)));
   taskSelector.addEventListener("change", () => {
-    populateDatasetSelector();
-    populateBreakdownSelector();
-    state.profile.refresh(true);
+    refreshDatasetContext(true);
     updateControlVisibility();
-    state.taskSort = { key: state.tasks.get(taskSelector.value).primary_metric, direction: "desc" };
-    renderTask();
   });
   document.querySelector("#dataset-selector").addEventListener("change", () => {
-    populateBreakdownSelector();
-    state.profile.refresh(true);
-    renderTask();
+    refreshDatasetContext(false);
   });
 
   document.querySelector("#breakdown-selector").addEventListener("change", () => {
     populateBreakdownValueSelector();
-    renderTask();
+    refreshBreakdownContext();
   });
-  document.querySelector("#breakdown-value-selector").addEventListener("change", renderTask);
+  document
+    .querySelector("#breakdown-value-selector")
+    .addEventListener("change", refreshBreakdownContext);
 
   const solutionSelector = document.querySelector("#solution-selector");
-  [...state.solutions.values()].forEach((solution) =>
-    solutionSelector.add(new Option(solution.title, solution.id)),
-  );
   solutionSelector.addEventListener("change", renderSolution);
+}
+
+function resetResultSorts() {
+  state.leaderboardSort = { key: null, direction: "desc" };
+  state.solutionSort = { key: null, direction: "asc" };
+}
+
+function renderEvaluationViews() {
+  renderLeaderboard();
+  renderSolution();
+}
+
+function refreshDatasetContext(rebuildDatasets) {
+  if (rebuildDatasets) populateDatasetSelector();
+  populateBreakdownSelector();
+  populateSolutionSelector();
+  state.profile.refresh(true);
+  resetResultSorts();
+  renderEvaluationViews();
+}
+
+function refreshBreakdownContext() {
+  resetResultSorts();
+  renderEvaluationViews();
 }
 
 function updateControlVisibility() {
@@ -570,10 +620,10 @@ async function main() {
   state.profile.install();
   populateDatasetSelector();
   populateBreakdownSelector();
+  populateSolutionSelector();
   state.profile.refresh(true);
   updateControlVisibility();
-  renderTask();
-  renderSolution();
+  renderEvaluationViews();
 }
 
 main().catch((error) => {
