@@ -1,4 +1,4 @@
-# Qwen3 Embedding 8B via OpenRouter
+# Qwen3 Embedding 8B
 
 This managed dense Solution calls `qwen/qwen3-embedding-8b` through OpenRouter's
 Embeddings API. Documents and queries use the API's `search_document` and

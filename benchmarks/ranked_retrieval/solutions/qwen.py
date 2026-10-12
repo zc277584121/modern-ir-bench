@@ -56,7 +56,7 @@ SPECS = (
     ),
     SolutionSpec(
         "qwen3-embedding-8b-openrouter-chunk",
-        "Qwen3 Embedding 8B via OpenRouter · 768-token chunks",
+        "Qwen3 Embedding 8B · 768-token chunks",
         "OpenRouter-hosted Qwen3 Embedding 8B over shared chunks with Milvus FLAT search.",
         ("dense", "managed-api", "chunked"),
         _build_qwen_8b_openrouter_chunk,
