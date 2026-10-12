@@ -64,26 +64,54 @@ h1 {
   color: var(--text);
 }
 
-.solution-detail-link {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  background: transparent;
+.solution-readme-link {
   color: inherit;
-  cursor: pointer;
-  font: inherit;
   font-weight: 700;
-  text-align: left;
+  text-decoration: none;
 }
 
-.solution-detail-link:hover {
+.solution-readme-link:hover {
   text-decoration: underline;
 }
 
-.solution-detail-link:focus-visible {
+.solution-readme-link:focus-visible {
   border-radius: 2px;
   outline: 2px solid var(--blue);
   outline-offset: 2px;
+}
+
+.solution-preview {
+  position: fixed;
+  z-index: 100;
+  display: grid;
+  width: min(360px, calc(100vw - 24px));
+  gap: 7px;
+  padding: 13px 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: 0 10px 28px rgb(15 23 42 / 16%);
+  color: var(--text);
+  font-size: 13px;
+  line-height: 1.45;
+  pointer-events: none;
+}
+
+.solution-preview-label,
+.solution-preview-tags,
+.solution-preview-hint {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.solution-preview-label {
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.solution-preview-hint {
+  margin-top: 2px;
 }
 
 .solution-heading h2 {

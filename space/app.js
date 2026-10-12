@@ -65,19 +65,18 @@ function solutionCodeLink(solution, fallbackRecord) {
   </a>`;
 }
 
-function solutionResources(solution) {
-  const links = [];
-  if (solution.readme_url) {
-    links.push(`<a href="${escapeHtml(solution.readme_url)}" target="_blank" rel="noreferrer">Method notes ↗</a>`);
-  }
-  if (solution.result_url) {
-    links.push(`<a href="${escapeHtml(solution.result_url)}" target="_blank" rel="noreferrer">Result evidence ↗</a>`);
-  }
-  return links.join(" · ");
+function solutionResultLink(solution) {
+  if (!solution.result_url) return "";
+  return `<a href="${escapeHtml(solution.result_url)}" target="_blank" rel="noreferrer">Result evidence ↗</a>`;
+}
+
+function solutionReadmeLink(solution) {
+  if (!solution.readme_url) return `<strong>${escapeHtml(solution.title)}</strong>`;
+  return `<a class="solution-readme-link" href="${escapeHtml(solution.readme_url)}" target="_blank" rel="noreferrer" data-solution-id="${escapeHtml(solution.id)}" aria-describedby="solution-preview">${escapeHtml(solution.title)}</a>`;
 }
 
 function solutionName(solution, record) {
-  return `<span class="solution-name"><button class="solution-detail-link" type="button" data-solution-id="${escapeHtml(solution.id)}" title="${escapeHtml(solution.description)}" aria-label="View results for ${escapeHtml(solution.title)}">${escapeHtml(solution.title)}</button>${solutionCodeLink(solution, record)}</span>`;
+  return `<span class="solution-name">${solutionReadmeLink(solution)}${solutionCodeLink(solution, record)}</span>`;
 }
 
 function renderTable(headers, rows, tableName, sortState) {
@@ -315,18 +314,6 @@ function renderTask() {
     ];
   });
 
-  document.querySelector("#task-context").innerHTML = `
-    <div class="task-note-header">
-      <div>
-        <h2>${escapeHtml(task.title)}</h2>
-        <p>${escapeHtml(task.description)}</p>
-      </div>
-    </div>
-    <div class="meta-list">
-      <span class="meta-chip">Primary metric: ${escapeHtml(labels.get(primaryMetric))}</span>
-      <span class="meta-chip">${escapeHtml(datasetLabel(datasetId))}</span>
-      ${breakdownValue ? `<span class="meta-chip">${escapeHtml(breakdown.category === "relevant_documents" ? "Relevant docs" : "Query")} · ${escapeHtml(breakdown.label)}: ${escapeHtml(breakdownValue.label)} · ${formatInteger(breakdownValue.count)} queries${breakdownValue.target_count ? ` · ${formatInteger(breakdownValue.target_count)} relevant pairs` : ""}</span>` : ""}
-    </div>`;
   const breakdownNote = document.querySelector("#breakdown-note");
   breakdownNote.hidden = !breakdownValue;
   breakdownNote.textContent = breakdownValue
@@ -346,7 +333,6 @@ function renderTask() {
     toggleSort(state.taskSort, key, metricOrder.includes(key));
     renderTask();
   });
-  installSolutionDetailLinks("#task-table");
 }
 
 function rankForResult(record) {
@@ -402,10 +388,10 @@ function renderSolution() {
   document.querySelector("#solution-context").innerHTML = `
     <div class="task-note-header">
       <div>
-        <div class="solution-heading"><h2>${escapeHtml(solution.title)}</h2>${solutionCodeLink(solution, sourceRecord)}</div>
+        <div class="solution-heading"><h2>${solutionReadmeLink(solution)}</h2>${solutionCodeLink(solution, sourceRecord)}</div>
         <p>${escapeHtml(solution.description)}</p>
         ${solution.tags?.length ? `<div class="meta-list">${solution.tags.map((tag) => `<span class="meta-chip">${escapeHtml(tag)}</span>`).join("")}</div>` : ""}
-        ${solutionResources(solution) ? `<p class="solution-resources">${solutionResources(solution)}</p>` : ""}
+        ${solutionResultLink(solution) ? `<p class="solution-resources">${solutionResultLink(solution)}</p>` : ""}
       </div>
     </div>`;
   document.querySelector("#solution-table").innerHTML = renderTable(
@@ -461,7 +447,6 @@ function renderCoverage() {
     ],
     rows,
   );
-  installSolutionDetailLinks("#coverage-table");
 }
 
 function activatePanel(panelId) {
@@ -479,17 +464,62 @@ function installTabs() {
   });
 }
 
-function installSolutionDetailLinks(containerSelector) {
-  document
-    .querySelector(containerSelector)
-    .querySelectorAll(".solution-detail-link")
-    .forEach((button) => {
-      button.addEventListener("click", () => {
-        document.querySelector("#solution-selector").value = button.dataset.solutionId;
-        renderSolution();
-        activatePanel("solution-panel");
-      });
-    });
+function installSolutionPreviews() {
+  const preview = document.querySelector("#solution-preview");
+  let activeTrigger = null;
+
+  const hide = () => {
+    activeTrigger = null;
+    preview.hidden = true;
+  };
+
+  const show = (trigger) => {
+    const solution = state.solutions.get(trigger.dataset.solutionId);
+    if (!solution) return;
+    activeTrigger = trigger;
+    const tags = solution.tags?.length
+      ? `<span class="solution-preview-tags">${solution.tags.map(escapeHtml).join(" · ")}</span>`
+      : "";
+    preview.innerHTML = `
+      <span class="solution-preview-label">README preview</span>
+      <strong>${escapeHtml(solution.title)}</strong>
+      <span>${escapeHtml(solution.description)}</span>
+      ${tags}
+      <span class="solution-preview-hint">Click to open method notes ↗</span>`;
+    preview.hidden = false;
+
+    const triggerRect = trigger.getBoundingClientRect();
+    const margin = 12;
+    const gap = 8;
+    const left = Math.min(
+      Math.max(margin, triggerRect.left),
+      window.innerWidth - preview.offsetWidth - margin,
+    );
+    let top = triggerRect.bottom + gap;
+    if (top + preview.offsetHeight > window.innerHeight - margin) {
+      top = Math.max(margin, triggerRect.top - preview.offsetHeight - gap);
+    }
+    preview.style.left = `${left}px`;
+    preview.style.top = `${top}px`;
+  };
+
+  document.addEventListener("pointerover", (event) => {
+    const trigger = event.target.closest?.(".solution-readme-link");
+    if (trigger && trigger !== activeTrigger) show(trigger);
+  });
+  document.addEventListener("pointerout", (event) => {
+    const trigger = event.target.closest?.(".solution-readme-link");
+    if (trigger && !trigger.contains(event.relatedTarget)) hide();
+  });
+  document.addEventListener("focusin", (event) => {
+    const trigger = event.target.closest?.(".solution-readme-link");
+    if (trigger) show(trigger);
+  });
+  document.addEventListener("focusout", (event) => {
+    if (event.target.closest?.(".solution-readme-link")) hide();
+  });
+  window.addEventListener("scroll", hide, true);
+  window.addEventListener("resize", hide);
 }
 
 function installControls() {
@@ -552,6 +582,7 @@ async function main() {
     formatInteger,
   });
 
+  installSolutionPreviews();
   installTabs();
   installControls();
   state.profile.install();
