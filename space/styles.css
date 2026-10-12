@@ -186,20 +186,42 @@ h1 {
 }
 
 .control label {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 8px;
+  display: block;
   margin-bottom: 6px;
   font-size: 13px;
   font-weight: 500;
 }
 
-.control-meta {
+.control-label-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.control-label-row label {
+  margin-bottom: 0;
+}
+
+.release-selector {
+  width: auto;
+  height: auto;
+  max-width: 120px;
+  padding: 0 16px 0 2px;
+  border: 0;
+  border-radius: 3px;
+  background-color: transparent;
   color: var(--muted);
   font-size: 11px;
   font-weight: 400;
-  white-space: nowrap;
+  cursor: pointer;
+}
+
+.release-selector:focus {
+  border-color: transparent;
+  box-shadow: none;
+  outline: 1px solid var(--blue);
 }
 
 select {

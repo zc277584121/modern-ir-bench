@@ -45,20 +45,32 @@ const escapeHtml = (value) =>
 const formatScore = (value) => Number(value).toFixed(3);
 const formatInteger = (value) => Number(value).toLocaleString("en-US");
 
-function taskLabel(task) {
-  return task.title.replace(/\s+v\d+(?:\.\d+)*$/, "");
+function taskPresentation(task) {
+  return {
+    key: task.id.replace(/-v\d+(?:\.\d+)*$/, ""),
+    title: task.title.replace(/\s+v\d+(?:\.\d+)*$/, ""),
+  };
 }
 
 function datasetPresentation(datasetId) {
   const pdfRelease = datasetId.match(/^modern-ir-bench-pdf-v(\d+(?:\.\d+)?)/);
   if (pdfRelease) {
-    return { title: "Modern IR PDF", release: `v${pdfRelease[1]}` };
+    return {
+      key: "modern-ir-bench-pdf",
+      title: "Modern IR PDF",
+      release: `v${pdfRelease[1]}`,
+    };
   }
   const release = datasetId.match(/^modern-ir-bench-v(\d+(?:\.\d+)?)/);
   if (release) {
-    return { title: "Modern IR Bench", release: `v${release[1]}` };
+    return {
+      key: "modern-ir-bench",
+      title: "Modern IR Bench",
+      release: `v${release[1]}`,
+    };
   }
-  return { title: datasetId.replace(/-\d{8}$/, ""), release: "" };
+  const title = datasetId.replace(/-\d{8}$/, "");
+  return { key: title, title, release: "" };
 }
 
 function solutionCodeLink(solution) {
@@ -98,12 +110,21 @@ function renderTable(headers, rows, tableName, sortState) {
     <div class="table-wrap"><table class="result-table"><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table></div>`;
 }
 
-function orderedTasks() {
-  const primaryCount = (taskId) =>
-    primaryRecords().filter((record) => record.task_id === taskId).length;
-  return [...state.tasks.values()].sort(
+function orderedTaskGroups() {
+  const groups = new Map();
+  state.tasks.forEach((task) => {
+    const presentation = taskPresentation(task);
+    if (!groups.has(presentation.key)) {
+      groups.set(presentation.key, { ...presentation, taskIds: [] });
+    }
+    groups.get(presentation.key).taskIds.push(task.id);
+  });
+  const primaryCount = (group) => primaryRecords().filter(
+    (record) => group.taskIds.includes(record.task_id),
+  ).length;
+  return [...groups.values()].sort(
     (left, right) =>
-      primaryCount(right.id) - primaryCount(left.id) || left.title.localeCompare(right.title),
+      primaryCount(right) - primaryCount(left) || left.title.localeCompare(right.title),
   );
 }
 
@@ -139,16 +160,52 @@ function primaryRecords() {
   return state.payload.results.filter((record) => record.primary);
 }
 
-function taskDatasets(taskId) {
+function compareVersionLabelsDescending(left, right) {
+  const leftParts = (String(left).match(/\d+/g) || []).map(Number);
+  const rightParts = (String(right).match(/\d+/g) || []).map(Number);
+  const length = Math.max(leftParts.length, rightParts.length);
+  for (let index = 0; index < length; index += 1) {
+    const difference = (rightParts[index] || 0) - (leftParts[index] || 0);
+    if (difference) return difference;
+  }
+  return 0;
+}
+
+function taskDatasets(taskKey) {
   const seen = new Set();
-  return state.payload.results.flatMap((record) => {
-    if (record.task_id !== taskId) return [];
-    const value = `${record.dataset_id}|${record.dataset_version}`;
-    if (seen.has(value)) return [];
+  const datasets = new Map();
+  state.payload.results.forEach((record) => {
+    const task = state.tasks.get(record.task_id);
+    if (!task || taskPresentation(task).key !== taskKey) return;
+    const value = `${record.task_id}|${record.dataset_id}|${record.dataset_version}`;
+    if (seen.has(value)) return;
     seen.add(value);
     const presentation = datasetPresentation(record.dataset_id);
-    return [{ value, ...presentation }];
+    if (!datasets.has(presentation.key)) {
+      datasets.set(presentation.key, {
+        key: presentation.key,
+        title: presentation.title,
+        releases: [],
+      });
+    }
+    datasets.get(presentation.key).releases.push({
+      value,
+      datasetId: record.dataset_id,
+      datasetVersion: record.dataset_version,
+      release: presentation.release,
+      taskVersion: task.version,
+    });
   });
+  datasets.forEach((dataset) => {
+    dataset.releases.sort((left, right) => {
+      return (
+        compareVersionLabelsDescending(left.release, right.release) ||
+        compareVersionLabelsDescending(left.taskVersion, right.taskVersion) ||
+        right.datasetId.localeCompare(left.datasetId)
+      );
+    });
+  });
+  return [...datasets.values()].sort((left, right) => left.title.localeCompare(right.title));
 }
 
 function applicableBreakdowns(taskId, datasetId, datasetVersion) {
@@ -172,10 +229,7 @@ function breakdownCategoryLabel(category) {
 }
 
 function populateBreakdownSelector() {
-  const taskId = document.querySelector("#task-selector").value;
-  const [datasetId, datasetVersion] = document
-    .querySelector("#dataset-selector")
-    .value.split("|");
+  const { taskId, datasetId, datasetVersion } = currentTaskDataset();
   const selector = document.querySelector("#breakdown-selector");
   selector.replaceChildren(new Option("Overall", ""));
   applicableBreakdowns(taskId, datasetId, datasetVersion).forEach((breakdown) => {
@@ -189,10 +243,7 @@ function populateBreakdownSelector() {
 function selectedBreakdown() {
   const breakdownId = document.querySelector("#breakdown-selector").value;
   if (!breakdownId) return null;
-  const taskId = document.querySelector("#task-selector").value;
-  const [datasetId, datasetVersion] = document
-    .querySelector("#dataset-selector")
-    .value.split("|");
+  const { taskId, datasetId, datasetVersion } = currentTaskDataset();
   return applicableBreakdowns(taskId, datasetId, datasetVersion).find(
     (breakdown) => breakdown.id === breakdownId,
   );
@@ -223,19 +274,28 @@ function populateDatasetSelector() {
   const selector = document.querySelector("#dataset-selector");
   selector.replaceChildren();
   taskDatasets(document.querySelector("#task-selector").value).forEach((dataset) => {
-    const option = new Option(dataset.title, dataset.value);
-    option.dataset.release = dataset.release;
-    selector.add(option);
+    selector.add(new Option(dataset.title, dataset.key));
   });
-  updateDatasetRelease();
+  populateReleaseSelector();
 }
 
-function updateDatasetRelease() {
-  const selected = document.querySelector("#dataset-selector").selectedOptions[0];
-  const release = selected?.dataset.release;
-  document.querySelector("#dataset-release").textContent = release
-    ? `Latest · ${release}`
-    : "Latest";
+function populateReleaseSelector() {
+  const taskKey = document.querySelector("#task-selector").value;
+  const datasetKey = document.querySelector("#dataset-selector").value;
+  const dataset = taskDatasets(taskKey).find((candidate) => candidate.key === datasetKey);
+  const selector = document.querySelector("#dataset-release-selector");
+  selector.replaceChildren();
+  const releaseCounts = new Map();
+  (dataset?.releases || []).forEach((release) => {
+    const name = release.release || release.datasetVersion.slice(0, 7);
+    releaseCounts.set(name, (releaseCounts.get(name) || 0) + 1);
+  });
+  (dataset?.releases || []).forEach((release, index) => {
+    const name = release.release || release.datasetVersion.slice(0, 7);
+    const taskVersion = releaseCounts.get(name) > 1 ? ` · Task ${release.taskVersion}` : "";
+    const label = `${name}${taskVersion}`;
+    selector.add(new Option(index === 0 ? `Latest · ${label}` : label, release.value));
+  });
 }
 
 function selectedSolutionTag() {
@@ -289,9 +349,8 @@ function populateSolutionTagSelector() {
 }
 
 function currentTaskDataset() {
-  const taskId = document.querySelector("#task-selector").value;
-  const [datasetId, datasetVersion] = document
-    .querySelector("#dataset-selector")
+  const [taskId, datasetId, datasetVersion] = document
+    .querySelector("#dataset-release-selector")
     .value.split("|");
   return { taskId, datasetId, datasetVersion };
 }
@@ -488,13 +547,20 @@ function installSolutionPreviews() {
 
 function installControls() {
   const taskSelector = document.querySelector("#task-selector");
-  orderedTasks().forEach((task) => taskSelector.add(new Option(taskLabel(task), task.id)));
+  orderedTaskGroups().forEach((task) => {
+    taskSelector.add(new Option(task.title, task.key));
+  });
   taskSelector.addEventListener("change", () => {
-    refreshDatasetContext(true);
+    populateDatasetSelector();
+    refreshDatasetContext();
   });
   document.querySelector("#dataset-selector").addEventListener("change", () => {
-    refreshDatasetContext(false);
+    populateReleaseSelector();
+    refreshDatasetContext();
   });
+  document
+    .querySelector("#dataset-release-selector")
+    .addEventListener("change", refreshDatasetContext);
 
   document.querySelector("#breakdown-selector").addEventListener("change", () => {
     populateBreakdownValueSelector();
@@ -515,9 +581,7 @@ function resetResultSorts() {
   state.profileMetricId = null;
 }
 
-function refreshDatasetContext(rebuildDatasets) {
-  if (rebuildDatasets) populateDatasetSelector();
-  if (!rebuildDatasets) updateDatasetRelease();
+function refreshDatasetContext() {
   populateBreakdownSelector();
   populateSolutionTagSelector();
   resetResultSorts();
@@ -564,7 +628,7 @@ async function main() {
   populateDatasetSelector();
   populateBreakdownSelector();
   populateSolutionTagSelector();
-  document.querySelector("#task-control").hidden = state.tasks.size <= 1;
+  document.querySelector("#task-control").hidden = orderedTaskGroups().length <= 1;
   renderLeaderboard();
   state.profile.refresh(true);
 }
