@@ -11,12 +11,15 @@ export function createProfileController({
   getBreakdowns,
   getOverallRecords,
   getDefaultBreakdownId,
+  getActiveBreakdownId,
+  getActiveBreakdownValueId,
   categoryLabel,
   escapeHtml,
   formatScore,
   formatInteger,
 }) {
   let selectedSolutionIds = new Set();
+  let availableBreakdowns = [];
   let resizeTimer;
 
   function solutionColor(solutionId) {
@@ -31,6 +34,27 @@ export function createProfileController({
     return value.results.find(
       (record) => record.solution_id === solutionId && record.metric_id === metricId,
     );
+  }
+
+  function sampleCount(value) {
+    return value.target_count ?? value.count;
+  }
+
+  function activeBreakdown() {
+    const activeId = getActiveBreakdownId();
+    return (
+      availableBreakdowns.find((breakdown) => breakdown.id === activeId) ||
+      availableBreakdowns.find(
+        (breakdown) => breakdown.id === getDefaultBreakdownId(),
+      ) ||
+      availableBreakdowns[0]
+    );
+  }
+
+  function activeValueId(breakdown) {
+    return getActiveBreakdownId() === breakdown.id
+      ? getActiveBreakdownValueId()
+      : null;
   }
 
   function splitLabel(label) {
@@ -55,7 +79,7 @@ export function createProfileController({
     };
   }
 
-  function renderRadar(values, solutionIds, metricId, metricLabel) {
+  function renderRadar(values, solutionIds, metricId, metricLabel, selectedValueId) {
     const width = 760;
     const height = 480;
     const centerX = width / 2;
@@ -74,6 +98,7 @@ export function createProfileController({
       .join("");
     const axes = values
       .map((value, index) => {
+        const selected = value.id === selectedValueId;
         const end = polarPoint(centerX, centerY, radius, index, values.length);
         const labelPoint = polarPoint(centerX, centerY, radius + 42, index, values.length);
         const anchor = Math.cos(labelPoint.angle) > 0.25
@@ -87,9 +112,9 @@ export function createProfileController({
               `<tspan x="${labelPoint.x.toFixed(1)}" dy="${lineIndex === 0 ? 0 : 14}">${escapeHtml(line)}</tspan>`,
           )
           .join("");
-        const sample = value.target_count || value.count;
-        return `<line class="chart-axis" x1="${centerX}" y1="${centerY}" x2="${end.x.toFixed(1)}" y2="${end.y.toFixed(1)}" />
-          <text class="chart-axis-label" x="${labelPoint.x.toFixed(1)}" y="${labelPoint.y.toFixed(1)}" text-anchor="${anchor}"><title>${escapeHtml(value.label)} · ${formatInteger(sample)} samples</title>${tspans}</text>`;
+        const sample = sampleCount(value);
+        return `<line class="chart-axis${selected ? " selected" : ""}" x1="${centerX}" y1="${centerY}" x2="${end.x.toFixed(1)}" y2="${end.y.toFixed(1)}" />
+          <text class="chart-axis-label${selected ? " selected" : ""}" x="${labelPoint.x.toFixed(1)}" y="${labelPoint.y.toFixed(1)}" text-anchor="${anchor}"><title>${escapeHtml(value.label)} · ${formatInteger(sample)} samples</title>${tspans}<tspan class="chart-axis-sample" x="${labelPoint.x.toFixed(1)}" dy="14">n=${formatInteger(sample)}</tspan></text>`;
       })
       .join("");
     const series = solutionIds
@@ -110,7 +135,7 @@ export function createProfileController({
         const markers = scoredPoints
           .map(
             (point) =>
-              `<circle cx="${point.x.toFixed(1)}" cy="${point.y.toFixed(1)}" r="3.5" fill="${color}"><title>${escapeHtml(solution.title)} · ${escapeHtml(point.value.label)} · ${formatScore(point.score)}</title></circle>`,
+              `<circle cx="${point.x.toFixed(1)}" cy="${point.y.toFixed(1)}" r="${point.value.id === selectedValueId ? 5 : 3.5}" fill="${color}"><title>${escapeHtml(solution.title)} · ${escapeHtml(point.value.label)} · ${formatScore(point.score)}</title></circle>`,
           )
           .join("");
         return `<polygon class="chart-series" points="${points}" fill="${color}" fill-opacity="0.08" stroke="${color}"><title>${escapeHtml(solution.title)}</title></polygon>${markers}`;
@@ -123,7 +148,7 @@ export function createProfileController({
     </svg>`;
   }
 
-  function renderBars(values, solutionIds, metricId, metricLabel) {
+  function renderBars(values, solutionIds, metricId, metricLabel, selectedValueId) {
     const width = 760;
     const height = 330;
     const plotTop = 24;
@@ -142,6 +167,7 @@ export function createProfileController({
       .join("");
     const groups = values
       .map((value, valueIndex) => {
+        const selected = value.id === selectedValueId;
         const groupCenter = plotLeft + groupWidth * (valueIndex + 0.5);
         const bars = solutionIds
           .map((solutionId, solutionIndex) => {
@@ -155,7 +181,7 @@ export function createProfileController({
               <text class="chart-bar-value" x="${x.toFixed(1)}" y="${Math.max(plotTop + 10, y - 6).toFixed(1)}">${formatScore(score)}</text>`;
           })
           .join("");
-        return `${bars}<text class="chart-axis-label" x="${groupCenter.toFixed(1)}" y="${plotBottom + 28}" text-anchor="middle">${escapeHtml(value.label)}</text>`;
+        return `${bars}<text class="chart-axis-label${selected ? " selected" : ""}" x="${groupCenter.toFixed(1)}" y="${plotBottom + 28}" text-anchor="middle">${escapeHtml(value.label)}<tspan class="chart-axis-sample" x="${groupCenter.toFixed(1)}" dy="15">n=${formatInteger(sampleCount(value))}</tspan></text>`;
       })
       .join("");
     return `<svg viewBox="0 0 ${width} ${height}" role="img" aria-label="${escapeHtml(metricLabel)} comparison across ${values.length} groups">
@@ -200,22 +226,28 @@ export function createProfileController({
   }
 
   function render() {
-    const breakdownId = document.querySelector("#profile-breakdown-selector").value;
-    const breakdown = getBreakdowns().find((item) => item.id === breakdownId);
+    const breakdown = activeBreakdown();
     if (!breakdown) return;
+    const selectedValueId = activeValueId(breakdown);
 
     const solutionOrder = getOverallRecords()
       .map((record) => record.solution_id)
       .filter((solutionId) => selectedSolutionIds.has(solutionId));
     const allValues = [...breakdown.values];
     const groupLimit = window.matchMedia("(max-width: 760px)").matches ? 6 : 8;
+    const largestValues = [...allValues].sort(
+      (left, right) => sampleCount(right) - sampleCount(left),
+    );
+    const leadingIds = new Set(
+      largestValues.slice(0, groupLimit).map((value) => value.id),
+    );
+    const selectedValue = allValues.find((value) => value.id === selectedValueId);
+    if (selectedValue && !leadingIds.has(selectedValue.id)) {
+      leadingIds.delete(largestValues[groupLimit - 1].id);
+      leadingIds.add(selectedValue.id);
+    }
     const values = allValues.length > groupLimit
-      ? allValues
-          .sort(
-            (left, right) =>
-              (right.target_count || right.count) - (left.target_count || left.count),
-          )
-          .slice(0, groupLimit)
+      ? allValues.filter((value) => leadingIds.has(value.id))
       : allValues;
     const exampleRecord = values
       .flatMap((value) => value.results)
@@ -232,8 +264,11 @@ export function createProfileController({
 
     document.querySelector("#profile-description").textContent =
       `${categoryLabel(breakdown.category)} · ${breakdown.label}, measured with ${metricLabel}.`;
+    const selectedWasPinned = selectedValue && !largestValues
+      .slice(0, groupLimit)
+      .some((value) => value.id === selectedValue.id);
     document.querySelector("#profile-note").textContent = allValues.length > values.length
-      ? `Showing the ${values.length} largest groups by ${breakdown.category === "relevant_documents" ? "relevant-pair count" : "query count"} out of ${allValues.length}. Scores are not normalized per group.`
+      ? `Showing ${values.length} of ${allValues.length} groups by ${breakdown.category === "relevant_documents" ? "relevant-pair count" : "query count"}${selectedWasPinned ? ", including the selected group" : ""}. Scores use the same fixed 0–1 scale.`
       : "Scores use the same fixed 0–1 scale and are not normalized per group.";
 
     const chart = document.querySelector("#profile-chart");
@@ -242,8 +277,20 @@ export function createProfileController({
         '<p class="muted">This metric needs a declared chart range before it can be profiled.</p>';
     } else {
       chart.innerHTML = values.length >= 3
-        ? renderRadar(values, solutionOrder, breakdown.primary_metric, metricLabel)
-        : renderBars(values, solutionOrder, breakdown.primary_metric, metricLabel);
+        ? renderRadar(
+            values,
+            solutionOrder,
+            breakdown.primary_metric,
+            metricLabel,
+            selectedValueId,
+          )
+        : renderBars(
+            values,
+            solutionOrder,
+            breakdown.primary_metric,
+            metricLabel,
+            selectedValueId,
+          );
     }
     document.querySelector("#profile-legend").innerHTML = solutionOrder
       .map((solutionId) => {
@@ -254,28 +301,12 @@ export function createProfileController({
   }
 
   function refresh(resetSolutions = false) {
-    const breakdowns = getBreakdowns().filter((breakdown) => breakdown.values.length >= 2);
-    const section = document.querySelector("#profile-section");
-    const selector = document.querySelector("#profile-breakdown-selector");
-    const previous = selector.value;
-    selector.replaceChildren();
-    section.hidden = breakdowns.length === 0;
-    if (!breakdowns.length) return;
-
-    breakdowns.forEach((breakdown) => {
-      selector.add(
-        new Option(
-          `${categoryLabel(breakdown.category)} · ${breakdown.label}`,
-          breakdown.id,
-        ),
-      );
-    });
-    const preferred = breakdowns.find(
-      (breakdown) => breakdown.id === getDefaultBreakdownId(),
+    availableBreakdowns = getBreakdowns().filter(
+      (breakdown) => breakdown.values.length >= 2,
     );
-    selector.value = breakdowns.some((breakdown) => breakdown.id === previous)
-      ? previous
-      : (preferred?.id ?? breakdowns[0].id);
+    const section = document.querySelector("#profile-section");
+    section.hidden = availableBreakdowns.length === 0;
+    if (!availableBreakdowns.length) return;
 
     const availableSolutionIds = new Set(
       getOverallRecords().map((record) => record.solution_id),
@@ -295,12 +326,11 @@ export function createProfileController({
   }
 
   function install() {
-    document.querySelector("#profile-breakdown-selector").addEventListener("change", render);
     window.addEventListener("resize", () => {
       window.clearTimeout(resizeTimer);
       resizeTimer = window.setTimeout(render, 120);
     });
   }
 
-  return { install, refresh };
+  return { install, refresh, sync: render };
 }

@@ -53,8 +53,8 @@ function datasetLabel(datasetId) {
   return datasetId.replace(/-\d{8}$/, "");
 }
 
-function solutionCodeLink(solution, fallbackRecord) {
-  const url = solution.code_url || fallbackRecord?.source_url;
+function solutionCodeLink(solution) {
+  const url = solution.code_url;
   if (!url) return "";
   return `<a class="solution-code-link" href="${escapeHtml(url)}" target="_blank" rel="noreferrer" aria-label="Open maintained code for ${escapeHtml(solution.title)}" title="Open maintained Solution code">
     <svg aria-hidden="true" viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
@@ -75,8 +75,8 @@ function solutionReadmeLink(solution) {
   return `<a class="solution-readme-link" href="${escapeHtml(solution.readme_url)}" target="_blank" rel="noreferrer" data-solution-id="${escapeHtml(solution.id)}" aria-describedby="solution-preview">${escapeHtml(solution.title)}</a>`;
 }
 
-function solutionName(solution, record) {
-  return `<span class="solution-name">${solutionReadmeLink(solution)}${solutionCodeLink(solution, record)}</span>`;
+function solutionName(solution) {
+  return `<span class="solution-name">${solutionReadmeLink(solution)}${solutionCodeLink(solution)}</span>`;
 }
 
 function renderTable(headers, rows, tableName, sortState) {
@@ -339,7 +339,7 @@ function renderLeaderboard() {
     });
     return [
       `<span class="rank">${rank}</span>`,
-      solutionName(solution, records.get(primaryMetric) || records.values().next().value),
+      solutionName(solution),
       ...metricCells,
     ];
   });
@@ -440,13 +440,10 @@ function renderSolution() {
     ];
   });
 
-  const sourceRecord = evaluation.overallResults.find(
-    (record) => record.solution_id === solutionId,
-  );
   document.querySelector("#solution-context").innerHTML = `
     <div class="task-note-header">
       <div>
-        <div class="solution-heading"><h2>${solutionReadmeLink(solution)}</h2>${solutionCodeLink(solution, sourceRecord)}</div>
+        <div class="solution-heading"><h2>${solutionReadmeLink(solution)}</h2>${solutionCodeLink(solution)}</div>
         <p>${escapeHtml(solution.description)}</p>
         ${solution.tags?.length ? `<div class="meta-list">${solution.tags.map((tag) => `<span class="meta-chip">${escapeHtml(tag)}</span>`).join("")}</div>` : ""}
         ${solutionResultLink(solution) ? `<p class="solution-resources">${solutionResultLink(solution)}</p>` : ""}
@@ -543,7 +540,6 @@ function installControls() {
   orderedTasks().forEach((task) => taskSelector.add(new Option(task.title, task.id)));
   taskSelector.addEventListener("change", () => {
     refreshDatasetContext(true);
-    updateControlVisibility();
   });
   document.querySelector("#dataset-selector").addEventListener("change", () => {
     refreshDatasetContext(false);
@@ -582,13 +578,8 @@ function refreshDatasetContext(rebuildDatasets) {
 
 function refreshBreakdownContext() {
   resetResultSorts();
+  state.profile.sync();
   renderEvaluationViews();
-}
-
-function updateControlVisibility() {
-  document.querySelector("#task-control").hidden = state.tasks.size <= 1;
-  document.querySelector("#dataset-control").hidden = false;
-  document.querySelector("#task-controls").hidden = false;
 }
 
 async function main() {
@@ -608,6 +599,8 @@ async function main() {
     getOverallRecords: currentOverallPrimaryRecords,
     getDefaultBreakdownId: () =>
       breakdownDisplayByTask.get(currentTaskDataset().taskId)?.defaultProfile,
+    getActiveBreakdownId: () => selectedBreakdown()?.id,
+    getActiveBreakdownValueId: () => selectedBreakdownValue()?.id,
     categoryLabel: breakdownCategoryLabel,
     escapeHtml,
     formatScore,
@@ -622,7 +615,7 @@ async function main() {
   populateBreakdownSelector();
   populateSolutionSelector();
   state.profile.refresh(true);
-  updateControlVisibility();
+  document.querySelector("#task-control").hidden = state.tasks.size <= 1;
   renderEvaluationViews();
 }
 

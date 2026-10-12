@@ -261,10 +261,6 @@ h2 {
   line-height: 1.5;
 }
 
-.two-columns {
-  grid-template-columns: repeat(2, minmax(240px, 420px));
-}
-
 .single-column {
   grid-template-columns: minmax(240px, 420px);
 }
@@ -395,10 +391,6 @@ tbody tr:hover td {
   color: var(--text);
 }
 
-.subsection {
-  margin-top: 26px;
-}
-
 .prose {
   max-width: none;
 }
@@ -451,7 +443,6 @@ pre {
     align-items: stretch;
   }
 
-  .two-columns,
   .single-column {
     grid-template-columns: 1fr;
   }

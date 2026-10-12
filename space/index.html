@@ -26,7 +26,7 @@
 
       <section id="evaluation-context" class="evaluation-context" aria-label="Evaluation context">
         <div class="evaluation-controls">
-          <div id="task-controls" class="control-group task-controls">
+          <div class="control-group task-controls">
             <div id="task-control" class="control">
               <label for="task-selector">Task</label>
               <select id="task-selector"></select>
@@ -56,12 +56,8 @@
         <section id="profile-section" class="profile-section" aria-labelledby="profile-title">
           <div class="profile-header">
             <div>
-              <h3 id="profile-title">Compare groups</h3>
+              <h3 id="profile-title">Performance by group</h3>
               <p id="profile-description"></p>
-            </div>
-            <div class="control profile-dimension-control">
-              <label for="profile-breakdown-selector">Compare by</label>
-              <select id="profile-breakdown-selector"></select>
             </div>
           </div>
           <details class="solution-picker">
@@ -98,10 +94,11 @@
           already published Top-10 rankings without rerunning retrieval.
         </p>
         <p>
-          Group comparisons show one breakdown at a time on a fixed 0–1 scale. They
-          default to the top three overall Solutions; large breakdowns show only their
-          largest groups, and two-group comparisons use bars instead of a radar chart.
-          Each Task explicitly chooses which breakdowns are useful enough to publish.
+          Group comparisons follow Analyze by and use a fixed 0–1 scale. Overall uses
+          the Task's default comparison. They default to the top three overall Solutions;
+          large breakdowns retain the selected group alongside their largest groups, and
+          two-group comparisons use bars instead of a radar chart. Each Task explicitly
+          chooses which breakdowns are useful enough to publish.
         </p>
 
         <h2>Reproduction</h2>
