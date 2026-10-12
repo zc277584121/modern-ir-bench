@@ -70,7 +70,7 @@ def build_runtime(*, target: MilvusTarget, project_root: Path) -> Runtime:
         wemm=SentenceTransformersEmbedding(
             model=WEMM_2B_MODEL,
             revision=WEMM_2B_REVISION,
-            batch_size=int(os.environ.get("MIR_WEMM_IMAGE_BATCH_SIZE", "2")),
+            batch_size=int(os.environ.get("MIR_WEMM_IMAGE_BATCH_SIZE", "4")),
             device=device,
             normalize=True,
             trust_remote_code=True,
