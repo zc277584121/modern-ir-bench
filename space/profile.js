@@ -191,7 +191,7 @@ export function createProfileController({
     </svg>`;
   }
 
-  function renderSolutionOptions() {
+  function renderProfileSolutionPicker() {
     const records = getOverallRecords();
     const container = document.querySelector("#profile-solution-options");
     container.innerHTML = records
@@ -219,7 +219,7 @@ export function createProfileController({
         } else {
           selectedSolutionIds.delete(solutionId);
         }
-        renderSolutionOptions();
+        renderProfileSolutionPicker();
         render();
       });
     });
@@ -321,7 +321,7 @@ export function createProfileController({
           .map((record) => record.solution_id),
       );
     }
-    renderSolutionOptions();
+    renderProfileSolutionPicker();
     render();
   }
 

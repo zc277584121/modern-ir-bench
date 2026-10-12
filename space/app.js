@@ -5,7 +5,6 @@ const state = {
   tasks: new Map(),
   solutions: new Map(),
   leaderboardSort: { key: null, direction: "desc" },
-  solutionSort: { key: null, direction: "asc" },
   profile: null,
 };
 
@@ -65,11 +64,6 @@ function solutionCodeLink(solution) {
   </a>`;
 }
 
-function solutionResultLink(solution) {
-  if (!solution.result_url) return "";
-  return `<a href="${escapeHtml(solution.result_url)}" target="_blank" rel="noreferrer">Result evidence ↗</a>`;
-}
-
 function solutionReadmeLink(solution) {
   if (!solution.readme_url) return `<strong>${escapeHtml(solution.title)}</strong>`;
   return `<a class="solution-readme-link" href="${escapeHtml(solution.readme_url)}" target="_blank" rel="noreferrer" data-solution-id="${escapeHtml(solution.id)}" aria-describedby="solution-preview">${escapeHtml(solution.title)}</a>`;
@@ -91,11 +85,8 @@ function renderTable(headers, rows, tableName, sortState) {
   const body = rows
     .map((row) => `<tr>${row.map((cell) => `<td>${cell}</td>`).join("")}</tr>`)
     .join("");
-  const scrollHint = tableName === "solution"
-    ? ""
-    : '<p class="table-scroll-hint">Swipe horizontally to see all columns →</p>';
-  return `${scrollHint}
-    <div class="table-wrap"><table class="result-table result-table-${escapeHtml(tableName)}"><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table></div>`;
+  return `<p class="table-scroll-hint">Swipe horizontally to see all columns →</p>
+    <div class="table-wrap"><table class="result-table"><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table></div>`;
 }
 
 function orderedTasks() {
@@ -262,11 +253,6 @@ function currentEvaluation() {
   const breakdownValue = selectedBreakdownValue();
   const primaryMetric = breakdown?.primary_metric || task.primary_metric;
   return {
-    taskId,
-    datasetId,
-    datasetVersion,
-    task,
-    overallResults,
     breakdown,
     breakdownValue,
     results: breakdownValue?.results || overallResults,
@@ -365,106 +351,6 @@ function renderLeaderboard() {
   });
 }
 
-function populateSolutionSelector() {
-  const selector = document.querySelector("#solution-selector");
-  const previous = selector.value;
-  const availableIds = [
-    ...new Set(currentEvaluation().overallResults.map((record) => record.solution_id)),
-  ].sort((left, right) =>
-    state.solutions.get(left).title.localeCompare(state.solutions.get(right).title),
-  );
-  selector.replaceChildren();
-  availableIds.forEach((solutionId) => {
-    selector.add(new Option(state.solutions.get(solutionId).title, solutionId));
-  });
-  if (availableIds.includes(previous)) selector.value = previous;
-}
-
-function renderSolution() {
-  const evaluation = currentEvaluation();
-  const solutionId = document.querySelector("#solution-selector").value;
-  const solution = state.solutions.get(solutionId);
-  if (!solution) return;
-
-  const { labels, order: metricOrder } = metricCatalog(
-    evaluation.results,
-    evaluation.primaryMetric,
-  );
-  const solutionRecords = new Map(
-    evaluation.results
-      .filter((record) => record.solution_id === solutionId)
-      .map((record) => [record.metric_id, record]),
-  );
-  const metricRows = metricOrder.map((metricId) => {
-    const record = solutionRecords.get(metricId);
-    const peers = evaluation.results
-      .filter((item) => item.metric_id === metricId)
-      .sort(
-        (left, right) =>
-          right.value - left.value || left.solution_id.localeCompare(right.solution_id),
-      );
-    const rank = record
-      ? peers.findIndex((item) => item.solution_id === solutionId) + 1
-      : null;
-    return {
-      metricId,
-      metricLabel: labels.get(metricId),
-      score: record?.value ?? Number.NEGATIVE_INFINITY,
-      rank,
-      peerCount: peers.length,
-    };
-  });
-  if (state.solutionSort.key) {
-    metricRows.sort((left, right) => {
-      const leftValue = state.solutionSort.key === "metric"
-        ? left.metricLabel
-        : left[state.solutionSort.key] ?? Number.POSITIVE_INFINITY;
-      const rightValue = state.solutionSort.key === "metric"
-        ? right.metricLabel
-        : right[state.solutionSort.key] ?? Number.POSITIVE_INFINITY;
-      return compareValues(leftValue, rightValue, state.solutionSort.direction);
-    });
-  }
-  const rows = metricRows.map((row) => {
-    const primaryClass = row.metricId === evaluation.primaryMetric ? " primary" : "";
-    return [
-      row.metricId === evaluation.primaryMetric
-        ? `<strong>${escapeHtml(row.metricLabel)}</strong>`
-        : escapeHtml(row.metricLabel),
-      Number.isFinite(row.score)
-        ? `<span class="score${primaryClass}">${formatScore(row.score)}</span>`
-        : '<span class="muted">—</span>',
-      row.rank
-        ? `<span class="rank">${row.rank} / ${row.peerCount}</span>`
-        : '<span class="muted">—</span>',
-    ];
-  });
-
-  document.querySelector("#solution-context").innerHTML = `
-    <div class="task-note-header">
-      <div>
-        <div class="solution-heading"><h2>${solutionReadmeLink(solution)}</h2>${solutionCodeLink(solution)}</div>
-        <p>${escapeHtml(solution.description)}</p>
-        ${solution.tags?.length ? `<div class="meta-list">${solution.tags.map((tag) => `<span class="meta-chip">${escapeHtml(tag)}</span>`).join("")}</div>` : ""}
-        ${solutionResultLink(solution) ? `<p class="solution-resources">${solutionResultLink(solution)}</p>` : ""}
-      </div>
-    </div>`;
-  document.querySelector("#solution-table").innerHTML = renderTable(
-    [
-      { label: "Metric", key: "metric" },
-      { label: "Score", key: "score" },
-      { label: "Rank", key: "rank" },
-    ],
-    rows,
-    "solution",
-    state.solutionSort,
-  );
-  installSortButtons("#solution-table", "solution", (key) => {
-    toggleSort(state.solutionSort, key, ["score", "rank"].includes(key));
-    renderSolution();
-  });
-}
-
 function activatePanel(panelId) {
   document.querySelectorAll(".tab").forEach((tab) => {
     tab.classList.toggle("active", tab.dataset.panel === panelId);
@@ -553,33 +439,24 @@ function installControls() {
     .querySelector("#breakdown-value-selector")
     .addEventListener("change", refreshBreakdownContext);
 
-  const solutionSelector = document.querySelector("#solution-selector");
-  solutionSelector.addEventListener("change", renderSolution);
 }
 
 function resetResultSorts() {
   state.leaderboardSort = { key: null, direction: "desc" };
-  state.solutionSort = { key: null, direction: "asc" };
-}
-
-function renderEvaluationViews() {
-  renderLeaderboard();
-  renderSolution();
 }
 
 function refreshDatasetContext(rebuildDatasets) {
   if (rebuildDatasets) populateDatasetSelector();
   populateBreakdownSelector();
-  populateSolutionSelector();
   state.profile.refresh(true);
   resetResultSorts();
-  renderEvaluationViews();
+  renderLeaderboard();
 }
 
 function refreshBreakdownContext() {
   resetResultSorts();
   state.profile.sync();
-  renderEvaluationViews();
+  renderLeaderboard();
 }
 
 async function main() {
@@ -613,10 +490,9 @@ async function main() {
   state.profile.install();
   populateDatasetSelector();
   populateBreakdownSelector();
-  populateSolutionSelector();
   state.profile.refresh(true);
   document.querySelector("#task-control").hidden = state.tasks.size <= 1;
-  renderEvaluationViews();
+  renderLeaderboard();
 }
 
 main().catch((error) => {
