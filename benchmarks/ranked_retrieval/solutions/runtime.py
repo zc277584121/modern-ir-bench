@@ -73,7 +73,7 @@ def build_runtime() -> Runtime:
             "8b-openrouter": OpenRouterEmbedding(
                 model="qwen/qwen3-embedding-8b",
                 dimension=4096,
-                batch_size=int(os.environ.get("MIR_OPENROUTER_BATCH_SIZE", "64")),
+                batch_size=int(os.environ.get("MIR_OPENROUTER_BATCH_SIZE", "16")),
                 document_input_type="search_document",
                 query_input_type="search_query",
                 cache_path=project_root / ".runtime/openrouter/qwen3-embedding-8b.sqlite3",
