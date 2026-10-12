@@ -87,7 +87,7 @@ def _build_wemm_pages(runtime: Runtime, spec: SolutionSpec) -> ChunkedDenseRetri
             collection_prefix="modern_ir_pdf_wemm_2b_pages",
         ),
         chunker=partial(_render_page_images, runtime.page_renderer),
-        chunk_batch_size=runtime.wemm.batch_size,
+        chunk_batch_size=64,
         candidate_multiplier=3,
         query_input=_query_text,
     )
