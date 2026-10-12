@@ -532,24 +532,6 @@ function updateControlVisibility() {
   document.querySelector("#coverage-tab").hidden = state.tasks.size <= 1;
 }
 
-function renderSummary() {
-  const counts = state.payload.benchmark.counts || {};
-  const items = [];
-  if (counts.documents) items.push(`${formatInteger(counts.documents)} documents`);
-  if (counts.queries) items.push(`${formatInteger(counts.queries)} queries`);
-  items.push(`${formatInteger(state.solutions.size)} solutions`);
-  if (state.tasks.size > 1) items.push(`${formatInteger(state.tasks.size)} tasks`);
-  if (state.payload.benchmark.languages?.length) {
-    items.push(state.payload.benchmark.languages.join(" + "));
-  }
-  document.querySelector("#summary").innerHTML = items
-    .map((item) => `<span class="summary-item">${escapeHtml(item)}</span>`)
-    .join("");
-  const releaseNotice = document.querySelector("#release-notice");
-  releaseNotice.hidden = !state.payload.benchmark.notice;
-  releaseNotice.textContent = state.payload.benchmark.notice || "";
-}
-
 async function main() {
   const response = await fetch("data/results.json");
   if (!response.ok) throw new Error(`Unable to load benchmark data: ${response.status}`);
@@ -580,7 +562,6 @@ async function main() {
   populateBreakdownSelector();
   state.profile.refresh(true);
   updateControlVisibility();
-  renderSummary();
   renderTask();
   renderSolution();
   if (state.tasks.size > 1) renderCoverage();

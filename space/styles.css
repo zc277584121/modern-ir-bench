@@ -26,52 +26,17 @@ body {
 
 .page-shell {
   width: min(1200px, calc(100% - 32px));
-  margin: 34px auto 56px;
+  margin: 24px auto 56px;
 }
 
 h1 {
   margin: 0;
-  font-size: 32px;
+  font-size: 24px;
   line-height: 1.25;
 }
 
 .site-header {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 24px;
-}
-
-.site-header > div:first-child {
-  min-width: 0;
-}
-
-.tagline {
-  margin: 6px 0 0;
-  color: var(--muted);
-  font-size: 15px;
-}
-
-.header-links {
-  display: flex;
-  gap: 8px;
-}
-
-.header-links a {
-  padding: 7px 10px;
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  background: var(--surface);
-  color: #374151;
-  font-size: 13px;
-  font-weight: 500;
-  text-decoration: none;
-  white-space: nowrap;
-}
-
-.header-links a:hover {
-  border-color: #d1d5db;
-  background: var(--subtle);
+  margin-bottom: 8px;
 }
 
 .solution-name,
@@ -130,21 +95,6 @@ h2 {
   font-size: 20px;
 }
 
-.summary {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin: 22px 0 24px;
-  color: #4b5563;
-  font-size: 13px;
-}
-
-.summary-item {
-  padding: 5px 9px;
-  border-radius: 999px;
-  background: #f3f4f6;
-}
-
 .notice {
   margin: 0 0 20px;
   padding: 11px 13px;
@@ -152,16 +102,6 @@ h2 {
   border-radius: 8px;
   background: #fef2f2;
   color: #991b1b;
-  font-size: 14px;
-}
-
-.release-note {
-  margin: 0 0 20px;
-  padding: 11px 13px;
-  border: 1px solid #dbe3ee;
-  border-radius: 8px;
-  background: #f8fafc;
-  color: #475569;
   font-size: 14px;
 }
 
@@ -255,14 +195,32 @@ h2 {
   color: #4b5563;
 }
 
-.controls {
+.controls,
+.control-group {
   display: grid;
   gap: 12px;
+}
+
+.controls {
   margin-bottom: 16px;
 }
 
+.leaderboard-controls {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 24px;
+  margin: 16px 0;
+}
+
+.control-group {
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(210px, 360px);
+}
+
 .breakdown-controls {
-  margin-top: 4px;
+  justify-content: end;
+  margin-left: auto;
 }
 
 .breakdown-note {
@@ -459,18 +417,20 @@ pre {
     align-items: stretch;
   }
 
-  .header-links {
-    width: 100%;
-  }
-
-  .header-links a {
-    flex: 1;
-    text-align: center;
-  }
-
   .two-columns,
   .single-column {
     grid-template-columns: 1fr;
+  }
+
+  .leaderboard-controls {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(150px, 0.72fr);
+    gap: 10px;
+  }
+
+  .control-group {
+    grid-auto-flow: row;
+    grid-auto-columns: 1fr;
   }
 
   .table-wrap {

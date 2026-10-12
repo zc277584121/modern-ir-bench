@@ -14,17 +14,8 @@
   <body>
     <main class="page-shell">
       <header class="site-header">
-        <div>
-          <h1>Modern IR Bench</h1>
-          <p class="tagline">A code-native benchmark for modern information retrieval.</p>
-        </div>
-        <div class="header-links">
-          <a href="https://huggingface.co/datasets/zc277584121/modern-ir-bench">Dataset ↗</a>
-          <a href="https://github.com/zc277584121/modern-ir-bench">GitHub ↗</a>
-        </div>
+        <h1>Modern IR Bench</h1>
       </header>
-      <div id="summary" class="summary" aria-live="polite"></div>
-      <div id="release-notice" class="release-note" hidden></div>
       <div id="error-notice" class="notice" aria-live="polite" hidden></div>
 
       <nav class="tabs" aria-label="Benchmark views">
@@ -36,24 +27,26 @@
 
       <section id="task-panel" class="panel active">
         <div id="task-context" class="task-note"></div>
-        <div id="task-controls" class="controls two-columns">
-          <div id="task-control" class="control">
-            <label for="task-selector">Task</label>
-            <select id="task-selector"></select>
+        <div class="leaderboard-controls">
+          <div id="task-controls" class="control-group task-controls">
+            <div id="task-control" class="control">
+              <label for="task-selector">Task</label>
+              <select id="task-selector"></select>
+            </div>
+            <div id="dataset-control" class="control">
+              <label for="dataset-selector">Dataset release</label>
+              <select id="dataset-selector"></select>
+            </div>
           </div>
-          <div id="dataset-control" class="control">
-            <label for="dataset-selector">Dataset release</label>
-            <select id="dataset-selector"></select>
-          </div>
-        </div>
-        <div class="controls two-columns breakdown-controls">
-          <div class="control">
-            <label for="breakdown-selector">Analyze by</label>
-            <select id="breakdown-selector"></select>
-          </div>
-          <div id="breakdown-value-control" class="control" hidden>
-            <label id="breakdown-value-label" for="breakdown-value-selector">Value</label>
-            <select id="breakdown-value-selector"></select>
+          <div class="control-group breakdown-controls">
+            <div class="control">
+              <label for="breakdown-selector">Analyze by</label>
+              <select id="breakdown-selector"></select>
+            </div>
+            <div id="breakdown-value-control" class="control" hidden>
+              <label id="breakdown-value-label" for="breakdown-value-selector">Value</label>
+              <select id="breakdown-value-selector"></select>
+            </div>
           </div>
         </div>
         <p id="breakdown-note" class="breakdown-note" hidden></p>
