@@ -102,6 +102,11 @@ h1 {
   font-size: 12px;
 }
 
+.solution-preview-tags {
+  color: #4b5563;
+  font-size: 12px;
+}
+
 .solution-preview-label {
   font-weight: 600;
   letter-spacing: 0.02em;
@@ -190,21 +195,19 @@ h2 {
 }
 
 .evaluation-controls {
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
   align-items: end;
-  justify-content: space-between;
   gap: 24px;
   margin-bottom: 16px;
 }
 
-.control-group {
-  grid-auto-flow: column;
-  grid-auto-columns: minmax(210px, 360px);
+.task-controls {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .breakdown-controls {
-  justify-content: end;
-  margin-left: auto;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .breakdown-note {
@@ -359,6 +362,17 @@ pre {
   line-height: 1.6;
 }
 
+@media (max-width: 1000px) {
+  .evaluation-controls {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 10px;
+  }
+
+  .breakdown-controls {
+    max-width: 680px;
+  }
+}
+
 @media (max-width: 760px) {
   html,
   body {
@@ -390,11 +404,14 @@ pre {
 
   .control-group {
     grid-auto-flow: row;
-    grid-auto-columns: 1fr;
   }
 
   .task-controls {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  #solution-tag-control {
+    grid-column: 1 / -1;
   }
 
   .breakdown-controls {

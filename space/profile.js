@@ -14,6 +14,7 @@ export function createProfileController({
   getActiveBreakdownId,
   getActiveBreakdownValueId,
   categoryLabel,
+  formatSolutionTag,
   escapeHtml,
   formatScore,
   formatInteger,
@@ -198,9 +199,13 @@ export function createProfileController({
       .map((record) => {
         const solution = solutions.get(record.solution_id);
         const checked = selectedSolutionIds.has(record.solution_id);
+        const tags = (solution.tags || []).map(formatSolutionTag).join(" · ");
         return `<label class="solution-option">
           <input type="checkbox" data-profile-solution="${escapeHtml(record.solution_id)}"${checked ? " checked" : ""} />
-          <span>${escapeHtml(solution.title)}</span>
+          <span class="solution-option-copy">
+            <span>${escapeHtml(solution.title)}</span>
+            ${tags ? `<span class="solution-option-tags">${escapeHtml(tags)}</span>` : ""}
+          </span>
         </label>`;
       })
       .join("");

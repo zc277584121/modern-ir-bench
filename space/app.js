@@ -217,6 +217,56 @@ function populateDatasetSelector() {
   );
 }
 
+function selectedSolutionTag() {
+  return document.querySelector("#solution-tag-selector")?.value || "";
+}
+
+function solutionHasTag(solutionId, tag = selectedSolutionTag()) {
+  if (!tag) return true;
+  return (state.solutions.get(solutionId)?.tags || []).includes(tag);
+}
+
+function solutionTagLabel(tag) {
+  const labels = {
+    ocr: "OCR",
+    "ocr-free": "OCR-free",
+    rrf: "RRF",
+  };
+  return labels[tag] || tag
+    .replaceAll("-", " ")
+    .replace(/\b\w/g, (character) => character.toUpperCase());
+}
+
+function populateSolutionTagSelector() {
+  const selector = document.querySelector("#solution-tag-selector");
+  const previous = selector.value;
+  const { taskId, datasetId, datasetVersion } = currentTaskDataset();
+  const solutionIds = new Set(
+    primaryRecords()
+      .filter(
+        (record) =>
+          record.task_id === taskId &&
+          record.dataset_id === datasetId &&
+          record.dataset_version === datasetVersion,
+      )
+      .map((record) => record.solution_id),
+  );
+  const counts = new Map();
+  solutionIds.forEach((solutionId) => {
+    (state.solutions.get(solutionId)?.tags || []).forEach((tag) => {
+      counts.set(tag, (counts.get(tag) || 0) + 1);
+    });
+  });
+
+  selector.replaceChildren(new Option(`All solutions (${solutionIds.size})`, ""));
+  [...counts.entries()]
+    .sort(([left], [right]) => solutionTagLabel(left).localeCompare(solutionTagLabel(right)))
+    .forEach(([tag, count]) => {
+      selector.add(new Option(`${solutionTagLabel(tag)} (${count})`, tag));
+    });
+  selector.value = counts.has(previous) ? previous : "";
+}
+
 function currentTaskDataset() {
   const taskId = document.querySelector("#task-selector").value;
   const [datasetId, datasetVersion] = document
@@ -232,7 +282,8 @@ function currentOverallPrimaryRecords() {
       (record) =>
         record.task_id === taskId &&
         record.dataset_id === datasetId &&
-        record.dataset_version === datasetVersion,
+        record.dataset_version === datasetVersion &&
+        solutionHasTag(record.solution_id),
     )
     .sort(
       (left, right) =>
@@ -247,7 +298,8 @@ function currentEvaluation() {
     (record) =>
       record.task_id === taskId &&
       record.dataset_id === datasetId &&
-      record.dataset_version === datasetVersion,
+      record.dataset_version === datasetVersion &&
+      solutionHasTag(record.solution_id),
   );
   const breakdown = selectedBreakdown();
   const breakdownValue = selectedBreakdownValue();
@@ -255,7 +307,9 @@ function currentEvaluation() {
   return {
     breakdown,
     breakdownValue,
-    results: breakdownValue?.results || overallResults,
+    results: breakdownValue
+      ? breakdownValue.results.filter((record) => solutionHasTag(record.solution_id))
+      : overallResults,
     primaryMetric,
   };
 }
@@ -384,6 +438,7 @@ function installSolutionPreviews() {
       <span class="solution-preview-label">README preview</span>
       <strong>${escapeHtml(solution.readme_title)}</strong>
       <span>${escapeHtml(solution.readme_preview)}</span>
+      ${(solution.tags || []).length ? `<span class="solution-preview-tags">${solution.tags.map(solutionTagLabel).map(escapeHtml).join(" · ")}</span>` : ""}
       <span class="solution-preview-hint">Click to open method notes ↗</span>`;
     preview.hidden = false;
 
@@ -438,7 +493,11 @@ function installControls() {
   document
     .querySelector("#breakdown-value-selector")
     .addEventListener("change", refreshBreakdownContext);
-
+  document.querySelector("#solution-tag-selector").addEventListener("change", () => {
+    resetResultSorts();
+    state.profile.refresh(true);
+    renderLeaderboard();
+  });
 }
 
 function resetResultSorts() {
@@ -448,6 +507,7 @@ function resetResultSorts() {
 function refreshDatasetContext(rebuildDatasets) {
   if (rebuildDatasets) populateDatasetSelector();
   populateBreakdownSelector();
+  populateSolutionTagSelector();
   state.profile.refresh(true);
   resetResultSorts();
   renderLeaderboard();
@@ -479,6 +539,7 @@ async function main() {
     getActiveBreakdownId: () => selectedBreakdown()?.id,
     getActiveBreakdownValueId: () => selectedBreakdownValue()?.id,
     categoryLabel: breakdownCategoryLabel,
+    formatSolutionTag: solutionTagLabel,
     escapeHtml,
     formatScore,
     formatInteger,
@@ -490,6 +551,7 @@ async function main() {
   state.profile.install();
   populateDatasetSelector();
   populateBreakdownSelector();
+  populateSolutionTagSelector();
   state.profile.refresh(true);
   document.querySelector("#task-control").hidden = state.tasks.size <= 1;
   renderLeaderboard();
