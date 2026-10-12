@@ -64,7 +64,7 @@ def _build_ovis_pages(runtime: Runtime, spec: SolutionSpec) -> ChunkedDenseRetri
             collection_prefix="modern_ir_pdf_ovis_omni_3b_pages",
         ),
         chunker=runtime.page_renderer.render,
-        chunk_batch_size=runtime.ovis_omni.batch_size,
+        chunk_batch_size=32,
         candidate_multiplier=3,
         query_input=_query_text,
     )
