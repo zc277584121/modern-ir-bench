@@ -7,6 +7,7 @@ This directory stores immutable Top-10 document rankings for every published PDF
 - `paddleocr-v5-mobile-bge-m3-full`
 - `paddleocr-v5-mobile-bm25-bge-m3-rrf`
 - `paddleocr-v5-mobile-bm25-full`
+- `paddleocr-v5-mobile-bm25-voyage-multimodal-3-5-rrf`
 - `voyage-multimodal-3-5-pages`
 
 `manifest.json` pins the Dataset, source runs, ranking depth, row count, and checksum.
