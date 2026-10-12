@@ -10,6 +10,7 @@ before scoring.
 | --- | --- | --- | --- | --- |
 | PP-OCRv5 Mobile + BM25 | OCR | whole document | lexical | portable baseline |
 | PP-OCRv5 Mobile + BGE-M3 | OCR | whole document | local dense | isolate dense versus lexical retrieval |
+| PP-OCRv5 Mobile + BM25/BGE-M3 RRF | OCR | whole document | local hybrid | combine exact terms and semantic matches |
 | PP-OCRv5 Mobile + Voyage 4 Large | OCR | whole document | hosted dense | compare a stronger hosted text model |
 | Voyage Multimodal 3.5 | rendered images | page | visual dense | test OCR-free retrieval |
 
@@ -22,9 +23,10 @@ an invariant while the document representation changes.
 1. **PP-OCRv5 Server + BM25/BGE-M3** changes only OCR quality. It should be added
    after the current OCR and dense baselines have full results because it requires
    a second complete OCR pass.
-2. **Reciprocal-rank fusion** combines the saved BM25 and visual rankings. It
-   should be evaluated only after both component rankings exist, so its gain and
-   extra cost remain visible.
+2. **Visual/text fusion** combines the saved OCR and visual rankings after both
+   standalone paths have complete results. The maintained BM25/BGE-M3 RRF
+   Solution already measures runtime hybrid retrieval rather than post-hoc score
+   manipulation.
 3. **ColQwen visual late interaction** is the preferred open-source visual
    baseline. It requires a Sentence Transformers v6 migration and a true
    multi-vector scorer, so it belongs in a separate implementation step rather

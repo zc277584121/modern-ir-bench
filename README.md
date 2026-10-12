@@ -34,8 +34,8 @@ pages and how to retrieve whole document IDs.
 
 The published baseline OCRs every page with PP-OCRv5 Mobile and then runs
 full-document Milvus BM25. The executable catalog also contains local dense,
-hosted dense, and OCR-free visual Solutions. None reads a native PDF text layer.
-Preserved baseline observations are in `results/modern-ir-pdf-v1/`.
+hybrid, hosted dense, and OCR-free visual Solutions. None reads a native PDF text
+layer. Published Top-10 rankings are in `results/modern-ir-pdf-v1/`.
 
 - Dataset: [`zc277584121/modern-ir-bench-pdf`](https://huggingface.co/datasets/zc277584121/modern-ir-bench-pdf)
 - Design and Solution matrix: [`docs/pdf-solutions.md`](docs/pdf-solutions.md)

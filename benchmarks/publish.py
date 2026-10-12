@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import argparse
-import hashlib
 import json
 import subprocess
 from collections import defaultdict
@@ -42,7 +41,6 @@ from modern_ir_bench.results import RankingArtifact
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 TEXT_RESULT_ROOT = PROJECT_ROOT / "results/modern-ir-v2.2"
 PDF_RESULT_ROOT = PROJECT_ROOT / "results/modern-ir-pdf-v1"
-PDF_SOLUTION_ID = "paddleocr-v5-mobile-bm25-full"
 SPACE_RESULTS = PROJECT_ROOT / "space/data/results.json"
 
 TEXT_QUERY_DIMENSIONS = (
@@ -105,14 +103,6 @@ def _repository_url(remote: str) -> str:
     return remote.removesuffix(".git")
 
 
-def _sha256(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as stream:
-        while block := stream.read(1024 * 1024):
-            digest.update(block)
-    return digest.hexdigest()
-
-
 def _labels(rows: Dataset, *, id_field: str, fields: tuple[str, ...]) -> dict[str, dict[str, str]]:
     return {str(row[id_field]): {field: str(row[field]) for field in fields} for row in rows}
 
@@ -123,15 +113,6 @@ def _relevance(qrels: Dataset) -> dict[str, set[str]]:
         if int(row["relevance"]) > 0:
             relevant[str(row["query_id"])].add(str(row["document_id"]))
     return dict(relevant)
-
-
-def _rankings(observations: Dataset) -> dict[str, tuple[str, ...]]:
-    rankings = {
-        str(row["query_id"]): tuple(str(document_id) for document_id in row["ranked_ids"]) for row in observations
-    }
-    if len(rankings) != len(observations):
-        raise ValueError("Observation artifact contains duplicate query ids")
-    return rankings
 
 
 def _text_release(repository_url: str, commit: str) -> tuple[RunReport, list[dict[str, Any]]]:
@@ -180,68 +161,37 @@ def _text_release(repository_url: str, commit: str) -> tuple[RunReport, list[dic
     return report, breakdowns
 
 
-def _validate_pdf_artifact() -> tuple[dict[str, Any], Dataset]:
-    manifest = json.loads((PDF_RESULT_ROOT / "manifest.json").read_text(encoding="utf-8"))
-    result_path = PDF_RESULT_ROOT / "results.json"
-    observation_path = PDF_RESULT_ROOT / "observations.parquet"
-    if _sha256(result_path) != manifest["results_sha256"]:
-        raise ValueError("PDF results checksum does not match its manifest")
-    if _sha256(observation_path) != manifest["observations_sha256"]:
-        raise ValueError("PDF observations checksum does not match its manifest")
-    saved = json.loads(result_path.read_text(encoding="utf-8"))
-    observations = Dataset.from_parquet(str(observation_path))
-    if len(observations) != int(manifest["queries"]):
-        raise ValueError("PDF observation count does not match its manifest")
-    if set(map(len, observations["ranked_ids"])) != {int(manifest["top_k"])}:
-        raise ValueError("PDF rankings do not match the declared depth")
-    return saved, observations
-
-
 def _pdf_release(repository_url: str, commit: str) -> tuple[RunReport, list[dict[str, Any]]]:
-    saved, observations = _validate_pdf_artifact()
     task = build_pdf_task()
     dataset = task.datasets[PDF_RELEASE_ID]
-    task.validate_dataset(dataset)
-    metadata = pdf_solution_metadata(repository_url, commit)[PDF_SOLUTION_ID]
-    metadata["result_url"] = f"{repository_url}/tree/{commit}/results/modern-ir-pdf-v1"
-    first = saved["results"][0]
+    artifact = RankingArtifact.load(PDF_RESULT_ROOT)
+    all_metadata = pdf_solution_metadata(repository_url, commit)
+    metadata = {solution_id: all_metadata[solution_id] for solution_id in artifact.rankings}
+    result_url = f"{repository_url}/tree/{commit}/results/modern-ir-pdf-v1"
+    for values in metadata.values():
+        values["result_url"] = result_url
     provenance = RunProvenance(
-        source_commit=str(first["source_commit"]),
-        source_module=str(first["source_module"]),
-        source_path=str(first["source_path"]),
-        source_line=int(first["source_line"]),
+        source_commit=commit,
+        source_module="results.modern_ir_pdf_v1",
+        source_path="results/modern-ir-pdf-v1/README.md",
+        source_line=1,
         repository_url=repository_url,
-        created_at=str(first["created_at"]),
+        created_at=str(artifact.manifest["published_at"]),
     )
-    report = RunReport()
-    report.add_evaluation(
-        task_id=task.id,
-        task_title=task.title,
-        task_description=task.description,
-        task_version=task.version,
+    report = artifact.evaluate(
+        task=task,
         dataset_id=PDF_RELEASE_ID,
+        dataset=dataset,
         dataset_version=PDF_DATASET_REVISION[:12],
-        solution_id=PDF_SOLUTION_ID,
-        solution_title=str(metadata["title"]),
-        solution_description=str(metadata["description"]),
-        primary_metric_id=task.metrics.primary.id,
-        metrics=task.metrics.evaluate(observations),
-        observations=observations,
         provenance=provenance,
-        status=str(first["status"]),
+        solution_metadata=metadata,
+        status="live-artifact",
     )
-    report.solutions[PDF_SOLUTION_ID].update(metadata)
-    saved_values = {str(row["metric_id"]): float(row["value"]) for row in saved["results"]}
-    computed_values = {str(row["metric_id"]): float(row["value"]) for row in report.records}
-    if saved_values != computed_values:
-        raise ValueError("PDF aggregate metrics do not match the preserved observations")
-
-    solution_rankings = _rankings(observations)
     breakdowns = build_retrieval_breakdowns(
         task_id=task.id,
         dataset_id=PDF_RELEASE_ID,
         dataset_version=PDF_DATASET_REVISION[:12],
-        rankings={PDF_SOLUTION_ID: solution_rankings},
+        rankings=artifact.rankings,
         relevant_by_query=_relevance(dataset["qrels"]),
         query_labels=_labels(
             dataset["queries"],

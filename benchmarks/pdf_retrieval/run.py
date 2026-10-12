@@ -4,18 +4,19 @@ from __future__ import annotations
 
 import argparse
 import inspect
-import json
 import logging
 import os
 from pathlib import Path
 
-from benchmarks.pdf_retrieval.definition import RELEASE_ID, build_task
+from benchmarks.pdf_retrieval.artifacts import write_run_artifacts
+from benchmarks.pdf_retrieval.definition import DATASET_ID, DATASET_REVISION, RELEASE_ID, build_task
 from benchmarks.pdf_retrieval.solutions import SOLUTION_SPECS, build_solutions
 from modern_ir_bench import RunProvenance
 from modern_ir_bench.retrieval.indexes.milvus import MilvusLite, MilvusServer
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
-OUTPUT_ROOT = PROJECT_ROOT / "artifacts/modern-ir-pdf-live"
+OUTPUT_ROOT = PROJECT_ROOT / "artifacts/modern-ir-pdf-runs"
+logger = logging.getLogger(__name__)
 
 
 def _arguments() -> argparse.Namespace:
@@ -53,21 +54,15 @@ def main() -> None:
         source_line=inspect.getsourcelines(main)[1],
     )
     report = task.run(solutions, provenance=provenance, status="live")
-    OUTPUT_ROOT.mkdir(parents=True, exist_ok=True)
-    (OUTPUT_ROOT / "results.json").write_text(
-        json.dumps(
-            {
-                "release": RELEASE_ID,
-                "results": report.records,
-                "solutions": list(report.solutions.values()),
-            },
-            ensure_ascii=False,
-            indent=2,
-        )
-        + "\n",
-        encoding="utf-8",
+    directories = write_run_artifacts(
+        report,
+        output_root=OUTPUT_ROOT,
+        release=RELEASE_ID,
+        dataset_repository=DATASET_ID,
+        dataset_revision=DATASET_REVISION,
     )
-    report.write_observations(OUTPUT_ROOT / "observations")
+    for directory in directories:
+        logger.info("Wrote verified run artifact to %s", directory)
 
 
 if __name__ == "__main__":

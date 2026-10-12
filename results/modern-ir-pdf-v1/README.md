@@ -1,14 +1,10 @@
 # Modern IR PDF Retrieval v1 result evidence
 
-This directory preserves the first full, live result for the public PDF Retrieval Task.
-It is result evidence, not a Dataset and not a Solution implementation.
+This directory stores immutable Top-10 document rankings for every published PDF Solution. Aggregate metrics and leaderboard slices are always recomputed from these rankings and the pinned Dataset.
 
-The baseline OCRs every page with the bilingual PP-OCRv5 Mobile detector and recognizer,
-then runs full-document Milvus BM25. It never reads native PDF text layers and does not
-use layout parsing, chunking, dense embeddings, or reranking.
+## Solutions
 
-## Files
+- `paddleocr-v5-mobile-bge-m3-full`
+- `paddleocr-v5-mobile-bm25-full`
 
-- `results.json`: aggregate metric records with immutable source provenance.
-- `observations.parquet`: 1,000 query-level expected and Top-10 ranked document IDs.
-- `manifest.json`: pinned Dataset revision and artifact checksums.
+`manifest.json` pins the Dataset, source runs, ranking depth, row count, and checksum.

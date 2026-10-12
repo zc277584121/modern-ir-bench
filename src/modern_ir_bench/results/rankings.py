@@ -72,6 +72,7 @@ class RankingArtifact:
         dataset_version: str,
         provenance: RunProvenance,
         solution_metadata: Mapping[str, Mapping[str, Any]],
+        status: str = "historical-artifact",
     ) -> RunReport:
         if set(solution_metadata) != set(self.rankings):
             raise ValueError("Solution metadata does not match the ranking artifact")
@@ -98,7 +99,7 @@ class RankingArtifact:
                 metrics=task.metrics.evaluate(observations),
                 observations=observations,
                 provenance=provenance,
-                status="historical-artifact",
+                status=status,
             )
             report.solutions[solution_id].update(metadata)
         return report
