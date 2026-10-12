@@ -41,9 +41,9 @@
         "chunked",
         "milvus"
       ],
-      "code_url": "https://github.com/zc277584121/modern-ir-bench/blob/737c41294a364c123d2e5855b9c23bcac73585c7/benchmarks/ranked_retrieval/solutions/bge_m3.py#L9",
-      "readme_url": "https://github.com/zc277584121/modern-ir-bench/blob/737c41294a364c123d2e5855b9c23bcac73585c7/docs/solutions/bge-m3.md",
-      "result_url": "https://github.com/zc277584121/modern-ir-bench/tree/737c41294a364c123d2e5855b9c23bcac73585c7/results/modern-ir-v2.2"
+      "code_url": "https://github.com/zc277584121/modern-ir-bench/blob/cd90aff34f0e57ef0886f45a1ee692cde61aea57/benchmarks/ranked_retrieval/solutions/bge_m3.py#L9",
+      "readme_url": "https://github.com/zc277584121/modern-ir-bench/blob/cd90aff34f0e57ef0886f45a1ee692cde61aea57/docs/solutions/bge-m3.md",
+      "result_url": "https://github.com/zc277584121/modern-ir-bench/tree/cd90aff34f0e57ef0886f45a1ee692cde61aea57/results/modern-ir-v2.2"
     },
     {
       "id": "bge-m3-sparse-chunk",
@@ -55,9 +55,9 @@
         "chunked",
         "milvus"
       ],
-      "code_url": "https://github.com/zc277584121/modern-ir-bench/blob/737c41294a364c123d2e5855b9c23bcac73585c7/benchmarks/ranked_retrieval/solutions/bge_m3.py#L28",
-      "readme_url": "https://github.com/zc277584121/modern-ir-bench/blob/737c41294a364c123d2e5855b9c23bcac73585c7/docs/solutions/bge-m3.md",
-      "result_url": "https://github.com/zc277584121/modern-ir-bench/tree/737c41294a364c123d2e5855b9c23bcac73585c7/results/modern-ir-v2.2"
+      "code_url": "https://github.com/zc277584121/modern-ir-bench/blob/cd90aff34f0e57ef0886f45a1ee692cde61aea57/benchmarks/ranked_retrieval/solutions/bge_m3.py#L28",
+      "readme_url": "https://github.com/zc277584121/modern-ir-bench/blob/cd90aff34f0e57ef0886f45a1ee692cde61aea57/docs/solutions/bge-m3.md",
+      "result_url": "https://github.com/zc277584121/modern-ir-bench/tree/cd90aff34f0e57ef0886f45a1ee692cde61aea57/results/modern-ir-v2.2"
     },
     {
       "id": "bm25-chunk",
@@ -68,9 +68,9 @@
         "chunked",
         "milvus"
       ],
-      "code_url": "https://github.com/zc277584121/modern-ir-bench/blob/737c41294a364c123d2e5855b9c23bcac73585c7/benchmarks/ranked_retrieval/solutions/bm25.py#L18",
-      "readme_url": "https://github.com/zc277584121/modern-ir-bench/blob/737c41294a364c123d2e5855b9c23bcac73585c7/docs/solutions/bm25.md",
-      "result_url": "https://github.com/zc277584121/modern-ir-bench/tree/737c41294a364c123d2e5855b9c23bcac73585c7/results/modern-ir-v2.2"
+      "code_url": "https://github.com/zc277584121/modern-ir-bench/blob/cd90aff34f0e57ef0886f45a1ee692cde61aea57/benchmarks/ranked_retrieval/solutions/bm25.py#L18",
+      "readme_url": "https://github.com/zc277584121/modern-ir-bench/blob/cd90aff34f0e57ef0886f45a1ee692cde61aea57/docs/solutions/bm25.md",
+      "result_url": "https://github.com/zc277584121/modern-ir-bench/tree/cd90aff34f0e57ef0886f45a1ee692cde61aea57/results/modern-ir-v2.2"
     },
     {
       "id": "bm25-full",
@@ -81,9 +81,40 @@
         "full-document",
         "milvus"
       ],
-      "code_url": "https://github.com/zc277584121/modern-ir-bench/blob/737c41294a364c123d2e5855b9c23bcac73585c7/benchmarks/ranked_retrieval/solutions/bm25.py#L7",
-      "readme_url": "https://github.com/zc277584121/modern-ir-bench/blob/737c41294a364c123d2e5855b9c23bcac73585c7/docs/solutions/bm25.md",
-      "result_url": "https://github.com/zc277584121/modern-ir-bench/tree/737c41294a364c123d2e5855b9c23bcac73585c7/results/modern-ir-v2.2"
+      "code_url": "https://github.com/zc277584121/modern-ir-bench/blob/cd90aff34f0e57ef0886f45a1ee692cde61aea57/benchmarks/ranked_retrieval/solutions/bm25.py#L7",
+      "readme_url": "https://github.com/zc277584121/modern-ir-bench/blob/cd90aff34f0e57ef0886f45a1ee692cde61aea57/docs/solutions/bm25.md",
+      "result_url": "https://github.com/zc277584121/modern-ir-bench/tree/cd90aff34f0e57ef0886f45a1ee692cde61aea57/results/modern-ir-v2.2"
+    },
+    {
+      "id": "paddleocr-v5-mobile-bge-m3-full",
+      "title": "PP-OCRv5 Mobile + BGE-M3 · full document",
+      "description": "OCR every page, embed each complete document with local BGE-M3, then search with Milvus FLAT.",
+      "tags": [
+        "ocr",
+        "dense",
+        "local",
+        "full-document",
+        "milvus"
+      ],
+      "code_url": "https://github.com/zc277584121/modern-ir-bench/blob/cd90aff34f0e57ef0886f45a1ee692cde61aea57/benchmarks/pdf_retrieval/solutions/ocr.py#L94",
+      "readme_url": "https://github.com/zc277584121/modern-ir-bench/blob/cd90aff34f0e57ef0886f45a1ee692cde61aea57/docs/solutions/paddleocr-v5-mobile-bge-m3.md",
+      "result_url": "https://github.com/zc277584121/modern-ir-bench/tree/cd90aff34f0e57ef0886f45a1ee692cde61aea57/results/modern-ir-pdf-v1"
+    },
+    {
+      "id": "paddleocr-v5-mobile-bm25-bge-m3-rrf",
+      "title": "PP-OCRv5 Mobile + BM25/BGE-M3 · RRF",
+      "description": "OCR every page, fuse full-document BM25 and BGE-M3 Top-50 rankings with equal-weight RRF.",
+      "tags": [
+        "ocr",
+        "hybrid",
+        "local",
+        "full-document",
+        "rrf",
+        "milvus"
+      ],
+      "code_url": "https://github.com/zc277584121/modern-ir-bench/blob/cd90aff34f0e57ef0886f45a1ee692cde61aea57/benchmarks/pdf_retrieval/solutions/ocr.py#L104",
+      "readme_url": "https://github.com/zc277584121/modern-ir-bench/blob/cd90aff34f0e57ef0886f45a1ee692cde61aea57/docs/solutions/paddleocr-v5-mobile-bm25-bge-m3-rrf.md",
+      "result_url": "https://github.com/zc277584121/modern-ir-bench/tree/cd90aff34f0e57ef0886f45a1ee692cde61aea57/results/modern-ir-pdf-v1"
     },
     {
       "id": "paddleocr-v5-mobile-bm25-full",
@@ -96,9 +127,26 @@
         "local",
         "milvus"
       ],
-      "code_url": "https://github.com/zc277584121/modern-ir-bench/blob/737c41294a364c123d2e5855b9c23bcac73585c7/benchmarks/pdf_retrieval/solution.py#L18",
-      "readme_url": "https://github.com/zc277584121/modern-ir-bench/blob/737c41294a364c123d2e5855b9c23bcac73585c7/docs/solutions/paddleocr-v5-mobile-bm25.md",
-      "result_url": "https://github.com/zc277584121/modern-ir-bench/tree/737c41294a364c123d2e5855b9c23bcac73585c7/results/modern-ir-pdf-v1"
+      "code_url": "https://github.com/zc277584121/modern-ir-bench/blob/cd90aff34f0e57ef0886f45a1ee692cde61aea57/benchmarks/pdf_retrieval/solutions/ocr.py#L63",
+      "readme_url": "https://github.com/zc277584121/modern-ir-bench/blob/cd90aff34f0e57ef0886f45a1ee692cde61aea57/docs/solutions/paddleocr-v5-mobile-bm25.md",
+      "result_url": "https://github.com/zc277584121/modern-ir-bench/tree/cd90aff34f0e57ef0886f45a1ee692cde61aea57/results/modern-ir-pdf-v1"
+    },
+    {
+      "id": "paddleocr-v5-mobile-bm25-voyage-multimodal-3-5-rrf",
+      "title": "PP-OCRv5 Mobile BM25 + Voyage Multimodal 3.5 · RRF",
+      "description": "Fuse full-document OCR/BM25 and page-image Voyage Multimodal Top-50 rankings with equal-weight RRF.",
+      "tags": [
+        "ocr",
+        "visual",
+        "hybrid",
+        "hosted",
+        "page-level",
+        "rrf",
+        "milvus"
+      ],
+      "code_url": "https://github.com/zc277584121/modern-ir-bench/blob/cd90aff34f0e57ef0886f45a1ee692cde61aea57/benchmarks/pdf_retrieval/solutions/hybrid.py#L11",
+      "readme_url": "https://github.com/zc277584121/modern-ir-bench/blob/cd90aff34f0e57ef0886f45a1ee692cde61aea57/docs/solutions/paddleocr-v5-mobile-bm25-voyage-multimodal-3-5-rrf.md",
+      "result_url": "https://github.com/zc277584121/modern-ir-bench/tree/cd90aff34f0e57ef0886f45a1ee692cde61aea57/results/modern-ir-pdf-v1"
     },
     {
       "id": "qwen3-embedding-4b-chunk",
@@ -110,9 +158,9 @@
         "chunked",
         "milvus"
       ],
-      "code_url": "https://github.com/zc277584121/modern-ir-bench/blob/737c41294a364c123d2e5855b9c23bcac73585c7/benchmarks/ranked_retrieval/solutions/qwen.py#L9",
-      "readme_url": "https://github.com/zc277584121/modern-ir-bench/blob/737c41294a364c123d2e5855b9c23bcac73585c7/docs/solutions/qwen3-embedding-4b.md",
-      "result_url": "https://github.com/zc277584121/modern-ir-bench/tree/737c41294a364c123d2e5855b9c23bcac73585c7/results/modern-ir-v2.2"
+      "code_url": "https://github.com/zc277584121/modern-ir-bench/blob/cd90aff34f0e57ef0886f45a1ee692cde61aea57/benchmarks/ranked_retrieval/solutions/qwen.py#L9",
+      "readme_url": "https://github.com/zc277584121/modern-ir-bench/blob/cd90aff34f0e57ef0886f45a1ee692cde61aea57/docs/solutions/qwen3-embedding-4b.md",
+      "result_url": "https://github.com/zc277584121/modern-ir-bench/tree/cd90aff34f0e57ef0886f45a1ee692cde61aea57/results/modern-ir-v2.2"
     },
     {
       "id": "voyage-4-large-chunk",
@@ -124,9 +172,9 @@
         "chunked",
         "milvus"
       ],
-      "code_url": "https://github.com/zc277584121/modern-ir-bench/blob/737c41294a364c123d2e5855b9c23bcac73585c7/benchmarks/ranked_retrieval/solutions/voyage.py#L26",
-      "readme_url": "https://github.com/zc277584121/modern-ir-bench/blob/737c41294a364c123d2e5855b9c23bcac73585c7/docs/solutions/voyage-4-large.md",
-      "result_url": "https://github.com/zc277584121/modern-ir-bench/tree/737c41294a364c123d2e5855b9c23bcac73585c7/results/modern-ir-v2.2"
+      "code_url": "https://github.com/zc277584121/modern-ir-bench/blob/cd90aff34f0e57ef0886f45a1ee692cde61aea57/benchmarks/ranked_retrieval/solutions/voyage.py#L26",
+      "readme_url": "https://github.com/zc277584121/modern-ir-bench/blob/cd90aff34f0e57ef0886f45a1ee692cde61aea57/docs/solutions/voyage-4-large.md",
+      "result_url": "https://github.com/zc277584121/modern-ir-bench/tree/cd90aff34f0e57ef0886f45a1ee692cde61aea57/results/modern-ir-v2.2"
     },
     {
       "id": "voyage-4-large-full",
@@ -138,9 +186,25 @@
         "full-document",
         "milvus"
       ],
-      "code_url": "https://github.com/zc277584121/modern-ir-bench/blob/737c41294a364c123d2e5855b9c23bcac73585c7/benchmarks/ranked_retrieval/solutions/voyage.py#L9",
-      "readme_url": "https://github.com/zc277584121/modern-ir-bench/blob/737c41294a364c123d2e5855b9c23bcac73585c7/docs/solutions/voyage-4-large.md",
-      "result_url": "https://github.com/zc277584121/modern-ir-bench/tree/737c41294a364c123d2e5855b9c23bcac73585c7/results/modern-ir-v2.2"
+      "code_url": "https://github.com/zc277584121/modern-ir-bench/blob/cd90aff34f0e57ef0886f45a1ee692cde61aea57/benchmarks/ranked_retrieval/solutions/voyage.py#L9",
+      "readme_url": "https://github.com/zc277584121/modern-ir-bench/blob/cd90aff34f0e57ef0886f45a1ee692cde61aea57/docs/solutions/voyage-4-large.md",
+      "result_url": "https://github.com/zc277584121/modern-ir-bench/tree/cd90aff34f0e57ef0886f45a1ee692cde61aea57/results/modern-ir-v2.2"
+    },
+    {
+      "id": "voyage-multimodal-3-5-pages",
+      "title": "Voyage Multimodal 3.5 · page images",
+      "description": "Render PDF pages as images, retrieve pages without OCR, then collapse page hits to documents.",
+      "tags": [
+        "visual",
+        "dense",
+        "hosted",
+        "page-level",
+        "ocr-free",
+        "milvus"
+      ],
+      "code_url": "https://github.com/zc277584121/modern-ir-bench/blob/cd90aff34f0e57ef0886f45a1ee692cde61aea57/benchmarks/pdf_retrieval/solutions/visual.py#L42",
+      "readme_url": "https://github.com/zc277584121/modern-ir-bench/blob/cd90aff34f0e57ef0886f45a1ee692cde61aea57/docs/solutions/voyage-multimodal-3-5-pages.md",
+      "result_url": "https://github.com/zc277584121/modern-ir-bench/tree/cd90aff34f0e57ef0886f45a1ee692cde61aea57/results/modern-ir-pdf-v1"
     }
   ],
   "results": [
@@ -155,11 +219,11 @@
       "value": 0.71249974,
       "primary": true,
       "status": "historical-artifact",
-      "source_commit": "737c41294a364c123d2e5855b9c23bcac73585c7",
+      "source_commit": "cd90aff34f0e57ef0886f45a1ee692cde61aea57",
       "source_module": "results.modern_ir_v2_2",
       "source_path": "results/modern-ir-v2.2/README.md",
       "source_line": 1,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/737c41294a364c123d2e5855b9c23bcac73585c7/results/modern-ir-v2.2/README.md#L1",
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/cd90aff34f0e57ef0886f45a1ee692cde61aea57/results/modern-ir-v2.2/README.md#L1",
       "created_at": "2026-10-10T03:34:57.604060+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.2__modern-ir-bench-v2.2-20261010__bm25-full"
     },
@@ -174,11 +238,11 @@
       "value": 0.17100763,
       "primary": false,
       "status": "historical-artifact",
-      "source_commit": "737c41294a364c123d2e5855b9c23bcac73585c7",
+      "source_commit": "cd90aff34f0e57ef0886f45a1ee692cde61aea57",
       "source_module": "results.modern_ir_v2_2",
       "source_path": "results/modern-ir-v2.2/README.md",
       "source_line": 1,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/737c41294a364c123d2e5855b9c23bcac73585c7/results/modern-ir-v2.2/README.md#L1",
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/cd90aff34f0e57ef0886f45a1ee692cde61aea57/results/modern-ir-v2.2/README.md#L1",
       "created_at": "2026-10-10T03:34:57.604060+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.2__modern-ir-bench-v2.2-20261010__bm25-full"
     },
@@ -193,11 +257,11 @@
       "value": 0.52963243,
       "primary": false,
       "status": "historical-artifact",
-      "source_commit": "737c41294a364c123d2e5855b9c23bcac73585c7",
+      "source_commit": "cd90aff34f0e57ef0886f45a1ee692cde61aea57",
       "source_module": "results.modern_ir_v2_2",
       "source_path": "results/modern-ir-v2.2/README.md",
       "source_line": 1,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/737c41294a364c123d2e5855b9c23bcac73585c7/results/modern-ir-v2.2/README.md#L1",
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/cd90aff34f0e57ef0886f45a1ee692cde61aea57/results/modern-ir-v2.2/README.md#L1",
       "created_at": "2026-10-10T03:34:57.604060+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.2__modern-ir-bench-v2.2-20261010__bm25-full"
     },
@@ -212,11 +276,11 @@
       "value": 0.70116362,
       "primary": false,
       "status": "historical-artifact",
-      "source_commit": "737c41294a364c123d2e5855b9c23bcac73585c7",
+      "source_commit": "cd90aff34f0e57ef0886f45a1ee692cde61aea57",
       "source_module": "results.modern_ir_v2_2",
       "source_path": "results/modern-ir-v2.2/README.md",
       "source_line": 1,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/737c41294a364c123d2e5855b9c23bcac73585c7/results/modern-ir-v2.2/README.md#L1",
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/cd90aff34f0e57ef0886f45a1ee692cde61aea57/results/modern-ir-v2.2/README.md#L1",
       "created_at": "2026-10-10T03:34:57.604060+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.2__modern-ir-bench-v2.2-20261010__bm25-full"
     },
@@ -231,11 +295,11 @@
       "value": 0.87365159,
       "primary": false,
       "status": "historical-artifact",
-      "source_commit": "737c41294a364c123d2e5855b9c23bcac73585c7",
+      "source_commit": "cd90aff34f0e57ef0886f45a1ee692cde61aea57",
       "source_module": "results.modern_ir_v2_2",
       "source_path": "results/modern-ir-v2.2/README.md",
       "source_line": 1,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/737c41294a364c123d2e5855b9c23bcac73585c7/results/modern-ir-v2.2/README.md#L1",
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/cd90aff34f0e57ef0886f45a1ee692cde61aea57/results/modern-ir-v2.2/README.md#L1",
       "created_at": "2026-10-10T03:34:57.604060+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.2__modern-ir-bench-v2.2-20261010__bm25-full"
     },
@@ -250,11 +314,11 @@
       "value": 0.72248847,
       "primary": true,
       "status": "historical-artifact",
-      "source_commit": "737c41294a364c123d2e5855b9c23bcac73585c7",
+      "source_commit": "cd90aff34f0e57ef0886f45a1ee692cde61aea57",
       "source_module": "results.modern_ir_v2_2",
       "source_path": "results/modern-ir-v2.2/README.md",
       "source_line": 1,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/737c41294a364c123d2e5855b9c23bcac73585c7/results/modern-ir-v2.2/README.md#L1",
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/cd90aff34f0e57ef0886f45a1ee692cde61aea57/results/modern-ir-v2.2/README.md#L1",
       "created_at": "2026-10-10T03:34:57.604060+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.2__modern-ir-bench-v2.2-20261010__bm25-chunk"
     },
@@ -269,11 +333,11 @@
       "value": 0.17377831,
       "primary": false,
       "status": "historical-artifact",
-      "source_commit": "737c41294a364c123d2e5855b9c23bcac73585c7",
+      "source_commit": "cd90aff34f0e57ef0886f45a1ee692cde61aea57",
       "source_module": "results.modern_ir_v2_2",
       "source_path": "results/modern-ir-v2.2/README.md",
       "source_line": 1,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/737c41294a364c123d2e5855b9c23bcac73585c7/results/modern-ir-v2.2/README.md#L1",
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/cd90aff34f0e57ef0886f45a1ee692cde61aea57/results/modern-ir-v2.2/README.md#L1",
       "created_at": "2026-10-10T03:34:57.604060+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.2__modern-ir-bench-v2.2-20261010__bm25-chunk"
     },
@@ -288,11 +352,11 @@
       "value": 0.53622086,
       "primary": false,
       "status": "historical-artifact",
-      "source_commit": "737c41294a364c123d2e5855b9c23bcac73585c7",
+      "source_commit": "cd90aff34f0e57ef0886f45a1ee692cde61aea57",
       "source_module": "results.modern_ir_v2_2",
       "source_path": "results/modern-ir-v2.2/README.md",
       "source_line": 1,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/737c41294a364c123d2e5855b9c23bcac73585c7/results/modern-ir-v2.2/README.md#L1",
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/cd90aff34f0e57ef0886f45a1ee692cde61aea57/results/modern-ir-v2.2/README.md#L1",
       "created_at": "2026-10-10T03:34:57.604060+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.2__modern-ir-bench-v2.2-20261010__bm25-chunk"
     },
@@ -307,11 +371,11 @@
       "value": 0.71100498,
       "primary": false,
       "status": "historical-artifact",
-      "source_commit": "737c41294a364c123d2e5855b9c23bcac73585c7",
+      "source_commit": "cd90aff34f0e57ef0886f45a1ee692cde61aea57",
       "source_module": "results.modern_ir_v2_2",
       "source_path": "results/modern-ir-v2.2/README.md",
       "source_line": 1,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/737c41294a364c123d2e5855b9c23bcac73585c7/results/modern-ir-v2.2/README.md#L1",
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/cd90aff34f0e57ef0886f45a1ee692cde61aea57/results/modern-ir-v2.2/README.md#L1",
       "created_at": "2026-10-10T03:34:57.604060+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.2__modern-ir-bench-v2.2-20261010__bm25-chunk"
     },
@@ -326,11 +390,11 @@
       "value": 0.88202262,
       "primary": false,
       "status": "historical-artifact",
-      "source_commit": "737c41294a364c123d2e5855b9c23bcac73585c7",
+      "source_commit": "cd90aff34f0e57ef0886f45a1ee692cde61aea57",
       "source_module": "results.modern_ir_v2_2",
       "source_path": "results/modern-ir-v2.2/README.md",
       "source_line": 1,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/737c41294a364c123d2e5855b9c23bcac73585c7/results/modern-ir-v2.2/README.md#L1",
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/cd90aff34f0e57ef0886f45a1ee692cde61aea57/results/modern-ir-v2.2/README.md#L1",
       "created_at": "2026-10-10T03:34:57.604060+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.2__modern-ir-bench-v2.2-20261010__bm25-chunk"
     },
@@ -345,11 +409,11 @@
       "value": 0.86339312,
       "primary": true,
       "status": "historical-artifact",
-      "source_commit": "737c41294a364c123d2e5855b9c23bcac73585c7",
+      "source_commit": "cd90aff34f0e57ef0886f45a1ee692cde61aea57",
       "source_module": "results.modern_ir_v2_2",
       "source_path": "results/modern-ir-v2.2/README.md",
       "source_line": 1,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/737c41294a364c123d2e5855b9c23bcac73585c7/results/modern-ir-v2.2/README.md#L1",
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/cd90aff34f0e57ef0886f45a1ee692cde61aea57/results/modern-ir-v2.2/README.md#L1",
       "created_at": "2026-10-10T03:34:57.604060+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.2__modern-ir-bench-v2.2-20261010__voyage-4-large-full"
     },
@@ -364,11 +428,11 @@
       "value": 0.19692718,
       "primary": false,
       "status": "historical-artifact",
-      "source_commit": "737c41294a364c123d2e5855b9c23bcac73585c7",
+      "source_commit": "cd90aff34f0e57ef0886f45a1ee692cde61aea57",
       "source_module": "results.modern_ir_v2_2",
       "source_path": "results/modern-ir-v2.2/README.md",
       "source_line": 1,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/737c41294a364c123d2e5855b9c23bcac73585c7/results/modern-ir-v2.2/README.md#L1",
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/cd90aff34f0e57ef0886f45a1ee692cde61aea57/results/modern-ir-v2.2/README.md#L1",
       "created_at": "2026-10-10T03:34:57.604060+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.2__modern-ir-bench-v2.2-20261010__voyage-4-large-full"
     },
@@ -383,11 +447,11 @@
       "value": 0.65963741,
       "primary": false,
       "status": "historical-artifact",
-      "source_commit": "737c41294a364c123d2e5855b9c23bcac73585c7",
+      "source_commit": "cd90aff34f0e57ef0886f45a1ee692cde61aea57",
       "source_module": "results.modern_ir_v2_2",
       "source_path": "results/modern-ir-v2.2/README.md",
       "source_line": 1,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/737c41294a364c123d2e5855b9c23bcac73585c7/results/modern-ir-v2.2/README.md#L1",
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/cd90aff34f0e57ef0886f45a1ee692cde61aea57/results/modern-ir-v2.2/README.md#L1",
       "created_at": "2026-10-10T03:34:57.604060+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.2__modern-ir-bench-v2.2-20261010__voyage-4-large-full"
     },
@@ -402,11 +466,11 @@
       "value": 0.8361849,
       "primary": false,
       "status": "historical-artifact",
-      "source_commit": "737c41294a364c123d2e5855b9c23bcac73585c7",
+      "source_commit": "cd90aff34f0e57ef0886f45a1ee692cde61aea57",
       "source_module": "results.modern_ir_v2_2",
       "source_path": "results/modern-ir-v2.2/README.md",
       "source_line": 1,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/737c41294a364c123d2e5855b9c23bcac73585c7/results/modern-ir-v2.2/README.md#L1",
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/cd90aff34f0e57ef0886f45a1ee692cde61aea57/results/modern-ir-v2.2/README.md#L1",
       "created_at": "2026-10-10T03:34:57.604060+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.2__modern-ir-bench-v2.2-20261010__voyage-4-large-full"
     },
@@ -421,11 +485,11 @@
       "value": 0.95647183,
       "primary": false,
       "status": "historical-artifact",
-      "source_commit": "737c41294a364c123d2e5855b9c23bcac73585c7",
+      "source_commit": "cd90aff34f0e57ef0886f45a1ee692cde61aea57",
       "source_module": "results.modern_ir_v2_2",
       "source_path": "results/modern-ir-v2.2/README.md",
       "source_line": 1,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/737c41294a364c123d2e5855b9c23bcac73585c7/results/modern-ir-v2.2/README.md#L1",
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/cd90aff34f0e57ef0886f45a1ee692cde61aea57/results/modern-ir-v2.2/README.md#L1",
       "created_at": "2026-10-10T03:34:57.604060+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.2__modern-ir-bench-v2.2-20261010__voyage-4-large-full"
     },
@@ -440,11 +504,11 @@
       "value": 0.87926964,
       "primary": true,
       "status": "historical-artifact",
-      "source_commit": "737c41294a364c123d2e5855b9c23bcac73585c7",
+      "source_commit": "cd90aff34f0e57ef0886f45a1ee692cde61aea57",
       "source_module": "results.modern_ir_v2_2",
       "source_path": "results/modern-ir-v2.2/README.md",
       "source_line": 1,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/737c41294a364c123d2e5855b9c23bcac73585c7/results/modern-ir-v2.2/README.md#L1",
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/cd90aff34f0e57ef0886f45a1ee692cde61aea57/results/modern-ir-v2.2/README.md#L1",
       "created_at": "2026-10-10T03:34:57.604060+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.2__modern-ir-bench-v2.2-20261010__voyage-4-large-chunk"
     },
@@ -459,11 +523,11 @@
       "value": 0.20040301,
       "primary": false,
       "status": "historical-artifact",
-      "source_commit": "737c41294a364c123d2e5855b9c23bcac73585c7",
+      "source_commit": "cd90aff34f0e57ef0886f45a1ee692cde61aea57",
       "source_module": "results.modern_ir_v2_2",
       "source_path": "results/modern-ir-v2.2/README.md",
       "source_line": 1,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/737c41294a364c123d2e5855b9c23bcac73585c7/results/modern-ir-v2.2/README.md#L1",
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/cd90aff34f0e57ef0886f45a1ee692cde61aea57/results/modern-ir-v2.2/README.md#L1",
       "created_at": "2026-10-10T03:34:57.604060+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.2__modern-ir-bench-v2.2-20261010__voyage-4-large-chunk"
     },
@@ -478,11 +542,11 @@
       "value": 0.67287773,
       "primary": false,
       "status": "historical-artifact",
-      "source_commit": "737c41294a364c123d2e5855b9c23bcac73585c7",
+      "source_commit": "cd90aff34f0e57ef0886f45a1ee692cde61aea57",
       "source_module": "results.modern_ir_v2_2",
       "source_path": "results/modern-ir-v2.2/README.md",
       "source_line": 1,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/737c41294a364c123d2e5855b9c23bcac73585c7/results/modern-ir-v2.2/README.md#L1",
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/cd90aff34f0e57ef0886f45a1ee692cde61aea57/results/modern-ir-v2.2/README.md#L1",
       "created_at": "2026-10-10T03:34:57.604060+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.2__modern-ir-bench-v2.2-20261010__voyage-4-large-chunk"
     },
@@ -497,11 +561,11 @@
       "value": 0.85209908,
       "primary": false,
       "status": "historical-artifact",
-      "source_commit": "737c41294a364c123d2e5855b9c23bcac73585c7",
+      "source_commit": "cd90aff34f0e57ef0886f45a1ee692cde61aea57",
       "source_module": "results.modern_ir_v2_2",
       "source_path": "results/modern-ir-v2.2/README.md",
       "source_line": 1,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/737c41294a364c123d2e5855b9c23bcac73585c7/results/modern-ir-v2.2/README.md#L1",
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/cd90aff34f0e57ef0886f45a1ee692cde61aea57/results/modern-ir-v2.2/README.md#L1",
       "created_at": "2026-10-10T03:34:57.604060+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.2__modern-ir-bench-v2.2-20261010__voyage-4-large-chunk"
     },
@@ -516,11 +580,11 @@
       "value": 0.96386944,
       "primary": false,
       "status": "historical-artifact",
-      "source_commit": "737c41294a364c123d2e5855b9c23bcac73585c7",
+      "source_commit": "cd90aff34f0e57ef0886f45a1ee692cde61aea57",
       "source_module": "results.modern_ir_v2_2",
       "source_path": "results/modern-ir-v2.2/README.md",
       "source_line": 1,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/737c41294a364c123d2e5855b9c23bcac73585c7/results/modern-ir-v2.2/README.md#L1",
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/cd90aff34f0e57ef0886f45a1ee692cde61aea57/results/modern-ir-v2.2/README.md#L1",
       "created_at": "2026-10-10T03:34:57.604060+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.2__modern-ir-bench-v2.2-20261010__voyage-4-large-chunk"
     },
@@ -535,11 +599,11 @@
       "value": 0.81145622,
       "primary": true,
       "status": "historical-artifact",
-      "source_commit": "737c41294a364c123d2e5855b9c23bcac73585c7",
+      "source_commit": "cd90aff34f0e57ef0886f45a1ee692cde61aea57",
       "source_module": "results.modern_ir_v2_2",
       "source_path": "results/modern-ir-v2.2/README.md",
       "source_line": 1,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/737c41294a364c123d2e5855b9c23bcac73585c7/results/modern-ir-v2.2/README.md#L1",
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/cd90aff34f0e57ef0886f45a1ee692cde61aea57/results/modern-ir-v2.2/README.md#L1",
       "created_at": "2026-10-10T03:34:57.604060+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.2__modern-ir-bench-v2.2-20261010__qwen3-embedding-4b-chunk"
     },
@@ -554,11 +618,11 @@
       "value": 0.18195821,
       "primary": false,
       "status": "historical-artifact",
-      "source_commit": "737c41294a364c123d2e5855b9c23bcac73585c7",
+      "source_commit": "cd90aff34f0e57ef0886f45a1ee692cde61aea57",
       "source_module": "results.modern_ir_v2_2",
       "source_path": "results/modern-ir-v2.2/README.md",
       "source_line": 1,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/737c41294a364c123d2e5855b9c23bcac73585c7/results/modern-ir-v2.2/README.md#L1",
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/cd90aff34f0e57ef0886f45a1ee692cde61aea57/results/modern-ir-v2.2/README.md#L1",
       "created_at": "2026-10-10T03:34:57.604060+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.2__modern-ir-bench-v2.2-20261010__qwen3-embedding-4b-chunk"
     },
@@ -573,11 +637,11 @@
       "value": 0.61901765,
       "primary": false,
       "status": "historical-artifact",
-      "source_commit": "737c41294a364c123d2e5855b9c23bcac73585c7",
+      "source_commit": "cd90aff34f0e57ef0886f45a1ee692cde61aea57",
       "source_module": "results.modern_ir_v2_2",
       "source_path": "results/modern-ir-v2.2/README.md",
       "source_line": 1,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/737c41294a364c123d2e5855b9c23bcac73585c7/results/modern-ir-v2.2/README.md#L1",
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/cd90aff34f0e57ef0886f45a1ee692cde61aea57/results/modern-ir-v2.2/README.md#L1",
       "created_at": "2026-10-10T03:34:57.604060+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.2__modern-ir-bench-v2.2-20261010__qwen3-embedding-4b-chunk"
     },
@@ -592,11 +656,11 @@
       "value": 0.79335897,
       "primary": false,
       "status": "historical-artifact",
-      "source_commit": "737c41294a364c123d2e5855b9c23bcac73585c7",
+      "source_commit": "cd90aff34f0e57ef0886f45a1ee692cde61aea57",
       "source_module": "results.modern_ir_v2_2",
       "source_path": "results/modern-ir-v2.2/README.md",
       "source_line": 1,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/737c41294a364c123d2e5855b9c23bcac73585c7/results/modern-ir-v2.2/README.md#L1",
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/cd90aff34f0e57ef0886f45a1ee692cde61aea57/results/modern-ir-v2.2/README.md#L1",
       "created_at": "2026-10-10T03:34:57.604060+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.2__modern-ir-bench-v2.2-20261010__qwen3-embedding-4b-chunk"
     },
@@ -611,11 +675,11 @@
       "value": 0.91848532,
       "primary": false,
       "status": "historical-artifact",
-      "source_commit": "737c41294a364c123d2e5855b9c23bcac73585c7",
+      "source_commit": "cd90aff34f0e57ef0886f45a1ee692cde61aea57",
       "source_module": "results.modern_ir_v2_2",
       "source_path": "results/modern-ir-v2.2/README.md",
       "source_line": 1,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/737c41294a364c123d2e5855b9c23bcac73585c7/results/modern-ir-v2.2/README.md#L1",
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/cd90aff34f0e57ef0886f45a1ee692cde61aea57/results/modern-ir-v2.2/README.md#L1",
       "created_at": "2026-10-10T03:34:57.604060+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.2__modern-ir-bench-v2.2-20261010__qwen3-embedding-4b-chunk"
     },
@@ -630,11 +694,11 @@
       "value": 0.76469392,
       "primary": true,
       "status": "historical-artifact",
-      "source_commit": "737c41294a364c123d2e5855b9c23bcac73585c7",
+      "source_commit": "cd90aff34f0e57ef0886f45a1ee692cde61aea57",
       "source_module": "results.modern_ir_v2_2",
       "source_path": "results/modern-ir-v2.2/README.md",
       "source_line": 1,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/737c41294a364c123d2e5855b9c23bcac73585c7/results/modern-ir-v2.2/README.md#L1",
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/cd90aff34f0e57ef0886f45a1ee692cde61aea57/results/modern-ir-v2.2/README.md#L1",
       "created_at": "2026-10-10T03:34:57.604060+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.2__modern-ir-bench-v2.2-20261010__bge-m3-dense-chunk"
     },
@@ -649,11 +713,11 @@
       "value": 0.17671536,
       "primary": false,
       "status": "historical-artifact",
-      "source_commit": "737c41294a364c123d2e5855b9c23bcac73585c7",
+      "source_commit": "cd90aff34f0e57ef0886f45a1ee692cde61aea57",
       "source_module": "results.modern_ir_v2_2",
       "source_path": "results/modern-ir-v2.2/README.md",
       "source_line": 1,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/737c41294a364c123d2e5855b9c23bcac73585c7/results/modern-ir-v2.2/README.md#L1",
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/cd90aff34f0e57ef0886f45a1ee692cde61aea57/results/modern-ir-v2.2/README.md#L1",
       "created_at": "2026-10-10T03:34:57.604060+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.2__modern-ir-bench-v2.2-20261010__bge-m3-dense-chunk"
     },
@@ -668,11 +732,11 @@
       "value": 0.5768224,
       "primary": false,
       "status": "historical-artifact",
-      "source_commit": "737c41294a364c123d2e5855b9c23bcac73585c7",
+      "source_commit": "cd90aff34f0e57ef0886f45a1ee692cde61aea57",
       "source_module": "results.modern_ir_v2_2",
       "source_path": "results/modern-ir-v2.2/README.md",
       "source_line": 1,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/737c41294a364c123d2e5855b9c23bcac73585c7/results/modern-ir-v2.2/README.md#L1",
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/cd90aff34f0e57ef0886f45a1ee692cde61aea57/results/modern-ir-v2.2/README.md#L1",
       "created_at": "2026-10-10T03:34:57.604060+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.2__modern-ir-bench-v2.2-20261010__bge-m3-dense-chunk"
     },
@@ -687,11 +751,11 @@
       "value": 0.75090664,
       "primary": false,
       "status": "historical-artifact",
-      "source_commit": "737c41294a364c123d2e5855b9c23bcac73585c7",
+      "source_commit": "cd90aff34f0e57ef0886f45a1ee692cde61aea57",
       "source_module": "results.modern_ir_v2_2",
       "source_path": "results/modern-ir-v2.2/README.md",
       "source_line": 1,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/737c41294a364c123d2e5855b9c23bcac73585c7/results/modern-ir-v2.2/README.md#L1",
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/cd90aff34f0e57ef0886f45a1ee692cde61aea57/results/modern-ir-v2.2/README.md#L1",
       "created_at": "2026-10-10T03:34:57.604060+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.2__modern-ir-bench-v2.2-20261010__bge-m3-dense-chunk"
     },
@@ -706,11 +770,11 @@
       "value": 0.89477143,
       "primary": false,
       "status": "historical-artifact",
-      "source_commit": "737c41294a364c123d2e5855b9c23bcac73585c7",
+      "source_commit": "cd90aff34f0e57ef0886f45a1ee692cde61aea57",
       "source_module": "results.modern_ir_v2_2",
       "source_path": "results/modern-ir-v2.2/README.md",
       "source_line": 1,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/737c41294a364c123d2e5855b9c23bcac73585c7/results/modern-ir-v2.2/README.md#L1",
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/cd90aff34f0e57ef0886f45a1ee692cde61aea57/results/modern-ir-v2.2/README.md#L1",
       "created_at": "2026-10-10T03:34:57.604060+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.2__modern-ir-bench-v2.2-20261010__bge-m3-dense-chunk"
     },
@@ -725,11 +789,11 @@
       "value": 0.73097692,
       "primary": true,
       "status": "historical-artifact",
-      "source_commit": "737c41294a364c123d2e5855b9c23bcac73585c7",
+      "source_commit": "cd90aff34f0e57ef0886f45a1ee692cde61aea57",
       "source_module": "results.modern_ir_v2_2",
       "source_path": "results/modern-ir-v2.2/README.md",
       "source_line": 1,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/737c41294a364c123d2e5855b9c23bcac73585c7/results/modern-ir-v2.2/README.md#L1",
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/cd90aff34f0e57ef0886f45a1ee692cde61aea57/results/modern-ir-v2.2/README.md#L1",
       "created_at": "2026-10-10T03:34:57.604060+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.2__modern-ir-bench-v2.2-20261010__bge-m3-sparse-chunk"
     },
@@ -744,11 +808,11 @@
       "value": 0.17238291,
       "primary": false,
       "status": "historical-artifact",
-      "source_commit": "737c41294a364c123d2e5855b9c23bcac73585c7",
+      "source_commit": "cd90aff34f0e57ef0886f45a1ee692cde61aea57",
       "source_module": "results.modern_ir_v2_2",
       "source_path": "results/modern-ir-v2.2/README.md",
       "source_line": 1,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/737c41294a364c123d2e5855b9c23bcac73585c7/results/modern-ir-v2.2/README.md#L1",
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/cd90aff34f0e57ef0886f45a1ee692cde61aea57/results/modern-ir-v2.2/README.md#L1",
       "created_at": "2026-10-10T03:34:57.604060+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.2__modern-ir-bench-v2.2-20261010__bge-m3-sparse-chunk"
     },
@@ -763,11 +827,11 @@
       "value": 0.5489918,
       "primary": false,
       "status": "historical-artifact",
-      "source_commit": "737c41294a364c123d2e5855b9c23bcac73585c7",
+      "source_commit": "cd90aff34f0e57ef0886f45a1ee692cde61aea57",
       "source_module": "results.modern_ir_v2_2",
       "source_path": "results/modern-ir-v2.2/README.md",
       "source_line": 1,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/737c41294a364c123d2e5855b9c23bcac73585c7/results/modern-ir-v2.2/README.md#L1",
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/cd90aff34f0e57ef0886f45a1ee692cde61aea57/results/modern-ir-v2.2/README.md#L1",
       "created_at": "2026-10-10T03:34:57.604060+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.2__modern-ir-bench-v2.2-20261010__bge-m3-sparse-chunk"
     },
@@ -782,11 +846,11 @@
       "value": 0.71225595,
       "primary": false,
       "status": "historical-artifact",
-      "source_commit": "737c41294a364c123d2e5855b9c23bcac73585c7",
+      "source_commit": "cd90aff34f0e57ef0886f45a1ee692cde61aea57",
       "source_module": "results.modern_ir_v2_2",
       "source_path": "results/modern-ir-v2.2/README.md",
       "source_line": 1,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/737c41294a364c123d2e5855b9c23bcac73585c7/results/modern-ir-v2.2/README.md#L1",
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/cd90aff34f0e57ef0886f45a1ee692cde61aea57/results/modern-ir-v2.2/README.md#L1",
       "created_at": "2026-10-10T03:34:57.604060+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.2__modern-ir-bench-v2.2-20261010__bge-m3-sparse-chunk"
     },
@@ -801,13 +865,203 @@
       "value": 0.88026905,
       "primary": false,
       "status": "historical-artifact",
-      "source_commit": "737c41294a364c123d2e5855b9c23bcac73585c7",
+      "source_commit": "cd90aff34f0e57ef0886f45a1ee692cde61aea57",
       "source_module": "results.modern_ir_v2_2",
       "source_path": "results/modern-ir-v2.2/README.md",
       "source_line": 1,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/737c41294a364c123d2e5855b9c23bcac73585c7/results/modern-ir-v2.2/README.md#L1",
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/cd90aff34f0e57ef0886f45a1ee692cde61aea57/results/modern-ir-v2.2/README.md#L1",
       "created_at": "2026-10-10T03:34:57.604060+00:00",
       "observation_key": "modern-ir-ranked-retrieval-v2.2__modern-ir-bench-v2.2-20261010__bge-m3-sparse-chunk"
+    },
+    {
+      "task_id": "modern-ir-pdf-retrieval-v1",
+      "task_version": "1.0.0",
+      "dataset_id": "modern-ir-bench-pdf-v1-20261011",
+      "dataset_version": "5ac497e8aad7",
+      "solution_id": "paddleocr-v5-mobile-bge-m3-full",
+      "metric_id": "ndcg@10",
+      "metric_label": "NDCG@10",
+      "value": 0.72770118,
+      "primary": true,
+      "status": "live-artifact",
+      "source_commit": "cd90aff34f0e57ef0886f45a1ee692cde61aea57",
+      "source_module": "results.modern_ir_pdf_v1",
+      "source_path": "results/modern-ir-pdf-v1/README.md",
+      "source_line": 1,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/cd90aff34f0e57ef0886f45a1ee692cde61aea57/results/modern-ir-pdf-v1/README.md#L1",
+      "created_at": "2026-10-12T02:50:12.906439+00:00",
+      "observation_key": "modern-ir-pdf-retrieval-v1__modern-ir-bench-pdf-v1-20261011__paddleocr-v5-mobile-bge-m3-full"
+    },
+    {
+      "task_id": "modern-ir-pdf-retrieval-v1",
+      "task_version": "1.0.0",
+      "dataset_id": "modern-ir-bench-pdf-v1-20261011",
+      "dataset_version": "5ac497e8aad7",
+      "solution_id": "paddleocr-v5-mobile-bge-m3-full",
+      "metric_id": "recall@1",
+      "metric_label": "Recall@1",
+      "value": 0.1630071,
+      "primary": false,
+      "status": "live-artifact",
+      "source_commit": "cd90aff34f0e57ef0886f45a1ee692cde61aea57",
+      "source_module": "results.modern_ir_pdf_v1",
+      "source_path": "results/modern-ir-pdf-v1/README.md",
+      "source_line": 1,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/cd90aff34f0e57ef0886f45a1ee692cde61aea57/results/modern-ir-pdf-v1/README.md#L1",
+      "created_at": "2026-10-12T02:50:12.906439+00:00",
+      "observation_key": "modern-ir-pdf-retrieval-v1__modern-ir-bench-pdf-v1-20261011__paddleocr-v5-mobile-bge-m3-full"
+    },
+    {
+      "task_id": "modern-ir-pdf-retrieval-v1",
+      "task_version": "1.0.0",
+      "dataset_id": "modern-ir-bench-pdf-v1-20261011",
+      "dataset_version": "5ac497e8aad7",
+      "solution_id": "paddleocr-v5-mobile-bge-m3-full",
+      "metric_id": "recall@5",
+      "metric_label": "Recall@5",
+      "value": 0.54385882,
+      "primary": false,
+      "status": "live-artifact",
+      "source_commit": "cd90aff34f0e57ef0886f45a1ee692cde61aea57",
+      "source_module": "results.modern_ir_pdf_v1",
+      "source_path": "results/modern-ir-pdf-v1/README.md",
+      "source_line": 1,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/cd90aff34f0e57ef0886f45a1ee692cde61aea57/results/modern-ir-pdf-v1/README.md#L1",
+      "created_at": "2026-10-12T02:50:12.906439+00:00",
+      "observation_key": "modern-ir-pdf-retrieval-v1__modern-ir-bench-pdf-v1-20261011__paddleocr-v5-mobile-bge-m3-full"
+    },
+    {
+      "task_id": "modern-ir-pdf-retrieval-v1",
+      "task_version": "1.0.0",
+      "dataset_id": "modern-ir-bench-pdf-v1-20261011",
+      "dataset_version": "5ac497e8aad7",
+      "solution_id": "paddleocr-v5-mobile-bge-m3-full",
+      "metric_id": "recall@10",
+      "metric_label": "Recall@10",
+      "value": 0.72112945,
+      "primary": false,
+      "status": "live-artifact",
+      "source_commit": "cd90aff34f0e57ef0886f45a1ee692cde61aea57",
+      "source_module": "results.modern_ir_pdf_v1",
+      "source_path": "results/modern-ir-pdf-v1/README.md",
+      "source_line": 1,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/cd90aff34f0e57ef0886f45a1ee692cde61aea57/results/modern-ir-pdf-v1/README.md#L1",
+      "created_at": "2026-10-12T02:50:12.906439+00:00",
+      "observation_key": "modern-ir-pdf-retrieval-v1__modern-ir-bench-pdf-v1-20261011__paddleocr-v5-mobile-bge-m3-full"
+    },
+    {
+      "task_id": "modern-ir-pdf-retrieval-v1",
+      "task_version": "1.0.0",
+      "dataset_id": "modern-ir-bench-pdf-v1-20261011",
+      "dataset_version": "5ac497e8aad7",
+      "solution_id": "paddleocr-v5-mobile-bge-m3-full",
+      "metric_id": "mrr@10",
+      "metric_label": "MRR@10",
+      "value": 0.86241587,
+      "primary": false,
+      "status": "live-artifact",
+      "source_commit": "cd90aff34f0e57ef0886f45a1ee692cde61aea57",
+      "source_module": "results.modern_ir_pdf_v1",
+      "source_path": "results/modern-ir-pdf-v1/README.md",
+      "source_line": 1,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/cd90aff34f0e57ef0886f45a1ee692cde61aea57/results/modern-ir-pdf-v1/README.md#L1",
+      "created_at": "2026-10-12T02:50:12.906439+00:00",
+      "observation_key": "modern-ir-pdf-retrieval-v1__modern-ir-bench-pdf-v1-20261011__paddleocr-v5-mobile-bge-m3-full"
+    },
+    {
+      "task_id": "modern-ir-pdf-retrieval-v1",
+      "task_version": "1.0.0",
+      "dataset_id": "modern-ir-bench-pdf-v1-20261011",
+      "dataset_version": "5ac497e8aad7",
+      "solution_id": "paddleocr-v5-mobile-bm25-bge-m3-rrf",
+      "metric_id": "ndcg@10",
+      "metric_label": "NDCG@10",
+      "value": 0.77026246,
+      "primary": true,
+      "status": "live-artifact",
+      "source_commit": "cd90aff34f0e57ef0886f45a1ee692cde61aea57",
+      "source_module": "results.modern_ir_pdf_v1",
+      "source_path": "results/modern-ir-pdf-v1/README.md",
+      "source_line": 1,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/cd90aff34f0e57ef0886f45a1ee692cde61aea57/results/modern-ir-pdf-v1/README.md#L1",
+      "created_at": "2026-10-12T02:50:12.906439+00:00",
+      "observation_key": "modern-ir-pdf-retrieval-v1__modern-ir-bench-pdf-v1-20261011__paddleocr-v5-mobile-bm25-bge-m3-rrf"
+    },
+    {
+      "task_id": "modern-ir-pdf-retrieval-v1",
+      "task_version": "1.0.0",
+      "dataset_id": "modern-ir-bench-pdf-v1-20261011",
+      "dataset_version": "5ac497e8aad7",
+      "solution_id": "paddleocr-v5-mobile-bm25-bge-m3-rrf",
+      "metric_id": "recall@1",
+      "metric_label": "Recall@1",
+      "value": 0.18734618,
+      "primary": false,
+      "status": "live-artifact",
+      "source_commit": "cd90aff34f0e57ef0886f45a1ee692cde61aea57",
+      "source_module": "results.modern_ir_pdf_v1",
+      "source_path": "results/modern-ir-pdf-v1/README.md",
+      "source_line": 1,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/cd90aff34f0e57ef0886f45a1ee692cde61aea57/results/modern-ir-pdf-v1/README.md#L1",
+      "created_at": "2026-10-12T02:50:12.906439+00:00",
+      "observation_key": "modern-ir-pdf-retrieval-v1__modern-ir-bench-pdf-v1-20261011__paddleocr-v5-mobile-bm25-bge-m3-rrf"
+    },
+    {
+      "task_id": "modern-ir-pdf-retrieval-v1",
+      "task_version": "1.0.0",
+      "dataset_id": "modern-ir-bench-pdf-v1-20261011",
+      "dataset_version": "5ac497e8aad7",
+      "solution_id": "paddleocr-v5-mobile-bm25-bge-m3-rrf",
+      "metric_id": "recall@5",
+      "metric_label": "Recall@5",
+      "value": 0.57738957,
+      "primary": false,
+      "status": "live-artifact",
+      "source_commit": "cd90aff34f0e57ef0886f45a1ee692cde61aea57",
+      "source_module": "results.modern_ir_pdf_v1",
+      "source_path": "results/modern-ir-pdf-v1/README.md",
+      "source_line": 1,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/cd90aff34f0e57ef0886f45a1ee692cde61aea57/results/modern-ir-pdf-v1/README.md#L1",
+      "created_at": "2026-10-12T02:50:12.906439+00:00",
+      "observation_key": "modern-ir-pdf-retrieval-v1__modern-ir-bench-pdf-v1-20261011__paddleocr-v5-mobile-bm25-bge-m3-rrf"
+    },
+    {
+      "task_id": "modern-ir-pdf-retrieval-v1",
+      "task_version": "1.0.0",
+      "dataset_id": "modern-ir-bench-pdf-v1-20261011",
+      "dataset_version": "5ac497e8aad7",
+      "solution_id": "paddleocr-v5-mobile-bm25-bge-m3-rrf",
+      "metric_id": "recall@10",
+      "metric_label": "Recall@10",
+      "value": 0.74539674,
+      "primary": false,
+      "status": "live-artifact",
+      "source_commit": "cd90aff34f0e57ef0886f45a1ee692cde61aea57",
+      "source_module": "results.modern_ir_pdf_v1",
+      "source_path": "results/modern-ir-pdf-v1/README.md",
+      "source_line": 1,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/cd90aff34f0e57ef0886f45a1ee692cde61aea57/results/modern-ir-pdf-v1/README.md#L1",
+      "created_at": "2026-10-12T02:50:12.906439+00:00",
+      "observation_key": "modern-ir-pdf-retrieval-v1__modern-ir-bench-pdf-v1-20261011__paddleocr-v5-mobile-bm25-bge-m3-rrf"
+    },
+    {
+      "task_id": "modern-ir-pdf-retrieval-v1",
+      "task_version": "1.0.0",
+      "dataset_id": "modern-ir-bench-pdf-v1-20261011",
+      "dataset_version": "5ac497e8aad7",
+      "solution_id": "paddleocr-v5-mobile-bm25-bge-m3-rrf",
+      "metric_id": "mrr@10",
+      "metric_label": "MRR@10",
+      "value": 0.91962857,
+      "primary": false,
+      "status": "live-artifact",
+      "source_commit": "cd90aff34f0e57ef0886f45a1ee692cde61aea57",
+      "source_module": "results.modern_ir_pdf_v1",
+      "source_path": "results/modern-ir-pdf-v1/README.md",
+      "source_line": 1,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/cd90aff34f0e57ef0886f45a1ee692cde61aea57/results/modern-ir-pdf-v1/README.md#L1",
+      "created_at": "2026-10-12T02:50:12.906439+00:00",
+      "observation_key": "modern-ir-pdf-retrieval-v1__modern-ir-bench-pdf-v1-20261011__paddleocr-v5-mobile-bm25-bge-m3-rrf"
     },
     {
       "task_id": "modern-ir-pdf-retrieval-v1",
@@ -819,13 +1073,13 @@
       "metric_label": "NDCG@10",
       "value": 0.68438534,
       "primary": true,
-      "status": "live",
-      "source_commit": "cf8c90b911543138b26721232c747e1d509fd951",
-      "source_module": "benchmarks.modern_ir_pdf",
-      "source_path": "benchmarks/modern_ir_pdf.py",
-      "source_line": 20,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/cf8c90b911543138b26721232c747e1d509fd951/benchmarks/modern_ir_pdf.py#L20",
-      "created_at": "2026-10-11T07:52:12.483742+00:00",
+      "status": "live-artifact",
+      "source_commit": "cd90aff34f0e57ef0886f45a1ee692cde61aea57",
+      "source_module": "results.modern_ir_pdf_v1",
+      "source_path": "results/modern-ir-pdf-v1/README.md",
+      "source_line": 1,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/cd90aff34f0e57ef0886f45a1ee692cde61aea57/results/modern-ir-pdf-v1/README.md#L1",
+      "created_at": "2026-10-12T02:50:12.906439+00:00",
       "observation_key": "modern-ir-pdf-retrieval-v1__modern-ir-bench-pdf-v1-20261011__paddleocr-v5-mobile-bm25-full"
     },
     {
@@ -838,13 +1092,13 @@
       "metric_label": "Recall@1",
       "value": 0.16917137,
       "primary": false,
-      "status": "live",
-      "source_commit": "cf8c90b911543138b26721232c747e1d509fd951",
-      "source_module": "benchmarks.modern_ir_pdf",
-      "source_path": "benchmarks/modern_ir_pdf.py",
-      "source_line": 20,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/cf8c90b911543138b26721232c747e1d509fd951/benchmarks/modern_ir_pdf.py#L20",
-      "created_at": "2026-10-11T07:52:12.483742+00:00",
+      "status": "live-artifact",
+      "source_commit": "cd90aff34f0e57ef0886f45a1ee692cde61aea57",
+      "source_module": "results.modern_ir_pdf_v1",
+      "source_path": "results/modern-ir-pdf-v1/README.md",
+      "source_line": 1,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/cd90aff34f0e57ef0886f45a1ee692cde61aea57/results/modern-ir-pdf-v1/README.md#L1",
+      "created_at": "2026-10-12T02:50:12.906439+00:00",
       "observation_key": "modern-ir-pdf-retrieval-v1__modern-ir-bench-pdf-v1-20261011__paddleocr-v5-mobile-bm25-full"
     },
     {
@@ -857,13 +1111,13 @@
       "metric_label": "Recall@5",
       "value": 0.50991512,
       "primary": false,
-      "status": "live",
-      "source_commit": "cf8c90b911543138b26721232c747e1d509fd951",
-      "source_module": "benchmarks.modern_ir_pdf",
-      "source_path": "benchmarks/modern_ir_pdf.py",
-      "source_line": 20,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/cf8c90b911543138b26721232c747e1d509fd951/benchmarks/modern_ir_pdf.py#L20",
-      "created_at": "2026-10-11T07:52:12.483742+00:00",
+      "status": "live-artifact",
+      "source_commit": "cd90aff34f0e57ef0886f45a1ee692cde61aea57",
+      "source_module": "results.modern_ir_pdf_v1",
+      "source_path": "results/modern-ir-pdf-v1/README.md",
+      "source_line": 1,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/cd90aff34f0e57ef0886f45a1ee692cde61aea57/results/modern-ir-pdf-v1/README.md#L1",
+      "created_at": "2026-10-12T02:50:12.906439+00:00",
       "observation_key": "modern-ir-pdf-retrieval-v1__modern-ir-bench-pdf-v1-20261011__paddleocr-v5-mobile-bm25-full"
     },
     {
@@ -876,13 +1130,13 @@
       "metric_label": "Recall@10",
       "value": 0.6653277,
       "primary": false,
-      "status": "live",
-      "source_commit": "cf8c90b911543138b26721232c747e1d509fd951",
-      "source_module": "benchmarks.modern_ir_pdf",
-      "source_path": "benchmarks/modern_ir_pdf.py",
-      "source_line": 20,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/cf8c90b911543138b26721232c747e1d509fd951/benchmarks/modern_ir_pdf.py#L20",
-      "created_at": "2026-10-11T07:52:12.483742+00:00",
+      "status": "live-artifact",
+      "source_commit": "cd90aff34f0e57ef0886f45a1ee692cde61aea57",
+      "source_module": "results.modern_ir_pdf_v1",
+      "source_path": "results/modern-ir-pdf-v1/README.md",
+      "source_line": 1,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/cd90aff34f0e57ef0886f45a1ee692cde61aea57/results/modern-ir-pdf-v1/README.md#L1",
+      "created_at": "2026-10-12T02:50:12.906439+00:00",
       "observation_key": "modern-ir-pdf-retrieval-v1__modern-ir-bench-pdf-v1-20261011__paddleocr-v5-mobile-bm25-full"
     },
     {
@@ -895,14 +1149,204 @@
       "metric_label": "MRR@10",
       "value": 0.86575556,
       "primary": false,
-      "status": "live",
-      "source_commit": "cf8c90b911543138b26721232c747e1d509fd951",
-      "source_module": "benchmarks.modern_ir_pdf",
-      "source_path": "benchmarks/modern_ir_pdf.py",
-      "source_line": 20,
-      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/cf8c90b911543138b26721232c747e1d509fd951/benchmarks/modern_ir_pdf.py#L20",
-      "created_at": "2026-10-11T07:52:12.483742+00:00",
+      "status": "live-artifact",
+      "source_commit": "cd90aff34f0e57ef0886f45a1ee692cde61aea57",
+      "source_module": "results.modern_ir_pdf_v1",
+      "source_path": "results/modern-ir-pdf-v1/README.md",
+      "source_line": 1,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/cd90aff34f0e57ef0886f45a1ee692cde61aea57/results/modern-ir-pdf-v1/README.md#L1",
+      "created_at": "2026-10-12T02:50:12.906439+00:00",
       "observation_key": "modern-ir-pdf-retrieval-v1__modern-ir-bench-pdf-v1-20261011__paddleocr-v5-mobile-bm25-full"
+    },
+    {
+      "task_id": "modern-ir-pdf-retrieval-v1",
+      "task_version": "1.0.0",
+      "dataset_id": "modern-ir-bench-pdf-v1-20261011",
+      "dataset_version": "5ac497e8aad7",
+      "solution_id": "paddleocr-v5-mobile-bm25-voyage-multimodal-3-5-rrf",
+      "metric_id": "ndcg@10",
+      "metric_label": "NDCG@10",
+      "value": 0.7961365,
+      "primary": true,
+      "status": "live-artifact",
+      "source_commit": "cd90aff34f0e57ef0886f45a1ee692cde61aea57",
+      "source_module": "results.modern_ir_pdf_v1",
+      "source_path": "results/modern-ir-pdf-v1/README.md",
+      "source_line": 1,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/cd90aff34f0e57ef0886f45a1ee692cde61aea57/results/modern-ir-pdf-v1/README.md#L1",
+      "created_at": "2026-10-12T02:50:12.906439+00:00",
+      "observation_key": "modern-ir-pdf-retrieval-v1__modern-ir-bench-pdf-v1-20261011__paddleocr-v5-mobile-bm25-voyage-multimodal-3-5-rrf"
+    },
+    {
+      "task_id": "modern-ir-pdf-retrieval-v1",
+      "task_version": "1.0.0",
+      "dataset_id": "modern-ir-bench-pdf-v1-20261011",
+      "dataset_version": "5ac497e8aad7",
+      "solution_id": "paddleocr-v5-mobile-bm25-voyage-multimodal-3-5-rrf",
+      "metric_id": "recall@1",
+      "metric_label": "Recall@1",
+      "value": 0.19057592,
+      "primary": false,
+      "status": "live-artifact",
+      "source_commit": "cd90aff34f0e57ef0886f45a1ee692cde61aea57",
+      "source_module": "results.modern_ir_pdf_v1",
+      "source_path": "results/modern-ir-pdf-v1/README.md",
+      "source_line": 1,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/cd90aff34f0e57ef0886f45a1ee692cde61aea57/results/modern-ir-pdf-v1/README.md#L1",
+      "created_at": "2026-10-12T02:50:12.906439+00:00",
+      "observation_key": "modern-ir-pdf-retrieval-v1__modern-ir-bench-pdf-v1-20261011__paddleocr-v5-mobile-bm25-voyage-multimodal-3-5-rrf"
+    },
+    {
+      "task_id": "modern-ir-pdf-retrieval-v1",
+      "task_version": "1.0.0",
+      "dataset_id": "modern-ir-bench-pdf-v1-20261011",
+      "dataset_version": "5ac497e8aad7",
+      "solution_id": "paddleocr-v5-mobile-bm25-voyage-multimodal-3-5-rrf",
+      "metric_id": "recall@5",
+      "metric_label": "Recall@5",
+      "value": 0.60025546,
+      "primary": false,
+      "status": "live-artifact",
+      "source_commit": "cd90aff34f0e57ef0886f45a1ee692cde61aea57",
+      "source_module": "results.modern_ir_pdf_v1",
+      "source_path": "results/modern-ir-pdf-v1/README.md",
+      "source_line": 1,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/cd90aff34f0e57ef0886f45a1ee692cde61aea57/results/modern-ir-pdf-v1/README.md#L1",
+      "created_at": "2026-10-12T02:50:12.906439+00:00",
+      "observation_key": "modern-ir-pdf-retrieval-v1__modern-ir-bench-pdf-v1-20261011__paddleocr-v5-mobile-bm25-voyage-multimodal-3-5-rrf"
+    },
+    {
+      "task_id": "modern-ir-pdf-retrieval-v1",
+      "task_version": "1.0.0",
+      "dataset_id": "modern-ir-bench-pdf-v1-20261011",
+      "dataset_version": "5ac497e8aad7",
+      "solution_id": "paddleocr-v5-mobile-bm25-voyage-multimodal-3-5-rrf",
+      "metric_id": "recall@10",
+      "metric_label": "Recall@10",
+      "value": 0.76647159,
+      "primary": false,
+      "status": "live-artifact",
+      "source_commit": "cd90aff34f0e57ef0886f45a1ee692cde61aea57",
+      "source_module": "results.modern_ir_pdf_v1",
+      "source_path": "results/modern-ir-pdf-v1/README.md",
+      "source_line": 1,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/cd90aff34f0e57ef0886f45a1ee692cde61aea57/results/modern-ir-pdf-v1/README.md#L1",
+      "created_at": "2026-10-12T02:50:12.906439+00:00",
+      "observation_key": "modern-ir-pdf-retrieval-v1__modern-ir-bench-pdf-v1-20261011__paddleocr-v5-mobile-bm25-voyage-multimodal-3-5-rrf"
+    },
+    {
+      "task_id": "modern-ir-pdf-retrieval-v1",
+      "task_version": "1.0.0",
+      "dataset_id": "modern-ir-bench-pdf-v1-20261011",
+      "dataset_version": "5ac497e8aad7",
+      "solution_id": "paddleocr-v5-mobile-bm25-voyage-multimodal-3-5-rrf",
+      "metric_id": "mrr@10",
+      "metric_label": "MRR@10",
+      "value": 0.93798452,
+      "primary": false,
+      "status": "live-artifact",
+      "source_commit": "cd90aff34f0e57ef0886f45a1ee692cde61aea57",
+      "source_module": "results.modern_ir_pdf_v1",
+      "source_path": "results/modern-ir-pdf-v1/README.md",
+      "source_line": 1,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/cd90aff34f0e57ef0886f45a1ee692cde61aea57/results/modern-ir-pdf-v1/README.md#L1",
+      "created_at": "2026-10-12T02:50:12.906439+00:00",
+      "observation_key": "modern-ir-pdf-retrieval-v1__modern-ir-bench-pdf-v1-20261011__paddleocr-v5-mobile-bm25-voyage-multimodal-3-5-rrf"
+    },
+    {
+      "task_id": "modern-ir-pdf-retrieval-v1",
+      "task_version": "1.0.0",
+      "dataset_id": "modern-ir-bench-pdf-v1-20261011",
+      "dataset_version": "5ac497e8aad7",
+      "solution_id": "voyage-multimodal-3-5-pages",
+      "metric_id": "ndcg@10",
+      "metric_label": "NDCG@10",
+      "value": 0.79221263,
+      "primary": true,
+      "status": "live-artifact",
+      "source_commit": "cd90aff34f0e57ef0886f45a1ee692cde61aea57",
+      "source_module": "results.modern_ir_pdf_v1",
+      "source_path": "results/modern-ir-pdf-v1/README.md",
+      "source_line": 1,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/cd90aff34f0e57ef0886f45a1ee692cde61aea57/results/modern-ir-pdf-v1/README.md#L1",
+      "created_at": "2026-10-12T02:50:12.906439+00:00",
+      "observation_key": "modern-ir-pdf-retrieval-v1__modern-ir-bench-pdf-v1-20261011__voyage-multimodal-3-5-pages"
+    },
+    {
+      "task_id": "modern-ir-pdf-retrieval-v1",
+      "task_version": "1.0.0",
+      "dataset_id": "modern-ir-bench-pdf-v1-20261011",
+      "dataset_version": "5ac497e8aad7",
+      "solution_id": "voyage-multimodal-3-5-pages",
+      "metric_id": "recall@1",
+      "metric_label": "Recall@1",
+      "value": 0.1772165,
+      "primary": false,
+      "status": "live-artifact",
+      "source_commit": "cd90aff34f0e57ef0886f45a1ee692cde61aea57",
+      "source_module": "results.modern_ir_pdf_v1",
+      "source_path": "results/modern-ir-pdf-v1/README.md",
+      "source_line": 1,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/cd90aff34f0e57ef0886f45a1ee692cde61aea57/results/modern-ir-pdf-v1/README.md#L1",
+      "created_at": "2026-10-12T02:50:12.906439+00:00",
+      "observation_key": "modern-ir-pdf-retrieval-v1__modern-ir-bench-pdf-v1-20261011__voyage-multimodal-3-5-pages"
+    },
+    {
+      "task_id": "modern-ir-pdf-retrieval-v1",
+      "task_version": "1.0.0",
+      "dataset_id": "modern-ir-bench-pdf-v1-20261011",
+      "dataset_version": "5ac497e8aad7",
+      "solution_id": "voyage-multimodal-3-5-pages",
+      "metric_id": "recall@5",
+      "metric_label": "Recall@5",
+      "value": 0.5972768,
+      "primary": false,
+      "status": "live-artifact",
+      "source_commit": "cd90aff34f0e57ef0886f45a1ee692cde61aea57",
+      "source_module": "results.modern_ir_pdf_v1",
+      "source_path": "results/modern-ir-pdf-v1/README.md",
+      "source_line": 1,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/cd90aff34f0e57ef0886f45a1ee692cde61aea57/results/modern-ir-pdf-v1/README.md#L1",
+      "created_at": "2026-10-12T02:50:12.906439+00:00",
+      "observation_key": "modern-ir-pdf-retrieval-v1__modern-ir-bench-pdf-v1-20261011__voyage-multimodal-3-5-pages"
+    },
+    {
+      "task_id": "modern-ir-pdf-retrieval-v1",
+      "task_version": "1.0.0",
+      "dataset_id": "modern-ir-bench-pdf-v1-20261011",
+      "dataset_version": "5ac497e8aad7",
+      "solution_id": "voyage-multimodal-3-5-pages",
+      "metric_id": "recall@10",
+      "metric_label": "Recall@10",
+      "value": 0.7774959,
+      "primary": false,
+      "status": "live-artifact",
+      "source_commit": "cd90aff34f0e57ef0886f45a1ee692cde61aea57",
+      "source_module": "results.modern_ir_pdf_v1",
+      "source_path": "results/modern-ir-pdf-v1/README.md",
+      "source_line": 1,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/cd90aff34f0e57ef0886f45a1ee692cde61aea57/results/modern-ir-pdf-v1/README.md#L1",
+      "created_at": "2026-10-12T02:50:12.906439+00:00",
+      "observation_key": "modern-ir-pdf-retrieval-v1__modern-ir-bench-pdf-v1-20261011__voyage-multimodal-3-5-pages"
+    },
+    {
+      "task_id": "modern-ir-pdf-retrieval-v1",
+      "task_version": "1.0.0",
+      "dataset_id": "modern-ir-bench-pdf-v1-20261011",
+      "dataset_version": "5ac497e8aad7",
+      "solution_id": "voyage-multimodal-3-5-pages",
+      "metric_id": "mrr@10",
+      "metric_label": "MRR@10",
+      "value": 0.90840635,
+      "primary": false,
+      "status": "live-artifact",
+      "source_commit": "cd90aff34f0e57ef0886f45a1ee692cde61aea57",
+      "source_module": "results.modern_ir_pdf_v1",
+      "source_path": "results/modern-ir-pdf-v1/README.md",
+      "source_line": 1,
+      "source_url": "https://github.com/zc277584121/modern-ir-bench/blob/cd90aff34f0e57ef0886f45a1ee692cde61aea57/results/modern-ir-pdf-v1/README.md#L1",
+      "created_at": "2026-10-12T02:50:12.906439+00:00",
+      "observation_key": "modern-ir-pdf-retrieval-v1__modern-ir-bench-pdf-v1-20261011__voyage-multimodal-3-5-pages"
     }
   ],
   "breakdowns": [
@@ -12296,6 +12740,76 @@
           "count": 500,
           "results": [
             {
+              "solution_id": "paddleocr-v5-mobile-bge-m3-full",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.73024311,
+              "primary": true
+            },
+            {
+              "solution_id": "paddleocr-v5-mobile-bge-m3-full",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.16068437,
+              "primary": false
+            },
+            {
+              "solution_id": "paddleocr-v5-mobile-bge-m3-full",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.54615027,
+              "primary": false
+            },
+            {
+              "solution_id": "paddleocr-v5-mobile-bge-m3-full",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.72535835,
+              "primary": false
+            },
+            {
+              "solution_id": "paddleocr-v5-mobile-bge-m3-full",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.85968571,
+              "primary": false
+            },
+            {
+              "solution_id": "paddleocr-v5-mobile-bm25-bge-m3-rrf",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.78427863,
+              "primary": true
+            },
+            {
+              "solution_id": "paddleocr-v5-mobile-bm25-bge-m3-rrf",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.18982772,
+              "primary": false
+            },
+            {
+              "solution_id": "paddleocr-v5-mobile-bm25-bge-m3-rrf",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.59644033,
+              "primary": false
+            },
+            {
+              "solution_id": "paddleocr-v5-mobile-bm25-bge-m3-rrf",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.75506182,
+              "primary": false
+            },
+            {
+              "solution_id": "paddleocr-v5-mobile-bm25-bge-m3-rrf",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.92602698,
+              "primary": false
+            },
+            {
               "solution_id": "paddleocr-v5-mobile-bm25-full",
               "metric_id": "ndcg@10",
               "metric_label": "NDCG@10",
@@ -12329,6 +12843,76 @@
               "metric_label": "MRR@10",
               "value": 0.88102937,
               "primary": false
+            },
+            {
+              "solution_id": "paddleocr-v5-mobile-bm25-voyage-multimodal-3-5-rrf",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.80425043,
+              "primary": true
+            },
+            {
+              "solution_id": "paddleocr-v5-mobile-bm25-voyage-multimodal-3-5-rrf",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.19196816,
+              "primary": false
+            },
+            {
+              "solution_id": "paddleocr-v5-mobile-bm25-voyage-multimodal-3-5-rrf",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.60785877,
+              "primary": false
+            },
+            {
+              "solution_id": "paddleocr-v5-mobile-bm25-voyage-multimodal-3-5-rrf",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.77107798,
+              "primary": false
+            },
+            {
+              "solution_id": "paddleocr-v5-mobile-bm25-voyage-multimodal-3-5-rrf",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.94343571,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-multimodal-3-5-pages",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.76952932,
+              "primary": true
+            },
+            {
+              "solution_id": "voyage-multimodal-3-5-pages",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.16972305,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-multimodal-3-5-pages",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.57497715,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-multimodal-3-5-pages",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.75266429,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-multimodal-3-5-pages",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.8968881,
+              "primary": false
             }
           ]
         },
@@ -12337,6 +12921,76 @@
           "label": "English",
           "count": 500,
           "results": [
+            {
+              "solution_id": "paddleocr-v5-mobile-bge-m3-full",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.72515925,
+              "primary": true
+            },
+            {
+              "solution_id": "paddleocr-v5-mobile-bge-m3-full",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.16532984,
+              "primary": false
+            },
+            {
+              "solution_id": "paddleocr-v5-mobile-bge-m3-full",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.54156736,
+              "primary": false
+            },
+            {
+              "solution_id": "paddleocr-v5-mobile-bge-m3-full",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.71690055,
+              "primary": false
+            },
+            {
+              "solution_id": "paddleocr-v5-mobile-bge-m3-full",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.86514603,
+              "primary": false
+            },
+            {
+              "solution_id": "paddleocr-v5-mobile-bm25-bge-m3-rrf",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.75624629,
+              "primary": true
+            },
+            {
+              "solution_id": "paddleocr-v5-mobile-bm25-bge-m3-rrf",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.18486464,
+              "primary": false
+            },
+            {
+              "solution_id": "paddleocr-v5-mobile-bm25-bge-m3-rrf",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.55833881,
+              "primary": false
+            },
+            {
+              "solution_id": "paddleocr-v5-mobile-bm25-bge-m3-rrf",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.73573166,
+              "primary": false
+            },
+            {
+              "solution_id": "paddleocr-v5-mobile-bm25-bge-m3-rrf",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.91323016,
+              "primary": false
+            },
             {
               "solution_id": "paddleocr-v5-mobile-bm25-full",
               "metric_id": "ndcg@10",
@@ -12371,6 +13025,76 @@
               "metric_label": "MRR@10",
               "value": 0.85048175,
               "primary": false
+            },
+            {
+              "solution_id": "paddleocr-v5-mobile-bm25-voyage-multimodal-3-5-rrf",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.78802257,
+              "primary": true
+            },
+            {
+              "solution_id": "paddleocr-v5-mobile-bm25-voyage-multimodal-3-5-rrf",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.18918368,
+              "primary": false
+            },
+            {
+              "solution_id": "paddleocr-v5-mobile-bm25-voyage-multimodal-3-5-rrf",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.59265215,
+              "primary": false
+            },
+            {
+              "solution_id": "paddleocr-v5-mobile-bm25-voyage-multimodal-3-5-rrf",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.76186519,
+              "primary": false
+            },
+            {
+              "solution_id": "paddleocr-v5-mobile-bm25-voyage-multimodal-3-5-rrf",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.93253333,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-multimodal-3-5-pages",
+              "metric_id": "ndcg@10",
+              "metric_label": "NDCG@10",
+              "value": 0.81489595,
+              "primary": true
+            },
+            {
+              "solution_id": "voyage-multimodal-3-5-pages",
+              "metric_id": "recall@1",
+              "metric_label": "Recall@1",
+              "value": 0.18470995,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-multimodal-3-5-pages",
+              "metric_id": "recall@5",
+              "metric_label": "Recall@5",
+              "value": 0.61957645,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-multimodal-3-5-pages",
+              "metric_id": "recall@10",
+              "metric_label": "Recall@10",
+              "value": 0.80232751,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-multimodal-3-5-pages",
+              "metric_id": "mrr@10",
+              "metric_label": "MRR@10",
+              "value": 0.9199246,
+              "primary": false
             }
           ]
         }
@@ -12393,6 +13117,48 @@
           "target_count": 1514,
           "results": [
             {
+              "solution_id": "paddleocr-v5-mobile-bge-m3-full",
+              "metric_id": "target_recall@1",
+              "metric_label": "Target Recall@1",
+              "value": 0.15860639,
+              "primary": false
+            },
+            {
+              "solution_id": "paddleocr-v5-mobile-bge-m3-full",
+              "metric_id": "target_recall@5",
+              "metric_label": "Target Recall@5",
+              "value": 0.53647519,
+              "primary": false
+            },
+            {
+              "solution_id": "paddleocr-v5-mobile-bge-m3-full",
+              "metric_id": "target_recall@10",
+              "metric_label": "Target Recall@10",
+              "value": 0.73611555,
+              "primary": true
+            },
+            {
+              "solution_id": "paddleocr-v5-mobile-bm25-bge-m3-rrf",
+              "metric_id": "target_recall@1",
+              "metric_label": "Target Recall@1",
+              "value": 0.17608114,
+              "primary": false
+            },
+            {
+              "solution_id": "paddleocr-v5-mobile-bm25-bge-m3-rrf",
+              "metric_id": "target_recall@5",
+              "metric_label": "Target Recall@5",
+              "value": 0.58563714,
+              "primary": false
+            },
+            {
+              "solution_id": "paddleocr-v5-mobile-bm25-bge-m3-rrf",
+              "metric_id": "target_recall@10",
+              "metric_label": "Target Recall@10",
+              "value": 0.73908314,
+              "primary": true
+            },
+            {
               "solution_id": "paddleocr-v5-mobile-bm25-full",
               "metric_id": "target_recall@1",
               "metric_label": "Target Recall@1",
@@ -12412,6 +13178,48 @@
               "metric_label": "Target Recall@10",
               "value": 0.67063492,
               "primary": true
+            },
+            {
+              "solution_id": "paddleocr-v5-mobile-bm25-voyage-multimodal-3-5-rrf",
+              "metric_id": "target_recall@1",
+              "metric_label": "Target Recall@1",
+              "value": 0.19867521,
+              "primary": false
+            },
+            {
+              "solution_id": "paddleocr-v5-mobile-bm25-voyage-multimodal-3-5-rrf",
+              "metric_id": "target_recall@5",
+              "metric_label": "Target Recall@5",
+              "value": 0.60343157,
+              "primary": false
+            },
+            {
+              "solution_id": "paddleocr-v5-mobile-bm25-voyage-multimodal-3-5-rrf",
+              "metric_id": "target_recall@10",
+              "metric_label": "Target Recall@10",
+              "value": 0.77174104,
+              "primary": true
+            },
+            {
+              "solution_id": "voyage-multimodal-3-5-pages",
+              "metric_id": "target_recall@1",
+              "metric_label": "Target Recall@1",
+              "value": 0.18623044,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-multimodal-3-5-pages",
+              "metric_id": "target_recall@5",
+              "metric_label": "Target Recall@5",
+              "value": 0.6064369,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-multimodal-3-5-pages",
+              "metric_id": "target_recall@10",
+              "metric_label": "Target Recall@10",
+              "value": 0.78430514,
+              "primary": true
             }
           ]
         },
@@ -12421,6 +13229,48 @@
           "count": 923,
           "target_count": 2656,
           "results": [
+            {
+              "solution_id": "paddleocr-v5-mobile-bge-m3-full",
+              "metric_id": "target_recall@1",
+              "metric_label": "Target Recall@1",
+              "value": 0.17628002,
+              "primary": false
+            },
+            {
+              "solution_id": "paddleocr-v5-mobile-bge-m3-full",
+              "metric_id": "target_recall@5",
+              "metric_label": "Target Recall@5",
+              "value": 0.57146107,
+              "primary": false
+            },
+            {
+              "solution_id": "paddleocr-v5-mobile-bge-m3-full",
+              "metric_id": "target_recall@10",
+              "metric_label": "Target Recall@10",
+              "value": 0.73888707,
+              "primary": true
+            },
+            {
+              "solution_id": "paddleocr-v5-mobile-bm25-bge-m3-rrf",
+              "metric_id": "target_recall@1",
+              "metric_label": "Target Recall@1",
+              "value": 0.19382325,
+              "primary": false
+            },
+            {
+              "solution_id": "paddleocr-v5-mobile-bm25-bge-m3-rrf",
+              "metric_id": "target_recall@5",
+              "metric_label": "Target Recall@5",
+              "value": 0.59177213,
+              "primary": false
+            },
+            {
+              "solution_id": "paddleocr-v5-mobile-bm25-bge-m3-rrf",
+              "metric_id": "target_recall@10",
+              "metric_label": "Target Recall@10",
+              "value": 0.75923652,
+              "primary": true
+            },
             {
               "solution_id": "paddleocr-v5-mobile-bm25-full",
               "metric_id": "target_recall@1",
@@ -12441,6 +13291,48 @@
               "metric_label": "Target Recall@10",
               "value": 0.67135487,
               "primary": true
+            },
+            {
+              "solution_id": "paddleocr-v5-mobile-bm25-voyage-multimodal-3-5-rrf",
+              "metric_id": "target_recall@1",
+              "metric_label": "Target Recall@1",
+              "value": 0.1796678,
+              "primary": false
+            },
+            {
+              "solution_id": "paddleocr-v5-mobile-bm25-voyage-multimodal-3-5-rrf",
+              "metric_id": "target_recall@5",
+              "metric_label": "Target Recall@5",
+              "value": 0.61274039,
+              "primary": false
+            },
+            {
+              "solution_id": "paddleocr-v5-mobile-bm25-voyage-multimodal-3-5-rrf",
+              "metric_id": "target_recall@10",
+              "metric_label": "Target Recall@10",
+              "value": 0.77808222,
+              "primary": true
+            },
+            {
+              "solution_id": "voyage-multimodal-3-5-pages",
+              "metric_id": "target_recall@1",
+              "metric_label": "Target Recall@1",
+              "value": 0.15708745,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-multimodal-3-5-pages",
+              "metric_id": "target_recall@5",
+              "metric_label": "Target Recall@5",
+              "value": 0.59232398,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-multimodal-3-5-pages",
+              "metric_id": "target_recall@10",
+              "metric_label": "Target Recall@10",
+              "value": 0.78040175,
+              "primary": true
             }
           ]
         },
@@ -12450,6 +13342,48 @@
           "count": 873,
           "target_count": 2405,
           "results": [
+            {
+              "solution_id": "paddleocr-v5-mobile-bge-m3-full",
+              "metric_id": "target_recall@1",
+              "metric_label": "Target Recall@1",
+              "value": 0.11575306,
+              "primary": false
+            },
+            {
+              "solution_id": "paddleocr-v5-mobile-bge-m3-full",
+              "metric_id": "target_recall@5",
+              "metric_label": "Target Recall@5",
+              "value": 0.46193295,
+              "primary": false
+            },
+            {
+              "solution_id": "paddleocr-v5-mobile-bge-m3-full",
+              "metric_id": "target_recall@10",
+              "metric_label": "Target Recall@10",
+              "value": 0.64880275,
+              "primary": true
+            },
+            {
+              "solution_id": "paddleocr-v5-mobile-bm25-bge-m3-rrf",
+              "metric_id": "target_recall@1",
+              "metric_label": "Target Recall@1",
+              "value": 0.15096044,
+              "primary": false
+            },
+            {
+              "solution_id": "paddleocr-v5-mobile-bm25-bge-m3-rrf",
+              "metric_id": "target_recall@5",
+              "metric_label": "Target Recall@5",
+              "value": 0.49184937,
+              "primary": false
+            },
+            {
+              "solution_id": "paddleocr-v5-mobile-bm25-bge-m3-rrf",
+              "metric_id": "target_recall@10",
+              "metric_label": "Target Recall@10",
+              "value": 0.67356071,
+              "primary": true
+            },
             {
               "solution_id": "paddleocr-v5-mobile-bm25-full",
               "metric_id": "target_recall@1",
@@ -12469,6 +13403,48 @@
               "metric_id": "target_recall@10",
               "metric_label": "Target Recall@10",
               "value": 0.59418426,
+              "primary": true
+            },
+            {
+              "solution_id": "paddleocr-v5-mobile-bm25-voyage-multimodal-3-5-rrf",
+              "metric_id": "target_recall@1",
+              "metric_label": "Target Recall@1",
+              "value": 0.149535,
+              "primary": false
+            },
+            {
+              "solution_id": "paddleocr-v5-mobile-bm25-voyage-multimodal-3-5-rrf",
+              "metric_id": "target_recall@5",
+              "metric_label": "Target Recall@5",
+              "value": 0.51270127,
+              "primary": false
+            },
+            {
+              "solution_id": "paddleocr-v5-mobile-bm25-voyage-multimodal-3-5-rrf",
+              "metric_id": "target_recall@10",
+              "metric_label": "Target Recall@10",
+              "value": 0.69915031,
+              "primary": true
+            },
+            {
+              "solution_id": "voyage-multimodal-3-5-pages",
+              "metric_id": "target_recall@1",
+              "metric_label": "Target Recall@1",
+              "value": 0.15075282,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-multimodal-3-5-pages",
+              "metric_id": "target_recall@5",
+              "metric_label": "Target Recall@5",
+              "value": 0.52334637,
+              "primary": false
+            },
+            {
+              "solution_id": "voyage-multimodal-3-5-pages",
+              "metric_id": "target_recall@10",
+              "metric_label": "Target Recall@10",
+              "value": 0.73284547,
               "primary": true
             }
           ]
