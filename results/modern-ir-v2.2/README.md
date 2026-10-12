@@ -8,7 +8,10 @@ This directory stores immutable Top-K document rankings for every published Solu
 - `bge-m3-sparse-chunk`
 - `bm25-chunk`
 - `bm25-full`
+- `bm25-qwen3-embedding-8b-rrf`
 - `embedding-gemma-2-chunk`
+- `gemini-embedding-2-chunk`
+- `pplx-embed-v1-4b-chunk`
 - `qwen3-embedding-0-6b-chunk`
 - `qwen3-embedding-4b-chunk`
 - `qwen3-embedding-8b-openrouter-chunk`
