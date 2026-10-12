@@ -201,7 +201,8 @@ class OvisOmniEmbedding:
         digest = sha256()
         instruction = self.query_instruction if kind == "query" else self.document_instruction
         digest.update(
-            f"ovis-omni\0{self.model_id}\0{self.revision}\0{self.dimension}\0{kind}\0{instruction}\0".encode()
+            f"ovis-omni\0{self.model_id}\0{self.revision}\0{self.dimension}\0"
+            f"{self.max_image_pixels}\0{kind}\0{instruction}\0".encode()
         )
         if isinstance(value, str):
             digest.update(b"text\0")
