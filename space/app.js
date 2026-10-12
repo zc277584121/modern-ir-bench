@@ -5,6 +5,7 @@ const state = {
   tasks: new Map(),
   solutions: new Map(),
   leaderboardSort: { key: null, direction: "desc" },
+  profileMetricId: null,
   profile: null,
 };
 
@@ -331,6 +332,9 @@ function renderLeaderboard() {
     results: selected,
   } = evaluation;
   const { labels, order: metricOrder } = metricCatalog(selected, primaryMetric);
+  if (!state.profileMetricId || !metricOrder.includes(state.profileMetricId)) {
+    state.profileMetricId = primaryMetric;
+  }
   const grouped = new Map();
   selected.forEach((record) => {
     if (!grouped.has(record.solution_id)) grouped.set(record.solution_id, new Map());
@@ -401,23 +405,9 @@ function renderLeaderboard() {
   );
   installSortButtons("#leaderboard-table", "leaderboard", (key) => {
     toggleSort(state.leaderboardSort, key, metricOrder.includes(key));
+    if (metricOrder.includes(key)) state.profileMetricId = key;
     renderLeaderboard();
-  });
-}
-
-function activatePanel(panelId) {
-  document.querySelectorAll(".tab").forEach((tab) => {
-    tab.classList.toggle("active", tab.dataset.panel === panelId);
-  });
-  document.querySelectorAll(".panel").forEach((panel) => {
-    panel.classList.toggle("active", panel.id === panelId);
-  });
-  document.querySelector("#evaluation-context").hidden = panelId === "about-panel";
-}
-
-function installTabs() {
-  document.querySelectorAll(".tab").forEach((button) => {
-    button.addEventListener("click", () => activatePanel(button.dataset.panel));
+    state.profile.sync();
   });
 }
 
@@ -495,28 +485,29 @@ function installControls() {
     .addEventListener("change", refreshBreakdownContext);
   document.querySelector("#solution-tag-selector").addEventListener("change", () => {
     resetResultSorts();
-    state.profile.refresh(true);
     renderLeaderboard();
+    state.profile.refresh(true);
   });
 }
 
 function resetResultSorts() {
   state.leaderboardSort = { key: null, direction: "desc" };
+  state.profileMetricId = null;
 }
 
 function refreshDatasetContext(rebuildDatasets) {
   if (rebuildDatasets) populateDatasetSelector();
   populateBreakdownSelector();
   populateSolutionTagSelector();
-  state.profile.refresh(true);
   resetResultSorts();
   renderLeaderboard();
+  state.profile.refresh(true);
 }
 
 function refreshBreakdownContext() {
   resetResultSorts();
-  state.profile.sync();
   renderLeaderboard();
+  state.profile.sync();
 }
 
 async function main() {
@@ -538,6 +529,7 @@ async function main() {
       breakdownDisplayByTask.get(currentTaskDataset().taskId)?.defaultProfile,
     getActiveBreakdownId: () => selectedBreakdown()?.id,
     getActiveBreakdownValueId: () => selectedBreakdownValue()?.id,
+    getMetricId: () => state.profileMetricId || currentEvaluation().primaryMetric,
     categoryLabel: breakdownCategoryLabel,
     formatSolutionTag: solutionTagLabel,
     escapeHtml,
@@ -546,15 +538,14 @@ async function main() {
   });
 
   installSolutionPreviews();
-  installTabs();
   installControls();
   state.profile.install();
   populateDatasetSelector();
   populateBreakdownSelector();
   populateSolutionTagSelector();
-  state.profile.refresh(true);
   document.querySelector("#task-control").hidden = state.tasks.size <= 1;
   renderLeaderboard();
+  state.profile.refresh(true);
 }
 
 main().catch((error) => {

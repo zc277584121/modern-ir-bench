@@ -13,6 +13,7 @@ export function createProfileController({
   getDefaultBreakdownId,
   getActiveBreakdownId,
   getActiveBreakdownValueId,
+  getMetricId,
   categoryLabel,
   formatSolutionTag,
   escapeHtml,
@@ -43,13 +44,18 @@ export function createProfileController({
 
   function activeBreakdown() {
     const activeId = getActiveBreakdownId();
-    return (
-      availableBreakdowns.find((breakdown) => breakdown.id === activeId) ||
-      availableBreakdowns.find(
-        (breakdown) => breakdown.id === getDefaultBreakdownId(),
-      ) ||
-      availableBreakdowns[0]
+    const selected = availableBreakdowns.find((breakdown) => breakdown.id === activeId);
+    if (selected) return selected;
+
+    const metricId = getMetricId();
+    const supportsMetric = (breakdown) => breakdown.values.some((value) =>
+      value.results.some((record) => record.metric_id === metricId),
     );
+    const preferred = availableBreakdowns.find(
+      (breakdown) => breakdown.id === getDefaultBreakdownId(),
+    );
+    if (preferred && supportsMetric(preferred)) return preferred;
+    return availableBreakdowns.find(supportsMetric) || preferred || availableBreakdowns[0];
   }
 
   function activeValueId(breakdown) {
@@ -234,6 +240,7 @@ export function createProfileController({
     const breakdown = activeBreakdown();
     if (!breakdown) return;
     const selectedValueId = activeValueId(breakdown);
+    const requestedMetricId = getMetricId();
 
     const solutionOrder = getOverallRecords()
       .map((record) => record.solution_id)
@@ -254,13 +261,17 @@ export function createProfileController({
     const values = allValues.length > groupLimit
       ? allValues.filter((value) => leadingIds.has(value.id))
       : allValues;
-    const exampleRecord = values
+    const requestedMetricRecord = values
       .flatMap((value) => value.results)
-      .find((record) => record.metric_id === breakdown.primary_metric);
-    const metricLabel = exampleRecord?.metric_label || breakdown.primary_metric;
+      .find((record) => record.metric_id === requestedMetricId);
+    const metricId = requestedMetricRecord ? requestedMetricId : breakdown.primary_metric;
+    const exampleRecord = requestedMetricRecord || values
+      .flatMap((value) => value.results)
+      .find((record) => record.metric_id === metricId);
+    const metricLabel = exampleRecord?.metric_label || metricId;
     const scores = values.flatMap((value) =>
       solutionOrder.map(
-        (solutionId) => metricRecord(value, solutionId, breakdown.primary_metric)?.value,
+        (solutionId) => metricRecord(value, solutionId, metricId)?.value,
       ),
     );
     const supportsFixedScale = scores.every(
@@ -285,14 +296,14 @@ export function createProfileController({
         ? renderRadar(
             values,
             solutionOrder,
-            breakdown.primary_metric,
+            metricId,
             metricLabel,
             selectedValueId,
           )
         : renderBars(
             values,
             solutionOrder,
-            breakdown.primary_metric,
+            metricId,
             metricLabel,
             selectedValueId,
           );

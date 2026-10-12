@@ -36,7 +36,28 @@ h1 {
 }
 
 .site-header {
-  margin-bottom: 8px;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.header-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px 18px;
+  font-size: 13px;
+}
+
+.header-links a {
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.header-links a:hover {
+  color: var(--text);
+  text-decoration: underline;
 }
 
 .solution-name {
@@ -117,11 +138,6 @@ h1 {
   margin-top: 2px;
 }
 
-h2 {
-  margin: 0 0 6px;
-  font-size: 20px;
-}
-
 .notice {
   margin: 0 0 20px;
   padding: 11px 13px;
@@ -132,57 +148,9 @@ h2 {
   font-size: 14px;
 }
 
-.tabs {
-  display: flex;
-  gap: 24px;
-  overflow-x: auto;
-  border-bottom: 1px solid var(--border);
-  scrollbar-width: none;
-}
-
-.tabs::-webkit-scrollbar {
-  display: none;
-}
-
-.tab {
-  position: relative;
-  padding: 10px 0 11px;
-  border: 0;
-  background: transparent;
-  color: var(--muted);
-  cursor: pointer;
-  font: inherit;
-  font-size: 14px;
-  font-weight: 500;
-  white-space: nowrap;
-}
-
-.tab:hover {
-  color: var(--text);
-}
-
-.tab.active {
-  color: var(--text);
-}
-
-.tab.active::after {
-  position: absolute;
-  right: 0;
-  bottom: -1px;
-  left: 0;
-  height: 2px;
-  background: var(--text);
-  content: "";
-}
-
-.panel {
-  display: none;
+.leaderboard-panel {
   min-height: 360px;
   padding: 24px 0;
-}
-
-.panel.active {
-  display: block;
 }
 
 .control-group {
@@ -334,34 +302,6 @@ tbody tr:hover td {
   color: var(--text);
 }
 
-.prose {
-  max-width: none;
-}
-
-.prose h2:not(:first-child) {
-  margin-top: 24px;
-}
-
-.prose p {
-  max-width: 820px;
-  color: #4b5563;
-  font-size: 14px;
-  line-height: 1.65;
-}
-
-pre {
-  width: min(100%, 720px);
-  overflow-x: auto;
-  padding: 12px;
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  background: #f9fafb;
-  color: #374151;
-  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-size: 12px;
-  line-height: 1.6;
-}
-
 @media (max-width: 1000px) {
   .evaluation-controls {
     grid-template-columns: minmax(0, 1fr);
@@ -387,13 +327,18 @@ pre {
     overflow-x: hidden;
   }
 
-  .panel {
+  .leaderboard-panel {
     padding: 20px 0;
   }
 
   .site-header {
     flex-direction: column;
-    align-items: stretch;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .header-links {
+    justify-content: flex-start;
   }
 
   .evaluation-controls {

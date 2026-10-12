@@ -15,13 +15,13 @@
     <main class="page-shell">
       <header class="site-header">
         <h1>Modern IR Bench</h1>
+        <nav class="header-links" aria-label="Project links">
+          <a href="https://github.com/zc277584121/modern-ir-bench" target="_blank" rel="noreferrer">GitHub ↗</a>
+          <a href="https://huggingface.co/datasets/zc277584121/modern-ir-bench" target="_blank" rel="noreferrer">Text data ↗</a>
+          <a href="https://huggingface.co/datasets/zc277584121/modern-ir-bench-pdf" target="_blank" rel="noreferrer">PDF data ↗</a>
+        </nav>
       </header>
       <div id="error-notice" class="notice" aria-live="polite" hidden></div>
-
-      <nav class="tabs" aria-label="Benchmark views">
-        <button class="tab active" data-panel="leaderboard-panel">Leaderboard</button>
-        <button class="tab" data-panel="about-panel">About</button>
-      </nav>
 
       <section id="evaluation-context" class="evaluation-context" aria-label="Evaluation context">
         <div class="evaluation-controls">
@@ -53,7 +53,7 @@
         <p id="breakdown-note" class="breakdown-note" hidden></p>
       </section>
 
-      <section id="leaderboard-panel" class="panel active">
+      <section class="leaderboard-panel">
         <div id="leaderboard-table"></div>
 
         <section id="profile-section" class="profile-section" aria-labelledby="profile-title">
@@ -71,62 +71,6 @@
           <div id="profile-chart" class="profile-chart" aria-live="polite"></div>
           <div id="profile-legend" class="profile-legend"></div>
         </section>
-      </section>
-
-      <section id="about-panel" class="panel prose">
-        <h2>What this benchmark measures</h2>
-        <p>
-          Modern IR Bench compares retrieval methods on the same corpus, queries, and
-          binary relevance judgments. Higher scores are better. The leaderboard reports
-          retrieval quality only; it does not compare latency or throughput.
-        </p>
-        <p>
-          Query breakdowns regroup the existing per-query metrics. Relevant-document
-          breakdowns report Target Recall over documents in the selected group, using the
-          already published Top-10 rankings without rerunning retrieval.
-        </p>
-        <p>
-          Group comparisons follow Analyze by and use a fixed 0–1 scale. Overall uses
-          the Task's default comparison. They default to the top three overall Solutions;
-          large breakdowns retain the selected group alongside their largest groups, and
-          two-group comparisons use bars instead of a radar chart. Each Task explicitly
-          chooses which breakdowns are useful enough to publish. Solution tags filter the
-          leaderboard and group comparison together.
-        </p>
-
-        <h2>Reproduction</h2>
-        <p>
-          Python code is the source of truth for maintained executable Solutions. The
-          code icon beside each Solution opens its current pinned definition. Result
-          evidence has separate provenance and never masquerades as executable code.
-        </p>
-        <pre><code>git checkout &lt;source_commit&gt;
-uv sync --group benchmark
-uv run python -m benchmarks.ranked_retrieval.run
-uv run python -m benchmarks.pdf_retrieval.run</code></pre>
-
-        <h2>Publication</h2>
-        <p>
-          This Space is read-only. New Tasks, Datasets, Solutions, and experiments are
-          reviewed through <a href="https://github.com/zc277584121/modern-ir-bench">GitHub pull requests</a>
-          and run in the maintained environment. The benchmark data are published as
-          separate Hugging Face Datasets for
-          <a href="https://huggingface.co/datasets/zc277584121/modern-ir-bench">text retrieval</a>
-          and
-          <a href="https://huggingface.co/datasets/zc277584121/modern-ir-bench-pdf">PDF retrieval</a>.
-        </p>
-
-        <h2>Result model</h2>
-        <p>
-          A Task defines the evaluation protocol and its metrics. A Dataset is a
-          versioned data release adapted to that protocol. One Task can use multiple
-          Datasets, and the same source data can be adapted for different Tasks.
-        </p>
-        <p>
-          The underlying dimensions are Solution × Task × Dataset × Metric × Version.
-          Dataset releases are immutable. New tasks and datasets can use different metrics
-          without forcing an artificial overall score.
-        </p>
       </section>
     </main>
     <div id="solution-preview" class="solution-preview" role="tooltip" hidden></div>
