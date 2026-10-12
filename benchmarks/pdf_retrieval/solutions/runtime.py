@@ -39,6 +39,7 @@ def build_runtime(*, target: MilvusTarget, project_root: Path) -> Runtime:
             dimension=1024,
             batch_size=int(os.environ.get("MIR_VOYAGE_MULTIMODAL_BATCH_SIZE", "64")),
             cache_path=runtime_root / "pdf-embeddings/voyage-multimodal-3.5.sqlite3",
+            request_concurrency=int(os.environ.get("MIR_VOYAGE_MULTIMODAL_CONCURRENCY", "2")),
         ),
         page_renderer=PdfPageRenderer(
             cache_dir=runtime_root / "pdf-pages/pdfium-v1",

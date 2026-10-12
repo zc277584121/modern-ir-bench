@@ -31,7 +31,9 @@ def build_voyage_pages_component(
             collection_prefix="modern_ir_pdf_voyage_multimodal_pages",
         ),
         chunker=runtime.page_renderer.render,
-        chunk_batch_size=runtime.voyage_multimodal.batch_size,
+        chunk_batch_size=(
+            runtime.voyage_multimodal.batch_size * runtime.voyage_multimodal.request_concurrency
+        ),
         candidate_multiplier=3,
         query_input=_query_text,
     )

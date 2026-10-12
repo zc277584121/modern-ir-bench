@@ -42,6 +42,9 @@ rather than a valid baseline for this Dataset.
   1,600-pixel maximum side, even 64 square pages remain below the API's 320K
   multimodal-token request limit. Override it with
   `MIR_VOYAGE_MULTIMODAL_BATCH_SIZE` when project limits differ.
+- Two multimodal requests may run concurrently so network and service latency do
+  not serialize the full indexing pass. Set `MIR_VOYAGE_MULTIMODAL_CONCURRENCY`
+  to match the active project RPM limit.
 - Every benchmark run creates isolated Milvus collections and drops them after
   the evaluation session closes.
 

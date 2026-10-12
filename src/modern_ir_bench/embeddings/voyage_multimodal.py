@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from collections.abc import Sequence
+from concurrent.futures import ThreadPoolExecutor
 from contextlib import ExitStack
 from hashlib import sha256
 from pathlib import Path
@@ -25,7 +26,10 @@ class VoyageMultimodalEmbedding(VoyageEmbedding):
         batch_size: int = 16,
         cache_path: Path | None = None,
         max_rate_limit_retries: int = 5,
+        request_concurrency: int = 1,
     ) -> None:
+        if request_concurrency < 1:
+            raise ValueError("request concurrency must be positive")
         super().__init__(
             model=model,
             dimension=dimension,
@@ -33,6 +37,7 @@ class VoyageMultimodalEmbedding(VoyageEmbedding):
             cache_path=cache_path,
             max_rate_limit_retries=max_rate_limit_retries,
         )
+        self.request_concurrency = request_concurrency
 
     def _encode(
         self,
@@ -51,15 +56,24 @@ class VoyageMultimodalEmbedding(VoyageEmbedding):
             if key not in cached and key not in seen:
                 missing.append((key, value))
                 seen.add(key)
-        for start in range(0, len(missing), self.batch_size):
-            batch = missing[start : start + self.batch_size]
-            response = self._multimodal_embed_with_retry([value for _, value in batch], kind)
-            embedded = {
-                key: self._validate_vector(vector)
-                for (key, _), vector in zip(batch, response.embeddings, strict=True)
-            }
-            cached.update(embedded)
-            self._write_cache(embedded)
+        if missing:
+            batches = [
+                missing[start : start + self.batch_size]
+                for start in range(0, len(missing), self.batch_size)
+            ]
+            self._get_client()
+            with ThreadPoolExecutor(max_workers=self.request_concurrency) as executor:
+                responses = executor.map(
+                    lambda batch: self._multimodal_embed_with_retry([value for _, value in batch], kind),
+                    batches,
+                )
+                for batch, response in zip(batches, responses, strict=True):
+                    embedded = {
+                        key: self._validate_vector(vector)
+                        for (key, _), vector in zip(batch, response.embeddings, strict=True)
+                    }
+                    cached.update(embedded)
+                    self._write_cache(embedded)
         return np.asarray([cached[key] for key in keys], dtype=np.float32)
 
     def _multimodal_embed_with_retry(self, values: list[Any], kind: str) -> Any:
