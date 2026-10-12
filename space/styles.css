@@ -98,7 +98,6 @@ h1 {
 }
 
 .solution-preview-label,
-.solution-preview-tags,
 .solution-preview-hint {
   color: var(--muted);
   font-size: 12px;

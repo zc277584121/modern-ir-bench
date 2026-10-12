@@ -475,16 +475,12 @@ function installSolutionPreviews() {
 
   const show = (trigger) => {
     const solution = state.solutions.get(trigger.dataset.solutionId);
-    if (!solution) return;
+    if (!solution?.readme_preview) return;
     activeTrigger = trigger;
-    const tags = solution.tags?.length
-      ? `<span class="solution-preview-tags">${solution.tags.map(escapeHtml).join(" · ")}</span>`
-      : "";
     preview.innerHTML = `
       <span class="solution-preview-label">README preview</span>
-      <strong>${escapeHtml(solution.title)}</strong>
-      <span>${escapeHtml(solution.description)}</span>
-      ${tags}
+      <strong>${escapeHtml(solution.readme_title)}</strong>
+      <span>${escapeHtml(solution.readme_preview)}</span>
       <span class="solution-preview-hint">Click to open method notes ↗</span>`;
     preview.hidden = false;
 

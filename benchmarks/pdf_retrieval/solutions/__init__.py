@@ -11,6 +11,7 @@ from benchmarks.pdf_retrieval.solutions.ocr import SPECS as OCR_SPECS
 from benchmarks.pdf_retrieval.solutions.runtime import build_runtime
 from benchmarks.pdf_retrieval.solutions.types import SolutionSpec
 from benchmarks.pdf_retrieval.solutions.visual import SPECS as VISUAL_SPECS
+from benchmarks.solution_docs import load_solution_readme
 from modern_ir_bench.core import Solution
 from modern_ir_bench.retrieval.indexes.milvus.target import MilvusTarget
 
@@ -36,6 +37,7 @@ def solution_metadata(repository_url: str, commit: str) -> dict[str, dict[str, A
     repository_root = Path(__file__).resolve().parents[3]
     metadata = {}
     for spec in SOLUTION_SPECS:
+        readme = load_solution_readme(repository_root, spec.readme_path)
         source_file = Path(inspect.getsourcefile(spec.factory) or "").resolve()
         source_path = source_file.relative_to(repository_root)
         source_line = inspect.getsourcelines(spec.factory)[1]
@@ -45,6 +47,8 @@ def solution_metadata(repository_url: str, commit: str) -> dict[str, dict[str, A
             "tags": list(spec.tags),
             "code_url": f"{repository_url}/blob/{commit}/{source_path}#L{source_line}",
             "readme_url": f"{repository_url}/blob/{commit}/{spec.readme_path}",
+            "readme_title": readme.title,
+            "readme_preview": readme.preview,
         }
     return metadata
 
