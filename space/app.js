@@ -335,52 +335,75 @@ function renderTask() {
   });
 }
 
-function rankForResult(record) {
-  const peers = primaryRecords()
-    .filter(
-      (item) =>
-        item.task_id === record.task_id &&
-        item.dataset_id === record.dataset_id &&
-        item.dataset_version === record.dataset_version,
-    )
-    .sort(
-      (left, right) =>
-        right.value - left.value || left.solution_id.localeCompare(right.solution_id),
-    );
-  return peers.findIndex((item) => item.solution_id === record.solution_id) + 1;
-}
-
 function renderSolution() {
   const solutionId = document.querySelector("#solution-selector").value;
   const solution = state.solutions.get(solutionId);
-  const matching = primaryRecords()
-    .filter((record) => record.solution_id === solutionId)
-    .sort((left, right) => {
-      const value = (record) => {
-        if (state.solutionSort.key === "task") return state.tasks.get(record.task_id).title;
-        if (state.solutionSort.key === "metric") return record.metric_label;
-        if (state.solutionSort.key === "score") return record.value;
-        if (state.solutionSort.key === "rank") return rankForResult(record);
-        return `${record.dataset_id} ${record.dataset_version}`;
-      };
-      return compareValues(value(left), value(right), state.solutionSort.direction);
+  const matching = state.payload.results.filter(
+    (record) => record.solution_id === solutionId,
+  );
+  const metricLabels = new Map(
+    matching.map((record) => [record.metric_id, record.metric_label]),
+  );
+  const primaryMetricIds = new Set(
+    [...state.tasks.values()].map((task) => task.primary_metric),
+  );
+  const metricOrder = [...metricLabels.keys()].sort(
+    (left, right) =>
+      Number(primaryMetricIds.has(right)) - Number(primaryMetricIds.has(left)),
+  );
+  const grouped = new Map();
+  matching.forEach((record) => {
+    const key = `${record.task_id}|${record.dataset_id}|${record.dataset_version}`;
+    if (!grouped.has(key)) {
+      grouped.set(key, {
+        taskId: record.task_id,
+        datasetId: record.dataset_id,
+        datasetVersion: record.dataset_version,
+        metrics: new Map(),
+      });
+    }
+    grouped.get(key).metrics.set(record.metric_id, record);
+  });
+  const validSortKeys = new Set(["task", "dataset", ...metricOrder]);
+  if (!validSortKeys.has(state.solutionSort.key)) {
+    state.solutionSort = { key: "task", direction: "asc" };
+  }
+  const evaluations = [...grouped.values()].sort((left, right) => {
+    const value = (evaluation) => {
+      if (state.solutionSort.key === "task") {
+        return state.tasks.get(evaluation.taskId).title;
+      }
+      if (state.solutionSort.key === "dataset") {
+        return `${datasetLabel(evaluation.datasetId)} ${evaluation.datasetVersion}`;
+      }
+      return (
+        evaluation.metrics.get(state.solutionSort.key)?.value ??
+        Number.NEGATIVE_INFINITY
+      );
+    };
+    const comparison = compareValues(
+      value(left),
+      value(right),
+      state.solutionSort.direction,
+    );
+    return (
+      comparison ||
+      left.taskId.localeCompare(right.taskId) ||
+      left.datasetId.localeCompare(right.datasetId)
+    );
+  });
+  const rows = evaluations.map((evaluation) => {
+    const task = state.tasks.get(evaluation.taskId);
+    const metricCells = metricOrder.map((metricId) => {
+      const record = evaluation.metrics.get(metricId);
+      if (!record) return '<span class="muted">—</span>';
+      const primaryClass = metricId === task.primary_metric ? " primary" : "";
+      return `<span class="score${primaryClass}">${formatScore(record.value)}</span>`;
     });
-  const rows = matching.map((record) => {
-    const peers = primaryRecords()
-      .filter(
-        (item) =>
-          item.task_id === record.task_id &&
-          item.dataset_id === record.dataset_id &&
-          item.dataset_version === record.dataset_version,
-      )
-      .sort((left, right) => right.value - left.value);
-    const rank = rankForResult(record);
     return [
-      `<strong>${escapeHtml(state.tasks.get(record.task_id).title)}</strong>`,
-      escapeHtml(record.metric_label),
-      `<span class="score primary">${formatScore(record.value)}</span>`,
-      `<span class="rank">${rank} / ${peers.length}</span>`,
-      escapeHtml(datasetLabel(record.dataset_id)),
+      `<strong>${escapeHtml(task.title)}</strong>`,
+      escapeHtml(datasetLabel(evaluation.datasetId)),
+      ...metricCells,
     ];
   });
 
@@ -397,56 +420,20 @@ function renderSolution() {
   document.querySelector("#solution-table").innerHTML = renderTable(
     [
       { label: "Task", key: "task" },
-      { label: "Primary metric", key: "metric" },
-      { label: "Score", key: "score" },
-      { label: "Rank", key: "rank" },
       { label: "Dataset release", key: "dataset" },
+      ...metricOrder.map((metricId) => ({
+        label: metricLabels.get(metricId),
+        key: metricId,
+      })),
     ],
     rows,
     "solution",
     state.solutionSort,
   );
   installSortButtons("#solution-table", "solution", (key) => {
-    toggleSort(state.solutionSort, key, ["score", "rank"].includes(key));
+    toggleSort(state.solutionSort, key, metricOrder.includes(key));
     renderSolution();
   });
-}
-
-function renderCoverage() {
-  const taskIds = [...state.tasks.keys()].sort();
-  const primary = primaryRecords();
-  const rows = [...state.solutions.entries()].map(([solutionId, solution]) => {
-    const sourceRecord = primary.find((item) => item.solution_id === solutionId);
-    const cells = [
-      solutionName(solution, sourceRecord),
-    ];
-    taskIds.forEach((taskId) => {
-      const record = primary.find(
-        (item) => item.solution_id === solutionId && item.task_id === taskId,
-      );
-      if (!record) {
-        cells.push('<span class="muted">Not evaluated</span>');
-        return;
-      }
-      const peers = primary
-        .filter((item) => item.task_id === taskId)
-        .sort((left, right) => right.value - left.value);
-      const rank = peers.findIndex((item) => item.solution_id === solutionId) + 1;
-      cells.push(
-        `<span class="score">${formatScore(record.value)}</span> ` +
-          `<span class="rank">#${rank}</span><br>` +
-          `<span class="muted">${escapeHtml(record.metric_label)}</span>`,
-      );
-    });
-    return cells;
-  });
-  document.querySelector("#coverage-table").innerHTML = renderTable(
-    [
-      { label: "Solution" },
-      ...taskIds.map((taskId) => ({ label: state.tasks.get(taskId).title })),
-    ],
-    rows,
-  );
 }
 
 function activatePanel(panelId) {
@@ -552,7 +539,6 @@ function updateControlVisibility() {
   document.querySelector("#task-control").hidden = state.tasks.size <= 1;
   document.querySelector("#dataset-control").hidden = false;
   document.querySelector("#task-controls").hidden = false;
-  document.querySelector("#coverage-tab").hidden = state.tasks.size <= 1;
 }
 
 async function main() {
@@ -588,7 +574,6 @@ async function main() {
   updateControlVisibility();
   renderTask();
   renderSolution();
-  if (state.tasks.size > 1) renderCoverage();
 }
 
 main().catch((error) => {

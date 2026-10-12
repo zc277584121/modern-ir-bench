@@ -290,12 +290,6 @@ select:focus {
   box-shadow: 0 0 0 1px var(--blue);
 }
 
-.section-copy {
-  margin: 0 0 12px;
-  color: var(--muted);
-  font-size: 14px;
-}
-
 .table-wrap {
   overflow-x: auto;
   border: 1px solid var(--border);

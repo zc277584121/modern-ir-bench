@@ -21,7 +21,6 @@
       <nav class="tabs" aria-label="Benchmark views">
         <button class="tab active" data-panel="task-panel">Leaderboard</button>
         <button class="tab" data-panel="solution-panel">By solution</button>
-        <button id="coverage-tab" class="tab" data-panel="coverage-panel">Coverage</button>
         <button class="tab" data-panel="about-panel">About</button>
       </nav>
 
@@ -81,15 +80,6 @@
           </div>
         </div>
         <div id="solution-table"></div>
-      </section>
-
-      <section id="coverage-panel" class="panel">
-        <h2>Task coverage</h2>
-        <p class="section-copy">
-          Each cell shows the primary score and rank for one Solution × Task pair.
-          Tasks retain their own metrics; no overall score is calculated.
-        </p>
-        <div id="coverage-table"></div>
       </section>
 
       <section id="about-panel" class="panel prose">
