@@ -7,6 +7,7 @@ This directory stores immutable Top-K document rankings for every published Solu
 - `embedding-gemma-2-pages`
 - `gemini-embedding-2-pages`
 - `llama-nemotron-embed-vl-1b-v2-pages`
+- `ovis-omni-embedding-3b-pages`
 - `paddleocr-v5-mobile-bge-m3-full`
 - `paddleocr-v5-mobile-bm25-bge-m3-rrf`
 - `paddleocr-v5-mobile-bm25-full`

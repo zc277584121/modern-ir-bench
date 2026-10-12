@@ -2,7 +2,7 @@
   "schema_version": 1,
   "artifact_type": "live-top-k-rankings",
   "release": "modern-ir-bench-pdf-v1-20261011",
-  "published_at": "2026-10-12T17:41:19.189168+00:00",
+  "published_at": "2026-10-12T18:06:44.755066+00:00",
   "dataset": {
     "repository": "zc277584121/modern-ir-bench-pdf",
     "revision": "5ac497e8aad79c9c0843c46eb97bb9900f3b109b"
@@ -11,6 +11,7 @@
     "embedding-gemma-2-pages",
     "gemini-embedding-2-pages",
     "llama-nemotron-embed-vl-1b-v2-pages",
+    "ovis-omni-embedding-3b-pages",
     "paddleocr-v5-mobile-bge-m3-full",
     "paddleocr-v5-mobile-bm25-bge-m3-rrf",
     "paddleocr-v5-mobile-bm25-full",
@@ -42,6 +43,14 @@
       "source_path": "benchmarks/pdf_retrieval/run.py",
       "source_line": 33,
       "created_at": "2026-10-12T15:43:34.274272+00:00",
+      "origin": "verified-live-run"
+    },
+    "ovis-omni-embedding-3b-pages": {
+      "source_commit": "bd1cbaada413ed46eed122a3471a2102bdaf79f9",
+      "source_module": "benchmarks.pdf_retrieval.run",
+      "source_path": "benchmarks/pdf_retrieval/run.py",
+      "source_line": 33,
+      "created_at": "2026-10-12T17:00:44.440237+00:00",
       "origin": "verified-live-run"
     },
     "paddleocr-v5-mobile-bge-m3-full": {
@@ -98,7 +107,7 @@
     }
   },
   "queries": 1000,
-  "ranking_rows": 10000,
+  "ranking_rows": 11000,
   "top_k": 10,
-  "rankings_sha256": "62417e1b9d849b895328be6f0a44212cd8745cfd2faeb4ab1ff2097bd45454fa"
+  "rankings_sha256": "5c72af33c558247690a1e358b5cc9171ef703292a7dc7829964b9914e00367e6"
 }

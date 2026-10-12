@@ -15,6 +15,9 @@ before scoring.
 | Voyage Multimodal 3.5 | rendered images | page | visual dense | test OCR-free retrieval |
 | EmbeddingGemma 2 | rendered images | page | local visual dense | test a lightweight native multimodal model |
 | WeMM Embedding 2B | rendered images | page | local visual dense | test an open bilingual visual-document model |
+| Gemini Embedding 2 | rendered images | page | hosted visual dense | test a general managed multimodal embedding model |
+| Llama Nemotron Embed VL 1B V2 | rendered images | page | hosted visual dense | test a compact managed visual-language embedding model |
+| Ovis Omni Embedding 3B | rendered images | page | local visual dense | test a self-hosted bilingual omni-modal embedding model |
 | PP-OCRv5 Mobile BM25 + Voyage Multimodal 3.5 RRF | OCR + rendered images | document + page | lexical + visual dense | combine exact text and visual evidence |
 
 All dense indexes use exact cosine search through Milvus FLAT. The visual
@@ -46,6 +49,11 @@ rather than a valid baseline for this Dataset.
 - Two multimodal requests may run concurrently so network and service latency do
   not serialize the full indexing pass. Set `MIR_VOYAGE_MULTIMODAL_CONCURRENCY`
   to match the active project RPM limit.
+- OpenRouter visual embeddings share the same content-addressed cache and expose
+  batch and concurrency controls through `MIR_OPENROUTER_IMAGE_BATCH_SIZE` and
+  `MIR_OPENROUTER_IMAGE_CONCURRENCY`.
+- Ovis Omni Embedding 3B runs locally in four-page batches by default. Override
+  this with `MIR_OVIS_BATCH_SIZE` for smaller GPUs.
 - Every benchmark run creates isolated Milvus collections and drops them after
   the evaluation session closes.
 
