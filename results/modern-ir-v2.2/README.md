@@ -15,6 +15,7 @@ This directory stores immutable Top-K document rankings for every published Solu
 - `bm25-qwen3-embedding-8b-weighted-bge-reranker-v2-m3`
 - `bm25-qwen3-embedding-8b-weighted-cohere-rerank-4-pro`
 - `bm25-qwen3-embedding-8b-weighted-rerank-3`
+- `bm25-voyage-4-large-rrf`
 - `dashscope-text-embedding-v4-chunk`
 - `embedding-gemma-2-chunk`
 - `gemini-embedding-2-chunk`

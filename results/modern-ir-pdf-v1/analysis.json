@@ -1,41 +1,49 @@
 {
   "schema_version": 1,
   "release": "modern-ir-bench-pdf-v1-20261011",
-  "ranking_evidence_sha256": "7dd080afb1e2a978254331fe994fcfcaf9103a8667a428dbf3d9bc78e2faa902",
+  "ranking_evidence_sha256": "b6f5e7f086d0f5ae3dee3d45148b0853e97c91e86a0d2aecc8c61312592b4318",
   "comparisons": [
     {
       "label": "OCR BM25 + BGE-M3",
-      "rrf_solution": "paddleocr-v5-mobile-bm25-bge-m3-rrf",
-      "weighted_solution": "paddleocr-v5-mobile-bm25-bge-m3-weighted-25-75",
-      "rrf_ndcg_at_10": 0.77026246,
-      "weighted_ndcg_at_10": 0.67556451,
-      "weighted_delta": -0.09469795,
-      "outcomes": {
-        "improved": 290,
-        "regressed": 644,
-        "unchanged": 66
+      "fusion_solution": "paddleocr-v5-mobile-bm25-bge-m3-rrf",
+      "component_solutions": [
+        "paddleocr-v5-mobile-bm25-full",
+        "paddleocr-v5-mobile-bge-m3-full"
+      ],
+      "fusion_ndcg_at_10": 0.77026246,
+      "component_ndcg_at_10": {
+        "paddleocr-v5-mobile-bm25-full": 0.68438534,
+        "paddleocr-v5-mobile-bge-m3-full": 0.72770118
       },
-      "language_deltas": {
-        "en": -0.08063456,
-        "zh": -0.10876135
-      }
+      "delta_vs_best_component": 0.04256128
     },
     {
       "label": "OCR BM25 + Voyage Multimodal 3.5",
-      "rrf_solution": "paddleocr-v5-mobile-bm25-voyage-multimodal-3-5-rrf",
-      "weighted_solution": "paddleocr-v5-mobile-bm25-voyage-multimodal-3-5-weighted-25-75",
-      "rrf_ndcg_at_10": 0.7961365,
-      "weighted_ndcg_at_10": 0.73767813,
-      "weighted_delta": -0.05845837,
-      "outcomes": {
-        "improved": 358,
-        "regressed": 561,
-        "unchanged": 81
+      "fusion_solution": "paddleocr-v5-mobile-bm25-voyage-multimodal-3-5-rrf",
+      "component_solutions": [
+        "paddleocr-v5-mobile-bm25-full",
+        "voyage-multimodal-3-5-pages"
+      ],
+      "fusion_ndcg_at_10": 0.7961365,
+      "component_ndcg_at_10": {
+        "paddleocr-v5-mobile-bm25-full": 0.68438534,
+        "voyage-multimodal-3-5-pages": 0.79221263
       },
-      "language_deltas": {
-        "en": -0.02787204,
-        "zh": -0.08904469
-      }
+      "delta_vs_best_component": 0.00392387
+    },
+    {
+      "label": "OCR Voyage 4 Large + Voyage Multimodal 3.5",
+      "fusion_solution": "paddleocr-v5-mobile-voyage-4-large-voyage-multimodal-3-5-rrf",
+      "component_solutions": [
+        "paddleocr-v5-mobile-voyage-4-large-full",
+        "voyage-multimodal-3-5-pages"
+      ],
+      "fusion_ndcg_at_10": 0.84419676,
+      "component_ndcg_at_10": {
+        "paddleocr-v5-mobile-voyage-4-large-full": 0.84985768,
+        "voyage-multimodal-3-5-pages": 0.79221263
+      },
+      "delta_vs_best_component": -0.00566092
     }
   ]
 }

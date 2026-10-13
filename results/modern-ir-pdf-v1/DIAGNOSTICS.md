@@ -1,12 +1,13 @@
 # Modern IR PDF Retrieval v1 fusion diagnostics
 
-The fixed 25/75 score weights are compared with equal-weight reciprocal rank fusion on the same Top-50 branches.
+Published RRF Solutions are compared with their independently published component baselines.
+All fusion routes contribute Top-50 candidates and use equal-weight RRF with `k=60`.
 
-| Retrieval branches | RRF NDCG@10 | Weighted NDCG@10 | Weighted delta |
+| Retrieval routes | Fusion NDCG@10 | Best component NDCG@10 | Delta |
 | --- | ---: | ---: | ---: |
-| OCR BM25 + BGE-M3 | 0.7703 | 0.6756 | -0.0947 |
-| OCR BM25 + Voyage Multimodal 3.5 | 0.7961 | 0.7377 | -0.0585 |
+| OCR BM25 + BGE-M3 | 0.7703 | 0.7277 | +0.0426 |
+| OCR BM25 + Voyage Multimodal 3.5 | 0.7961 | 0.7922 | +0.0039 |
+| OCR Voyage 4 Large + Voyage Multimodal 3.5 | 0.8442 | 0.8499 | -0.0057 |
 
-The text benchmark's 25/75 lexical/dense weights do not transfer to PDF retrieval. Per-query min-max normalization does not make OCR lexical scores and visual or dense scores reliably comparable. RRF remains the recommended default for these heterogeneous PDF branches.
-
-The weighted runs remain published as negative evidence. Detailed outcome counts and language slices are stored in `analysis.json`.
+Alternative route weights remain exploratory and can be computed from stored Top-50 evidence in Fusion Lab.
+They are not published as separate leaderboard Solutions.

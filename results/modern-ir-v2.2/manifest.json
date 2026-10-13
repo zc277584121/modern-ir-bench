@@ -2,7 +2,7 @@
   "schema_version": 1,
   "artifact_type": "live-top-k-rankings",
   "release": "modern-ir-bench-v2.2-20261010",
-  "published_at": "2026-10-13T11:51:57.376889+00:00",
+  "published_at": "2026-10-13T12:12:41.500316+00:00",
   "dataset": {
     "repository": "zc277584121/modern-ir-bench",
     "revision": "c7a38d6aaa3d1bd178952b6be91e12ca4ceb10ff"
@@ -19,6 +19,7 @@
     "bm25-qwen3-embedding-8b-weighted-bge-reranker-v2-m3",
     "bm25-qwen3-embedding-8b-weighted-cohere-rerank-4-pro",
     "bm25-qwen3-embedding-8b-weighted-rerank-3",
+    "bm25-voyage-4-large-rrf",
     "dashscope-text-embedding-v4-chunk",
     "embedding-gemma-2-chunk",
     "gemini-embedding-2-chunk",
@@ -116,6 +117,14 @@
       "source_path": "benchmarks/ranked_retrieval/run.py",
       "source_line": 36,
       "created_at": "2026-10-13T02:29:10.946257+00:00",
+      "origin": "verified-live-run"
+    },
+    "bm25-voyage-4-large-rrf": {
+      "source_commit": "31922ddc8cfbac0c111d46fa162ed7351015e5fb",
+      "source_module": "benchmarks.ranked_retrieval.run",
+      "source_path": "benchmarks/ranked_retrieval/run.py",
+      "source_line": 36,
+      "created_at": "2026-10-13T12:04:32.302111+00:00",
       "origin": "verified-live-run"
     },
     "dashscope-text-embedding-v4-chunk": {
@@ -308,7 +317,7 @@
     }
   },
   "queries": 1000,
-  "ranking_rows": 36000,
+  "ranking_rows": 37000,
   "top_k": 10,
-  "rankings_sha256": "75093697321bb5d198c634a4b6c6393a9ae999ec62d66431742ab79da7ded7ce"
+  "rankings_sha256": "4c0fe050a4966a1855c684a753cb8ce2306f5441dc374fc0393cd1d334d0535c"
 }
