@@ -2,7 +2,7 @@
   "schema_version": 1,
   "artifact_type": "live-top-k-rankings",
   "release": "modern-ir-bench-v2.2-20261010",
-  "published_at": "2026-10-13T06:30:03.350589+00:00",
+  "published_at": "2026-10-13T11:51:57.376889+00:00",
   "dataset": {
     "repository": "zc277584121/modern-ir-bench",
     "revision": "c7a38d6aaa3d1bd178952b6be91e12ca4ceb10ff"
@@ -10,18 +10,12 @@
   "solutions": [
     "bge-m3-dense-chunk",
     "bge-m3-dense-sparse-rrf",
-    "bge-m3-dense-sparse-weighted-25-75",
-    "bge-m3-dense-sparse-weighted-50-50",
-    "bge-m3-dense-sparse-weighted-75-25",
     "bge-m3-sparse-chunk",
-    "bm25-bge-m3-sparse-rrf",
     "bm25-chunk",
     "bm25-full",
     "bm25-gte-multilingual-sparse-rrf",
     "bm25-qwen3-embedding-8b-rrf",
     "bm25-qwen3-embedding-8b-weighted-25-75",
-    "bm25-qwen3-embedding-8b-weighted-50-50",
-    "bm25-qwen3-embedding-8b-weighted-75-25",
     "bm25-qwen3-embedding-8b-weighted-bge-reranker-v2-m3",
     "bm25-qwen3-embedding-8b-weighted-cohere-rerank-4-pro",
     "bm25-qwen3-embedding-8b-weighted-rerank-3",
@@ -31,9 +25,6 @@
     "granite-30m-sparse-chunk",
     "gte-multilingual-base-sparse-chunk",
     "gte-sparse-qwen3-embedding-8b-rrf",
-    "gte-sparse-qwen3-embedding-8b-weighted-25-75",
-    "gte-sparse-qwen3-embedding-8b-weighted-50-50",
-    "gte-sparse-qwen3-embedding-8b-weighted-75-25",
     "jina-embeddings-v5-text-small-chunk",
     "mistral-embed-2312-chunk",
     "nemotron-3-embed-1b-chunk",
@@ -67,41 +58,9 @@
       "created_at": "2026-10-13T06:07:35.387341+00:00",
       "origin": "verified-live-run"
     },
-    "bge-m3-dense-sparse-weighted-25-75": {
-      "source_commit": "993af67f7c3b83b36385713370a9e2c79251c255",
-      "source_module": "benchmarks.ranked_retrieval.run",
-      "source_path": "benchmarks/ranked_retrieval/run.py",
-      "source_line": 36,
-      "created_at": "2026-10-13T06:07:35.387341+00:00",
-      "origin": "verified-live-run"
-    },
-    "bge-m3-dense-sparse-weighted-50-50": {
-      "source_commit": "993af67f7c3b83b36385713370a9e2c79251c255",
-      "source_module": "benchmarks.ranked_retrieval.run",
-      "source_path": "benchmarks/ranked_retrieval/run.py",
-      "source_line": 36,
-      "created_at": "2026-10-13T06:07:35.387341+00:00",
-      "origin": "verified-live-run"
-    },
-    "bge-m3-dense-sparse-weighted-75-25": {
-      "source_commit": "993af67f7c3b83b36385713370a9e2c79251c255",
-      "source_module": "benchmarks.ranked_retrieval.run",
-      "source_path": "benchmarks/ranked_retrieval/run.py",
-      "source_line": 36,
-      "created_at": "2026-10-13T06:07:35.387341+00:00",
-      "origin": "verified-live-run"
-    },
     "bge-m3-sparse-chunk": {
       "origin": "historical-top-k-rankings",
       "published_at": "2026-10-10T03:34:57.604060+00:00"
-    },
-    "bm25-bge-m3-sparse-rrf": {
-      "source_commit": "993af67f7c3b83b36385713370a9e2c79251c255",
-      "source_module": "benchmarks.ranked_retrieval.run",
-      "source_path": "benchmarks/ranked_retrieval/run.py",
-      "source_line": 36,
-      "created_at": "2026-10-13T06:07:35.387341+00:00",
-      "origin": "verified-live-run"
     },
     "bm25-chunk": {
       "origin": "historical-top-k-rankings",
@@ -128,22 +87,6 @@
       "origin": "verified-live-run"
     },
     "bm25-qwen3-embedding-8b-weighted-25-75": {
-      "source_commit": "90c13b44806f730b5b5dca1c7afb3f0c4179eea6",
-      "source_module": "benchmarks.ranked_retrieval.run",
-      "source_path": "benchmarks/ranked_retrieval/run.py",
-      "source_line": 36,
-      "created_at": "2026-10-13T00:37:43.524659+00:00",
-      "origin": "verified-live-run"
-    },
-    "bm25-qwen3-embedding-8b-weighted-50-50": {
-      "source_commit": "90c13b44806f730b5b5dca1c7afb3f0c4179eea6",
-      "source_module": "benchmarks.ranked_retrieval.run",
-      "source_path": "benchmarks/ranked_retrieval/run.py",
-      "source_line": 36,
-      "created_at": "2026-10-13T00:37:43.524659+00:00",
-      "origin": "verified-live-run"
-    },
-    "bm25-qwen3-embedding-8b-weighted-75-25": {
       "source_commit": "90c13b44806f730b5b5dca1c7afb3f0c4179eea6",
       "source_module": "benchmarks.ranked_retrieval.run",
       "source_path": "benchmarks/ranked_retrieval/run.py",
@@ -216,30 +159,6 @@
       "origin": "verified-live-run"
     },
     "gte-sparse-qwen3-embedding-8b-rrf": {
-      "source_commit": "993af67f7c3b83b36385713370a9e2c79251c255",
-      "source_module": "benchmarks.ranked_retrieval.run",
-      "source_path": "benchmarks/ranked_retrieval/run.py",
-      "source_line": 36,
-      "created_at": "2026-10-13T06:07:35.387341+00:00",
-      "origin": "verified-live-run"
-    },
-    "gte-sparse-qwen3-embedding-8b-weighted-25-75": {
-      "source_commit": "993af67f7c3b83b36385713370a9e2c79251c255",
-      "source_module": "benchmarks.ranked_retrieval.run",
-      "source_path": "benchmarks/ranked_retrieval/run.py",
-      "source_line": 36,
-      "created_at": "2026-10-13T06:07:35.387341+00:00",
-      "origin": "verified-live-run"
-    },
-    "gte-sparse-qwen3-embedding-8b-weighted-50-50": {
-      "source_commit": "993af67f7c3b83b36385713370a9e2c79251c255",
-      "source_module": "benchmarks.ranked_retrieval.run",
-      "source_path": "benchmarks/ranked_retrieval/run.py",
-      "source_line": 36,
-      "created_at": "2026-10-13T06:07:35.387341+00:00",
-      "origin": "verified-live-run"
-    },
-    "gte-sparse-qwen3-embedding-8b-weighted-75-25": {
       "source_commit": "993af67f7c3b83b36385713370a9e2c79251c255",
       "source_module": "benchmarks.ranked_retrieval.run",
       "source_path": "benchmarks/ranked_retrieval/run.py",
@@ -389,7 +308,7 @@
     }
   },
   "queries": 1000,
-  "ranking_rows": 45000,
+  "ranking_rows": 36000,
   "top_k": 10,
-  "rankings_sha256": "806f9cbe8c2e522318b5b2f6cfbbb73af22bbb2bdd3c9809c17c435e0b63b236"
+  "rankings_sha256": "75093697321bb5d198c634a4b6c6393a9ae999ec62d66431742ab79da7ded7ce"
 }

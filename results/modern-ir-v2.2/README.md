@@ -6,18 +6,12 @@ This directory stores immutable Top-K document rankings for every published Solu
 
 - `bge-m3-dense-chunk`
 - `bge-m3-dense-sparse-rrf`
-- `bge-m3-dense-sparse-weighted-25-75`
-- `bge-m3-dense-sparse-weighted-50-50`
-- `bge-m3-dense-sparse-weighted-75-25`
 - `bge-m3-sparse-chunk`
-- `bm25-bge-m3-sparse-rrf`
 - `bm25-chunk`
 - `bm25-full`
 - `bm25-gte-multilingual-sparse-rrf`
 - `bm25-qwen3-embedding-8b-rrf`
 - `bm25-qwen3-embedding-8b-weighted-25-75`
-- `bm25-qwen3-embedding-8b-weighted-50-50`
-- `bm25-qwen3-embedding-8b-weighted-75-25`
 - `bm25-qwen3-embedding-8b-weighted-bge-reranker-v2-m3`
 - `bm25-qwen3-embedding-8b-weighted-cohere-rerank-4-pro`
 - `bm25-qwen3-embedding-8b-weighted-rerank-3`
@@ -27,9 +21,6 @@ This directory stores immutable Top-K document rankings for every published Solu
 - `granite-30m-sparse-chunk`
 - `gte-multilingual-base-sparse-chunk`
 - `gte-sparse-qwen3-embedding-8b-rrf`
-- `gte-sparse-qwen3-embedding-8b-weighted-25-75`
-- `gte-sparse-qwen3-embedding-8b-weighted-50-50`
-- `gte-sparse-qwen3-embedding-8b-weighted-75-25`
 - `jina-embeddings-v5-text-small-chunk`
 - `mistral-embed-2312-chunk`
 - `nemotron-3-embed-1b-chunk`
