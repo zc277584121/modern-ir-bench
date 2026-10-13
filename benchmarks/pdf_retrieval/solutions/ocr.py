@@ -9,6 +9,7 @@ from modern_ir_bench.retrieval import (
     MilvusBM25Solution,
     ReciprocalRankFusionSolution,
     TextInput,
+    WeightedScoreFusionSolution,
 )
 from modern_ir_bench.retrieval.indexes.milvus import MilvusDenseIndex
 from modern_ir_bench.solutions import PdfOcrRetrievalSolution
@@ -120,6 +121,25 @@ def _build_bm25_bge_m3_rrf(runtime: Runtime, spec: SolutionSpec) -> PdfOcrRetrie
     )
 
 
+def _build_bm25_bge_m3_weighted(runtime: Runtime, spec: SolutionSpec) -> PdfOcrRetrievalSolution:
+    return PdfOcrRetrievalSolution(
+        id=spec.id,
+        title=spec.title,
+        description=spec.description,
+        extractor=runtime.ocr,
+        text_solution=WeightedScoreFusionSolution(
+            id="internal-bm25-bge-m3-weighted-25-75",
+            title="Internal BM25 + BGE-M3 weighted 25/75",
+            components=(_bm25(runtime), _bge_m3(runtime)),
+            weights=(0.25, 0.75),
+            score_directions=("lower", "higher"),
+            candidate_depth=50,
+            candidate_cache_path=runtime.cache_root / "retrieval-candidates.sqlite3",
+            candidate_cache_namespace=f"pdf:{DATASET_REVISION}:ocr-bm25-bge-m3-full:v1",
+        ),
+    )
+
+
 SPECS = (
     SolutionSpec(
         id="paddleocr-v5-mobile-bm25-full",
@@ -144,6 +164,16 @@ SPECS = (
         tags=("ocr", "hybrid", "self-hosted", "full-document", "rrf"),
         factory=_build_bm25_bge_m3_rrf,
         readme_path="docs/solutions/paddleocr-v5-mobile-bm25-bge-m3-rrf.md",
+    ),
+    SolutionSpec(
+        id="paddleocr-v5-mobile-bm25-bge-m3-weighted-25-75",
+        title="PP-OCRv5 Mobile + BM25/BGE-M3 · Weighted 25/75",
+        description=(
+            "OCR every page, then fuse min-max normalized BM25 and BGE-M3 Top-50 scores with 25/75 weights."
+        ),
+        tags=("ocr", "hybrid", "self-hosted", "full-document", "weighted"),
+        factory=_build_bm25_bge_m3_weighted,
+        readme_path="docs/solutions/paddleocr-v5-mobile-bm25-bge-m3-weighted.md",
     ),
     SolutionSpec(
         id="paddleocr-v5-mobile-voyage-4-large-full",

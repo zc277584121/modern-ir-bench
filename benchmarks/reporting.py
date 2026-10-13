@@ -38,7 +38,7 @@ def _title(value: str) -> str:
     )
 
 
-def _query_metrics(expected: set[str], ranked: Sequence[str]) -> dict[str, float]:
+def retrieval_metrics(expected: set[str], ranked: Sequence[str]) -> dict[str, float]:
     if not expected:
         raise ValueError("Each query must have at least one relevant document")
     recalls = {f"recall@{cutoff}": len(expected.intersection(ranked[:cutoff])) / len(expected) for cutoff in (1, 5, 10)}
@@ -103,7 +103,7 @@ def build_retrieval_breakdowns(
 
     metrics_by_solution = {
         solution_id: {
-            query_id: _query_metrics(relevant_by_query[query_id], ranked_ids)
+            query_id: retrieval_metrics(relevant_by_query[query_id], ranked_ids)
             for query_id, ranked_ids in solution_rankings.items()
         }
         for solution_id, solution_rankings in rankings.items()

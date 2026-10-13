@@ -29,11 +29,23 @@ def _build_gemini(runtime: Runtime, spec: SolutionSpec):
     return _build_managed_chunk(runtime, spec, embedding_key="gemini-embedding-2")
 
 
+def _build_openai_large(runtime: Runtime, spec: SolutionSpec):
+    return _build_managed_chunk(runtime, spec, embedding_key="text-embedding-3-large")
+
+
 def _build_perplexity(runtime: Runtime, spec: SolutionSpec):
     return _build_managed_chunk(runtime, spec, embedding_key="pplx-embed-v1-4b")
 
 
 SPECS = (
+    SolutionSpec(
+        "text-embedding-3-large-chunk",
+        "OpenAI Text Embedding 3 Large · 768-token chunks",
+        "OpenAI Text Embedding 3 Large over shared chunks with Milvus FLAT search.",
+        ("dense", "managed-api", "chunked"),
+        _build_openai_large,
+        "docs/solutions/text-embedding-3-large.md",
+    ),
     SolutionSpec(
         "gemini-embedding-2-chunk",
         "Gemini Embedding 2 · 768-token chunks",

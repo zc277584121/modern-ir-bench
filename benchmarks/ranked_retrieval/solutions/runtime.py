@@ -87,6 +87,15 @@ def build_runtime() -> Runtime:
             ),
         },
         managed={
+            "text-embedding-3-large": OpenRouterEmbedding(
+                model="openai/text-embedding-3-large",
+                dimension=3072,
+                batch_size=int(os.environ.get("MIR_OPENROUTER_BATCH_SIZE", "16")),
+                document_input_type="search_document",
+                query_input_type="search_query",
+                cache_path=project_root / ".runtime/openrouter/text-embedding-3-large.sqlite3",
+                request_concurrency=int(os.environ.get("MIR_OPENROUTER_CONCURRENCY", "4")),
+            ),
             "gemini-embedding-2": OpenRouterEmbedding(
                 model="google/gemini-embedding-2",
                 dimension=3072,
