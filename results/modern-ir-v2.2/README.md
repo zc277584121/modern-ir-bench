@@ -22,6 +22,7 @@ This directory stores immutable Top-K document rankings for every published Solu
 - `qwen3-embedding-8b-bge-reranker-v2-m3`
 - `qwen3-embedding-8b-openrouter-chunk`
 - `qwen3-embedding-8b-rerank-3`
+- `text-embedding-3-large-chunk`
 - `voyage-4-large-chunk`
 - `voyage-4-large-full`
 

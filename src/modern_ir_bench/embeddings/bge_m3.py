@@ -107,6 +107,7 @@ class BgeM3Embedding:
     def release(self) -> None:
         if self._model is None:
             return
+        self._model.stop_self_pool()
         self._model = None
         try:
             import torch

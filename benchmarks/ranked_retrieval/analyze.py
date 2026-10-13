@@ -281,7 +281,7 @@ def _markdown(report: Mapping[str, Any]) -> str:
             ),
             "",
             "Detailed slices and concrete best/worst queries are stored in `analysis.json`.",
-            "Top-50 evidence is stored in `candidate-rankings.jsonl.gz` and protected by the checksum in that file.",
+            "Top-50 evidence is stored in `candidate-rankings.jsonl.gz`; its checksum is recorded in `analysis.json`.",
             "",
         ]
     )
