@@ -6,7 +6,12 @@ from pathlib import Path
 from typing import Any
 
 from modern_ir_bench.core import Solution
-from modern_ir_bench.retrieval import ReciprocalRankFusionSolution, RetrievalResource, SearchHit
+from modern_ir_bench.retrieval import (
+    ReciprocalRankFusionSolution,
+    RetrievalResource,
+    SearchHit,
+    WeightedScoreFusionSolution,
+)
 
 
 class StaticSession:
@@ -143,3 +148,31 @@ def test_fusion_cache_isolated_by_namespace_and_candidate_depth(tmp_path: Path) 
         "misses": 2,
     }
     different_namespace.close()
+
+
+def test_weighted_score_fusion_reuses_rrf_candidates(tmp_path: Path) -> None:
+    cache_path = tmp_path / "candidates.sqlite3"
+    rrf = _cached_solution(cache_path).prepare([RetrievalResource(id="doc", value="content")])
+    rrf.search_batch(["query"], top_k=3)
+    rrf.close()
+
+    weighted = WeightedScoreFusionSolution(
+        id="weighted",
+        title="Weighted",
+        components=(
+            NeverPrepareSolution(id="first", title="First"),
+            NeverPrepareSolution(id="second", title="Second"),
+        ),
+        weights=(0.25, 0.75),
+        candidate_depth=3,
+        candidate_cache_path=cache_path,
+        candidate_cache_namespace="test-corpus:components-v1",
+    ).prepare([RetrievalResource(id="doc", value="content")])
+
+    results = weighted.search_batch(["query"], top_k=3)
+
+    assert [hit.id for hit in results[0]] == ["b", "d", "a"]
+    assert weighted.metadata["backend"] == "weighted-score-fusion"
+    assert weighted.metadata["candidate_cache"]["hits"] == 2
+    assert weighted.metadata["candidate_cache"]["misses"] == 0
+    weighted.close()
