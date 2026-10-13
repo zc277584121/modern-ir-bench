@@ -127,7 +127,8 @@ def build_runtime() -> Runtime:
         rerankers={
             "voyage-rerank-3": VoyageReranker(
                 model="rerank-3",
-                request_concurrency=int(os.environ.get("MIR_VOYAGE_RERANK_CONCURRENCY", "8")),
+                request_concurrency=int(os.environ.get("MIR_VOYAGE_RERANK_CONCURRENCY", "4")),
+                request_interval_seconds=float(os.environ.get("MIR_VOYAGE_RERANK_INTERVAL", "1.0")),
             ),
             "bge-reranker-v2-m3": CrossEncoderReranker(
                 model="BAAI/bge-reranker-v2-m3",
