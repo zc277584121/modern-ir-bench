@@ -12,12 +12,16 @@ This directory stores immutable Top-K document rankings for every published Solu
 - `bm25-qwen3-embedding-8b-weighted-25-75`
 - `bm25-qwen3-embedding-8b-weighted-50-50`
 - `bm25-qwen3-embedding-8b-weighted-75-25`
+- `bm25-qwen3-embedding-8b-weighted-bge-reranker-v2-m3`
+- `bm25-qwen3-embedding-8b-weighted-rerank-3`
 - `embedding-gemma-2-chunk`
 - `gemini-embedding-2-chunk`
 - `pplx-embed-v1-4b-chunk`
 - `qwen3-embedding-0-6b-chunk`
 - `qwen3-embedding-4b-chunk`
+- `qwen3-embedding-8b-bge-reranker-v2-m3`
 - `qwen3-embedding-8b-openrouter-chunk`
+- `qwen3-embedding-8b-rerank-3`
 - `voyage-4-large-chunk`
 - `voyage-4-large-full`
 

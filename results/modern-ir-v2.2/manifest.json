@@ -2,7 +2,7 @@
   "schema_version": 1,
   "artifact_type": "live-top-k-rankings",
   "release": "modern-ir-bench-v2.2-20261010",
-  "published_at": "2026-10-13T00:39:06.165782+00:00",
+  "published_at": "2026-10-13T02:30:16.762798+00:00",
   "dataset": {
     "repository": "zc277584121/modern-ir-bench",
     "revision": "c7a38d6aaa3d1bd178952b6be91e12ca4ceb10ff"
@@ -16,12 +16,16 @@
     "bm25-qwen3-embedding-8b-weighted-25-75",
     "bm25-qwen3-embedding-8b-weighted-50-50",
     "bm25-qwen3-embedding-8b-weighted-75-25",
+    "bm25-qwen3-embedding-8b-weighted-bge-reranker-v2-m3",
+    "bm25-qwen3-embedding-8b-weighted-rerank-3",
     "embedding-gemma-2-chunk",
     "gemini-embedding-2-chunk",
     "pplx-embed-v1-4b-chunk",
     "qwen3-embedding-0-6b-chunk",
     "qwen3-embedding-4b-chunk",
+    "qwen3-embedding-8b-bge-reranker-v2-m3",
     "qwen3-embedding-8b-openrouter-chunk",
+    "qwen3-embedding-8b-rerank-3",
     "voyage-4-large-chunk",
     "voyage-4-large-full"
   ],
@@ -74,6 +78,22 @@
       "created_at": "2026-10-13T00:37:43.524659+00:00",
       "origin": "verified-live-run"
     },
+    "bm25-qwen3-embedding-8b-weighted-bge-reranker-v2-m3": {
+      "source_commit": "a063f40daa33b514ef1e642b839d358cbc3f645a",
+      "source_module": "benchmarks.ranked_retrieval.run",
+      "source_path": "benchmarks/ranked_retrieval/run.py",
+      "source_line": 36,
+      "created_at": "2026-10-13T02:21:26.056770+00:00",
+      "origin": "verified-live-run"
+    },
+    "bm25-qwen3-embedding-8b-weighted-rerank-3": {
+      "source_commit": "a063f40daa33b514ef1e642b839d358cbc3f645a",
+      "source_module": "benchmarks.ranked_retrieval.run",
+      "source_path": "benchmarks/ranked_retrieval/run.py",
+      "source_line": 36,
+      "created_at": "2026-10-13T02:29:10.946257+00:00",
+      "origin": "verified-live-run"
+    },
     "embedding-gemma-2-chunk": {
       "source_commit": "0c58fea01526d668298640f3a14e9eb2e0d4888a",
       "source_module": "benchmarks.ranked_retrieval.run",
@@ -110,12 +130,28 @@
       "origin": "historical-top-k-rankings",
       "published_at": "2026-10-10T03:34:57.604060+00:00"
     },
+    "qwen3-embedding-8b-bge-reranker-v2-m3": {
+      "source_commit": "a063f40daa33b514ef1e642b839d358cbc3f645a",
+      "source_module": "benchmarks.ranked_retrieval.run",
+      "source_path": "benchmarks/ranked_retrieval/run.py",
+      "source_line": 36,
+      "created_at": "2026-10-13T02:21:26.056770+00:00",
+      "origin": "verified-live-run"
+    },
     "qwen3-embedding-8b-openrouter-chunk": {
       "source_commit": "3d5aa22c8ca695688921572cd27ce784dae1cc86",
       "source_module": "benchmarks.ranked_retrieval.run",
       "source_path": "benchmarks/ranked_retrieval/run.py",
       "source_line": 36,
       "created_at": "2026-10-12T09:42:22.451365+00:00",
+      "origin": "verified-live-run"
+    },
+    "qwen3-embedding-8b-rerank-3": {
+      "source_commit": "a063f40daa33b514ef1e642b839d358cbc3f645a",
+      "source_module": "benchmarks.ranked_retrieval.run",
+      "source_path": "benchmarks/ranked_retrieval/run.py",
+      "source_line": 36,
+      "created_at": "2026-10-13T02:29:10.946257+00:00",
       "origin": "verified-live-run"
     },
     "voyage-4-large-chunk": {
@@ -128,7 +164,7 @@
     }
   },
   "queries": 1000,
-  "ranking_rows": 16000,
+  "ranking_rows": 20000,
   "top_k": 10,
-  "rankings_sha256": "2348155680084673df985172072460e5ad19c88fcc631bee41eacc7d868d8234"
+  "rankings_sha256": "4f68d773acd488341637d2d845f4d219908418d0713c3d51c5f2f48429c78001"
 }
