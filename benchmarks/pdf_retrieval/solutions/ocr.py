@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from benchmarks.pdf_retrieval.definition import DATASET_REVISION
 from benchmarks.pdf_retrieval.solutions.types import Runtime, SolutionSpec
 from modern_ir_bench.retrieval import (
     DenseRetrievalSolution,
@@ -113,6 +114,8 @@ def _build_bm25_bge_m3_rrf(runtime: Runtime, spec: SolutionSpec) -> PdfOcrRetrie
             components=(_bm25(runtime), _bge_m3(runtime)),
             candidate_depth=50,
             rank_constant=60,
+            candidate_cache_path=runtime.cache_root / "retrieval-candidates.sqlite3",
+            candidate_cache_namespace=f"pdf:{DATASET_REVISION}:ocr-bm25-bge-m3-full:v1",
         ),
     )
 

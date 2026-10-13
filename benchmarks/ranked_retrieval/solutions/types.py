@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from collections.abc import Callable
 from dataclasses import dataclass
+from pathlib import Path
 
 from modern_ir_bench.core import Solution
 from modern_ir_bench.embeddings import BgeM3Embedding, DenseEmbedding, VoyageEmbedding
@@ -14,6 +15,7 @@ from modern_ir_bench.retrieval.indexes.milvus.target import MilvusTarget
 @dataclass(frozen=True)
 class Runtime:
     target: MilvusTarget
+    cache_root: Path
     chunker: TokenTextChunker
     voyage: VoyageEmbedding
     qwen: dict[str, DenseEmbedding]

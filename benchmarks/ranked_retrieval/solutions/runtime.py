@@ -44,6 +44,7 @@ def build_runtime() -> Runtime:
     )
     return Runtime(
         target=target,
+        cache_root=project_root / ".runtime",
         chunker=TokenTextChunker(HuggingFaceOffsetTokenizer()),
         voyage=VoyageEmbedding(
             model="voyage-4-large",

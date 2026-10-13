@@ -33,6 +33,7 @@ def build_runtime(*, target: MilvusTarget, project_root: Path) -> Runtime:
     device = os.environ.get("MIR_DEVICE")
     return Runtime(
         target=target,
+        cache_root=runtime_root,
         ocr=PaddleOcrExtractor(
             device=os.environ.get("MIR_OCR_DEVICE", "cpu"),
             cache_dir=runtime_root / "pdf-ocr/pp-ocrv5-mobile",

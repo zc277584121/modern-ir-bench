@@ -1,5 +1,6 @@
 """Hybrid Ranked Retrieval Solution definitions."""
 
+from benchmarks.ranked_retrieval.definition import DATASET_REVISION
 from benchmarks.ranked_retrieval.solutions.bm25 import build_bm25_chunk_component
 from benchmarks.ranked_retrieval.solutions.qwen import build_qwen_8b_chunk_component
 from benchmarks.ranked_retrieval.solutions.types import Runtime, SolutionSpec
@@ -28,6 +29,8 @@ def _build_bm25_qwen_rrf(runtime: Runtime, spec: SolutionSpec):
         ),
         candidate_depth=50,
         rank_constant=60,
+        candidate_cache_path=runtime.cache_root / "retrieval-candidates.sqlite3",
+        candidate_cache_namespace=f"ranked:{DATASET_REVISION}:bm25-qwen3-embedding-8b-chunks:v1",
     )
 
 

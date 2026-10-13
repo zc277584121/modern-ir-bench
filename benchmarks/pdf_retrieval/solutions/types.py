@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from collections.abc import Callable
 from dataclasses import dataclass
+from pathlib import Path
 
 from modern_ir_bench.core import Solution
 from modern_ir_bench.embeddings import (
@@ -20,6 +21,7 @@ from modern_ir_bench.solutions import PaddleOcrExtractor, PdfPageRenderer
 @dataclass(frozen=True)
 class Runtime:
     target: MilvusTarget
+    cache_root: Path
     ocr: PaddleOcrExtractor
     bge_m3: BgeM3Embedding
     voyage_text: OpenRouterEmbedding
