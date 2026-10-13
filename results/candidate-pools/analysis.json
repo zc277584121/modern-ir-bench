@@ -1,0 +1,410 @@
+{
+  "schema_version": 1,
+  "benchmarks": [
+    {
+      "task_id": "modern-ir-ranked-retrieval-v2.2",
+      "dataset_id": "modern-ir-bench-v2.2-20261010",
+      "dataset_version": "c7a38d6aaa3d",
+      "depth": 50,
+      "queries": 1000,
+      "positive_qrels": 6575,
+      "routes": [
+        {
+          "id": "bge-m3-dense",
+          "label": "BGE-M3 dense",
+          "queries": 1000,
+          "mean_candidates": 50,
+          "relevant_coverage": 0.9597629,
+          "queries_with_any_relevant": 1,
+          "queries_with_all_relevant": 0.812,
+          "oracle_ndcg_at_10": 0.97907835,
+          "globally_unique_relevant": 1
+        },
+        {
+          "id": "qwen3-embedding-8b",
+          "label": "Qwen3 Embedding 8B",
+          "queries": 1000,
+          "mean_candidates": 50,
+          "relevant_coverage": 0.97082591,
+          "queries_with_any_relevant": 1,
+          "queries_with_all_relevant": 0.841,
+          "oracle_ndcg_at_10": 0.98482436,
+          "globally_unique_relevant": 0
+        },
+        {
+          "id": "voyage-4-large",
+          "label": "Voyage 4 Large",
+          "queries": 1000,
+          "mean_candidates": 50,
+          "relevant_coverage": 0.99106253,
+          "queries_with_any_relevant": 1,
+          "queries_with_all_relevant": 0.947,
+          "oracle_ndcg_at_10": 0.99510843,
+          "globally_unique_relevant": 14
+        },
+        {
+          "id": "bge-m3-sparse",
+          "label": "BGE-M3 sparse",
+          "queries": 1000,
+          "mean_candidates": 50,
+          "relevant_coverage": 0.92602155,
+          "queries_with_any_relevant": 0.998,
+          "queries_with_all_relevant": 0.719,
+          "oracle_ndcg_at_10": 0.95603642,
+          "globally_unique_relevant": 0
+        },
+        {
+          "id": "gte-multilingual-sparse",
+          "label": "GTE Multilingual sparse",
+          "queries": 1000,
+          "mean_candidates": 50,
+          "relevant_coverage": 0.9420845,
+          "queries_with_any_relevant": 0.999,
+          "queries_with_all_relevant": 0.762,
+          "oracle_ndcg_at_10": 0.96694376,
+          "globally_unique_relevant": 0
+        },
+        {
+          "id": "bm25",
+          "label": "BM25",
+          "queries": 1000,
+          "mean_candidates": 50,
+          "relevant_coverage": 0.9167475,
+          "queries_with_any_relevant": 0.999,
+          "queries_with_all_relevant": 0.697,
+          "oracle_ndcg_at_10": 0.95067237,
+          "globally_unique_relevant": 1
+        }
+      ],
+      "groups": [
+        {
+          "id": "voyage-bm25",
+          "label": "Voyage 4 Large + BM25",
+          "routes": [
+            "voyage-4-large",
+            "bm25"
+          ],
+          "queries": 1000,
+          "mean_candidates": 75.583,
+          "relevant_coverage": 0.99727255,
+          "queries_with_any_relevant": 1,
+          "queries_with_all_relevant": 0.983,
+          "oracle_ndcg_at_10": 0.9983498
+        },
+        {
+          "id": "voyage-gte-sparse",
+          "label": "Voyage 4 Large + GTE sparse",
+          "routes": [
+            "voyage-4-large",
+            "gte-multilingual-sparse"
+          ],
+          "queries": 1000,
+          "mean_candidates": 73.07,
+          "relevant_coverage": 0.99732603,
+          "queries_with_any_relevant": 1,
+          "queries_with_all_relevant": 0.984,
+          "oracle_ndcg_at_10": 0.99850291
+        },
+        {
+          "id": "voyage-gte-sparse-bm25",
+          "label": "Voyage 4 Large + GTE sparse + BM25",
+          "routes": [
+            "voyage-4-large",
+            "gte-multilingual-sparse",
+            "bm25"
+          ],
+          "queries": 1000,
+          "mean_candidates": 89.432,
+          "relevant_coverage": 0.9982408,
+          "queries_with_any_relevant": 1,
+          "queries_with_all_relevant": 0.99,
+          "oracle_ndcg_at_10": 0.99893152
+        },
+        {
+          "id": "all-routes",
+          "label": "All stored routes",
+          "routes": [
+            "bge-m3-dense",
+            "qwen3-embedding-8b",
+            "voyage-4-large",
+            "bge-m3-sparse",
+            "gte-multilingual-sparse",
+            "bm25"
+          ],
+          "queries": 1000,
+          "mean_candidates": 120.656,
+          "relevant_coverage": 0.99934242,
+          "queries_with_any_relevant": 1,
+          "queries_with_all_relevant": 0.996,
+          "oracle_ndcg_at_10": 0.99965757
+        }
+      ],
+      "pairs": [
+        {
+          "left": "bge-m3-dense",
+          "right": "qwen3-embedding-8b",
+          "mean_jaccard": 0.44880796,
+          "left_unique_relevant": 141,
+          "right_unique_relevant": 255
+        },
+        {
+          "left": "bge-m3-dense",
+          "right": "voyage-4-large",
+          "mean_jaccard": 0.47559624,
+          "left_unique_relevant": 40,
+          "right_unique_relevant": 325
+        },
+        {
+          "left": "bge-m3-dense",
+          "right": "bge-m3-sparse",
+          "mean_jaccard": 0.34164785,
+          "left_unique_relevant": 451,
+          "right_unique_relevant": 205
+        },
+        {
+          "left": "bge-m3-dense",
+          "right": "gte-multilingual-sparse",
+          "mean_jaccard": 0.35957038,
+          "left_unique_relevant": 374,
+          "right_unique_relevant": 235
+        },
+        {
+          "left": "bge-m3-dense",
+          "right": "bm25",
+          "mean_jaccard": 0.31454723,
+          "left_unique_relevant": 566,
+          "right_unique_relevant": 234
+        },
+        {
+          "left": "qwen3-embedding-8b",
+          "right": "voyage-4-large",
+          "mean_jaccard": 0.52467723,
+          "left_unique_relevant": 37,
+          "right_unique_relevant": 208
+        },
+        {
+          "left": "qwen3-embedding-8b",
+          "right": "bge-m3-sparse",
+          "mean_jaccard": 0.32997767,
+          "left_unique_relevant": 530,
+          "right_unique_relevant": 170
+        },
+        {
+          "left": "qwen3-embedding-8b",
+          "right": "gte-multilingual-sparse",
+          "mean_jaccard": 0.35622956,
+          "left_unique_relevant": 426,
+          "right_unique_relevant": 173
+        },
+        {
+          "left": "qwen3-embedding-8b",
+          "right": "bm25",
+          "mean_jaccard": 0.31293537,
+          "left_unique_relevant": 617,
+          "right_unique_relevant": 171
+        },
+        {
+          "left": "voyage-4-large",
+          "right": "bge-m3-sparse",
+          "mean_jaccard": 0.35497912,
+          "left_unique_relevant": 585,
+          "right_unique_relevant": 54
+        },
+        {
+          "left": "voyage-4-large",
+          "right": "gte-multilingual-sparse",
+          "mean_jaccard": 0.3837532,
+          "left_unique_relevant": 475,
+          "right_unique_relevant": 51
+        },
+        {
+          "left": "voyage-4-large",
+          "right": "bm25",
+          "mean_jaccard": 0.33708916,
+          "left_unique_relevant": 670,
+          "right_unique_relevant": 53
+        },
+        {
+          "left": "bge-m3-sparse",
+          "right": "gte-multilingual-sparse",
+          "mean_jaccard": 0.56691741,
+          "left_unique_relevant": 122,
+          "right_unique_relevant": 229
+        },
+        {
+          "left": "bge-m3-sparse",
+          "right": "bm25",
+          "mean_jaccard": 0.39104704,
+          "left_unique_relevant": 358,
+          "right_unique_relevant": 272
+        },
+        {
+          "left": "gte-multilingual-sparse",
+          "right": "bm25",
+          "mean_jaccard": 0.44484623,
+          "left_unique_relevant": 368,
+          "right_unique_relevant": 175
+        }
+      ]
+    },
+    {
+      "task_id": "modern-ir-pdf-retrieval-v1",
+      "dataset_id": "modern-ir-bench-pdf-v1-20261011",
+      "dataset_version": "5ac497e8aad7",
+      "depth": 50,
+      "queries": 1000,
+      "positive_qrels": 6575,
+      "routes": [
+        {
+          "id": "ocr-bge-m3",
+          "label": "OCR + BGE-M3",
+          "queries": 1000,
+          "mean_candidates": 50,
+          "relevant_coverage": 0.94054169,
+          "queries_with_any_relevant": 1,
+          "queries_with_all_relevant": 0.732,
+          "oracle_ndcg_at_10": 0.96764227,
+          "globally_unique_relevant": 7
+        },
+        {
+          "id": "voyage-multimodal-3-5",
+          "label": "Voyage Multimodal 3.5",
+          "queries": 1000,
+          "mean_candidates": 50,
+          "relevant_coverage": 0.97241733,
+          "queries_with_any_relevant": 1,
+          "queries_with_all_relevant": 0.85,
+          "oracle_ndcg_at_10": 0.98610578,
+          "globally_unique_relevant": 40
+        },
+        {
+          "id": "ocr-voyage-4-large",
+          "label": "OCR + Voyage 4 Large",
+          "queries": 1000,
+          "mean_candidates": 50,
+          "relevant_coverage": 0.98031341,
+          "queries_with_any_relevant": 1,
+          "queries_with_all_relevant": 0.879,
+          "oracle_ndcg_at_10": 0.99023033,
+          "globally_unique_relevant": 27
+        },
+        {
+          "id": "ocr-bm25",
+          "label": "OCR + BM25",
+          "queries": 1000,
+          "mean_candidates": 50,
+          "relevant_coverage": 0.89481557,
+          "queries_with_any_relevant": 1,
+          "queries_with_all_relevant": 0.618,
+          "oracle_ndcg_at_10": 0.93708115,
+          "globally_unique_relevant": 20
+        }
+      ],
+      "groups": [
+        {
+          "id": "ocr-voyage-visual",
+          "label": "OCR Voyage 4 Large + Voyage Multimodal 3.5",
+          "routes": [
+            "ocr-voyage-4-large",
+            "voyage-multimodal-3-5"
+          ],
+          "queries": 1000,
+          "mean_candidates": 66.77,
+          "relevant_coverage": 0.99140917,
+          "queries_with_any_relevant": 1,
+          "queries_with_all_relevant": 0.939,
+          "oracle_ndcg_at_10": 0.99590503
+        },
+        {
+          "id": "ocr-voyage-bm25",
+          "label": "OCR Voyage 4 Large + OCR BM25",
+          "routes": [
+            "ocr-voyage-4-large",
+            "ocr-bm25"
+          ],
+          "queries": 1000,
+          "mean_candidates": 76.451,
+          "relevant_coverage": 0.98930127,
+          "queries_with_any_relevant": 1,
+          "queries_with_all_relevant": 0.925,
+          "oracle_ndcg_at_10": 0.99466123
+        },
+        {
+          "id": "ocr-voyage-visual-bm25",
+          "label": "OCR Voyage 4 Large + Voyage Multimodal 3.5 + OCR BM25",
+          "routes": [
+            "ocr-voyage-4-large",
+            "voyage-multimodal-3-5",
+            "ocr-bm25"
+          ],
+          "queries": 1000,
+          "mean_candidates": 89.888,
+          "relevant_coverage": 0.99555392,
+          "queries_with_any_relevant": 1,
+          "queries_with_all_relevant": 0.962,
+          "oracle_ndcg_at_10": 0.9980661
+        },
+        {
+          "id": "all-routes",
+          "label": "All stored routes",
+          "routes": [
+            "ocr-bge-m3",
+            "voyage-multimodal-3-5",
+            "ocr-voyage-4-large",
+            "ocr-bm25"
+          ],
+          "queries": 1000,
+          "mean_candidates": 102.902,
+          "relevant_coverage": 0.99644403,
+          "queries_with_any_relevant": 1,
+          "queries_with_all_relevant": 0.968,
+          "oracle_ndcg_at_10": 0.99854279
+        }
+      ],
+      "pairs": [
+        {
+          "left": "ocr-bge-m3",
+          "right": "voyage-multimodal-3-5",
+          "mean_jaccard": 0.40908944,
+          "left_unique_relevant": 119,
+          "right_unique_relevant": 373
+        },
+        {
+          "left": "ocr-bge-m3",
+          "right": "ocr-voyage-4-large",
+          "mean_jaccard": 0.46732055,
+          "left_unique_relevant": 53,
+          "right_unique_relevant": 382
+        },
+        {
+          "left": "ocr-bge-m3",
+          "right": "ocr-bm25",
+          "mean_jaccard": 0.29937102,
+          "left_unique_relevant": 620,
+          "right_unique_relevant": 278
+        },
+        {
+          "left": "voyage-multimodal-3-5",
+          "right": "ocr-voyage-4-large",
+          "mean_jaccard": 0.51008414,
+          "left_unique_relevant": 97,
+          "right_unique_relevant": 172
+        },
+        {
+          "left": "voyage-multimodal-3-5",
+          "right": "ocr-bm25",
+          "mean_jaccard": 0.30793001,
+          "left_unique_relevant": 747,
+          "right_unique_relevant": 151
+        },
+        {
+          "left": "ocr-voyage-4-large",
+          "right": "ocr-bm25",
+          "mean_jaccard": 0.32100097,
+          "left_unique_relevant": 754,
+          "right_unique_relevant": 83
+        }
+      ]
+    }
+  ]
+}

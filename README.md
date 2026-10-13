@@ -74,6 +74,7 @@ src/modern_ir_bench/             reusable framework and retrieval components
 benchmarks/ranked_retrieval/     text Task, Dataset binding, and Solutions
 benchmarks/pdf_retrieval/        PDF Task, Dataset binding, and Solution catalog
 benchmarks/reporting.py          slices derived from saved rankings
+benchmarks/candidate_pools.py    diagnostics derived from stored Top-50 candidates
 benchmarks/publish.py            the only Space-data publisher
 results/                         immutable result evidence
 space/                           static Hugging Face Space and fusion explorer
@@ -132,6 +133,7 @@ or an external API in the browser:
 
 ```bash
 uv run python -m benchmarks.export_fusion_playground
+uv run python -m benchmarks.candidate_pools
 ```
 
 Run the static Space locally:
