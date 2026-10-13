@@ -12,6 +12,7 @@ It diagnoses candidate coverage, reranker behavior, and benchmark difficulty wit
 
 ## Reranker effect
 
+- **Voyage 4 Large → Voyage Rerank 3**: ΔNDCG@10 `+0.0592`; 538 improved, 159 regressed, 303 unchanged.
 - **Qwen3 Embedding 8B → Voyage Rerank 3**: ΔNDCG@10 `+0.1233`; 702 improved, 86 regressed, 212 unchanged.
 - **Weighted candidate path → Voyage Rerank 3**: ΔNDCG@10 `+0.0974`; 657 improved, 105 regressed, 238 unchanged.
 - **Qwen3 Embedding 8B → BGE Reranker v2 M3**: ΔNDCG@10 `+0.0290`; 492 improved, 382 regressed, 126 unchanged.
@@ -21,6 +22,7 @@ It diagnoses candidate coverage, reranker behavior, and benchmark difficulty wit
 
 | Solution | Relevant at rank 1 | All relevant in Top 10 |
 | --- | ---: | ---: |
+| `voyage-4-large-rerank-3` | 99.3% | 62.7% |
 | `qwen3-embedding-8b-rerank-3` | 99.2% | 59.9% |
 | `bm25-qwen3-embedding-8b-weighted-rerank-3` | 99.3% | 61.5% |
 

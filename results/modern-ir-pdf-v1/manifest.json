@@ -2,7 +2,7 @@
   "schema_version": 1,
   "artifact_type": "live-top-k-rankings",
   "release": "modern-ir-bench-pdf-v1-20261011",
-  "published_at": "2026-10-13T12:12:58.506085+00:00",
+  "published_at": "2026-10-13T13:56:00.724707+00:00",
   "dataset": {
     "repository": "zc277584121/modern-ir-bench-pdf",
     "revision": "5ac497e8aad79c9c0843c46eb97bb9900f3b109b"
@@ -17,6 +17,7 @@
     "paddleocr-v5-mobile-bm25-full",
     "paddleocr-v5-mobile-bm25-voyage-multimodal-3-5-rrf",
     "paddleocr-v5-mobile-voyage-4-large-full",
+    "paddleocr-v5-mobile-voyage-4-large-voyage-multimodal-3-5-rerank-3",
     "paddleocr-v5-mobile-voyage-4-large-voyage-multimodal-3-5-rrf",
     "voyage-multimodal-3-5-pages",
     "wemm-embedding-2b-pages"
@@ -90,6 +91,14 @@
       "created_at": "2026-10-13T12:08:50.793720+00:00",
       "origin": "verified-live-run"
     },
+    "paddleocr-v5-mobile-voyage-4-large-voyage-multimodal-3-5-rerank-3": {
+      "source_commit": "8902aac4abaec744409738be2d2796444542c5fb",
+      "source_module": "benchmarks.pdf_retrieval.run",
+      "source_path": "benchmarks/pdf_retrieval/run.py",
+      "source_line": 33,
+      "created_at": "2026-10-13T13:23:15.685099+00:00",
+      "origin": "verified-live-run"
+    },
     "paddleocr-v5-mobile-voyage-4-large-voyage-multimodal-3-5-rrf": {
       "source_commit": "31922ddc8cfbac0c111d46fa162ed7351015e5fb",
       "source_module": "benchmarks.pdf_retrieval.run",
@@ -116,7 +125,7 @@
     }
   },
   "queries": 1000,
-  "ranking_rows": 12000,
+  "ranking_rows": 13000,
   "top_k": 10,
-  "rankings_sha256": "b6f5e7f086d0f5ae3dee3d45148b0853e97c91e86a0d2aecc8c61312592b4318"
+  "rankings_sha256": "b9627e609c44d9db15ed3374a7f25e1b0079ce20cfee95fed2b30961595525fc"
 }

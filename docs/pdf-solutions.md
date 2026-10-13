@@ -20,6 +20,7 @@ before scoring.
 | Ovis Omni Embedding 3B | rendered images | page | local visual dense | test a self-hosted bilingual omni-modal embedding model |
 | PP-OCRv5 Mobile BM25 + Voyage Multimodal 3.5 RRF | OCR + rendered images | document + page | lexical + visual dense | combine exact text and visual evidence |
 | OCR Voyage 4 Large + Voyage Multimodal 3.5 RRF | OCR + rendered images | document + page | text dense + visual dense | combine official Voyage text and visual routes |
+| OCR Voyage 4 Large + Voyage Multimodal 3.5 → Voyage Rerank 3 | OCR + rendered images | whole document | fused retrieval + reranking | rerank the final Top-50 fused candidates from complete OCR text |
 
 All dense indexes use exact cosine search through Milvus FLAT. The visual
 Solution keeps the best page score for each document. This makes index behavior
@@ -28,6 +29,10 @@ an invariant while the document representation changes.
 RRF is the published default for heterogeneous PDF branches. Alternative
 per-query normalized score weights can be evaluated interactively from stored
 Top-50 route evidence, so they do not need separate leaderboard entries.
+
+The reranking Solution keeps that search space bounded: each route contributes at
+most Top-50, RRF produces one final Top-50 candidate list, and Voyage Rerank 3
+returns the published Top-10 document ranking.
 
 ## Next controlled additions
 

@@ -1,4 +1,4 @@
-"""Summarize published PDF fusion Solutions against their component baselines."""
+"""Summarize published PDF fusion and reranking Solutions."""
 
 from __future__ import annotations
 
@@ -31,6 +31,13 @@ COMPARISONS = (
         "paddleocr-v5-mobile-voyage-4-large-voyage-multimodal-3-5-rrf",
         ("paddleocr-v5-mobile-voyage-4-large-full", "voyage-multimodal-3-5-pages"),
         "OCR Voyage 4 Large + Voyage Multimodal 3.5",
+    ),
+)
+RERANKER_COMPARISONS = (
+    (
+        "paddleocr-v5-mobile-voyage-4-large-voyage-multimodal-3-5-rrf",
+        "paddleocr-v5-mobile-voyage-4-large-voyage-multimodal-3-5-rerank-3",
+        "OCR Voyage 4 Large + Voyage Multimodal 3.5 → Voyage Rerank 3",
     ),
 )
 
@@ -79,9 +86,29 @@ def _comparison(
     }
 
 
+def _reranker_comparison(
+    *,
+    before_id: str,
+    after_id: str,
+    label: str,
+    rankings: Mapping[str, Mapping[str, Sequence[str]]],
+    relevant: Mapping[str, set[str]],
+) -> dict[str, Any]:
+    before_score = _ndcg(rankings[before_id], relevant)
+    after_score = _ndcg(rankings[after_id], relevant)
+    return {
+        "label": label,
+        "before_solution": before_id,
+        "after_solution": after_id,
+        "before_ndcg_at_10": round(before_score, 8),
+        "after_ndcg_at_10": round(after_score, 8),
+        "ndcg_delta": round(after_score - before_score, 8),
+    }
+
+
 def _markdown(report: Mapping[str, Any]) -> str:
     lines = [
-        "# Modern IR PDF Retrieval v1 fusion diagnostics",
+        "# Modern IR PDF Retrieval v1 diagnostics",
         "",
         "Published RRF Solutions are compared with their independently published component baselines.",
         "All fusion routes contribute Top-50 candidates and use equal-weight RRF with `k=60`.",
@@ -100,6 +127,22 @@ def _markdown(report: Mapping[str, Any]) -> str:
             "",
             "Alternative route weights remain exploratory and can be computed from stored Top-50 evidence in Fusion Lab.",
             "They are not published as separate leaderboard Solutions.",
+            "",
+            "## Reranker effect",
+            "",
+            "| Candidate route | Before NDCG@10 | After NDCG@10 | Delta |",
+            "| --- | ---: | ---: | ---: |",
+        ]
+    )
+    for row in report["reranker_comparisons"]:
+        lines.append(
+            f"| {row['label']} | {row['before_ndcg_at_10']:.4f} | "
+            f"{row['after_ndcg_at_10']:.4f} | {row['ndcg_delta']:+.4f} |"
+        )
+    lines.extend(
+        [
+            "",
+            "The reranker receives only the final Top-50 documents from the fused candidate route.",
             "",
         ]
     )
@@ -123,6 +166,16 @@ def build_report(result_root: Path) -> dict[str, Any]:
                 relevant=relevant,
             )
             for fusion_id, component_ids, label in COMPARISONS
+        ],
+        "reranker_comparisons": [
+            _reranker_comparison(
+                before_id=before_id,
+                after_id=after_id,
+                label=label,
+                rankings=artifact.rankings,
+                relevant=relevant,
+            )
+            for before_id, after_id, label in RERANKER_COMPARISONS
         ],
     }
     (result_root / "analysis.json").write_text(

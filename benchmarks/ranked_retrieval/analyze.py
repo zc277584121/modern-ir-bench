@@ -30,6 +30,11 @@ CANDIDATE_PATHS = {
 }
 COMPARISONS = (
     (
+        "voyage-4-large-chunk",
+        "voyage-4-large-rerank-3",
+        "Voyage 4 Large → Voyage Rerank 3",
+    ),
+    (
         "qwen3-embedding-8b-openrouter-chunk",
         "qwen3-embedding-8b-rerank-3",
         "Qwen3 Embedding 8B → Voyage Rerank 3",
@@ -213,6 +218,7 @@ def _difficulty_summary(
     relevant: Mapping[str, set[str]],
 ) -> list[dict[str, Any]]:
     solution_ids = (
+        "voyage-4-large-rerank-3",
         "qwen3-embedding-8b-rerank-3",
         "bm25-qwen3-embedding-8b-weighted-rerank-3",
     )

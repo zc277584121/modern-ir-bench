@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "release": "modern-ir-bench-v2.2-20261010",
-  "ranking_evidence_sha256": "4c0fe050a4966a1855c684a753cb8ce2306f5441dc374fc0393cd1d334d0535c",
+  "ranking_evidence_sha256": "179e65112762bcd5774fde45e56abc5f62c01c301af16026f321734941ae917d",
   "candidate_evidence_sha256": "c2b0f420fb49b67f9fe0db1539f465bac2284f0e7621820bed1a1491e5eb7947",
   "queries": 1000,
   "positive_qrels": 6575,
@@ -23,6 +23,181 @@
     }
   ],
   "comparisons": [
+    {
+      "label": "Voyage 4 Large → Voyage Rerank 3",
+      "before": "voyage-4-large-chunk",
+      "after": "voyage-4-large-rerank-3",
+      "ndcg_delta": 0.05923458,
+      "outcomes": {
+        "improved": 538,
+        "regressed": 159,
+        "unchanged": 303
+      },
+      "slices": {
+        "language": [
+          {
+            "value": "en",
+            "queries": 500,
+            "ndcg_delta": 0.05501651
+          },
+          {
+            "value": "zh",
+            "queries": 500,
+            "ndcg_delta": 0.06345265
+          }
+        ],
+        "query_intent": [
+          {
+            "value": "act",
+            "queries": 299,
+            "ndcg_delta": 0.04229863
+          },
+          {
+            "value": "decide",
+            "queries": 29,
+            "ndcg_delta": 0.03905983
+          },
+          {
+            "value": "lookup",
+            "queries": 102,
+            "ndcg_delta": 0.0834216
+          },
+          {
+            "value": "synthesize",
+            "queries": 6,
+            "ndcg_delta": 0.0415864
+          },
+          {
+            "value": "understand",
+            "queries": 554,
+            "ndcg_delta": 0.06380532
+          },
+          {
+            "value": "verify",
+            "queries": 10,
+            "ndcg_delta": 0.13478851
+          }
+        ],
+        "expression": [
+          {
+            "value": "contextual_request",
+            "queries": 2,
+            "ndcg_delta": 0.15196603
+          },
+          {
+            "value": "natural_question",
+            "queries": 958,
+            "ndcg_delta": 0.05790375
+          },
+          {
+            "value": "search_phrase",
+            "queries": 40,
+            "ndcg_delta": 0.08647152
+          }
+        ],
+        "constraint_level": [
+          {
+            "value": "compound",
+            "queries": 70,
+            "ndcg_delta": 0.04335374
+          },
+          {
+            "value": "light",
+            "queries": 8,
+            "ndcg_delta": 0.04950182
+          },
+          {
+            "value": "single",
+            "queries": 922,
+            "ndcg_delta": 0.06052474
+          }
+        ]
+      },
+      "largest_improvements": [
+        {
+          "query_id": "query-en-001143",
+          "query": "When does a mediated settlement remain a private contract requiring separate enforcement?",
+          "language": "en",
+          "ndcg_before": 0.24425848,
+          "ndcg_after": 0.98184832,
+          "ndcg_delta": 0.73758984
+        },
+        {
+          "query_id": "query-zh-001253",
+          "query": "临时安置点应如何保护受助者隐私？",
+          "language": "zh",
+          "ndcg_before": 0.21840744,
+          "ndcg_after": 0.91972079,
+          "ndcg_delta": 0.70131335
+        },
+        {
+          "query_id": "query-zh-000154",
+          "query": "允许观众校对细节但不参与改写剧情的共创方式",
+          "language": "zh",
+          "ndcg_before": 0.23719771,
+          "ndcg_after": 0.91972079,
+          "ndcg_delta": 0.68252308
+        },
+        {
+          "query_id": "query-en-001553",
+          "query": "How can planned maintenance absorb downtime during a production material shortage?",
+          "language": "en",
+          "ndcg_before": 0.14126697,
+          "ndcg_after": 0.76536064,
+          "ndcg_delta": 0.62409366
+        },
+        {
+          "query_id": "query-en-001746",
+          "query": "How can a dry practice run make assisted bathing safer?",
+          "language": "en",
+          "ndcg_before": 0.38685281,
+          "ndcg_after": 1.0,
+          "ndcg_delta": 0.61314719
+        }
+      ],
+      "largest_regressions": [
+        {
+          "query_id": "query-zh-000533",
+          "query": "弱网导致报修重复生成时如何预防和处理？",
+          "language": "zh",
+          "ndcg_before": 0.87601572,
+          "ndcg_after": 0.60131243,
+          "ndcg_delta": -0.27470329
+        },
+        {
+          "query_id": "query-zh-001178",
+          "query": "社区争议帖升温时，如何暂时关闭回复但保留已有内容？",
+          "language": "zh",
+          "ndcg_before": 0.83577997,
+          "ndcg_after": 0.56696464,
+          "ndcg_delta": -0.26881533
+        },
+        {
+          "query_id": "query-zh-000674",
+          "query": "跨服交易重复扣款却只收到一件物品怎么办？",
+          "language": "zh",
+          "ndcg_before": 0.94690243,
+          "ndcg_after": 0.70391809,
+          "ndcg_delta": -0.24298434
+        },
+        {
+          "query_id": "query-zh-001347",
+          "query": "断网重连后如何避免任务或消息被重复处理？",
+          "language": "zh",
+          "ndcg_before": 1.0,
+          "ndcg_after": 0.78498187,
+          "ndcg_delta": -0.21501813
+        },
+        {
+          "query_id": "query-en-001104",
+          "query": "How can duplicate return labels from repeated requests or retries be prevented?",
+          "language": "en",
+          "ndcg_before": 0.93741303,
+          "ndcg_after": 0.72272657,
+          "ndcg_delta": -0.21468646
+        }
+      ]
+    },
     {
       "label": "Qwen3 Embedding 8B → Voyage Rerank 3",
       "before": "qwen3-embedding-8b-openrouter-chunk",
@@ -725,6 +900,11 @@
     }
   ],
   "difficulty": [
+    {
+      "solution": "voyage-4-large-rerank-3",
+      "first_rank_relevant": 0.993,
+      "all_relevant_in_top_10": 0.627
+    },
     {
       "solution": "qwen3-embedding-8b-rerank-3",
       "first_rank_relevant": 0.992,

@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "release": "modern-ir-bench-pdf-v1-20261011",
-  "ranking_evidence_sha256": "b6f5e7f086d0f5ae3dee3d45148b0853e97c91e86a0d2aecc8c61312592b4318",
+  "ranking_evidence_sha256": "b9627e609c44d9db15ed3374a7f25e1b0079ce20cfee95fed2b30961595525fc",
   "comparisons": [
     {
       "label": "OCR BM25 + BGE-M3",
@@ -44,6 +44,16 @@
         "voyage-multimodal-3-5-pages": 0.79221263
       },
       "delta_vs_best_component": -0.00566092
+    }
+  ],
+  "reranker_comparisons": [
+    {
+      "label": "OCR Voyage 4 Large + Voyage Multimodal 3.5 → Voyage Rerank 3",
+      "before_solution": "paddleocr-v5-mobile-voyage-4-large-voyage-multimodal-3-5-rrf",
+      "after_solution": "paddleocr-v5-mobile-voyage-4-large-voyage-multimodal-3-5-rerank-3",
+      "before_ndcg_at_10": 0.84419676,
+      "after_ndcg_at_10": 0.91960892,
+      "ndcg_delta": 0.07541217
     }
   ]
 }

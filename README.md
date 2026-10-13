@@ -15,7 +15,7 @@ separately and the Hugging Face Space is generated from that evidence.
 - 5,000 bilingual text documents
 - 1,000 queries
 - 6,575 positive binary Qrels
-- 37 published lexical, dense, learned-sparse, reranking, and hybrid Solutions
+- 38 published lexical, dense, learned-sparse, reranking, and hybrid Solutions
 - immutable historical Top-10 rankings in `results/modern-ir-v2.2/`
 - Top-50 candidate evidence and reranker diagnostics in `results/modern-ir-v2.2/`
 - frozen source tag: `ranked-retrieval-v2.2.0`
@@ -34,7 +34,7 @@ The PDF Task keeps the same semantic documents, queries, document IDs, and Qrels
 but replaces each text resource with a rendered PDF. Solutions decide how to read
 pages and how to retrieve whole document IDs.
 
-The 12 published Solutions cover OCR-based lexical, dense, and hybrid
+The 13 published Solutions cover OCR-based lexical, dense, reranking, and hybrid
 retrieval plus OCR-free visual retrieval with Voyage Multimodal 3.5,
 EmbeddingGemma 2, WeMM Embedding 2B, Gemini Embedding 2, Llama Nemotron Embed
 VL 1B V2, and Ovis Omni Embedding 3B. None reads a native PDF text layer.

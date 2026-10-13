@@ -3,10 +3,10 @@
 Each subdirectory is one immutable, published evaluation artifact. These files are
 neither benchmark Datasets nor Solution implementations.
 
-- `modern-ir-v2.2/` contains Top-10 rankings for 37 text-retrieval Solutions,
+- `modern-ir-v2.2/` contains Top-10 rankings for 38 text-retrieval Solutions,
   Top-50 evidence for the two reranked candidate paths, and a diagnostic report.
-- `modern-ir-pdf-v1/` contains Top-10 rankings for 12 PDF-retrieval Solutions and
-  a fusion diagnostic report.
+- `modern-ir-pdf-v1/` contains Top-10 rankings for 13 PDF-retrieval Solutions and
+  fusion and reranker diagnostics.
 - `candidate-pools/` compares the coverage, overlap, and oracle ceiling of every
   Top-50 route exported for the Fusion lab.
 

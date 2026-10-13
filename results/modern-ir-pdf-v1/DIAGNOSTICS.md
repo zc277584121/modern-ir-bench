@@ -1,4 +1,4 @@
-# Modern IR PDF Retrieval v1 fusion diagnostics
+# Modern IR PDF Retrieval v1 diagnostics
 
 Published RRF Solutions are compared with their independently published component baselines.
 All fusion routes contribute Top-50 candidates and use equal-weight RRF with `k=60`.
@@ -11,3 +11,11 @@ All fusion routes contribute Top-50 candidates and use equal-weight RRF with `k=
 
 Alternative route weights remain exploratory and can be computed from stored Top-50 evidence in Fusion Lab.
 They are not published as separate leaderboard Solutions.
+
+## Reranker effect
+
+| Candidate route | Before NDCG@10 | After NDCG@10 | Delta |
+| --- | ---: | ---: | ---: |
+| OCR Voyage 4 Large + Voyage Multimodal 3.5 → Voyage Rerank 3 | 0.8442 | 0.9196 | +0.0754 |
+
+The reranker receives only the final Top-50 documents from the fused candidate route.

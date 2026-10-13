@@ -40,6 +40,7 @@ This directory stores immutable Top-K document rankings for every published Solu
 - `voyage-4-chunk`
 - `voyage-4-large-chunk`
 - `voyage-4-large-full`
+- `voyage-4-large-rerank-3`
 - `voyage-4-lite-chunk`
 
 `manifest.json` pins the Dataset, source runs, ranking depth, row count, and checksum.

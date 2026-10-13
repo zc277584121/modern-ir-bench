@@ -13,6 +13,7 @@ This directory stores immutable Top-K document rankings for every published Solu
 - `paddleocr-v5-mobile-bm25-full`
 - `paddleocr-v5-mobile-bm25-voyage-multimodal-3-5-rrf`
 - `paddleocr-v5-mobile-voyage-4-large-full`
+- `paddleocr-v5-mobile-voyage-4-large-voyage-multimodal-3-5-rerank-3`
 - `paddleocr-v5-mobile-voyage-4-large-voyage-multimodal-3-5-rrf`
 - `voyage-multimodal-3-5-pages`
 - `wemm-embedding-2b-pages`
