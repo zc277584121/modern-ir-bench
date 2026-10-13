@@ -12,6 +12,7 @@ from benchmarks.ranked_retrieval.solutions.embedding_gemma import SPECS as EMBED
 from benchmarks.ranked_retrieval.solutions.hybrid import SPECS as HYBRID_SPECS
 from benchmarks.ranked_retrieval.solutions.managed import SPECS as MANAGED_SPECS
 from benchmarks.ranked_retrieval.solutions.qwen import SPECS as QWEN_SPECS
+from benchmarks.ranked_retrieval.solutions.reranking import SPECS as RERANKING_SPECS
 from benchmarks.ranked_retrieval.solutions.runtime import build_runtime
 from benchmarks.ranked_retrieval.solutions.voyage import SPECS as VOYAGE_SPECS
 from benchmarks.solution_docs import load_solution_readme
@@ -25,6 +26,7 @@ SOLUTION_SPECS = (
     *EMBEDDING_GEMMA_SPECS,
     *BGE_M3_SPECS,
     *HYBRID_SPECS,
+    *RERANKING_SPECS,
 )
 SOLUTION_SPECS_BY_ID = {spec.id: spec for spec in SOLUTION_SPECS}
 

@@ -8,6 +8,7 @@ from pathlib import Path
 
 from modern_ir_bench.core import Solution
 from modern_ir_bench.embeddings import BgeM3Embedding, DenseEmbedding, VoyageEmbedding
+from modern_ir_bench.rerankers import Reranker
 from modern_ir_bench.retrieval import TokenTextChunker
 from modern_ir_bench.retrieval.indexes.milvus.target import MilvusTarget
 
@@ -22,6 +23,7 @@ class Runtime:
     managed: dict[str, DenseEmbedding]
     embedding_gemma: DenseEmbedding
     bge_m3: BgeM3Embedding
+    rerankers: dict[str, Reranker]
 
 
 @dataclass(frozen=True)

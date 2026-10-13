@@ -17,12 +17,14 @@ from modern_ir_bench.embeddings import (
     SentenceTransformersEmbedding,
     VoyageEmbedding,
 )
+from modern_ir_bench.rerankers import CrossEncoderReranker, VoyageReranker
 from modern_ir_bench.retrieval import HuggingFaceOffsetTokenizer, TextInput, TokenTextChunker
 from modern_ir_bench.retrieval.indexes.milvus import MilvusLite, MilvusServer
 
 BGE_M3_REVISION = "5617a9f61b028005a4858fdac845db406aefb181"
 QWEN3_0_6B_REVISION = "97b0c614be4d77ee51c0cef4e5f07c00f9eb65b3"
 QWEN3_4B_REVISION = "5cf2132abc99cad020ac570b19d031efec650f2b"
+BGE_RERANKER_V2_M3_REVISION = "953dc6f6f85a1b2dbfca4c34a2796e7dde08d41e"
 QUERY_INSTRUCTION = "Given a web search query, retrieve relevant documents that answer or satisfy it."
 
 
@@ -41,6 +43,9 @@ def build_runtime() -> Runtime:
             os.environ.get("MIR_MILVUS_URI", "http://127.0.0.1:19530"),
             token=os.environ.get("MIR_MILVUS_TOKEN", ""),
         )
+    )
+    rerank_devices = tuple(
+        device.strip() for device in os.environ.get("MIR_RERANK_DEVICES", "cuda:0").split(",") if device.strip()
     )
     return Runtime(
         target=target,
@@ -119,4 +124,18 @@ def build_runtime() -> Runtime:
             device=os.environ.get("MIR_DEVICE"),
             use_fp16=True,
         ),
+        rerankers={
+            "voyage-rerank-3": VoyageReranker(
+                model="rerank-3",
+                request_concurrency=int(os.environ.get("MIR_VOYAGE_RERANK_CONCURRENCY", "8")),
+            ),
+            "bge-reranker-v2-m3": CrossEncoderReranker(
+                model="BAAI/bge-reranker-v2-m3",
+                revision=BGE_RERANKER_V2_M3_REVISION,
+                max_length=4096,
+                batch_size=int(os.environ.get("MIR_BGE_RERANK_BATCH_SIZE", "2")),
+                devices=rerank_devices or None,
+                use_fp16=True,
+            ),
+        },
     )
