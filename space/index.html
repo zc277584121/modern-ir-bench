@@ -16,16 +16,21 @@
       <header class="site-header">
         <h1>Modern IR Bench</h1>
         <nav class="header-links" aria-label="Project links">
-          <a href="https://github.com/zc277584121/modern-ir-bench" target="_blank" rel="noreferrer">GitHub ↗</a>
+          <a
+            href="https://github.com/zc277584121/modern-ir-bench"
+            target="_blank"
+            rel="noreferrer"
+            >GitHub ↗</a
+          >
         </nav>
       </header>
-      <nav class="view-tabs" aria-label="Benchmark view">
-        <button class="view-tab active" type="button" data-view="leaderboard">Leaderboard</button>
-        <button class="view-tab" type="button" data-view="fusion">Fusion lab</button>
-      </nav>
       <div id="error-notice" class="notice" aria-live="polite" hidden></div>
 
-      <section id="evaluation-context" class="evaluation-context" aria-label="Evaluation context">
+      <section
+        id="evaluation-context"
+        class="evaluation-context"
+        aria-label="Evaluation context"
+      >
         <div class="evaluation-controls">
           <div class="control-group task-controls">
             <div id="task-control" class="control">
@@ -35,17 +40,29 @@
             <div id="dataset-control" class="control">
               <div class="control-label-row">
                 <label for="dataset-selector">Dataset</label>
-                <select id="dataset-release-selector" class="release-selector" aria-label="Dataset release"></select>
+                <select
+                  id="dataset-release-selector"
+                  class="release-selector"
+                  aria-label="Dataset release"
+                ></select>
               </div>
               <select id="dataset-selector"></select>
             </div>
             <div id="solution-tag-control" class="control">
-              <span id="solution-tag-label" class="control-label">Solution tags</span>
-              <details id="solution-tag-picker" class="tag-picker" aria-labelledby="solution-tag-label">
+              <span id="solution-tag-label" class="control-label"
+                >Solution tags</span
+              >
+              <details
+                id="solution-tag-picker"
+                class="tag-picker"
+                aria-labelledby="solution-tag-label"
+              >
                 <summary id="solution-tag-summary">All tags</summary>
                 <div class="tag-picker-panel">
                   <div class="tag-picker-actions">
-                    <button id="clear-solution-tags" type="button">Clear</button>
+                    <button id="clear-solution-tags" type="button">
+                      Clear
+                    </button>
                   </div>
                   <div id="solution-tag-options" class="tag-options"></div>
                 </div>
@@ -58,7 +75,9 @@
               <select id="breakdown-selector"></select>
             </div>
             <div id="breakdown-value-control" class="control" hidden>
-              <label id="breakdown-value-label" for="breakdown-value-selector">Value</label>
+              <label id="breakdown-value-label" for="breakdown-value-selector"
+                >Value</label
+              >
               <select id="breakdown-value-selector"></select>
             </div>
           </div>
@@ -69,7 +88,11 @@
       <section id="leaderboard-panel" class="leaderboard-panel">
         <div id="leaderboard-table"></div>
 
-        <section id="profile-section" class="profile-section" aria-labelledby="profile-title">
+        <section
+          id="profile-section"
+          class="profile-section"
+          aria-labelledby="profile-title"
+        >
           <div class="profile-header">
             <div>
               <h3 id="profile-title">Performance by group</h3>
@@ -81,77 +104,105 @@
             <div id="profile-solution-options" class="solution-options"></div>
           </details>
           <p id="profile-note" class="breakdown-note"></p>
-          <div id="profile-chart" class="profile-chart" aria-live="polite"></div>
+          <div
+            id="profile-chart"
+            class="profile-chart"
+            aria-live="polite"
+          ></div>
           <div id="profile-legend" class="profile-legend"></div>
         </section>
-      </section>
-
-      <section id="fusion-panel" class="fusion-panel" hidden>
-        <p id="fusion-loading" class="fusion-loading">Loading stored atomic rankings…</p>
-        <div id="fusion-workspace" hidden>
-          <div class="fusion-intro">
-            <div>
-              <h2>Try a fusion</h2>
-              <p>Combine stored Top-50 rankings instantly. No model or search service is called.</p>
-            </div>
-            <span>Exploratory · not on the leaderboard</span>
-          </div>
-
-          <div class="fusion-layout">
-            <section class="fusion-card" aria-labelledby="routes-title">
-              <h3 id="routes-title">Retrieval routes</h3>
-              <div id="fusion-routes" class="fusion-routes"></div>
-            </section>
-            <section class="fusion-card fusion-settings" aria-labelledby="settings-title">
-              <h3 id="settings-title">Fusion</h3>
-              <div class="fusion-setting-grid">
-                <div class="control">
-                  <label for="fusion-method">Method</label>
-                  <select id="fusion-method">
-                    <option value="rrf">Reciprocal rank fusion</option>
-                    <option value="weighted">Weighted normalized scores</option>
-                  </select>
-                </div>
-                <div class="control">
-                  <label for="fusion-depth">Candidates per route</label>
-                  <select id="fusion-depth">
-                    <option value="10">Top 10</option>
-                    <option value="20">Top 20</option>
-                    <option value="30">Top 30</option>
-                    <option value="40">Top 40</option>
-                    <option value="50" selected>Top 50</option>
-                  </select>
-                </div>
-                <div id="rank-constant-control" class="control">
-                  <label for="rank-constant">RRF rank constant</label>
-                  <input id="rank-constant" type="number" min="0" max="200" step="1" value="60" />
-                </div>
+        <section id="fusion-panel" class="fusion-panel">
+          <p id="fusion-loading" class="fusion-loading">
+            Loading stored atomic rankings…
+          </p>
+          <div id="fusion-workspace" hidden>
+            <div class="fusion-intro">
+              <div>
+                <h2>Try a fusion</h2>
+                <p>
+                  Combine stored Top-50 rankings instantly. No model or search
+                  service is called.
+                </p>
               </div>
-              <h3>Evaluate</h3>
-              <div class="fusion-setting-grid">
-                <div class="control">
-                  <label for="fusion-slice-dimension">Query group</label>
-                  <select id="fusion-slice-dimension"></select>
+              <span>Exploratory · not on the leaderboard</span>
+            </div>
+
+            <div class="fusion-layout">
+              <section class="fusion-card" aria-labelledby="routes-title">
+                <h3 id="routes-title">Retrieval routes</h3>
+                <div id="fusion-routes" class="fusion-routes"></div>
+              </section>
+              <section
+                class="fusion-card fusion-settings"
+                aria-labelledby="settings-title"
+              >
+                <h3 id="settings-title">Fusion</h3>
+                <div class="fusion-setting-grid">
+                  <div class="control">
+                    <label for="fusion-method">Method</label>
+                    <select id="fusion-method">
+                      <option value="rrf">Reciprocal rank fusion</option>
+                      <option value="weighted">
+                        Weighted normalized scores
+                      </option>
+                    </select>
+                  </div>
+                  <div class="control">
+                    <label for="fusion-depth">Candidates per route</label>
+                    <select id="fusion-depth">
+                      <option value="10">Top 10</option>
+                      <option value="20">Top 20</option>
+                      <option value="30">Top 30</option>
+                      <option value="40">Top 40</option>
+                      <option value="50" selected>Top 50</option>
+                    </select>
+                  </div>
+                  <div id="rank-constant-control" class="control">
+                    <label for="rank-constant">RRF rank constant</label>
+                    <input
+                      id="rank-constant"
+                      type="number"
+                      min="0"
+                      max="200"
+                      step="1"
+                      value="60"
+                    />
+                  </div>
                 </div>
-                <div id="fusion-slice-value-control" class="control" hidden>
-                  <label for="fusion-slice-value">Value</label>
-                  <select id="fusion-slice-value"></select>
+                <h3>Evaluate</h3>
+                <div class="fusion-setting-grid">
+                  <div class="control">
+                    <label for="fusion-slice-dimension">Query group</label>
+                    <select id="fusion-slice-dimension"></select>
+                  </div>
+                  <div id="fusion-slice-value-control" class="control" hidden>
+                    <label for="fusion-slice-value">Value</label>
+                    <select id="fusion-slice-value"></select>
+                  </div>
                 </div>
+              </section>
+            </div>
+
+            <section
+              class="fusion-output"
+              aria-labelledby="fusion-output-title"
+            >
+              <div class="fusion-output-header">
+                <h3 id="fusion-output-title">Live result</h3>
+                <p id="fusion-summary"></p>
               </div>
+              <div id="fusion-results"></div>
             </section>
           </div>
-
-          <section class="fusion-output" aria-labelledby="fusion-output-title">
-            <div class="fusion-output-header">
-              <h3 id="fusion-output-title">Live result</h3>
-              <p id="fusion-summary"></p>
-            </div>
-            <div id="fusion-results"></div>
-          </section>
-        </div>
+        </section>
       </section>
     </main>
-    <div id="solution-preview" class="solution-preview" role="tooltip" hidden></div>
+    <div
+      id="solution-preview"
+      class="solution-preview"
+      role="tooltip"
+      hidden
+    ></div>
     <script src="app.js" type="module"></script>
   </body>
 </html>

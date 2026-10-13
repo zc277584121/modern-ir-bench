@@ -172,7 +172,6 @@ export function createFusionPlayground({
   }
 
   async function refresh() {
-    if (element("#fusion-panel").hidden) return;
     element("#fusion-loading").hidden = false;
     element("#fusion-workspace").hidden = true;
     try {

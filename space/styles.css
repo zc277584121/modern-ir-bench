@@ -60,35 +60,6 @@ h1 {
   text-decoration: underline;
 }
 
-.view-tabs {
-  display: flex;
-  gap: 18px;
-  margin-top: 18px;
-  border-bottom: 1px solid var(--border);
-}
-
-.view-tab {
-  margin-bottom: -1px;
-  padding: 8px 1px 9px;
-  border: 0;
-  border-bottom: 2px solid transparent;
-  background: transparent;
-  color: var(--muted);
-  cursor: pointer;
-  font: inherit;
-  font-size: 14px;
-}
-
-.view-tab:hover {
-  color: var(--text);
-}
-
-.view-tab.active {
-  border-bottom-color: var(--text);
-  color: var(--text);
-  font-weight: 600;
-}
-
 .solution-name {
   display: inline-flex;
   align-items: center;
@@ -290,22 +261,10 @@ input[type="number"]:focus {
   box-shadow: 0 0 0 1px var(--blue);
 }
 
-body[data-view="fusion"] #solution-tag-control,
-body[data-view="fusion"] .breakdown-controls,
-body[data-view="fusion"] #breakdown-note {
-  display: none;
-}
-
-body[data-view="fusion"] .evaluation-controls {
-  grid-template-columns: minmax(0, 620px);
-}
-
-body[data-view="fusion"] .task-controls {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
 .fusion-panel {
-  padding: 8px 0 48px;
+  margin-top: 28px;
+  padding: 26px 0 24px;
+  border-top: 1px solid var(--border);
 }
 
 .fusion-loading {
@@ -724,10 +683,6 @@ tbody tr:hover td {
     justify-content: flex-start;
   }
 
-  .view-tabs {
-    margin-top: 12px;
-  }
-
   .evaluation-controls {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
@@ -749,10 +704,6 @@ tbody tr:hover td {
   .breakdown-controls {
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     margin-left: 0;
-  }
-
-  body[data-view="fusion"] .task-controls {
-    grid-template-columns: minmax(0, 1fr);
   }
 
   .fusion-intro,

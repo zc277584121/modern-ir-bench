@@ -639,24 +639,6 @@ function refreshBreakdownContext() {
   state.profile.sync();
 }
 
-function setView(view) {
-  document.body.dataset.view = view;
-  document.querySelector("#leaderboard-panel").hidden = view !== "leaderboard";
-  document.querySelector("#fusion-panel").hidden = view !== "fusion";
-  document.querySelectorAll("[data-view]").forEach((button) => {
-    const active = button.dataset.view === view;
-    button.classList.toggle("active", active);
-    button.setAttribute("aria-current", active ? "page" : "false");
-  });
-  if (view === "fusion") state.fusion.refresh();
-}
-
-function installViewTabs() {
-  document.querySelectorAll("[data-view]").forEach((button) => {
-    button.addEventListener("click", () => setView(button.dataset.view));
-  });
-}
-
 async function main() {
   const response = await fetch("data/results.json", { cache: "no-store" });
   if (!response.ok) throw new Error(`Unable to load benchmark data: ${response.status}`);
@@ -692,7 +674,6 @@ async function main() {
 
   installSolutionPreviews();
   installControls();
-  installViewTabs();
   state.profile.install();
   state.fusion.install();
   populateDatasetSelector();
@@ -701,7 +682,7 @@ async function main() {
   document.querySelector("#task-control").hidden = orderedTaskGroups().length <= 1;
   renderLeaderboard();
   state.profile.refresh(true);
-  setView("leaderboard");
+  state.fusion.refresh();
 }
 
 main().catch((error) => {
