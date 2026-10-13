@@ -20,17 +20,23 @@ class SentenceTransformersSparseEmbedding:
         batch_size: int = 32,
         device: str | None = None,
         max_length: int | None = None,
+        pooling_chunk_size: int | None = None,
         trust_remote_code: bool = False,
     ) -> None:
         if not model or not revision:
             raise ValueError("model and revision must be non-empty")
-        if batch_size < 1 or (max_length is not None and max_length < 1):
-            raise ValueError("batch size and max length must be positive")
+        if (
+            batch_size < 1
+            or (max_length is not None and max_length < 1)
+            or (pooling_chunk_size is not None and pooling_chunk_size < 1)
+        ):
+            raise ValueError("batch size, max length, and pooling chunk size must be positive")
         self.model_id = model
         self.revision = revision
         self.batch_size = batch_size
         self.device = device
         self.max_length = max_length
+        self.pooling_chunk_size = pooling_chunk_size
         self.trust_remote_code = trust_remote_code
         self._model: Any | None = None
 
@@ -47,6 +53,10 @@ class SentenceTransformersSparseEmbedding:
         )
         if self.max_length is not None:
             self._model.max_seq_length = self.max_length
+        if self.pooling_chunk_size is not None:
+            for module in self._model.modules():
+                if module.__class__.__name__ == "SpladePooling":
+                    module.chunk_size = self.pooling_chunk_size
         return self._model
 
     @staticmethod

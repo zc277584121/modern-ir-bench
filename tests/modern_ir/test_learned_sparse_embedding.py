@@ -50,6 +50,10 @@ def test_sentence_transformers_sparse_embedding_handles_empty_input() -> None:
     [
         (SentenceTransformersSparseEmbedding, {"model": "", "revision": "revision"}),
         (SentenceTransformersSparseEmbedding, {"model": "model", "revision": "", "batch_size": 0}),
+        (
+            SentenceTransformersSparseEmbedding,
+            {"model": "model", "revision": "revision", "pooling_chunk_size": 0},
+        ),
         (GteMultilingualSparseEmbedding, {"revision": "", "batch_size": 1}),
         (GteMultilingualSparseEmbedding, {"revision": "revision", "max_length": 0}),
     ],

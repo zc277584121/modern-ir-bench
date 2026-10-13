@@ -170,9 +170,10 @@ def build_runtime() -> Runtime:
             "opensearch-multilingual-v1": SentenceTransformersSparseEmbedding(
                 model="opensearch-project/opensearch-neural-sparse-encoding-multilingual-v1",
                 revision=OPENSEARCH_MULTILINGUAL_SPARSE_REVISION,
-                batch_size=int(os.environ.get("MIR_OPENSEARCH_MULTILINGUAL_SPARSE_BATCH_SIZE", "32")),
+                batch_size=int(os.environ.get("MIR_OPENSEARCH_MULTILINGUAL_SPARSE_BATCH_SIZE", "8")),
                 device=device,
                 max_length=512,
+                pooling_chunk_size=32,
             ),
             "gte-multilingual-base": GteMultilingualSparseEmbedding(
                 revision=GTE_MULTILINGUAL_REVISION,
@@ -183,23 +184,26 @@ def build_runtime() -> Runtime:
             "splade-v3-distilbert": SentenceTransformersSparseEmbedding(
                 model="naver/splade-v3-distilbert",
                 revision=SPLADE_V3_DISTILBERT_REVISION,
-                batch_size=int(os.environ.get("MIR_SPLADE_V3_BATCH_SIZE", "32")),
+                batch_size=int(os.environ.get("MIR_SPLADE_V3_BATCH_SIZE", "16")),
                 device=device,
                 max_length=512,
+                pooling_chunk_size=64,
             ),
             "opensearch-doc-v2-distill": SentenceTransformersSparseEmbedding(
                 model="opensearch-project/opensearch-neural-sparse-encoding-doc-v2-distill",
                 revision=OPENSEARCH_DOC_V2_DISTILL_REVISION,
-                batch_size=int(os.environ.get("MIR_OPENSEARCH_V2_DISTILL_BATCH_SIZE", "32")),
+                batch_size=int(os.environ.get("MIR_OPENSEARCH_V2_DISTILL_BATCH_SIZE", "16")),
                 device=device,
                 max_length=512,
+                pooling_chunk_size=64,
             ),
             "granite-30m-sparse": SentenceTransformersSparseEmbedding(
                 model="ibm-granite/granite-embedding-30m-sparse",
                 revision=GRANITE_30M_SPARSE_REVISION,
-                batch_size=int(os.environ.get("MIR_GRANITE_SPARSE_BATCH_SIZE", "64")),
+                batch_size=int(os.environ.get("MIR_GRANITE_SPARSE_BATCH_SIZE", "16")),
                 device=device,
                 max_length=512,
+                pooling_chunk_size=64,
             ),
         },
         embedding_gemma=SentenceTransformersEmbedding(
