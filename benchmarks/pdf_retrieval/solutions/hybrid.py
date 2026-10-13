@@ -62,7 +62,7 @@ SPECS = (
         description=(
             "Fuse full-document OCR/BM25 and page-image Voyage Multimodal Top-50 rankings with equal-weight RRF."
         ),
-        tags=("ocr", "visual", "hybrid", "managed-api", "page-level", "rrf"),
+        tags=("ocr", "lexical", "visual", "hybrid", "managed-api", "page-level", "rrf"),
         factory=_build_bm25_visual_rrf,
         readme_path="docs/solutions/paddleocr-v5-mobile-bm25-voyage-multimodal-3-5-rrf.md",
     ),
@@ -72,7 +72,7 @@ SPECS = (
         description=(
             "Fuse min-max normalized OCR/BM25 and page-image Voyage Multimodal Top-50 scores with 25/75 weights."
         ),
-        tags=("ocr", "visual", "hybrid", "managed-api", "page-level", "weighted"),
+        tags=("ocr", "lexical", "visual", "hybrid", "managed-api", "page-level", "weighted"),
         factory=_build_bm25_visual_weighted,
         readme_path="docs/solutions/paddleocr-v5-mobile-bm25-voyage-multimodal-3-5-weighted.md",
     ),

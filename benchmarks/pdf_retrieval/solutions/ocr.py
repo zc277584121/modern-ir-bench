@@ -161,7 +161,7 @@ SPECS = (
         id="paddleocr-v5-mobile-bm25-bge-m3-rrf",
         title="PP-OCRv5 Mobile + BM25/BGE-M3 · RRF",
         description="OCR every page, fuse full-document BM25 and BGE-M3 Top-50 rankings with equal-weight RRF.",
-        tags=("ocr", "hybrid", "self-hosted", "full-document", "rrf"),
+        tags=("ocr", "lexical", "dense", "hybrid", "self-hosted", "full-document", "rrf"),
         factory=_build_bm25_bge_m3_rrf,
         readme_path="docs/solutions/paddleocr-v5-mobile-bm25-bge-m3-rrf.md",
     ),
@@ -171,7 +171,7 @@ SPECS = (
         description=(
             "OCR every page, then fuse min-max normalized BM25 and BGE-M3 Top-50 scores with 25/75 weights."
         ),
-        tags=("ocr", "hybrid", "self-hosted", "full-document", "weighted"),
+        tags=("ocr", "lexical", "dense", "hybrid", "self-hosted", "full-document", "weighted"),
         factory=_build_bm25_bge_m3_weighted,
         readme_path="docs/solutions/paddleocr-v5-mobile-bm25-bge-m3-weighted.md",
     ),

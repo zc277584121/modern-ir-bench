@@ -1,5 +1,6 @@
 import { createProfileController } from "./profile.js";
 import { createFusionPlayground } from "./fusion-playground.js";
+import { solutionBadges } from "./solution-badges.js";
 
 const state = {
   payload: null,
@@ -94,7 +95,16 @@ function solutionReadmeLink(solution) {
 }
 
 function solutionName(solution) {
-  return `<span class="solution-name">${solutionReadmeLink(solution)}${solutionCodeLink(solution)}</span>`;
+  const badges = solutionBadges(solution)
+    .map(
+      ({ id, label, description }) =>
+        `<span class="solution-badge solution-badge-${escapeHtml(id)}" title="${escapeHtml(description)}">${escapeHtml(label)}</span>`,
+    )
+    .join("");
+  return `<span class="solution-cell">
+    <span class="solution-name">${solutionReadmeLink(solution)}${solutionCodeLink(solution)}</span>
+    <span class="solution-badges" aria-label="Retrieval method">${badges}</span>
+  </span>`;
 }
 
 function renderTable(headers, rows, tableName, sortState) {

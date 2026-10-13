@@ -66,6 +66,86 @@ h1 {
   gap: 6px;
 }
 
+.solution-cell {
+  display: inline-grid;
+  gap: 5px;
+}
+
+.solution-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.solution-badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 18px;
+  padding: 1px 6px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 650;
+  line-height: 1.35;
+  white-space: nowrap;
+}
+
+.solution-badge-atomic {
+  border-color: #d1d5db;
+  background: #f9fafb;
+  color: #4b5563;
+}
+
+.solution-badge-fusion {
+  border-color: #99f6e4;
+  background: #f0fdfa;
+  color: #0f766e;
+}
+
+.solution-badge-reranked {
+  border-color: #fecdd3;
+  background: #fff1f2;
+  color: #be123c;
+}
+
+.solution-badge-dense {
+  border-color: #bfdbfe;
+  background: #eff6ff;
+  color: #1d4ed8;
+}
+
+.solution-badge-sparse {
+  border-color: #ddd6fe;
+  background: #f5f3ff;
+  color: #6d28d9;
+}
+
+.solution-badge-lexical {
+  border-color: #fde68a;
+  background: #fffbeb;
+  color: #a16207;
+}
+
+.solution-badge-visual {
+  border-color: #c7d2fe;
+  background: #eef2ff;
+  color: #4338ca;
+}
+
+.solution-badge-ocr {
+  border-color: #a5f3fc;
+  background: #ecfeff;
+  color: #0e7490;
+}
+
+.solution-badge-rrf,
+.solution-badge-weighted {
+  border-color: #d1d5db;
+  background: #ffffff;
+  color: #6b7280;
+  font-weight: 550;
+}
+
 .solution-code-link {
   display: inline-flex;
   flex: 0 0 auto;
