@@ -2,16 +2,22 @@
   "schema_version": 1,
   "artifact_type": "live-top-k-rankings",
   "release": "modern-ir-bench-v2.2-20261010",
-  "published_at": "2026-10-13T05:40:45.896895+00:00",
+  "published_at": "2026-10-13T06:30:03.350589+00:00",
   "dataset": {
     "repository": "zc277584121/modern-ir-bench",
     "revision": "c7a38d6aaa3d1bd178952b6be91e12ca4ceb10ff"
   },
   "solutions": [
     "bge-m3-dense-chunk",
+    "bge-m3-dense-sparse-rrf",
+    "bge-m3-dense-sparse-weighted-25-75",
+    "bge-m3-dense-sparse-weighted-50-50",
+    "bge-m3-dense-sparse-weighted-75-25",
     "bge-m3-sparse-chunk",
+    "bm25-bge-m3-sparse-rrf",
     "bm25-chunk",
     "bm25-full",
+    "bm25-gte-multilingual-sparse-rrf",
     "bm25-qwen3-embedding-8b-rrf",
     "bm25-qwen3-embedding-8b-weighted-25-75",
     "bm25-qwen3-embedding-8b-weighted-50-50",
@@ -24,6 +30,10 @@
     "gemini-embedding-2-chunk",
     "granite-30m-sparse-chunk",
     "gte-multilingual-base-sparse-chunk",
+    "gte-sparse-qwen3-embedding-8b-rrf",
+    "gte-sparse-qwen3-embedding-8b-weighted-25-75",
+    "gte-sparse-qwen3-embedding-8b-weighted-50-50",
+    "gte-sparse-qwen3-embedding-8b-weighted-75-25",
     "jina-embeddings-v5-text-small-chunk",
     "mistral-embed-2312-chunk",
     "nemotron-3-embed-1b-chunk",
@@ -49,9 +59,49 @@
       "origin": "historical-top-k-rankings",
       "published_at": "2026-10-10T03:34:57.604060+00:00"
     },
+    "bge-m3-dense-sparse-rrf": {
+      "source_commit": "993af67f7c3b83b36385713370a9e2c79251c255",
+      "source_module": "benchmarks.ranked_retrieval.run",
+      "source_path": "benchmarks/ranked_retrieval/run.py",
+      "source_line": 36,
+      "created_at": "2026-10-13T06:07:35.387341+00:00",
+      "origin": "verified-live-run"
+    },
+    "bge-m3-dense-sparse-weighted-25-75": {
+      "source_commit": "993af67f7c3b83b36385713370a9e2c79251c255",
+      "source_module": "benchmarks.ranked_retrieval.run",
+      "source_path": "benchmarks/ranked_retrieval/run.py",
+      "source_line": 36,
+      "created_at": "2026-10-13T06:07:35.387341+00:00",
+      "origin": "verified-live-run"
+    },
+    "bge-m3-dense-sparse-weighted-50-50": {
+      "source_commit": "993af67f7c3b83b36385713370a9e2c79251c255",
+      "source_module": "benchmarks.ranked_retrieval.run",
+      "source_path": "benchmarks/ranked_retrieval/run.py",
+      "source_line": 36,
+      "created_at": "2026-10-13T06:07:35.387341+00:00",
+      "origin": "verified-live-run"
+    },
+    "bge-m3-dense-sparse-weighted-75-25": {
+      "source_commit": "993af67f7c3b83b36385713370a9e2c79251c255",
+      "source_module": "benchmarks.ranked_retrieval.run",
+      "source_path": "benchmarks/ranked_retrieval/run.py",
+      "source_line": 36,
+      "created_at": "2026-10-13T06:07:35.387341+00:00",
+      "origin": "verified-live-run"
+    },
     "bge-m3-sparse-chunk": {
       "origin": "historical-top-k-rankings",
       "published_at": "2026-10-10T03:34:57.604060+00:00"
+    },
+    "bm25-bge-m3-sparse-rrf": {
+      "source_commit": "993af67f7c3b83b36385713370a9e2c79251c255",
+      "source_module": "benchmarks.ranked_retrieval.run",
+      "source_path": "benchmarks/ranked_retrieval/run.py",
+      "source_line": 36,
+      "created_at": "2026-10-13T06:07:35.387341+00:00",
+      "origin": "verified-live-run"
     },
     "bm25-chunk": {
       "origin": "historical-top-k-rankings",
@@ -60,6 +110,14 @@
     "bm25-full": {
       "origin": "historical-top-k-rankings",
       "published_at": "2026-10-10T03:34:57.604060+00:00"
+    },
+    "bm25-gte-multilingual-sparse-rrf": {
+      "source_commit": "993af67f7c3b83b36385713370a9e2c79251c255",
+      "source_module": "benchmarks.ranked_retrieval.run",
+      "source_path": "benchmarks/ranked_retrieval/run.py",
+      "source_line": 36,
+      "created_at": "2026-10-13T06:07:35.387341+00:00",
+      "origin": "verified-live-run"
     },
     "bm25-qwen3-embedding-8b-rrf": {
       "source_commit": "4109043e3adf160a77244bbafaa8205ff003f1d6",
@@ -155,6 +213,38 @@
       "source_path": "benchmarks/ranked_retrieval/run.py",
       "source_line": 36,
       "created_at": "2026-10-13T05:33:05.151846+00:00",
+      "origin": "verified-live-run"
+    },
+    "gte-sparse-qwen3-embedding-8b-rrf": {
+      "source_commit": "993af67f7c3b83b36385713370a9e2c79251c255",
+      "source_module": "benchmarks.ranked_retrieval.run",
+      "source_path": "benchmarks/ranked_retrieval/run.py",
+      "source_line": 36,
+      "created_at": "2026-10-13T06:07:35.387341+00:00",
+      "origin": "verified-live-run"
+    },
+    "gte-sparse-qwen3-embedding-8b-weighted-25-75": {
+      "source_commit": "993af67f7c3b83b36385713370a9e2c79251c255",
+      "source_module": "benchmarks.ranked_retrieval.run",
+      "source_path": "benchmarks/ranked_retrieval/run.py",
+      "source_line": 36,
+      "created_at": "2026-10-13T06:07:35.387341+00:00",
+      "origin": "verified-live-run"
+    },
+    "gte-sparse-qwen3-embedding-8b-weighted-50-50": {
+      "source_commit": "993af67f7c3b83b36385713370a9e2c79251c255",
+      "source_module": "benchmarks.ranked_retrieval.run",
+      "source_path": "benchmarks/ranked_retrieval/run.py",
+      "source_line": 36,
+      "created_at": "2026-10-13T06:07:35.387341+00:00",
+      "origin": "verified-live-run"
+    },
+    "gte-sparse-qwen3-embedding-8b-weighted-75-25": {
+      "source_commit": "993af67f7c3b83b36385713370a9e2c79251c255",
+      "source_module": "benchmarks.ranked_retrieval.run",
+      "source_path": "benchmarks/ranked_retrieval/run.py",
+      "source_line": 36,
+      "created_at": "2026-10-13T06:07:35.387341+00:00",
       "origin": "verified-live-run"
     },
     "jina-embeddings-v5-text-small-chunk": {
@@ -299,7 +389,7 @@
     }
   },
   "queries": 1000,
-  "ranking_rows": 35000,
+  "ranking_rows": 45000,
   "top_k": 10,
-  "rankings_sha256": "a144d7ee374cae1967a6ebde76e530dcec28a369b012bc99fac27cd7bd27e074"
+  "rankings_sha256": "806f9cbe8c2e522318b5b2f6cfbbb73af22bbb2bdd3c9809c17c435e0b63b236"
 }
