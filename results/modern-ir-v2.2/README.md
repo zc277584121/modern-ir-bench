@@ -9,6 +9,9 @@ This directory stores immutable Top-K document rankings for every published Solu
 - `bm25-chunk`
 - `bm25-full`
 - `bm25-qwen3-embedding-8b-rrf`
+- `bm25-qwen3-embedding-8b-weighted-25-75`
+- `bm25-qwen3-embedding-8b-weighted-50-50`
+- `bm25-qwen3-embedding-8b-weighted-75-25`
 - `embedding-gemma-2-chunk`
 - `gemini-embedding-2-chunk`
 - `pplx-embed-v1-4b-chunk`

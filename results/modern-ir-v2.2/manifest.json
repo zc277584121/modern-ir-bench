@@ -2,7 +2,7 @@
   "schema_version": 1,
   "artifact_type": "live-top-k-rankings",
   "release": "modern-ir-bench-v2.2-20261010",
-  "published_at": "2026-10-12T16:39:58.068806+00:00",
+  "published_at": "2026-10-13T00:39:06.165782+00:00",
   "dataset": {
     "repository": "zc277584121/modern-ir-bench",
     "revision": "c7a38d6aaa3d1bd178952b6be91e12ca4ceb10ff"
@@ -13,6 +13,9 @@
     "bm25-chunk",
     "bm25-full",
     "bm25-qwen3-embedding-8b-rrf",
+    "bm25-qwen3-embedding-8b-weighted-25-75",
+    "bm25-qwen3-embedding-8b-weighted-50-50",
+    "bm25-qwen3-embedding-8b-weighted-75-25",
     "embedding-gemma-2-chunk",
     "gemini-embedding-2-chunk",
     "pplx-embed-v1-4b-chunk",
@@ -40,11 +43,35 @@
       "published_at": "2026-10-10T03:34:57.604060+00:00"
     },
     "bm25-qwen3-embedding-8b-rrf": {
-      "source_commit": "0e399e649053b3f5bc6942204d47fe3e70ebf5ec",
+      "source_commit": "4109043e3adf160a77244bbafaa8205ff003f1d6",
       "source_module": "benchmarks.ranked_retrieval.run",
       "source_path": "benchmarks/ranked_retrieval/run.py",
       "source_line": 36,
-      "created_at": "2026-10-12T15:26:14.092511+00:00",
+      "created_at": "2026-10-13T00:24:35.401727+00:00",
+      "origin": "verified-live-run"
+    },
+    "bm25-qwen3-embedding-8b-weighted-25-75": {
+      "source_commit": "90c13b44806f730b5b5dca1c7afb3f0c4179eea6",
+      "source_module": "benchmarks.ranked_retrieval.run",
+      "source_path": "benchmarks/ranked_retrieval/run.py",
+      "source_line": 36,
+      "created_at": "2026-10-13T00:37:43.524659+00:00",
+      "origin": "verified-live-run"
+    },
+    "bm25-qwen3-embedding-8b-weighted-50-50": {
+      "source_commit": "90c13b44806f730b5b5dca1c7afb3f0c4179eea6",
+      "source_module": "benchmarks.ranked_retrieval.run",
+      "source_path": "benchmarks/ranked_retrieval/run.py",
+      "source_line": 36,
+      "created_at": "2026-10-13T00:37:43.524659+00:00",
+      "origin": "verified-live-run"
+    },
+    "bm25-qwen3-embedding-8b-weighted-75-25": {
+      "source_commit": "90c13b44806f730b5b5dca1c7afb3f0c4179eea6",
+      "source_module": "benchmarks.ranked_retrieval.run",
+      "source_path": "benchmarks/ranked_retrieval/run.py",
+      "source_line": 36,
+      "created_at": "2026-10-13T00:37:43.524659+00:00",
       "origin": "verified-live-run"
     },
     "embedding-gemma-2-chunk": {
@@ -101,7 +128,7 @@
     }
   },
   "queries": 1000,
-  "ranking_rows": 13000,
+  "ranking_rows": 16000,
   "top_k": 10,
-  "rankings_sha256": "a08d30be22a6c2b2ac8e68eb8a987ecbb578f1588bdd4ebdcc947fcc1c902f3f"
+  "rankings_sha256": "2348155680084673df985172072460e5ad19c88fcc631bee41eacc7d868d8234"
 }

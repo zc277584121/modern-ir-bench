@@ -15,7 +15,7 @@ separately and the Hugging Face Space is generated from that evidence.
 - 5,000 bilingual text documents
 - 1,000 queries
 - 6,575 positive binary Qrels
-- thirteen published lexical, dense, learned-sparse, and hybrid Solutions
+- sixteen published lexical, dense, learned-sparse, and hybrid Solutions
 - immutable historical Top-10 rankings in `results/modern-ir-v2.2/`
 - Dataset: [`zc277584121/modern-ir-bench`](https://huggingface.co/datasets/zc277584121/modern-ir-bench)
 
