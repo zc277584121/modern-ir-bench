@@ -73,6 +73,10 @@ def _build_weighted_bge(runtime: Runtime, spec: SolutionSpec):
     return _build(runtime, spec, candidate_kind="weighted", reranker_key="bge-reranker-v2-m3")
 
 
+def _build_weighted_cohere(runtime: Runtime, spec: SolutionSpec):
+    return _build(runtime, spec, candidate_kind="weighted", reranker_key="cohere-rerank-4-pro")
+
+
 SPECS = (
     SolutionSpec(
         "qwen3-embedding-8b-rerank-3",
@@ -105,5 +109,13 @@ SPECS = (
         ("hybrid", "two-stage", "reranker", "self-hosted", "chunked-candidates", "full-document-rerank"),
         _build_weighted_bge,
         "docs/solutions/bge-reranker-v2-m3.md",
+    ),
+    SolutionSpec(
+        "bm25-qwen3-embedding-8b-weighted-cohere-rerank-4-pro",
+        "BM25 + Qwen3 Weighted → Cohere Rerank 4 Pro",
+        "Rerank weighted BM25/Qwen3 Top-50 candidates as complete documents with Cohere Rerank 4 Pro.",
+        ("hybrid", "two-stage", "reranker", "managed-api", "chunked-candidates", "full-document-rerank"),
+        _build_weighted_cohere,
+        "docs/solutions/cohere-rerank-4-pro.md",
     ),
 )

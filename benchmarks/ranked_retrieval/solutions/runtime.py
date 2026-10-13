@@ -13,11 +13,13 @@ from benchmarks.model_settings import (
 from benchmarks.ranked_retrieval.solutions.types import Runtime
 from modern_ir_bench.embeddings import (
     BgeM3Embedding,
+    DashScopeTextEmbedding,
+    JinaTextEmbedding,
     OpenRouterEmbedding,
     SentenceTransformersEmbedding,
     VoyageEmbedding,
 )
-from modern_ir_bench.rerankers import CrossEncoderReranker, VoyageReranker
+from modern_ir_bench.rerankers import CrossEncoderReranker, OpenRouterReranker, VoyageReranker
 from modern_ir_bench.retrieval import HuggingFaceOffsetTokenizer, TextInput, TokenTextChunker
 from modern_ir_bench.retrieval.indexes.milvus import MilvusLite, MilvusServer
 
@@ -114,6 +116,18 @@ def build_runtime() -> Runtime:
                 cache_path=project_root / ".runtime/openrouter/pplx-embed-v1-4b.sqlite3",
                 request_concurrency=int(os.environ.get("MIR_OPENROUTER_CONCURRENCY", "4")),
             ),
+            "jina-embeddings-v5-text-small": JinaTextEmbedding(
+                cache_path=project_root / ".runtime/jina/jina-embeddings-v5-text-small.sqlite3",
+                batch_size=int(os.environ.get("MIR_JINA_BATCH_SIZE", "32")),
+                request_concurrency=int(os.environ.get("MIR_JINA_CONCURRENCY", "4")),
+                resolve_ip=os.environ.get("MIR_JINA_RESOLVE_IP"),
+            ),
+            "text-embedding-v4": DashScopeTextEmbedding(
+                cache_path=project_root / ".runtime/dashscope/text-embedding-v4.sqlite3",
+                batch_size=int(os.environ.get("MIR_DASHSCOPE_BATCH_SIZE", "10")),
+                request_concurrency=int(os.environ.get("MIR_DASHSCOPE_CONCURRENCY", "8")),
+                query_instruction=QUERY_INSTRUCTION,
+            ),
         },
         embedding_gemma=SentenceTransformersEmbedding(
             model=EMBEDDING_GEMMA_2_MODEL,
@@ -146,6 +160,10 @@ def build_runtime() -> Runtime:
                 batch_size=int(os.environ.get("MIR_BGE_RERANK_BATCH_SIZE", "2")),
                 devices=rerank_devices or None,
                 use_fp16=True,
+            ),
+            "cohere-rerank-4-pro": OpenRouterReranker(
+                model="cohere/rerank-4-pro",
+                request_concurrency=int(os.environ.get("MIR_OPENROUTER_RERANK_CONCURRENCY", "8")),
             ),
         },
     )

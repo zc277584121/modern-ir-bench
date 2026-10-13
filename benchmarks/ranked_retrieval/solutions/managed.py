@@ -37,6 +37,14 @@ def _build_perplexity(runtime: Runtime, spec: SolutionSpec):
     return _build_managed_chunk(runtime, spec, embedding_key="pplx-embed-v1-4b")
 
 
+def _build_jina(runtime: Runtime, spec: SolutionSpec):
+    return _build_managed_chunk(runtime, spec, embedding_key="jina-embeddings-v5-text-small")
+
+
+def _build_dashscope(runtime: Runtime, spec: SolutionSpec):
+    return _build_managed_chunk(runtime, spec, embedding_key="text-embedding-v4")
+
+
 SPECS = (
     SolutionSpec(
         "text-embedding-3-large-chunk",
@@ -61,5 +69,21 @@ SPECS = (
         ("dense", "managed-api", "chunked"),
         _build_perplexity,
         "docs/solutions/pplx-embed-v1-4b.md",
+    ),
+    SolutionSpec(
+        "jina-embeddings-v5-text-small-chunk",
+        "Jina Embeddings v5 Text Small · 768-token chunks",
+        "Jina Embeddings v5 Text Small over shared chunks with Milvus FLAT search.",
+        ("dense", "managed-api", "chunked"),
+        _build_jina,
+        "docs/solutions/jina-embeddings-v5-text-small.md",
+    ),
+    SolutionSpec(
+        "dashscope-text-embedding-v4-chunk",
+        "DashScope Text Embedding v4 · 768-token chunks",
+        "DashScope Text Embedding v4 over shared chunks with native query/document modes and Milvus FLAT search.",
+        ("dense", "managed-api", "chunked"),
+        _build_dashscope,
+        "docs/solutions/dashscope-text-embedding-v4.md",
     ),
 )
