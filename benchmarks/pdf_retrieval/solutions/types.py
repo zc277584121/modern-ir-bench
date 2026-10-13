@@ -12,6 +12,7 @@ from modern_ir_bench.embeddings import (
     OpenRouterEmbedding,
     OvisOmniEmbedding,
     SentenceTransformersEmbedding,
+    VoyageEmbedding,
     VoyageMultimodalEmbedding,
 )
 from modern_ir_bench.retrieval.indexes.milvus.target import MilvusTarget
@@ -24,7 +25,7 @@ class Runtime:
     cache_root: Path
     ocr: PaddleOcrExtractor
     bge_m3: BgeM3Embedding
-    voyage_text: OpenRouterEmbedding
+    voyage_text: VoyageEmbedding
     voyage_multimodal: VoyageMultimodalEmbedding
     embedding_gemma: SentenceTransformersEmbedding
     wemm: SentenceTransformersEmbedding

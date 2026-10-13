@@ -22,8 +22,10 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_CACHE = PROJECT_ROOT / ".runtime/retrieval-candidates.sqlite3"
 DEFAULT_OUTPUT = PROJECT_ROOT / "space/data/fusion"
 TEXT_NAMESPACE = f"ranked:{TEXT_DATASET_REVISION}:sparse-fusion:v1"
+TEXT_VOYAGE_NAMESPACE = f"ranked:{TEXT_DATASET_REVISION}:bm25-voyage-4-large-chunks:v1"
 PDF_TEXT_NAMESPACE = f"pdf:{PDF_DATASET_REVISION}:ocr-bm25-bge-m3-full:v1"
 PDF_VISUAL_NAMESPACE = f"pdf:{PDF_DATASET_REVISION}:ocr-bm25-voyage-multimodal-pages:v1"
+PDF_VOYAGE_NAMESPACE = f"pdf:{PDF_DATASET_REVISION}:ocr-voyage-4-large-voyage-multimodal-pages:v1"
 
 QUERY_DIMENSIONS = (
     PlaygroundDimension("language", "Language", {"en": "English", "zh": "Chinese"}),
@@ -55,6 +57,13 @@ def build_payload(cache_path: Path) -> list[dict[str, object]]:
                 "Dense",
                 TEXT_NAMESPACE,
                 "internal-qwen3-embedding-8b-chunk",
+            ),
+            PlaygroundRoute(
+                "voyage-4-large",
+                "Voyage 4 Large",
+                "Dense",
+                TEXT_VOYAGE_NAMESPACE,
+                "internal-voyage-4-large-chunk",
             ),
             PlaygroundRoute(
                 "bge-m3-sparse",
@@ -99,6 +108,13 @@ def build_payload(cache_path: Path) -> list[dict[str, object]]:
                 "Visual",
                 PDF_VISUAL_NAMESPACE,
                 "internal-voyage-multimodal-pages",
+            ),
+            PlaygroundRoute(
+                "ocr-voyage-4-large",
+                "OCR + Voyage 4 Large",
+                "Dense",
+                PDF_VOYAGE_NAMESPACE,
+                "internal-ocr-voyage-4-large-full",
             ),
             PlaygroundRoute(
                 "ocr-bm25",

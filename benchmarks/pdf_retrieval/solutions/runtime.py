@@ -20,6 +20,7 @@ from modern_ir_bench.embeddings import (
     OpenRouterEmbedding,
     OvisOmniEmbedding,
     SentenceTransformersEmbedding,
+    VoyageEmbedding,
     VoyageMultimodalEmbedding,
 )
 from modern_ir_bench.retrieval.indexes.milvus.target import MilvusTarget
@@ -44,14 +45,12 @@ def build_runtime(*, target: MilvusTarget, project_root: Path) -> Runtime:
             device=device,
             use_fp16=True,
         ),
-        voyage_text=OpenRouterEmbedding(
-            model="voyageai/voyage-4-large",
+        voyage_text=VoyageEmbedding(
+            model="voyage-4-large",
             dimension=1024,
-            batch_size=int(os.environ.get("MIR_OPENROUTER_BATCH_SIZE", "32")),
-            document_input_type="document",
-            query_input_type="query",
-            cache_path=runtime_root / "openrouter/voyage-4-large.sqlite3",
-            request_concurrency=int(os.environ.get("MIR_OPENROUTER_CONCURRENCY", "4")),
+            batch_size=int(os.environ.get("MIR_VOYAGE_BATCH_SIZE", "128")),
+            max_batch_tokens=int(os.environ.get("MIR_VOYAGE_MAX_BATCH_TOKENS", "100000")),
+            cache_path=runtime_root / "voyage-4-large.sqlite3",
         ),
         voyage_multimodal=VoyageMultimodalEmbedding(
             model="voyage-multimodal-3.5",

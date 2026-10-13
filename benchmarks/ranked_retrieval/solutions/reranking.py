@@ -1,7 +1,7 @@
 """Two-stage retrieve-then-rerank Solution definitions."""
 
 from benchmarks.ranked_retrieval.definition import DATASET_REVISION
-from benchmarks.ranked_retrieval.solutions.hybrid import CANDIDATE_CACHE_NAMESPACE, _components
+from benchmarks.ranked_retrieval.solutions.hybrid import QWEN_CANDIDATE_CACHE_NAMESPACE, _components
 from benchmarks.ranked_retrieval.solutions.qwen import build_qwen_8b_chunk_component
 from benchmarks.ranked_retrieval.solutions.runtime import text_of
 from benchmarks.ranked_retrieval.solutions.types import Runtime, SolutionSpec
@@ -29,7 +29,7 @@ def _weighted_candidates(runtime: Runtime):
         score_directions=("lower", "higher"),
         candidate_depth=50,
         candidate_cache_path=runtime.cache_root / "retrieval-candidates.sqlite3",
-        candidate_cache_namespace=CANDIDATE_CACHE_NAMESPACE,
+        candidate_cache_namespace=QWEN_CANDIDATE_CACHE_NAMESPACE,
     )
 
 
@@ -51,7 +51,7 @@ def _build(
         query_input=text_of,
         candidate_depth=50,
         candidate_cache_path=runtime.cache_root / "retrieval-candidates.sqlite3",
-        candidate_cache_namespace=CANDIDATE_CACHE_NAMESPACE,
+        candidate_cache_namespace=QWEN_CANDIDATE_CACHE_NAMESPACE,
         rerank_cache_path=runtime.cache_root / "rerank-scores.sqlite3",
         rerank_cache_namespace=RERANK_CACHE_NAMESPACE,
     )

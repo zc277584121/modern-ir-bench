@@ -14,7 +14,7 @@ from pathlib import Path
 from typing import Any
 
 from benchmarks.ranked_retrieval.definition import RELEASE_ID, _document_value, _query_value, build_task
-from benchmarks.ranked_retrieval.solutions.hybrid import CANDIDATE_CACHE_NAMESPACE
+from benchmarks.ranked_retrieval.solutions.hybrid import QWEN_CANDIDATE_CACHE_NAMESPACE
 from benchmarks.reporting import retrieval_metrics
 from modern_ir_bench.results import RankingArtifact
 from modern_ir_bench.retrieval import RetrievalResource
@@ -66,7 +66,7 @@ def _relevant_documents(qrels: Sequence[Mapping[str, Any]]) -> dict[str, set[str
 
 
 def _load_candidates(dataset: Any, cache_path: Path) -> dict[str, dict[str, tuple[str, ...]]]:
-    cache = SqliteCandidateCache(cache_path, namespace=CANDIDATE_CACHE_NAMESPACE)
+    cache = SqliteCandidateCache(cache_path, namespace=QWEN_CANDIDATE_CACHE_NAMESPACE)
     candidates = {path_id: {} for path_id in CANDIDATE_PATHS}
     for language in sorted(set(dataset["queries"]["language"])):
         documents = [

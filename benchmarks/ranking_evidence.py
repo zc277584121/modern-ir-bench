@@ -157,11 +157,12 @@ def merge_release(
     dataset_revision: str,
     run_directories: Sequence[Path],
     output: Path,
+    remove_solutions: Sequence[str] = (),
 ) -> None:
     """Merge verified Solution runs into one immutable Top-K ranking release."""
 
-    if not run_directories:
-        raise ValueError("At least one verified Solution run is required")
+    if not run_directories and not remove_solutions:
+        raise ValueError("At least one verified Solution run or Solution removal is required")
     dataset = task.datasets[dataset_id]
     task.validate_dataset(dataset)
     existing_manifest_path = output / "manifest.json"
@@ -178,6 +179,13 @@ def merge_release(
             raise ValueError("Existing output uses a different ranking depth")
     all_rankings, source_runs = _existing_release(output)
     top_k = task.top_k
+
+    unknown_removals = sorted(set(remove_solutions) - set(all_rankings))
+    if unknown_removals:
+        raise ValueError(f"Cannot remove unknown Solutions: {', '.join(unknown_removals)}")
+    for solution_id in set(remove_solutions):
+        all_rankings.pop(solution_id)
+        source_runs.pop(solution_id, None)
 
     for directory in run_directories:
         manifest, saved, observations = load_run_artifact(directory)

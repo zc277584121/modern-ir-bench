@@ -9,7 +9,6 @@ from modern_ir_bench.retrieval import (
     MilvusBM25Solution,
     ReciprocalRankFusionSolution,
     TextInput,
-    WeightedScoreFusionSolution,
 )
 from modern_ir_bench.retrieval.indexes.milvus import MilvusDenseIndex
 from modern_ir_bench.solutions import PdfOcrRetrievalSolution
@@ -71,11 +70,17 @@ def _build_bm25(runtime: Runtime, spec: SolutionSpec) -> PdfOcrRetrievalSolution
     )
 
 
-def _build_voyage(runtime: Runtime, spec: SolutionSpec) -> PdfOcrRetrievalSolution:
+def build_voyage_pdf_component(
+    runtime: Runtime,
+    *,
+    solution_id: str,
+    title: str,
+    description: str,
+) -> PdfOcrRetrievalSolution:
     return PdfOcrRetrievalSolution(
-        id=spec.id,
-        title=spec.title,
-        description=spec.description,
+        id=solution_id,
+        title=title,
+        description=description,
         extractor=runtime.ocr,
         text_solution=DenseRetrievalSolution(
             id="internal-voyage-full",
@@ -90,6 +95,15 @@ def _build_voyage(runtime: Runtime, spec: SolutionSpec) -> PdfOcrRetrievalSoluti
             document_input=_text,
             query_input=_text,
         ),
+    )
+
+
+def _build_voyage(runtime: Runtime, spec: SolutionSpec) -> PdfOcrRetrievalSolution:
+    return build_voyage_pdf_component(
+        runtime,
+        solution_id=spec.id,
+        title=spec.title,
+        description=spec.description,
     )
 
 
@@ -115,25 +129,6 @@ def _build_bm25_bge_m3_rrf(runtime: Runtime, spec: SolutionSpec) -> PdfOcrRetrie
             components=(_bm25(runtime), _bge_m3(runtime)),
             candidate_depth=50,
             rank_constant=60,
-            candidate_cache_path=runtime.cache_root / "retrieval-candidates.sqlite3",
-            candidate_cache_namespace=f"pdf:{DATASET_REVISION}:ocr-bm25-bge-m3-full:v1",
-        ),
-    )
-
-
-def _build_bm25_bge_m3_weighted(runtime: Runtime, spec: SolutionSpec) -> PdfOcrRetrievalSolution:
-    return PdfOcrRetrievalSolution(
-        id=spec.id,
-        title=spec.title,
-        description=spec.description,
-        extractor=runtime.ocr,
-        text_solution=WeightedScoreFusionSolution(
-            id="internal-bm25-bge-m3-weighted-25-75",
-            title="Internal BM25 + BGE-M3 weighted 25/75",
-            components=(_bm25(runtime), _bge_m3(runtime)),
-            weights=(0.25, 0.75),
-            score_directions=("lower", "higher"),
-            candidate_depth=50,
             candidate_cache_path=runtime.cache_root / "retrieval-candidates.sqlite3",
             candidate_cache_namespace=f"pdf:{DATASET_REVISION}:ocr-bm25-bge-m3-full:v1",
         ),
@@ -166,20 +161,10 @@ SPECS = (
         readme_path="docs/solutions/paddleocr-v5-mobile-bm25-bge-m3-rrf.md",
     ),
     SolutionSpec(
-        id="paddleocr-v5-mobile-bm25-bge-m3-weighted-25-75",
-        title="PP-OCRv5 Mobile + BM25/BGE-M3 · Weighted 25/75",
-        description=(
-            "OCR every page, then fuse min-max normalized BM25 and BGE-M3 Top-50 scores with 25/75 weights."
-        ),
-        tags=("ocr", "lexical", "dense", "hybrid", "self-hosted", "full-document", "weighted"),
-        factory=_build_bm25_bge_m3_weighted,
-        readme_path="docs/solutions/paddleocr-v5-mobile-bm25-bge-m3-weighted.md",
-    ),
-    SolutionSpec(
         id="paddleocr-v5-mobile-voyage-4-large-full",
         title="PP-OCRv5 Mobile + Voyage 4 Large · full document",
         description=(
-            "OCR every page, embed each complete document with Voyage 4 Large through OpenRouter, "
+            "OCR every page, embed each complete document with Voyage 4 Large through the Voyage API, "
             "then search with Milvus FLAT."
         ),
         tags=("ocr", "dense", "managed-api", "full-document"),

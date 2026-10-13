@@ -7,8 +7,8 @@ and changes only retrieval.
 
 1. OCR every PDF page with the bilingual PP-OCRv5 mobile detector and recognizer.
 2. Concatenate recognized text in page order.
-3. Encode each complete document with `voyageai/voyage-4-large` through
-   OpenRouter's Embeddings API at 1024 dimensions.
+3. Encode each complete document with `voyage-4-large` through Voyage's
+   official API at 1024 dimensions.
 4. Encode text queries with the same model's query input type.
 5. Search exact cosine similarity with a Milvus FLAT index.
 

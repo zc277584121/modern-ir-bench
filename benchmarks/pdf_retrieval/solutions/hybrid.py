@@ -3,12 +3,13 @@
 from __future__ import annotations
 
 from benchmarks.pdf_retrieval.definition import DATASET_REVISION
-from benchmarks.pdf_retrieval.solutions.ocr import build_bm25_pdf_component
+from benchmarks.pdf_retrieval.solutions.ocr import build_bm25_pdf_component, build_voyage_pdf_component
 from benchmarks.pdf_retrieval.solutions.types import Runtime, SolutionSpec
 from benchmarks.pdf_retrieval.solutions.visual import build_voyage_pages_component
-from modern_ir_bench.retrieval import ReciprocalRankFusionSolution, WeightedScoreFusionSolution
+from modern_ir_bench.retrieval import ReciprocalRankFusionSolution
 
-CANDIDATE_CACHE_NAMESPACE = f"pdf:{DATASET_REVISION}:ocr-bm25-voyage-multimodal-pages:v1"
+BM25_VISUAL_CACHE_NAMESPACE = f"pdf:{DATASET_REVISION}:ocr-bm25-voyage-multimodal-pages:v1"
+VOYAGE_TEXT_VISUAL_CACHE_NAMESPACE = f"pdf:{DATASET_REVISION}:ocr-voyage-4-large-voyage-multimodal-pages:v1"
 
 
 def _components(runtime: Runtime):
@@ -37,21 +38,34 @@ def _build_bm25_visual_rrf(runtime: Runtime, spec: SolutionSpec) -> ReciprocalRa
         candidate_depth=50,
         rank_constant=60,
         candidate_cache_path=runtime.cache_root / "retrieval-candidates.sqlite3",
-        candidate_cache_namespace=CANDIDATE_CACHE_NAMESPACE,
+        candidate_cache_namespace=BM25_VISUAL_CACHE_NAMESPACE,
     )
 
 
-def _build_bm25_visual_weighted(runtime: Runtime, spec: SolutionSpec) -> WeightedScoreFusionSolution:
-    return WeightedScoreFusionSolution(
+def _build_voyage_text_visual_rrf(runtime: Runtime, spec: SolutionSpec) -> ReciprocalRankFusionSolution:
+    components = (
+        build_voyage_pdf_component(
+            runtime,
+            solution_id="internal-ocr-voyage-4-large-full",
+            title="Internal OCR + Voyage 4 Large",
+            description="OCR full documents and retrieve with Voyage 4 Large through the Voyage API.",
+        ),
+        build_voyage_pages_component(
+            runtime,
+            solution_id="internal-voyage-multimodal-pages",
+            title="Internal Voyage Multimodal pages",
+            description="Render and retrieve PDF pages as images.",
+        ),
+    )
+    return ReciprocalRankFusionSolution(
         id=spec.id,
         title=spec.title,
         description=spec.description,
-        components=_components(runtime),
-        weights=(0.25, 0.75),
-        score_directions=("lower", "higher"),
+        components=components,
         candidate_depth=50,
+        rank_constant=60,
         candidate_cache_path=runtime.cache_root / "retrieval-candidates.sqlite3",
-        candidate_cache_namespace=CANDIDATE_CACHE_NAMESPACE,
+        candidate_cache_namespace=VOYAGE_TEXT_VISUAL_CACHE_NAMESPACE,
     )
 
 
@@ -67,13 +81,14 @@ SPECS = (
         readme_path="docs/solutions/paddleocr-v5-mobile-bm25-voyage-multimodal-3-5-rrf.md",
     ),
     SolutionSpec(
-        id="paddleocr-v5-mobile-bm25-voyage-multimodal-3-5-weighted-25-75",
-        title="PP-OCRv5 Mobile BM25 + Voyage Multimodal 3.5 · Weighted 25/75",
+        id="paddleocr-v5-mobile-voyage-4-large-voyage-multimodal-3-5-rrf",
+        title="OCR Voyage 4 Large + Voyage Multimodal 3.5 · RRF",
         description=(
-            "Fuse min-max normalized OCR/BM25 and page-image Voyage Multimodal Top-50 scores with 25/75 weights."
+            "Fuse full-document OCR/Voyage 4 Large and page-image Voyage Multimodal Top-50 rankings "
+            "with equal-weight RRF."
         ),
-        tags=("ocr", "lexical", "visual", "hybrid", "managed-api", "page-level", "weighted"),
-        factory=_build_bm25_visual_weighted,
-        readme_path="docs/solutions/paddleocr-v5-mobile-bm25-voyage-multimodal-3-5-weighted.md",
+        tags=("ocr", "dense", "visual", "hybrid", "managed-api", "page-level", "rrf"),
+        factory=_build_voyage_text_visual_rrf,
+        readme_path="docs/solutions/paddleocr-v5-mobile-voyage-4-large-voyage-multimodal-3-5-rrf.md",
     ),
 )

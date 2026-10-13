@@ -1,11 +1,11 @@
-"""Compare score fusion against rank fusion on the PDF retrieval release."""
+"""Summarize published PDF fusion Solutions against their component baselines."""
 
 from __future__ import annotations
 
 import argparse
 import json
 import statistics
-from collections import Counter, defaultdict
+from collections import defaultdict
 from collections.abc import Mapping, Sequence
 from pathlib import Path
 from typing import Any
@@ -19,13 +19,18 @@ RESULT_ROOT = PROJECT_ROOT / "results/modern-ir-pdf-v1"
 COMPARISONS = (
     (
         "paddleocr-v5-mobile-bm25-bge-m3-rrf",
-        "paddleocr-v5-mobile-bm25-bge-m3-weighted-25-75",
+        ("paddleocr-v5-mobile-bm25-full", "paddleocr-v5-mobile-bge-m3-full"),
         "OCR BM25 + BGE-M3",
     ),
     (
         "paddleocr-v5-mobile-bm25-voyage-multimodal-3-5-rrf",
-        "paddleocr-v5-mobile-bm25-voyage-multimodal-3-5-weighted-25-75",
+        ("paddleocr-v5-mobile-bm25-full", "voyage-multimodal-3-5-pages"),
         "OCR BM25 + Voyage Multimodal 3.5",
+    ),
+    (
+        "paddleocr-v5-mobile-voyage-4-large-voyage-multimodal-3-5-rrf",
+        ("paddleocr-v5-mobile-voyage-4-large-full", "voyage-multimodal-3-5-pages"),
+        "OCR Voyage 4 Large + Voyage Multimodal 3.5",
     ),
 )
 
@@ -38,43 +43,39 @@ def _relevant_documents(qrels: Sequence[Mapping[str, Any]]) -> dict[str, set[str
     return dict(relevant)
 
 
+def _ndcg(
+    rankings: Mapping[str, Sequence[str]],
+    relevant: Mapping[str, set[str]],
+) -> float:
+    return statistics.mean(
+        retrieval_metrics(relevant[query_id], ranking)["ndcg@10"]
+        for query_id, ranking in rankings.items()
+    )
+
+
 def _comparison(
     *,
-    rrf_id: str,
-    weighted_id: str,
+    fusion_id: str,
+    component_ids: tuple[str, str],
     label: str,
     rankings: Mapping[str, Mapping[str, Sequence[str]]],
     relevant: Mapping[str, set[str]],
-    languages: Mapping[str, str],
 ) -> dict[str, Any]:
-    rrf = {
-        query_id: retrieval_metrics(relevant[query_id], ranked)
-        for query_id, ranked in rankings[rrf_id].items()
+    fusion_score = _ndcg(rankings[fusion_id], relevant)
+    component_scores = {
+        component_id: _ndcg(rankings[component_id], relevant)
+        for component_id in component_ids
     }
-    weighted = {
-        query_id: retrieval_metrics(relevant[query_id], ranked)
-        for query_id, ranked in rankings[weighted_id].items()
-    }
-    deltas = {query_id: weighted[query_id]["ndcg@10"] - rrf[query_id]["ndcg@10"] for query_id in relevant}
-    outcomes = Counter(
-        "improved" if delta > 1e-12 else "regressed" if delta < -1e-12 else "unchanged"
-        for delta in deltas.values()
-    )
+    best_component = max(component_scores.values())
     return {
         "label": label,
-        "rrf_solution": rrf_id,
-        "weighted_solution": weighted_id,
-        "rrf_ndcg_at_10": round(statistics.mean(row["ndcg@10"] for row in rrf.values()), 8),
-        "weighted_ndcg_at_10": round(statistics.mean(row["ndcg@10"] for row in weighted.values()), 8),
-        "weighted_delta": round(statistics.mean(deltas.values()), 8),
-        "outcomes": dict(sorted(outcomes.items())),
-        "language_deltas": {
-            language: round(
-                statistics.mean(delta for query_id, delta in deltas.items() if languages[query_id] == language),
-                8,
-            )
-            for language in sorted(set(languages.values()))
+        "fusion_solution": fusion_id,
+        "component_solutions": list(component_ids),
+        "fusion_ndcg_at_10": round(fusion_score, 8),
+        "component_ndcg_at_10": {
+            solution_id: round(score, 8) for solution_id, score in component_scores.items()
         },
+        "delta_vs_best_component": round(fusion_score - best_component, 8),
     }
 
 
@@ -82,29 +83,23 @@ def _markdown(report: Mapping[str, Any]) -> str:
     lines = [
         "# Modern IR PDF Retrieval v1 fusion diagnostics",
         "",
-        "The fixed 25/75 score weights are compared with equal-weight reciprocal rank fusion on the same Top-50 branches.",
+        "Published RRF Solutions are compared with their independently published component baselines.",
+        "All fusion routes contribute Top-50 candidates and use equal-weight RRF with `k=60`.",
         "",
-        "| Retrieval branches | RRF NDCG@10 | Weighted NDCG@10 | Weighted delta |",
+        "| Retrieval routes | Fusion NDCG@10 | Best component NDCG@10 | Delta |",
         "| --- | ---: | ---: | ---: |",
     ]
     for row in report["comparisons"]:
+        best_component = max(row["component_ndcg_at_10"].values())
         lines.append(
-            f"| {row['label']} | {row['rrf_ndcg_at_10']:.4f} | {row['weighted_ndcg_at_10']:.4f} | "
-            f"{row['weighted_delta']:+.4f} |"
+            f"| {row['label']} | {row['fusion_ndcg_at_10']:.4f} | {best_component:.4f} | "
+            f"{row['delta_vs_best_component']:+.4f} |"
         )
     lines.extend(
         [
             "",
-            (
-                "The text benchmark's 25/75 lexical/dense weights do not transfer to PDF retrieval. "
-                "Per-query min-max normalization does not make OCR lexical scores and visual or dense scores reliably "
-                "comparable. RRF remains the recommended default for these heterogeneous PDF branches."
-            ),
-            "",
-            (
-                "The weighted runs remain published as negative evidence. Detailed outcome counts and language slices "
-                "are stored in `analysis.json`."
-            ),
+            "Alternative route weights remain exploratory and can be computed from stored Top-50 evidence in Fusion Lab.",
+            "They are not published as separate leaderboard Solutions.",
             "",
         ]
     )
@@ -115,21 +110,19 @@ def build_report(result_root: Path) -> dict[str, Any]:
     artifact = RankingArtifact.load(result_root)
     dataset = build_task().datasets[RELEASE_ID]
     relevant = _relevant_documents(dataset["qrels"])
-    languages = {str(row["query_id"]): str(row["language"]) for row in dataset["queries"]}
     report = {
         "schema_version": 1,
         "release": RELEASE_ID,
         "ranking_evidence_sha256": artifact.manifest["rankings_sha256"],
         "comparisons": [
             _comparison(
-                rrf_id=rrf_id,
-                weighted_id=weighted_id,
+                fusion_id=fusion_id,
+                component_ids=component_ids,
                 label=label,
                 rankings=artifact.rankings,
                 relevant=relevant,
-                languages=languages,
             )
-            for rrf_id, weighted_id, label in COMPARISONS
+            for fusion_id, component_ids, label in COMPARISONS
         ],
     }
     (result_root / "analysis.json").write_text(

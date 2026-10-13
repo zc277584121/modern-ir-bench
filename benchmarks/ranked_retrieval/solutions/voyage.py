@@ -23,22 +23,37 @@ def _build_voyage_full(runtime: Runtime, spec: SolutionSpec):
     )
 
 
-def _build_voyage_chunk(runtime: Runtime, spec: SolutionSpec):
+def build_voyage_chunk_component(
+    runtime: Runtime,
+    *,
+    solution_id: str,
+    title: str,
+    description: str,
+):
     return ChunkedDenseRetrievalSolution(
-        id=spec.id,
-        title=spec.title,
-        description=spec.description,
+        id=solution_id,
+        title=title,
+        description=description,
         embedding=runtime.voyage,
         index=MilvusDenseIndex(
             target=runtime.target,
             metric="COSINE",
             index_type="FLAT",
-            collection_prefix="modern_ir_voyage_chunk",
+            collection_prefix=f"modern_ir_{solution_id.replace('-', '_')}",
         ),
         chunker=runtime.chunker,
         candidate_multiplier=3,
         document_input=text_of,
         query_input=text_of,
+    )
+
+
+def _build_voyage_chunk(runtime: Runtime, spec: SolutionSpec):
+    return build_voyage_chunk_component(
+        runtime,
+        solution_id=spec.id,
+        title=spec.title,
+        description=spec.description,
     )
 
 

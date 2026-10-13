@@ -135,10 +135,10 @@ export function createFusionPlayground({
       .filter((queryIndex) => queryIndex >= 0);
   }
 
-  function resultRow(label, result, bestAtomic, isFusion = false) {
+  function resultRow(label, result, bestRoute, isFusion = false) {
     const cells = metricCatalog.map((metric) => {
       const score = result.metrics[metric.id];
-      const delta = isFusion ? score - bestAtomic[metric.id] : null;
+      const delta = isFusion ? score - bestRoute[metric.id] : null;
       const displayedDelta = delta !== null && Math.abs(delta) < 0.0005 ? 0 : delta;
       const deltaText = displayedDelta === null
         ? ""
@@ -170,7 +170,7 @@ export function createFusionPlayground({
     const depth = Number(element("#fusion-depth").value);
     const rankConstant = Number(element("#rank-constant").value);
     const queryIndexes = selectedQueryIndexes();
-    const atomicResults = routes.map((route) => {
+    const routeResults = routes.map((route) => {
       const rankings = route.rankings.map((ranking) => atomicRanking(ranking, depth));
       return { route, result: evaluateRankings(benchmark.queries, rankings, queryIndexes) };
     });
@@ -188,19 +188,19 @@ export function createFusionPlayground({
       },
     ));
     const fused = evaluateRankings(benchmark.queries, fusedRankings, queryIndexes);
-    const bestAtomic = Object.fromEntries(metricCatalog.map((metric) => [
+    const bestRoute = Object.fromEntries(metricCatalog.map((metric) => [
       metric.id,
-      Math.max(...atomicResults.map(({ result: atomic }) => atomic.metrics[metric.id])),
+      Math.max(...routeResults.map(({ result }) => result.metrics[metric.id])),
     ]));
-    const rawNdcgDelta = fused.metrics["ndcg@10"] - bestAtomic["ndcg@10"];
+    const rawNdcgDelta = fused.metrics["ndcg@10"] - bestRoute["ndcg@10"];
     const ndcgDelta = Math.abs(rawNdcgDelta) < 0.0005 ? 0 : rawNdcgDelta;
     const methodLabel = method === "rrf" ? "RRF" : "Weighted scores";
     summary.textContent = `${methodLabel} · ${formatInteger(fused.count)} queries · ${ndcgDelta > 0 ? "+" : ""}${formatScore(ndcgDelta)} NDCG@10 vs best selected route`;
     result.innerHTML = `<div class="table-wrap"><table class="result-table fusion-result-table">
       <thead><tr><th>Configuration</th>${metricCatalog.map((metric) => `<th>${escapeHtml(metric.label)}</th>`).join("")}</tr></thead>
       <tbody>
-        ${resultRow(`${methodLabel} fusion`, fused, bestAtomic, true)}
-        ${atomicResults.map(({ route, result: atomic }) => resultRow(route.label, atomic, bestAtomic)).join("")}
+        ${resultRow(`${methodLabel} fusion`, fused, bestRoute, true)}
+        ${routeResults.map(({ route, result }) => resultRow(route.label, result, bestRoute)).join("")}
       </tbody>
     </table></div>`;
   }
@@ -227,7 +227,7 @@ export function createFusionPlayground({
           candidate.dataset_id === context.datasetId &&
           candidate.dataset_version === context.datasetVersion,
       );
-      if (!nextBenchmark) throw new Error("No reusable atomic rankings are available for this release.");
+      if (!nextBenchmark) throw new Error("No reusable route evidence is available for this release.");
       renderBenchmark(nextBenchmark);
       element("#fusion-loading").hidden = true;
       element("#fusion-workspace").hidden = false;

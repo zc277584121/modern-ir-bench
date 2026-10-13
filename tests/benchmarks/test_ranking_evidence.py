@@ -112,3 +112,31 @@ def test_solution_runs_merge_incrementally_into_one_ranking_release(tmp_path: Pa
     assert set(artifact.rankings) == {"bm25", "ngram"}
     assert set(artifact.manifest["source_runs"]) == {"bm25", "ngram"}
     assert artifact.manifest["source_runs"]["bm25"]["origin"] == "historical-top-k-rankings"
+
+
+def test_solution_runs_can_be_removed_from_a_release(tmp_path: Path) -> None:
+    bm25_run = _write_run(tmp_path, InMemoryBM25Solution(id="bm25", title="BM25"))
+    ngram_run = _write_run(tmp_path, CharacterNGramSolution(id="ngram", title="N-gram"))
+    output = tmp_path / "release"
+    merge_release(
+        task=_task(),
+        dataset_id="tiny",
+        dataset_repository="example/data",
+        dataset_revision="revision-1",
+        run_directories=[bm25_run, ngram_run],
+        output=output,
+    )
+
+    merge_release(
+        task=_task(),
+        dataset_id="tiny",
+        dataset_repository="example/data",
+        dataset_revision="revision-1",
+        run_directories=[],
+        remove_solutions=["ngram"],
+        output=output,
+    )
+
+    artifact = RankingArtifact.load(output)
+    assert set(artifact.rankings) == {"bm25"}
+    assert set(artifact.manifest["source_runs"]) == {"bm25"}

@@ -7,6 +7,6 @@ fixed BM25/dense weights. Milvus exposes its BM25 relevance as a distance where
 lower values rank first, while cosine similarity ranks higher values first; the
 normalization preserves those respective directions.
 
-The published 25/75, 50/50, and 75/25 variants are predefined ablations. They
-share the same component candidates and do not select a weight by optimizing on
-the benchmark labels.
+The published 25/75 variant is a predefined representative ablation. Other
+weights can be explored from the same stored branch evidence in Fusion Lab and
+do not rerun either retriever.

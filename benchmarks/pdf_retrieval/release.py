@@ -12,7 +12,12 @@ PROJECT_ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_OUTPUT = PROJECT_ROOT / "results/modern-ir-pdf-v1"
 
 
-def build_release(*, run_directories: list[Path], output: Path = DEFAULT_OUTPUT) -> None:
+def build_release(
+    *,
+    run_directories: list[Path],
+    remove_solutions: list[str],
+    output: Path = DEFAULT_OUTPUT,
+) -> None:
     merge_release(
         task=build_task(),
         dataset_id=RELEASE_ID,
@@ -20,6 +25,7 @@ def build_release(*, run_directories: list[Path], output: Path = DEFAULT_OUTPUT)
         dataset_revision=DATASET_REVISION,
         run_directories=run_directories,
         output=output,
+        remove_solutions=remove_solutions,
     )
 
 
@@ -28,13 +34,23 @@ def main() -> None:
     parser.add_argument(
         "--run",
         action="append",
-        required=True,
+        default=[],
         type=Path,
         help="Verified run artifact directory; repeat to merge several Solutions",
     )
+    parser.add_argument(
+        "--remove-solution",
+        action="append",
+        default=[],
+        help="Published Solution id to remove; repeat to remove several Solutions",
+    )
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
     arguments = parser.parse_args()
-    build_release(run_directories=arguments.run, output=arguments.output)
+    build_release(
+        run_directories=arguments.run,
+        remove_solutions=arguments.remove_solution,
+        output=arguments.output,
+    )
 
 
 if __name__ == "__main__":
