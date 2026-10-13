@@ -50,7 +50,9 @@ def build_runtime() -> Runtime:
         device.strip() for device in os.environ.get("MIR_RERANK_DEVICES", "cuda:0").split(",") if device.strip()
     )
 
-    def openrouter_embedding(*, model: str, dimension: int, cache_name: str) -> OpenRouterEmbedding:
+    def openrouter_embedding(
+        *, model: str, dimension: int, cache_name: str, send_dimensions: bool = True
+    ) -> OpenRouterEmbedding:
         return OpenRouterEmbedding(
             model=model,
             dimension=dimension,
@@ -59,6 +61,7 @@ def build_runtime() -> Runtime:
             query_input_type="search_query",
             cache_path=project_root / f".runtime/openrouter/{cache_name}.sqlite3",
             request_concurrency=int(os.environ.get("MIR_OPENROUTER_CONCURRENCY", "4")),
+            send_dimensions=send_dimensions,
         )
 
     return Runtime(
@@ -121,6 +124,7 @@ def build_runtime() -> Runtime:
                 model="mistralai/mistral-embed-2312",
                 dimension=1024,
                 cache_name="mistral-embed-2312",
+                send_dimensions=False,
             ),
             "voyage-4": openrouter_embedding(
                 model="voyageai/voyage-4",

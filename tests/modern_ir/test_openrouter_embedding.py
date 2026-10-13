@@ -104,6 +104,37 @@ def test_openrouter_runs_small_batches_concurrently(monkeypatch) -> None:
     assert peak_active == 2
 
 
+def test_openrouter_can_omit_unsupported_dimensions_parameter(monkeypatch) -> None:
+    payloads = []
+
+    class Response:
+        status_code = 200
+        text = ""
+        headers: ClassVar[dict[str, str]] = {}
+
+        def json(self):
+            return {"data": [{"index": 0, "embedding": [1.0, 0.0]}]}
+
+    def post(url, *, headers, json, timeout):
+        payloads.append(json)
+        return Response()
+
+    requests = ModuleType("requests")
+    requests.post = post
+    requests.RequestException = OSError
+    monkeypatch.setitem(sys.modules, "requests", requests)
+    monkeypatch.setenv("OPENROUTER_API_KEY", "secret")
+
+    embedding = OpenRouterEmbedding(
+        model="provider/fixed-dimension-model",
+        dimension=2,
+        send_dimensions=False,
+    )
+
+    assert embedding.encode_documents(["one"]).shape == (1, 2)
+    assert "dimensions" not in payloads[0]
+
+
 def test_openrouter_encodes_image_paths_and_caches_by_content(monkeypatch, tmp_path: Path) -> None:
     calls = []
 

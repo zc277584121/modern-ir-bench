@@ -33,6 +33,7 @@ class OpenRouterEmbedding:
         timeout_seconds: float = 300,
         max_retries: int = 6,
         request_concurrency: int = 4,
+        send_dimensions: bool = True,
     ) -> None:
         if not model:
             raise ValueError("model must be non-empty")
@@ -49,6 +50,7 @@ class OpenRouterEmbedding:
         self.timeout_seconds = timeout_seconds
         self.max_retries = max_retries
         self.request_concurrency = request_concurrency
+        self.send_dimensions = send_dimensions
         self.cache = SqliteVectorCache(cache_path)
 
     @property
@@ -112,9 +114,10 @@ class OpenRouterEmbedding:
             "model": self.model_id,
             "input": [self._api_input(value) for value in values],
             "input_type": input_type,
-            "dimensions": self.dimension,
             "encoding_format": "float",
         }
+        if self.send_dimensions:
+            payload["dimensions"] = self.dimension
         for attempt in range(self.max_retries + 1):
             try:
                 response = requests.post(
