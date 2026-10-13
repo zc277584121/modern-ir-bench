@@ -75,8 +75,8 @@ class CrossEncoderReranker:
                 device=primary_device,
                 model_kwargs=model_kwargs,
             )
-            if self.devices and len(self.devices) > 1:
-                self._pool = self._encoder.start_multi_process_pool(target_devices=list(self.devices))
+        if self.devices and len(self.devices) > 1 and self._pool is None:
+            self._pool = self._encoder.start_multi_process_pool(target_devices=list(self.devices))
         return self._encoder
 
     def close(self) -> None:

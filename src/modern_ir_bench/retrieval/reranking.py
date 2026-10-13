@@ -61,7 +61,10 @@ class RerankingSolution(Solution):
         )
 
     def release(self) -> None:
-        self.candidate_solution.release()
+        try:
+            self.candidate_solution.release()
+        finally:
+            self.reranker.close()
 
 
 class RerankingSession:

@@ -20,6 +20,8 @@ class Reranker(Protocol):
     @property
     def metadata(self) -> Mapping[str, Any]: ...
 
+    def close(self) -> None: ...
+
 
 def validate_batch(queries: Sequence[str], documents: Sequence[Sequence[str]]) -> None:
     if len(queries) != len(documents):

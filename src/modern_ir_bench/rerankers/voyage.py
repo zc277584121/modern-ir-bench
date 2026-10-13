@@ -107,6 +107,9 @@ class VoyageReranker:
 
         return RateLimitError, (APIConnectionError, ServerError, ServiceUnavailableError)
 
+    def close(self) -> None:
+        """Voyage clients do not hold process-level resources."""
+
     @property
     def metadata(self) -> Mapping[str, Any]:
         return {
