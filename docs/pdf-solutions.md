@@ -11,6 +11,7 @@ before scoring.
 | PP-OCRv5 Mobile + BM25 | OCR | whole document | lexical | portable baseline |
 | PP-OCRv5 Mobile + BGE-M3 | OCR | whole document | local dense | isolate dense versus lexical retrieval |
 | PP-OCRv5 Mobile + BM25/BGE-M3 RRF | OCR | whole document | local hybrid | combine exact terms and semantic matches |
+| PP-OCRv5 Mobile + BM25/BGE-M3 weighted 25/75 | OCR | whole document | local hybrid | test fixed score fusion against RRF |
 | PP-OCRv5 Mobile + Voyage 4 Large | OCR | whole document | hosted dense | compare a stronger hosted text model |
 | Voyage Multimodal 3.5 | rendered images | page | visual dense | test OCR-free retrieval |
 | EmbeddingGemma 2 | rendered images | page | local visual dense | test a lightweight native multimodal model |
@@ -19,10 +20,16 @@ before scoring.
 | Llama Nemotron Embed VL 1B V2 | rendered images | page | hosted visual dense | test a compact managed visual-language embedding model |
 | Ovis Omni Embedding 3B | rendered images | page | local visual dense | test a self-hosted bilingual omni-modal embedding model |
 | PP-OCRv5 Mobile BM25 + Voyage Multimodal 3.5 RRF | OCR + rendered images | document + page | lexical + visual dense | combine exact text and visual evidence |
+| PP-OCRv5 Mobile BM25 + Voyage Multimodal 3.5 weighted 25/75 | OCR + rendered images | document + page | lexical + visual dense | test cross-modal score fusion against RRF |
 
 All dense indexes use exact cosine search through Milvus FLAT. The visual
 Solution keeps the best page score for each document. This makes index behavior
 an invariant while the document representation changes.
+
+The two weighted runs are retained as negative evidence. Per-query min-max score
+normalization with fixed 25/75 weights underperforms RRF for both OCR/dense and
+OCR/visual branches, so new heterogeneous PDF hybrids should use RRF unless they
+introduce a separately validated calibration method.
 
 ## Next controlled additions
 
