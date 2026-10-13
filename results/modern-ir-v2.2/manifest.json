@@ -2,7 +2,7 @@
   "schema_version": 1,
   "artifact_type": "live-top-k-rankings",
   "release": "modern-ir-bench-v2.2-20261010",
-  "published_at": "2026-10-13T03:01:11.825903+00:00",
+  "published_at": "2026-10-13T04:30:49.011531+00:00",
   "dataset": {
     "repository": "zc277584121/modern-ir-bench",
     "revision": "c7a38d6aaa3d1bd178952b6be91e12ca4ceb10ff"
@@ -17,9 +17,15 @@
     "bm25-qwen3-embedding-8b-weighted-50-50",
     "bm25-qwen3-embedding-8b-weighted-75-25",
     "bm25-qwen3-embedding-8b-weighted-bge-reranker-v2-m3",
+    "bm25-qwen3-embedding-8b-weighted-cohere-rerank-4-pro",
     "bm25-qwen3-embedding-8b-weighted-rerank-3",
+    "dashscope-text-embedding-v4-chunk",
     "embedding-gemma-2-chunk",
     "gemini-embedding-2-chunk",
+    "jina-embeddings-v5-text-small-chunk",
+    "mistral-embed-2312-chunk",
+    "nemotron-3-embed-1b-chunk",
+    "pplx-embed-v1-0-6b-chunk",
     "pplx-embed-v1-4b-chunk",
     "qwen3-embedding-0-6b-chunk",
     "qwen3-embedding-4b-chunk",
@@ -27,8 +33,11 @@
     "qwen3-embedding-8b-openrouter-chunk",
     "qwen3-embedding-8b-rerank-3",
     "text-embedding-3-large-chunk",
+    "text-embedding-3-small-chunk",
+    "voyage-4-chunk",
     "voyage-4-large-chunk",
-    "voyage-4-large-full"
+    "voyage-4-large-full",
+    "voyage-4-lite-chunk"
   ],
   "source_runs": {
     "bge-m3-dense-chunk": {
@@ -87,12 +96,28 @@
       "created_at": "2026-10-13T02:21:26.056770+00:00",
       "origin": "verified-live-run"
     },
+    "bm25-qwen3-embedding-8b-weighted-cohere-rerank-4-pro": {
+      "source_commit": "69102c3efb8598b3a7e7ee07b871a73b5f0f8523",
+      "source_module": "benchmarks.ranked_retrieval.run",
+      "source_path": "benchmarks/ranked_retrieval/run.py",
+      "source_line": 36,
+      "created_at": "2026-10-13T03:55:50.829975+00:00",
+      "origin": "verified-live-run"
+    },
     "bm25-qwen3-embedding-8b-weighted-rerank-3": {
       "source_commit": "a063f40daa33b514ef1e642b839d358cbc3f645a",
       "source_module": "benchmarks.ranked_retrieval.run",
       "source_path": "benchmarks/ranked_retrieval/run.py",
       "source_line": 36,
       "created_at": "2026-10-13T02:29:10.946257+00:00",
+      "origin": "verified-live-run"
+    },
+    "dashscope-text-embedding-v4-chunk": {
+      "source_commit": "69102c3efb8598b3a7e7ee07b871a73b5f0f8523",
+      "source_module": "benchmarks.ranked_retrieval.run",
+      "source_path": "benchmarks/ranked_retrieval/run.py",
+      "source_line": 36,
+      "created_at": "2026-10-13T03:55:50.533463+00:00",
       "origin": "verified-live-run"
     },
     "embedding-gemma-2-chunk": {
@@ -109,6 +134,38 @@
       "source_path": "benchmarks/ranked_retrieval/run.py",
       "source_line": 36,
       "created_at": "2026-10-12T15:26:14.092511+00:00",
+      "origin": "verified-live-run"
+    },
+    "jina-embeddings-v5-text-small-chunk": {
+      "source_commit": "69102c3efb8598b3a7e7ee07b871a73b5f0f8523",
+      "source_module": "benchmarks.ranked_retrieval.run",
+      "source_path": "benchmarks/ranked_retrieval/run.py",
+      "source_line": 36,
+      "created_at": "2026-10-13T03:55:50.429205+00:00",
+      "origin": "verified-live-run"
+    },
+    "mistral-embed-2312-chunk": {
+      "source_commit": "cfe812678ec39faaf36b82fdbc7d31f174b5128e",
+      "source_module": "benchmarks.ranked_retrieval.run",
+      "source_path": "benchmarks/ranked_retrieval/run.py",
+      "source_line": 36,
+      "created_at": "2026-10-13T04:12:38.439306+00:00",
+      "origin": "verified-live-run"
+    },
+    "nemotron-3-embed-1b-chunk": {
+      "source_commit": "cfe812678ec39faaf36b82fdbc7d31f174b5128e",
+      "source_module": "benchmarks.ranked_retrieval.run",
+      "source_path": "benchmarks/ranked_retrieval/run.py",
+      "source_line": 36,
+      "created_at": "2026-10-13T04:12:38.439306+00:00",
+      "origin": "verified-live-run"
+    },
+    "pplx-embed-v1-0-6b-chunk": {
+      "source_commit": "787476d17cf88998e3aebadf9cad75cbff148e8c",
+      "source_module": "benchmarks.ranked_retrieval.run",
+      "source_path": "benchmarks/ranked_retrieval/run.py",
+      "source_line": 36,
+      "created_at": "2026-10-13T04:00:20.831884+00:00",
       "origin": "verified-live-run"
     },
     "pplx-embed-v1-4b-chunk": {
@@ -163,6 +220,22 @@
       "created_at": "2026-10-13T02:52:54.893262+00:00",
       "origin": "verified-live-run"
     },
+    "text-embedding-3-small-chunk": {
+      "source_commit": "787476d17cf88998e3aebadf9cad75cbff148e8c",
+      "source_module": "benchmarks.ranked_retrieval.run",
+      "source_path": "benchmarks/ranked_retrieval/run.py",
+      "source_line": 36,
+      "created_at": "2026-10-13T04:00:20.831884+00:00",
+      "origin": "verified-live-run"
+    },
+    "voyage-4-chunk": {
+      "source_commit": "cfe812678ec39faaf36b82fdbc7d31f174b5128e",
+      "source_module": "benchmarks.ranked_retrieval.run",
+      "source_path": "benchmarks/ranked_retrieval/run.py",
+      "source_line": 36,
+      "created_at": "2026-10-13T04:12:38.439306+00:00",
+      "origin": "verified-live-run"
+    },
     "voyage-4-large-chunk": {
       "origin": "historical-top-k-rankings",
       "published_at": "2026-10-10T03:34:57.604060+00:00"
@@ -170,10 +243,18 @@
     "voyage-4-large-full": {
       "origin": "historical-top-k-rankings",
       "published_at": "2026-10-10T03:34:57.604060+00:00"
+    },
+    "voyage-4-lite-chunk": {
+      "source_commit": "787476d17cf88998e3aebadf9cad75cbff148e8c",
+      "source_module": "benchmarks.ranked_retrieval.run",
+      "source_path": "benchmarks/ranked_retrieval/run.py",
+      "source_line": 36,
+      "created_at": "2026-10-13T04:00:20.831884+00:00",
+      "origin": "verified-live-run"
     }
   },
   "queries": 1000,
-  "ranking_rows": 21000,
+  "ranking_rows": 30000,
   "top_k": 10,
-  "rankings_sha256": "b364e8c2a58ad5417c098b91efa1fd96874274f6e3d7569cb6e355ebd6787b2a"
+  "rankings_sha256": "7d5ef5de9af93e1d9d5527a692f4469838d26b14cd3ea94238b0708cc62ae65c"
 }
