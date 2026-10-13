@@ -7,12 +7,12 @@ from modern_ir_bench.exporters.fusion_playground import (
     PlaygroundDimension,
     PlaygroundRoute,
     build_playground_benchmark,
-    write_playground_payload,
+    write_playground_bundle,
 )
 
 __all__ = [
     "PlaygroundDimension",
     "PlaygroundRoute",
     "build_playground_benchmark",
-    "write_playground_payload",
+    "write_playground_bundle",
 ]

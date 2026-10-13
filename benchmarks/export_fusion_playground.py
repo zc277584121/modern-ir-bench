@@ -15,12 +15,12 @@ from modern_ir_bench.exporters.fusion_playground import (
     PlaygroundDimension,
     PlaygroundRoute,
     build_playground_benchmark,
-    write_playground_payload,
+    write_playground_bundle,
 )
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_CACHE = PROJECT_ROOT / ".runtime/retrieval-candidates.sqlite3"
-DEFAULT_OUTPUT = PROJECT_ROOT / "space/data/fusion-playground.json.gz"
+DEFAULT_OUTPUT = PROJECT_ROOT / "space/data/fusion"
 TEXT_NAMESPACE = f"ranked:{TEXT_DATASET_REVISION}:sparse-fusion:v1"
 PDF_TEXT_NAMESPACE = f"pdf:{PDF_DATASET_REVISION}:ocr-bm25-bge-m3-full:v1"
 PDF_VISUAL_NAMESPACE = f"pdf:{PDF_DATASET_REVISION}:ocr-bm25-voyage-multimodal-pages:v1"
@@ -118,7 +118,7 @@ def main() -> None:
     parser.add_argument("--cache", type=Path, default=DEFAULT_CACHE)
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
     arguments = parser.parse_args()
-    write_playground_payload(build_payload(arguments.cache), arguments.output)
+    write_playground_bundle(build_payload(arguments.cache), arguments.output)
 
 
 if __name__ == "__main__":

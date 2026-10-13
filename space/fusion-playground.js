@@ -21,9 +21,10 @@ export function createFusionPlayground({
   formatScore,
   formatInteger,
 }) {
-  let payloadPromise;
+  let manifestPromise;
   let benchmark;
   let installed = false;
+  const routePromises = new Map();
 
   const element = (selector) => document.querySelector(selector);
 
@@ -37,33 +38,70 @@ export function createFusionPlayground({
   }
 
   function renderRoutes() {
-    const defaultKinds = new Set();
-    const selectedByDefault = new Set(
-      benchmark.routes
-        .filter((route) => {
-          if (defaultKinds.has(route.kind)) return false;
-          defaultKinds.add(route.kind);
-          return true;
-        })
-        .map((route) => route.id),
-    );
     element("#fusion-routes").innerHTML = benchmark.routes
       .map((route) => `<label class="fusion-route">
-        <input type="checkbox" data-fusion-route="${escapeHtml(route.id)}"${selectedByDefault.has(route.id) ? " checked" : ""} />
+        <input type="checkbox" data-fusion-route="${escapeHtml(route.id)}" />
         <span class="fusion-route-copy">
           <strong>${escapeHtml(route.label)}</strong>
-          <span>${escapeHtml(route.kind)}</span>
+          <span data-route-status="${escapeHtml(route.id)}">${escapeHtml(route.kind)}</span>
         </span>
         <span class="fusion-weight-field">
           <span>Weight</span>
-          <input type="number" min="0.1" max="10" step="0.1" value="1" data-route-weight="${escapeHtml(route.id)}" aria-label="Weight for ${escapeHtml(route.label)}" />
+          <input type="number" min="0.1" max="10" step="0.1" value="1" data-route-weight="${escapeHtml(route.id)}" aria-label="Weight for ${escapeHtml(route.label)}" disabled />
         </span>
       </label>`)
       .join("");
-    element("#fusion-routes").querySelectorAll("input").forEach((input) => {
-      input.addEventListener("change", renderResults);
+    element("#fusion-routes").querySelectorAll("[data-fusion-route]").forEach((input) => {
+      input.addEventListener("change", async () => {
+        const route = benchmark.routes.find((candidate) => candidate.id === input.dataset.fusionRoute);
+        const weight = element(`[data-route-weight="${route.id}"]`);
+        weight.disabled = !input.checked;
+        if (!input.checked) {
+          renderResults();
+          return;
+        }
+        setRouteStatus(route, "Loading…");
+        renderResults();
+        try {
+          await loadRoute(route);
+          if (!benchmark.routes.includes(route)) return;
+          setRouteStatus(route, route.kind);
+          renderResults();
+        } catch (error) {
+          if (!benchmark.routes.includes(route)) return;
+          input.checked = false;
+          weight.disabled = true;
+          setRouteStatus(route, "Unable to load");
+          renderResults();
+          console.error(error);
+        }
+      });
+    });
+    element("#fusion-routes").querySelectorAll("[data-route-weight]").forEach((input) => {
       input.addEventListener("input", renderResults);
     });
+  }
+
+  function setRouteStatus(route, status) {
+    const target = element(`[data-route-status="${route.id}"]`);
+    if (target) target.textContent = status;
+  }
+
+  async function loadRoute(route) {
+    if (route.rankings) return;
+    if (!routePromises.has(route.path)) {
+      const expectedQueryCount = benchmark.queries.length;
+      routePromises.set(
+        route.path,
+        loadCompressedJson(`data/fusion/${route.path}`).then((payload) => {
+          if (payload.route_id !== route.id || payload.rankings.length !== expectedQueryCount) {
+            throw new Error(`Invalid fusion evidence for ${route.label}.`);
+          }
+          return payload.rankings;
+        }),
+      );
+    }
+    route.rankings = await routePromises.get(route.path);
   }
 
   function populateSliceDimensions() {
@@ -123,6 +161,11 @@ export function createFusionPlayground({
       result.innerHTML = '<p class="empty-state">Select two or more routes to compare a live fusion.</p>';
       return;
     }
+    if (routes.some((route) => !route.rankings)) {
+      summary.textContent = "Loading selected rankings…";
+      result.innerHTML = '<p class="empty-state">The selected route evidence is loading.</p>';
+      return;
+    }
 
     const depth = Number(element("#fusion-depth").value);
     const rankConstant = Number(element("#rank-constant").value);
@@ -175,8 +218,8 @@ export function createFusionPlayground({
     element("#fusion-loading").hidden = false;
     element("#fusion-workspace").hidden = true;
     try {
-      payloadPromise ||= loadCompressedJson("data/fusion-playground.json.gz");
-      const payload = await payloadPromise;
+      manifestPromise ||= loadCompressedJson("data/fusion/manifest.json.gz");
+      const payload = await manifestPromise;
       const context = getContext();
       const nextBenchmark = payload.benchmarks.find(
         (candidate) =>

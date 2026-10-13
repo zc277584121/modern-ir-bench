@@ -152,17 +152,50 @@ def build_playground_benchmark(
     }
 
 
-def write_playground_payload(benchmarks: Sequence[dict[str, Any]], output: Path) -> None:
-    """Write a deterministic gzip payload for the static Space."""
+def write_playground_bundle(benchmarks: Sequence[dict[str, Any]], output: Path) -> None:
+    """Write a small manifest and one lazy-loadable gzip file per route."""
 
-    payload = json.dumps(
-        {"schema_version": 1, "benchmarks": list(benchmarks)},
-        ensure_ascii=False,
-        separators=(",", ":"),
-    ).encode()
+    output.mkdir(parents=True, exist_ok=True)
+    manifest_benchmarks = []
+    expected_files = {output / "manifest.json.gz"}
+    for benchmark in benchmarks:
+        task_id = str(benchmark["task_id"])
+        manifest_routes = []
+        for route in benchmark["routes"]:
+            route_path = Path(task_id) / f"{route['id']}.json.gz"
+            target = output / route_path
+            _write_gzip_json(
+                {
+                    "schema_version": 1,
+                    "task_id": task_id,
+                    "dataset_id": benchmark["dataset_id"],
+                    "dataset_version": benchmark["dataset_version"],
+                    "route_id": route["id"],
+                    "rankings": route["rankings"],
+                },
+                target,
+            )
+            expected_files.add(target)
+            manifest_route = {key: value for key, value in route.items() if key != "rankings"}
+            manifest_route["path"] = route_path.as_posix()
+            manifest_routes.append(manifest_route)
+        manifest_benchmark = {key: value for key, value in benchmark.items() if key != "routes"}
+        manifest_benchmark["routes"] = manifest_routes
+        manifest_benchmarks.append(manifest_benchmark)
+    _write_gzip_json(
+        {"schema_version": 1, "benchmarks": manifest_benchmarks},
+        output / "manifest.json.gz",
+    )
+    for stale_file in output.rglob("*.json.gz"):
+        if stale_file not in expected_files:
+            stale_file.unlink()
+
+
+def _write_gzip_json(payload: Mapping[str, Any], output: Path) -> None:
+    encoded = json.dumps(payload, ensure_ascii=False, separators=(",", ":")).encode()
     output.parent.mkdir(parents=True, exist_ok=True)
     with output.open("wb") as raw, gzip.GzipFile(filename="", mode="wb", fileobj=raw, mtime=0) as stream:
-        stream.write(payload)
+        stream.write(encoded)
 
 
 def _title(value: str) -> str:

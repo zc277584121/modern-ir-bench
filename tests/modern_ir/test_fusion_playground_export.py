@@ -11,7 +11,7 @@ from modern_ir_bench.exporters.fusion_playground import (
     PlaygroundDimension,
     PlaygroundRoute,
     build_playground_benchmark,
-    write_playground_payload,
+    write_playground_bundle,
 )
 from modern_ir_bench.metrics import NDCG
 from modern_ir_bench.retrieval import RetrievalResource, SearchHit, TextInput
@@ -82,11 +82,33 @@ def test_build_playground_benchmark_reads_atomic_cache(tmp_path: Path) -> None:
     assert payload["routes"][0]["rankings"] == [[1, 2.0, 0, 1.0]]
 
 
-def test_write_playground_payload_is_valid_gzip(tmp_path: Path) -> None:
-    output = tmp_path / "playground.json.gz"
-    write_playground_payload([{"task_id": "task"}], output)
+def test_write_playground_bundle_splits_manifest_and_route_evidence(tmp_path: Path) -> None:
+    output = tmp_path / "playground"
+    write_playground_bundle(
+        [
+            {
+                "task_id": "task",
+                "dataset_id": "dataset",
+                "dataset_version": "revision",
+                "routes": [{"id": "route", "label": "Route", "rankings": [[1, 2.0]]}],
+            }
+        ],
+        output,
+    )
 
-    with gzip.open(output, "rt", encoding="utf-8") as stream:
-        payload = json.load(stream)
+    with gzip.open(output / "manifest.json.gz", "rt", encoding="utf-8") as stream:
+        manifest = json.load(stream)
+    with gzip.open(output / "task/route.json.gz", "rt", encoding="utf-8") as stream:
+        route = json.load(stream)
 
-    assert payload == {"schema_version": 1, "benchmarks": [{"task_id": "task"}]}
+    assert manifest["benchmarks"][0]["routes"] == [
+        {"id": "route", "label": "Route", "path": "task/route.json.gz"}
+    ]
+    assert route == {
+        "schema_version": 1,
+        "task_id": "task",
+        "dataset_id": "dataset",
+        "dataset_version": "revision",
+        "route_id": "route",
+        "rankings": [[1, 2.0]],
+    }
