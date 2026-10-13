@@ -172,7 +172,7 @@ def build_runtime() -> Runtime:
                 revision=OPENSEARCH_MULTILINGUAL_SPARSE_REVISION,
                 batch_size=int(os.environ.get("MIR_OPENSEARCH_MULTILINGUAL_SPARSE_BATCH_SIZE", "32")),
                 device=device,
-                max_length=1024,
+                max_length=512,
             ),
             "gte-multilingual-base": GteMultilingualSparseEmbedding(
                 revision=GTE_MULTILINGUAL_REVISION,
