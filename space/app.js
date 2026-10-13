@@ -1,4 +1,5 @@
 import { createProfileController } from "./profile.js";
+import { createFusionPlayground } from "./fusion-playground.js";
 
 const state = {
   payload: null,
@@ -8,6 +9,7 @@ const state = {
   leaderboardSort: { key: null, direction: "desc" },
   profileMetricId: null,
   profile: null,
+  fusion: null,
 };
 
 const breakdownDisplayByTask = new Map([
@@ -628,12 +630,31 @@ function refreshDatasetContext() {
   resetResultSorts();
   renderLeaderboard();
   state.profile.refresh(true);
+  state.fusion.refresh();
 }
 
 function refreshBreakdownContext() {
   resetResultSorts();
   renderLeaderboard();
   state.profile.sync();
+}
+
+function setView(view) {
+  document.body.dataset.view = view;
+  document.querySelector("#leaderboard-panel").hidden = view !== "leaderboard";
+  document.querySelector("#fusion-panel").hidden = view !== "fusion";
+  document.querySelectorAll("[data-view]").forEach((button) => {
+    const active = button.dataset.view === view;
+    button.classList.toggle("active", active);
+    button.setAttribute("aria-current", active ? "page" : "false");
+  });
+  if (view === "fusion") state.fusion.refresh();
+}
+
+function installViewTabs() {
+  document.querySelectorAll("[data-view]").forEach((button) => {
+    button.addEventListener("click", () => setView(button.dataset.view));
+  });
 }
 
 async function main() {
@@ -662,16 +683,25 @@ async function main() {
     formatScore,
     formatInteger,
   });
+  state.fusion = createFusionPlayground({
+    getContext: currentTaskDataset,
+    escapeHtml,
+    formatScore,
+    formatInteger,
+  });
 
   installSolutionPreviews();
   installControls();
+  installViewTabs();
   state.profile.install();
+  state.fusion.install();
   populateDatasetSelector();
   populateBreakdownSelector();
   populateSolutionTagPicker();
   document.querySelector("#task-control").hidden = orderedTaskGroups().length <= 1;
   renderLeaderboard();
   state.profile.refresh(true);
+  setView("leaderboard");
 }
 
 main().catch((error) => {

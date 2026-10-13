@@ -79,7 +79,7 @@ benchmarks/pdf_retrieval/        PDF Task, Dataset binding, and Solution catalog
 benchmarks/reporting.py          slices derived from saved rankings
 benchmarks/publish.py            the only Space-data publisher
 results/                         immutable result evidence
-space/                           static, read-only Hugging Face Space
+space/                           static Hugging Face Space and fusion explorer
 docs/solutions/                  human-readable Solution notes
 tests/                           framework and integration tests
 ```
@@ -89,7 +89,9 @@ There are four intentionally separate layers:
 1. `src/modern_ir_bench/` defines reusable contracts and implementations.
 2. `benchmarks/` composes concrete Tasks, Datasets, metrics, and Solutions.
 3. `results/` preserves enough evidence to recompute published scores.
-4. `space/` presents a generated leaderboard and contains no evaluation logic.
+4. `space/` presents the generated leaderboard. Its optional Fusion lab recomputes
+   exploratory rankings in the browser from exported atomic Top-50 evidence; it
+   cannot alter the official result evidence.
 
 ## Core model
 
@@ -126,6 +128,14 @@ uv run python -m benchmarks.publish --check
 ```
 
 Publishing requires a clean commit because Solution links are pinned to that commit.
+
+The Fusion lab has a separate, deterministic export because it reads reusable
+component rankings from the local candidate cache. It never calls a model, Milvus,
+or an external API in the browser:
+
+```bash
+uv run python -m benchmarks.export_fusion_playground
+```
 
 Run the static Space locally:
 
