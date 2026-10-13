@@ -6,20 +6,37 @@ from modern_ir_bench.retrieval import ChunkedSparseRetrievalSolution
 from modern_ir_bench.retrieval.indexes.milvus import MilvusSparseIndex
 
 
-def _build_sparse(runtime: Runtime, spec: SolutionSpec, *, embedding_key: str):
+def build_sparse_component(
+    runtime: Runtime,
+    *,
+    solution_id: str,
+    title: str,
+    description: str,
+    embedding_key: str,
+):
     return ChunkedSparseRetrievalSolution(
-        id=spec.id,
-        title=spec.title,
-        description=spec.description,
+        id=solution_id,
+        title=title,
+        description=description,
         embedding=runtime.sparse[embedding_key],
         index=MilvusSparseIndex(
             target=runtime.target,
-            collection_prefix=f"modern_ir_{spec.id.replace('-', '_')}",
+            collection_prefix=f"modern_ir_{solution_id.replace('-', '_')}",
         ),
         chunker=runtime.chunker,
         candidate_multiplier=4,
         document_input=text_of,
         query_input=text_of,
+    )
+
+
+def _build_sparse(runtime: Runtime, spec: SolutionSpec, *, embedding_key: str):
+    return build_sparse_component(
+        runtime,
+        solution_id=spec.id,
+        title=spec.title,
+        description=spec.description,
+        embedding_key=embedding_key,
     )
 
 

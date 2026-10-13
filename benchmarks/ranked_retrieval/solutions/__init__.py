@@ -15,6 +15,7 @@ from benchmarks.ranked_retrieval.solutions.managed import SPECS as MANAGED_SPECS
 from benchmarks.ranked_retrieval.solutions.qwen import SPECS as QWEN_SPECS
 from benchmarks.ranked_retrieval.solutions.reranking import SPECS as RERANKING_SPECS
 from benchmarks.ranked_retrieval.solutions.runtime import build_runtime
+from benchmarks.ranked_retrieval.solutions.sparse_fusion import SPECS as SPARSE_FUSION_SPECS
 from benchmarks.ranked_retrieval.solutions.voyage import SPECS as VOYAGE_SPECS
 from benchmarks.solution_docs import load_solution_readme
 from modern_ir_bench.core import Solution
@@ -28,6 +29,7 @@ SOLUTION_SPECS = (
     *BGE_M3_SPECS,
     *LEARNED_SPARSE_SPECS,
     *HYBRID_SPECS,
+    *SPARSE_FUSION_SPECS,
     *RERANKING_SPECS,
 )
 SOLUTION_SPECS_BY_ID = {spec.id: spec for spec in SOLUTION_SPECS}

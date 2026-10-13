@@ -6,11 +6,17 @@ from modern_ir_bench.retrieval import ChunkedDenseRetrievalSolution, ChunkedSpar
 from modern_ir_bench.retrieval.indexes.milvus import MilvusDenseIndex, MilvusSparseIndex
 
 
-def _build_bge_m3_dense_chunk(runtime: Runtime, spec: SolutionSpec):
+def build_bge_m3_dense_component(
+    runtime: Runtime,
+    *,
+    solution_id: str,
+    title: str,
+    description: str,
+):
     return ChunkedDenseRetrievalSolution(
-        id=spec.id,
-        title=spec.title,
-        description=spec.description,
+        id=solution_id,
+        title=title,
+        description=description,
         embedding=runtime.bge_m3,
         index=MilvusDenseIndex(
             target=runtime.target,
@@ -25,11 +31,17 @@ def _build_bge_m3_dense_chunk(runtime: Runtime, spec: SolutionSpec):
     )
 
 
-def _build_bge_m3_sparse_chunk(runtime: Runtime, spec: SolutionSpec):
+def build_bge_m3_sparse_component(
+    runtime: Runtime,
+    *,
+    solution_id: str,
+    title: str,
+    description: str,
+):
     return ChunkedSparseRetrievalSolution(
-        id=spec.id,
-        title=spec.title,
-        description=spec.description,
+        id=solution_id,
+        title=title,
+        description=description,
         embedding=runtime.bge_m3,
         index=MilvusSparseIndex(
             target=runtime.target,
@@ -39,6 +51,24 @@ def _build_bge_m3_sparse_chunk(runtime: Runtime, spec: SolutionSpec):
         candidate_multiplier=4,
         document_input=text_of,
         query_input=text_of,
+    )
+
+
+def _build_bge_m3_dense_chunk(runtime: Runtime, spec: SolutionSpec):
+    return build_bge_m3_dense_component(
+        runtime,
+        solution_id=spec.id,
+        title=spec.title,
+        description=spec.description,
+    )
+
+
+def _build_bge_m3_sparse_chunk(runtime: Runtime, spec: SolutionSpec):
+    return build_bge_m3_sparse_component(
+        runtime,
+        solution_id=spec.id,
+        title=spec.title,
+        description=spec.description,
     )
 
 
