@@ -10,6 +10,7 @@ from benchmarks.ranked_retrieval.solutions.bge_m3 import SPECS as BGE_M3_SPECS
 from benchmarks.ranked_retrieval.solutions.bm25 import SPECS as BM25_SPECS
 from benchmarks.ranked_retrieval.solutions.embedding_gemma import SPECS as EMBEDDING_GEMMA_SPECS
 from benchmarks.ranked_retrieval.solutions.hybrid import SPECS as HYBRID_SPECS
+from benchmarks.ranked_retrieval.solutions.learned_sparse import SPECS as LEARNED_SPARSE_SPECS
 from benchmarks.ranked_retrieval.solutions.managed import SPECS as MANAGED_SPECS
 from benchmarks.ranked_retrieval.solutions.qwen import SPECS as QWEN_SPECS
 from benchmarks.ranked_retrieval.solutions.reranking import SPECS as RERANKING_SPECS
@@ -25,6 +26,7 @@ SOLUTION_SPECS = (
     *MANAGED_SPECS,
     *EMBEDDING_GEMMA_SPECS,
     *BGE_M3_SPECS,
+    *LEARNED_SPARSE_SPECS,
     *HYBRID_SPECS,
     *RERANKING_SPECS,
 )

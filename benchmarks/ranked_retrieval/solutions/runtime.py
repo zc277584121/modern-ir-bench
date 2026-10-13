@@ -14,9 +14,11 @@ from benchmarks.ranked_retrieval.solutions.types import Runtime
 from modern_ir_bench.embeddings import (
     BgeM3Embedding,
     DashScopeTextEmbedding,
+    GteMultilingualSparseEmbedding,
     JinaTextEmbedding,
     OpenRouterEmbedding,
     SentenceTransformersEmbedding,
+    SentenceTransformersSparseEmbedding,
     VoyageEmbedding,
 )
 from modern_ir_bench.rerankers import CrossEncoderReranker, OpenRouterReranker, VoyageReranker
@@ -27,6 +29,11 @@ BGE_M3_REVISION = "5617a9f61b028005a4858fdac845db406aefb181"
 QWEN3_0_6B_REVISION = "97b0c614be4d77ee51c0cef4e5f07c00f9eb65b3"
 QWEN3_4B_REVISION = "5cf2132abc99cad020ac570b19d031efec650f2b"
 BGE_RERANKER_V2_M3_REVISION = "953dc6f6f85a1b2dbfca4c34a2796e7dde08d41e"
+OPENSEARCH_MULTILINGUAL_SPARSE_REVISION = "1e0f096c2b51c234f1d20725c793e1b5b6d556db"
+GTE_MULTILINGUAL_REVISION = "9bbca17d9273fd0d03d5725c7a4b0f6b45142062"
+SPLADE_V3_DISTILBERT_REVISION = "2db06b86d65e316e2ca9907aa1aa8be6f8c4e739"
+OPENSEARCH_DOC_V2_DISTILL_REVISION = "8921a26c78b8559d6604eb1f5c0b74c079bee38f"
+GRANITE_30M_SPARSE_REVISION = "ad82b1fd09541c998c8d45045d601c51fdb8a9b7"
 QUERY_INSTRUCTION = "Given a web search query, retrieve relevant documents that answer or satisfy it."
 
 
@@ -157,6 +164,42 @@ def build_runtime() -> Runtime:
                 batch_size=int(os.environ.get("MIR_DASHSCOPE_BATCH_SIZE", "10")),
                 request_concurrency=int(os.environ.get("MIR_DASHSCOPE_CONCURRENCY", "8")),
                 query_instruction=QUERY_INSTRUCTION,
+            ),
+        },
+        sparse={
+            "opensearch-multilingual-v1": SentenceTransformersSparseEmbedding(
+                model="opensearch-project/opensearch-neural-sparse-encoding-multilingual-v1",
+                revision=OPENSEARCH_MULTILINGUAL_SPARSE_REVISION,
+                batch_size=int(os.environ.get("MIR_OPENSEARCH_MULTILINGUAL_SPARSE_BATCH_SIZE", "32")),
+                device=device,
+                max_length=1024,
+            ),
+            "gte-multilingual-base": GteMultilingualSparseEmbedding(
+                revision=GTE_MULTILINGUAL_REVISION,
+                batch_size=int(os.environ.get("MIR_GTE_SPARSE_BATCH_SIZE", "16")),
+                device=device,
+                max_length=1024,
+            ),
+            "splade-v3-distilbert": SentenceTransformersSparseEmbedding(
+                model="naver/splade-v3-distilbert",
+                revision=SPLADE_V3_DISTILBERT_REVISION,
+                batch_size=int(os.environ.get("MIR_SPLADE_V3_BATCH_SIZE", "32")),
+                device=device,
+                max_length=512,
+            ),
+            "opensearch-doc-v2-distill": SentenceTransformersSparseEmbedding(
+                model="opensearch-project/opensearch-neural-sparse-encoding-doc-v2-distill",
+                revision=OPENSEARCH_DOC_V2_DISTILL_REVISION,
+                batch_size=int(os.environ.get("MIR_OPENSEARCH_V2_DISTILL_BATCH_SIZE", "32")),
+                device=device,
+                max_length=512,
+            ),
+            "granite-30m-sparse": SentenceTransformersSparseEmbedding(
+                model="ibm-granite/granite-embedding-30m-sparse",
+                revision=GRANITE_30M_SPARSE_REVISION,
+                batch_size=int(os.environ.get("MIR_GRANITE_SPARSE_BATCH_SIZE", "64")),
+                device=device,
+                max_length=512,
             ),
         },
         embedding_gemma=SentenceTransformersEmbedding(

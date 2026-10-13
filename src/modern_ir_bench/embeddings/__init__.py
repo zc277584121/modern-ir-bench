@@ -1,6 +1,10 @@
 """Embedding component contracts and implementations."""
 
 from modern_ir_bench.embeddings.bge_m3 import BgeM3Embedding
+from modern_ir_bench.embeddings.learned_sparse import (
+    GteMultilingualSparseEmbedding,
+    SentenceTransformersSparseEmbedding,
+)
 from modern_ir_bench.embeddings.managed_text import DashScopeTextEmbedding, JinaTextEmbedding
 from modern_ir_bench.embeddings.openrouter import OpenRouterEmbedding
 from modern_ir_bench.embeddings.ovis_omni import OvisOmniEmbedding
@@ -16,10 +20,12 @@ __all__ = [
     "BgeM3Embedding",
     "DashScopeTextEmbedding",
     "DenseEmbedding",
+    "GteMultilingualSparseEmbedding",
     "JinaTextEmbedding",
     "OpenRouterEmbedding",
     "OvisOmniEmbedding",
     "SentenceTransformersEmbedding",
+    "SentenceTransformersSparseEmbedding",
     "SparseEmbedding",
     "SparseVector",
     "VoyageEmbedding",
