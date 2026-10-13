@@ -15,6 +15,7 @@ from modern_ir_bench.embeddings import (
     VoyageEmbedding,
     VoyageMultimodalEmbedding,
 )
+from modern_ir_bench.rerankers import Reranker
 from modern_ir_bench.retrieval.indexes.milvus.target import MilvusTarget
 from modern_ir_bench.solutions import PaddleOcrExtractor, PdfPageRenderer
 
@@ -32,6 +33,7 @@ class Runtime:
     managed_visual: dict[str, OpenRouterEmbedding]
     ovis_omni: OvisOmniEmbedding
     page_renderer: PdfPageRenderer
+    reranker: Reranker
 
 
 @dataclass(frozen=True)

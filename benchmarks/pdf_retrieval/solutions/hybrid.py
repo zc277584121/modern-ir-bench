@@ -42,7 +42,13 @@ def _build_bm25_visual_rrf(runtime: Runtime, spec: SolutionSpec) -> ReciprocalRa
     )
 
 
-def _build_voyage_text_visual_rrf(runtime: Runtime, spec: SolutionSpec) -> ReciprocalRankFusionSolution:
+def build_voyage_text_visual_rrf_component(
+    runtime: Runtime,
+    *,
+    solution_id: str,
+    title: str,
+    description: str,
+) -> ReciprocalRankFusionSolution:
     components = (
         build_voyage_pdf_component(
             runtime,
@@ -58,14 +64,23 @@ def _build_voyage_text_visual_rrf(runtime: Runtime, spec: SolutionSpec) -> Recip
         ),
     )
     return ReciprocalRankFusionSolution(
-        id=spec.id,
-        title=spec.title,
-        description=spec.description,
+        id=solution_id,
+        title=title,
+        description=description,
         components=components,
         candidate_depth=50,
         rank_constant=60,
         candidate_cache_path=runtime.cache_root / "retrieval-candidates.sqlite3",
         candidate_cache_namespace=VOYAGE_TEXT_VISUAL_CACHE_NAMESPACE,
+    )
+
+
+def _build_voyage_text_visual_rrf(runtime: Runtime, spec: SolutionSpec) -> ReciprocalRankFusionSolution:
+    return build_voyage_text_visual_rrf_component(
+        runtime,
+        solution_id=spec.id,
+        title=spec.title,
+        description=spec.description,
     )
 
 

@@ -6,5 +6,6 @@ Two candidate sources are evaluated without changing the reranker:
 
 - Qwen3 Embedding 8B over shared chunks, collapsed to documents.
 - Per-query min-max score fusion of chunked BM25 and Qwen3 Embedding 8B with fixed 25/75 weights.
+- Voyage 4 Large over shared chunks, collapsed to documents.
 
 The reranker receives one query and all 50 candidate documents in one request. Voyage truncation is enabled only when a single query-document pair exceeds the model limit. Requests use a shared rate limiter and global cooldown so concurrent workers stay below the service quota. Exact query-document scores are cached locally by model, query text, document id, and document content hash.

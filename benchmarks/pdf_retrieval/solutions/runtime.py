@@ -23,6 +23,7 @@ from modern_ir_bench.embeddings import (
     VoyageEmbedding,
     VoyageMultimodalEmbedding,
 )
+from modern_ir_bench.rerankers import VoyageReranker
 from modern_ir_bench.retrieval.indexes.milvus.target import MilvusTarget
 from modern_ir_bench.solutions import PaddleOcrExtractor, PdfPageRenderer
 
@@ -115,5 +116,10 @@ def build_runtime(*, target: MilvusTarget, project_root: Path) -> Runtime:
             scale=2.0,
             max_side=1600,
             jpeg_quality=88,
+        ),
+        reranker=VoyageReranker(
+            model="rerank-3",
+            request_concurrency=int(os.environ.get("MIR_VOYAGE_RERANK_CONCURRENCY", "4")),
+            request_interval_seconds=float(os.environ.get("MIR_VOYAGE_RERANK_INTERVAL", "1.0")),
         ),
     )
