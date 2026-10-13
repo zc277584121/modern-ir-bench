@@ -49,6 +49,18 @@ def build_runtime() -> Runtime:
     rerank_devices = tuple(
         device.strip() for device in os.environ.get("MIR_RERANK_DEVICES", "cuda:0").split(",") if device.strip()
     )
+
+    def openrouter_embedding(*, model: str, dimension: int, cache_name: str) -> OpenRouterEmbedding:
+        return OpenRouterEmbedding(
+            model=model,
+            dimension=dimension,
+            batch_size=int(os.environ.get("MIR_OPENROUTER_BATCH_SIZE", "16")),
+            document_input_type="search_document",
+            query_input_type="search_query",
+            cache_path=project_root / f".runtime/openrouter/{cache_name}.sqlite3",
+            request_concurrency=int(os.environ.get("MIR_OPENROUTER_CONCURRENCY", "4")),
+        )
+
     return Runtime(
         target=target,
         cache_root=project_root / ".runtime",
@@ -78,43 +90,57 @@ def build_runtime() -> Runtime:
                 query_prompt=f"Instruct: {QUERY_INSTRUCTION}\nQuery: ",
                 dimension=2560,
             ),
-            "8b-openrouter": OpenRouterEmbedding(
+            "8b-openrouter": openrouter_embedding(
                 model="qwen/qwen3-embedding-8b",
                 dimension=4096,
-                batch_size=int(os.environ.get("MIR_OPENROUTER_BATCH_SIZE", "16")),
-                document_input_type="search_document",
-                query_input_type="search_query",
-                cache_path=project_root / ".runtime/openrouter/qwen3-embedding-8b.sqlite3",
-                request_concurrency=int(os.environ.get("MIR_OPENROUTER_CONCURRENCY", "4")),
+                cache_name="qwen3-embedding-8b",
             ),
         },
         managed={
-            "text-embedding-3-large": OpenRouterEmbedding(
+            "text-embedding-3-large": openrouter_embedding(
                 model="openai/text-embedding-3-large",
                 dimension=3072,
-                batch_size=int(os.environ.get("MIR_OPENROUTER_BATCH_SIZE", "16")),
-                document_input_type="search_document",
-                query_input_type="search_query",
-                cache_path=project_root / ".runtime/openrouter/text-embedding-3-large.sqlite3",
-                request_concurrency=int(os.environ.get("MIR_OPENROUTER_CONCURRENCY", "4")),
+                cache_name="text-embedding-3-large",
             ),
-            "gemini-embedding-2": OpenRouterEmbedding(
+            "gemini-embedding-2": openrouter_embedding(
                 model="google/gemini-embedding-2",
                 dimension=3072,
-                batch_size=int(os.environ.get("MIR_OPENROUTER_BATCH_SIZE", "16")),
-                document_input_type="search_document",
-                query_input_type="search_query",
-                cache_path=project_root / ".runtime/openrouter/gemini-embedding-2.sqlite3",
-                request_concurrency=int(os.environ.get("MIR_OPENROUTER_CONCURRENCY", "4")),
+                cache_name="gemini-embedding-2",
             ),
-            "pplx-embed-v1-4b": OpenRouterEmbedding(
+            "pplx-embed-v1-4b": openrouter_embedding(
                 model="perplexity/pplx-embed-v1-4b",
                 dimension=2560,
-                batch_size=int(os.environ.get("MIR_OPENROUTER_BATCH_SIZE", "16")),
-                document_input_type="search_document",
-                query_input_type="search_query",
-                cache_path=project_root / ".runtime/openrouter/pplx-embed-v1-4b.sqlite3",
-                request_concurrency=int(os.environ.get("MIR_OPENROUTER_CONCURRENCY", "4")),
+                cache_name="pplx-embed-v1-4b",
+            ),
+            "nemotron-3-embed-1b": openrouter_embedding(
+                model="nvidia/nemotron-3-embed-1b:free",
+                dimension=2048,
+                cache_name="nemotron-3-embed-1b",
+            ),
+            "mistral-embed-2312": openrouter_embedding(
+                model="mistralai/mistral-embed-2312",
+                dimension=1024,
+                cache_name="mistral-embed-2312",
+            ),
+            "voyage-4": openrouter_embedding(
+                model="voyageai/voyage-4",
+                dimension=1024,
+                cache_name="voyage-4",
+            ),
+            "voyage-4-lite": openrouter_embedding(
+                model="voyageai/voyage-4-lite",
+                dimension=1024,
+                cache_name="voyage-4-lite",
+            ),
+            "text-embedding-3-small": openrouter_embedding(
+                model="openai/text-embedding-3-small",
+                dimension=1536,
+                cache_name="text-embedding-3-small",
+            ),
+            "pplx-embed-v1-0-6b": openrouter_embedding(
+                model="perplexity/pplx-embed-v1-0.6b",
+                dimension=1024,
+                cache_name="pplx-embed-v1-0-6b",
             ),
             "jina-embeddings-v5-text-small": JinaTextEmbedding(
                 cache_path=project_root / ".runtime/jina/jina-embeddings-v5-text-small.sqlite3",
