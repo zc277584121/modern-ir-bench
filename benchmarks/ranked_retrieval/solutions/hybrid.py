@@ -47,7 +47,7 @@ def _build_weighted(runtime: Runtime, spec: SolutionSpec, *, weights: tuple[floa
         description=spec.description,
         components=_components(runtime),
         weights=weights,
-        score_directions=("higher", "higher"),
+        score_directions=("lower", "higher"),
         candidate_depth=50,
         candidate_cache_path=runtime.cache_root / "retrieval-candidates.sqlite3",
         candidate_cache_namespace=CANDIDATE_CACHE_NAMESPACE,
