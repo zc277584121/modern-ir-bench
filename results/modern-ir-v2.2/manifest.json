@@ -2,7 +2,7 @@
   "schema_version": 1,
   "artifact_type": "live-top-k-rankings",
   "release": "modern-ir-bench-v2.2-20261010",
-  "published_at": "2026-10-13T04:30:49.011531+00:00",
+  "published_at": "2026-10-13T05:40:45.896895+00:00",
   "dataset": {
     "repository": "zc277584121/modern-ir-bench",
     "revision": "c7a38d6aaa3d1bd178952b6be91e12ca4ceb10ff"
@@ -22,9 +22,13 @@
     "dashscope-text-embedding-v4-chunk",
     "embedding-gemma-2-chunk",
     "gemini-embedding-2-chunk",
+    "granite-30m-sparse-chunk",
+    "gte-multilingual-base-sparse-chunk",
     "jina-embeddings-v5-text-small-chunk",
     "mistral-embed-2312-chunk",
     "nemotron-3-embed-1b-chunk",
+    "opensearch-doc-v2-distill-sparse-chunk",
+    "opensearch-multilingual-v1-sparse-chunk",
     "pplx-embed-v1-0-6b-chunk",
     "pplx-embed-v1-4b-chunk",
     "qwen3-embedding-0-6b-chunk",
@@ -32,6 +36,7 @@
     "qwen3-embedding-8b-bge-reranker-v2-m3",
     "qwen3-embedding-8b-openrouter-chunk",
     "qwen3-embedding-8b-rerank-3",
+    "splade-v3-distilbert-sparse-chunk",
     "text-embedding-3-large-chunk",
     "text-embedding-3-small-chunk",
     "voyage-4-chunk",
@@ -136,6 +141,22 @@
       "created_at": "2026-10-12T15:26:14.092511+00:00",
       "origin": "verified-live-run"
     },
+    "granite-30m-sparse-chunk": {
+      "source_commit": "d13b51d55871b625832d5c7a69d6c684affabd58",
+      "source_module": "benchmarks.ranked_retrieval.run",
+      "source_path": "benchmarks/ranked_retrieval/run.py",
+      "source_line": 36,
+      "created_at": "2026-10-13T05:33:05.039975+00:00",
+      "origin": "verified-live-run"
+    },
+    "gte-multilingual-base-sparse-chunk": {
+      "source_commit": "d13b51d55871b625832d5c7a69d6c684affabd58",
+      "source_module": "benchmarks.ranked_retrieval.run",
+      "source_path": "benchmarks/ranked_retrieval/run.py",
+      "source_line": 36,
+      "created_at": "2026-10-13T05:33:05.151846+00:00",
+      "origin": "verified-live-run"
+    },
     "jina-embeddings-v5-text-small-chunk": {
       "source_commit": "69102c3efb8598b3a7e7ee07b871a73b5f0f8523",
       "source_module": "benchmarks.ranked_retrieval.run",
@@ -158,6 +179,22 @@
       "source_path": "benchmarks/ranked_retrieval/run.py",
       "source_line": 36,
       "created_at": "2026-10-13T04:12:38.439306+00:00",
+      "origin": "verified-live-run"
+    },
+    "opensearch-doc-v2-distill-sparse-chunk": {
+      "source_commit": "d13b51d55871b625832d5c7a69d6c684affabd58",
+      "source_module": "benchmarks.ranked_retrieval.run",
+      "source_path": "benchmarks/ranked_retrieval/run.py",
+      "source_line": 36,
+      "created_at": "2026-10-13T05:33:04.763942+00:00",
+      "origin": "verified-live-run"
+    },
+    "opensearch-multilingual-v1-sparse-chunk": {
+      "source_commit": "813ae106c385bd33f9d3cf4c6a23ede66768f581",
+      "source_module": "benchmarks.ranked_retrieval.run",
+      "source_path": "benchmarks/ranked_retrieval/run.py",
+      "source_line": 36,
+      "created_at": "2026-10-13T05:36:19.023821+00:00",
       "origin": "verified-live-run"
     },
     "pplx-embed-v1-0-6b-chunk": {
@@ -212,6 +249,14 @@
       "created_at": "2026-10-13T02:29:10.946257+00:00",
       "origin": "verified-live-run"
     },
+    "splade-v3-distilbert-sparse-chunk": {
+      "source_commit": "d13b51d55871b625832d5c7a69d6c684affabd58",
+      "source_module": "benchmarks.ranked_retrieval.run",
+      "source_path": "benchmarks/ranked_retrieval/run.py",
+      "source_line": 36,
+      "created_at": "2026-10-13T05:33:04.880703+00:00",
+      "origin": "verified-live-run"
+    },
     "text-embedding-3-large-chunk": {
       "source_commit": "3fb8d6f70e4f46e160b2d986aa062a9c289a56f5",
       "source_module": "benchmarks.ranked_retrieval.run",
@@ -254,7 +299,7 @@
     }
   },
   "queries": 1000,
-  "ranking_rows": 30000,
+  "ranking_rows": 35000,
   "top_k": 10,
-  "rankings_sha256": "7d5ef5de9af93e1d9d5527a692f4469838d26b14cd3ea94238b0708cc62ae65c"
+  "rankings_sha256": "a144d7ee374cae1967a6ebde76e530dcec28a369b012bc99fac27cd7bd27e074"
 }
