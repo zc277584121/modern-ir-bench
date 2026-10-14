@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from collections.abc import Callable, Iterable, Mapping, Sequence
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
@@ -20,9 +20,32 @@ from modern_ir_bench.retrieval.types import RetrievalResource, SearchHit, TextIn
 
 
 @dataclass(frozen=True, kw_only=True)
+class BM25LanguageConfig:
+    """Analyzer and scoring parameters for one language pool."""
+
+    analyzer: Mapping[str, Any]
+    k1: float = 1.2
+    b: float = 0.75
+
+    def __post_init__(self) -> None:
+        if self.k1 <= 0:
+            raise ValueError("BM25 k1 must be positive")
+        if not 0 <= self.b <= 1:
+            raise ValueError("BM25 b must be between 0 and 1")
+
+
+def default_bm25_language_configs() -> Mapping[str, BM25LanguageConfig]:
+    return {
+        "en": BM25LanguageConfig(analyzer={"tokenizer": "standard", "filter": ["lowercase"]}),
+        "zh": BM25LanguageConfig(analyzer={"tokenizer": "jieba"}),
+    }
+
+
+@dataclass(frozen=True, kw_only=True)
 class MilvusBM25Solution(Solution):
     target: MilvusTarget
     chunker: Callable[[str], Sequence[str]] | None = None
+    language_configs: Mapping[str, BM25LanguageConfig] = field(default_factory=default_bm25_language_configs)
     candidate_multiplier: int = 3
     insert_batch_size: int = 256
     collection_prefix: str = "modern_ir_bm25"
@@ -43,8 +66,9 @@ class MilvusBM25Solution(Solution):
         if None in languages or len(languages) != 1:
             raise ValueError("BM25 resources must belong to one declared language pool")
         language = str(next(iter(languages)))
-        if language not in {"en", "zh"}:
-            raise ValueError(f"Unsupported BM25 analyzer language: {language}")
+        if language not in self.language_configs:
+            raise ValueError(f"No BM25 configuration declared for language: {language}")
+        language_config = self.language_configs[language]
 
         from pymilvus import DataType, Function, FunctionType, MilvusClient
 
@@ -62,9 +86,7 @@ class MilvusBM25Solution(Solution):
                 DataType.VARCHAR,
                 max_length=65535,
                 enable_analyzer=True,
-                analyzer_params=(
-                    {"tokenizer": "jieba"} if language == "zh" else {"tokenizer": "standard", "filter": ["lowercase"]}
-                ),
+                analyzer_params=dict(language_config.analyzer),
             )
             schema.add_field("sparse", DataType.SPARSE_FLOAT_VECTOR)
             schema.add_function(
@@ -81,6 +103,11 @@ class MilvusBM25Solution(Solution):
                 index_name="bm25_index",
                 index_type="SPARSE_INVERTED_INDEX",
                 metric_type="BM25",
+                params={
+                    "inverted_index_algo": "DAAT_MAXSCORE",
+                    "bm25_k1": language_config.k1,
+                    "bm25_b": language_config.b,
+                },
             )
             client.create_collection(
                 collection_name=collection_name,
@@ -113,6 +140,7 @@ class MilvusBM25Solution(Solution):
             client=client,
             collection_name=collection_name,
             language=language,
+            language_config=language_config,
             unit_to_document=unit_to_document,
             document_count=len(rows),
             candidate_multiplier=self.candidate_multiplier,
@@ -126,6 +154,7 @@ class MilvusBM25Session:
         client: Any,
         collection_name: str,
         language: str,
+        language_config: BM25LanguageConfig,
         unit_to_document: Mapping[str, str],
         document_count: int,
         candidate_multiplier: int,
@@ -133,6 +162,7 @@ class MilvusBM25Session:
         self.client = client
         self.collection_name = collection_name
         self.language = language
+        self.language_config = language_config
         self.unit_to_document = dict(unit_to_document)
         self.document_count = document_count
         self.candidate_multiplier = candidate_multiplier
@@ -186,6 +216,9 @@ class MilvusBM25Session:
         return {
             "backend": "milvus-bm25",
             "language": self.language,
+            "analyzer": dict(self.language_config.analyzer),
+            "k1": self.language_config.k1,
+            "b": self.language_config.b,
             "units": len(self.unit_to_document),
             "documents": self.document_count,
             "candidate_multiplier": self.candidate_multiplier,

@@ -1,6 +1,10 @@
 """Reusable retrieval components that remain internal to Solutions."""
 
-from modern_ir_bench.retrieval.bm25 import MilvusBM25Solution
+from modern_ir_bench.retrieval.bm25 import (
+    BM25LanguageConfig,
+    MilvusBM25Solution,
+    default_bm25_language_configs,
+)
 from modern_ir_bench.retrieval.chunked import ChunkedDenseRetrievalSolution
 from modern_ir_bench.retrieval.chunking import ChunkingPolicy, HuggingFaceOffsetTokenizer, TokenTextChunker
 from modern_ir_bench.retrieval.dense import DenseRetrievalSolution
@@ -17,6 +21,7 @@ from modern_ir_bench.retrieval.types import (
 )
 
 __all__ = [
+    "BM25LanguageConfig",
     "ChunkedDenseRetrievalSolution",
     "ChunkedSparseRetrievalSolution",
     "ChunkingPolicy",
@@ -33,4 +38,5 @@ __all__ = [
     "TextInput",
     "TokenTextChunker",
     "WeightedScoreFusionSolution",
+    "default_bm25_language_configs",
 ]
