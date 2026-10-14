@@ -2,7 +2,7 @@
   "schema_version": 1,
   "artifact_type": "live-top-k-rankings",
   "release": "modern-ir-bench-v2.2-20261010",
-  "published_at": "2026-10-13T13:55:44.567661+00:00",
+  "published_at": "2026-10-14T04:30:07.086501+00:00",
   "dataset": {
     "repository": "zc277584121/modern-ir-bench",
     "revision": "c7a38d6aaa3d1bd178952b6be91e12ca4ceb10ff"
@@ -153,11 +153,11 @@
       "origin": "verified-live-run"
     },
     "granite-30m-sparse-chunk": {
-      "source_commit": "d13b51d55871b625832d5c7a69d6c684affabd58",
+      "source_commit": "99cda4bebce730c68727fe267ddc14966470506c",
       "source_module": "benchmarks.ranked_retrieval.run",
       "source_path": "benchmarks/ranked_retrieval/run.py",
       "source_line": 36,
-      "created_at": "2026-10-13T05:33:05.039975+00:00",
+      "created_at": "2026-10-14T04:24:00.174569+00:00",
       "origin": "verified-live-run"
     },
     "gte-multilingual-base-sparse-chunk": {
@@ -201,19 +201,19 @@
       "origin": "verified-live-run"
     },
     "opensearch-doc-v2-distill-sparse-chunk": {
-      "source_commit": "d13b51d55871b625832d5c7a69d6c684affabd58",
+      "source_commit": "99cda4bebce730c68727fe267ddc14966470506c",
       "source_module": "benchmarks.ranked_retrieval.run",
       "source_path": "benchmarks/ranked_retrieval/run.py",
       "source_line": 36,
-      "created_at": "2026-10-13T05:33:04.763942+00:00",
+      "created_at": "2026-10-14T04:24:02.569656+00:00",
       "origin": "verified-live-run"
     },
     "opensearch-multilingual-v1-sparse-chunk": {
-      "source_commit": "813ae106c385bd33f9d3cf4c6a23ede66768f581",
+      "source_commit": "99cda4bebce730c68727fe267ddc14966470506c",
       "source_module": "benchmarks.ranked_retrieval.run",
       "source_path": "benchmarks/ranked_retrieval/run.py",
       "source_line": 36,
-      "created_at": "2026-10-13T05:36:19.023821+00:00",
+      "created_at": "2026-10-14T04:24:03.602679+00:00",
       "origin": "verified-live-run"
     },
     "pplx-embed-v1-0-6b-chunk": {
@@ -269,11 +269,11 @@
       "origin": "verified-live-run"
     },
     "splade-v3-distilbert-sparse-chunk": {
-      "source_commit": "d13b51d55871b625832d5c7a69d6c684affabd58",
+      "source_commit": "99cda4bebce730c68727fe267ddc14966470506c",
       "source_module": "benchmarks.ranked_retrieval.run",
       "source_path": "benchmarks/ranked_retrieval/run.py",
       "source_line": 36,
-      "created_at": "2026-10-13T05:33:04.880703+00:00",
+      "created_at": "2026-10-14T04:24:00.900149+00:00",
       "origin": "verified-live-run"
     },
     "text-embedding-3-large-chunk": {
@@ -328,5 +328,5 @@
   "queries": 1000,
   "ranking_rows": 38000,
   "top_k": 10,
-  "rankings_sha256": "179e65112762bcd5774fde45e56abc5f62c01c301af16026f321734941ae917d"
+  "rankings_sha256": "35d38b0fce84da26ae88118e6e60016b2880ec18d25a37dea6754a274737faa8"
 }
