@@ -22,7 +22,7 @@ from modern_ir_bench.embeddings import (
     VoyageEmbedding,
 )
 from modern_ir_bench.rerankers import CrossEncoderReranker, OpenRouterReranker, VoyageReranker
-from modern_ir_bench.retrieval import HuggingFaceOffsetTokenizer, TextInput, TokenTextChunker
+from modern_ir_bench.retrieval import ChunkingPolicy, HuggingFaceOffsetTokenizer, TextInput, TokenTextChunker
 from modern_ir_bench.retrieval.indexes.milvus import MilvusLite, MilvusServer
 
 BGE_M3_REVISION = "5617a9f61b028005a4858fdac845db406aefb181"
@@ -35,6 +35,13 @@ SPLADE_V3_DISTILBERT_REVISION = "2db06b86d65e316e2ca9907aa1aa8be6f8c4e739"
 OPENSEARCH_DOC_V2_DISTILL_REVISION = "8921a26c78b8559d6604eb1f5c0b74c079bee38f"
 GRANITE_30M_SPARSE_REVISION = "ad82b1fd09541c998c8d45045d601c51fdb8a9b7"
 QUERY_INSTRUCTION = "Given a web search query, retrieve relevant documents that answer or satisfy it."
+SHORT_CONTEXT_POLICY = ChunkingPolicy(
+    target_tokens=384,
+    min_tokens=256,
+    max_tokens=448,
+    overlap_tokens=64,
+    paragraph_search_tokens=64,
+)
 
 
 def text_of(value: TextInput) -> str:
@@ -71,10 +78,12 @@ def build_runtime() -> Runtime:
             send_dimensions=send_dimensions,
         )
 
+    chunk_tokenizer = HuggingFaceOffsetTokenizer()
     return Runtime(
         target=target,
         cache_root=project_root / ".runtime",
-        chunker=TokenTextChunker(HuggingFaceOffsetTokenizer()),
+        chunker=TokenTextChunker(chunk_tokenizer),
+        short_context_chunker=TokenTextChunker(chunk_tokenizer, SHORT_CONTEXT_POLICY),
         voyage=VoyageEmbedding(
             model="voyage-4-large",
             batch_size=128,
@@ -204,6 +213,8 @@ def build_runtime() -> Runtime:
                 device=device,
                 max_length=512,
                 pooling_chunk_size=64,
+                document_max_active_dimensions=192,
+                query_max_active_dimensions=50,
             ),
         },
         embedding_gemma=SentenceTransformersEmbedding(

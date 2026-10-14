@@ -14,13 +14,16 @@ from modern_ir_bench.embeddings import (
 class _SparseEncoder:
     def __init__(self) -> None:
         self.calls: list[tuple[str, list[str]]] = []
+        self.options: list[dict[str, Any]] = []
 
-    def encode_document(self, texts: list[str], **_: Any) -> torch.Tensor:
+    def encode_document(self, texts: list[str], **options: Any) -> torch.Tensor:
         self.calls.append(("document", texts))
+        self.options.append(options)
         return torch.tensor([[0.0, 2.0, 0.0], [1.5, 0.0, 3.0]]).to_sparse()
 
-    def encode_query(self, texts: list[str], **_: Any) -> torch.Tensor:
+    def encode_query(self, texts: list[str], **options: Any) -> torch.Tensor:
         self.calls.append(("query", texts))
+        self.options.append(options)
         return torch.tensor([[4.0, 0.0, 1.0]]).to_sparse()
 
 
@@ -35,6 +38,23 @@ def test_sentence_transformers_sparse_embedding_preserves_sparse_coordinates() -
     assert documents == [{1: 2.0}, {0: 1.5, 2: 3.0}]
     assert queries == [{0: 4.0, 2: 1.0}]
     assert model.calls == [("document", ["one", "two"]), ("query", ["query"])]
+
+
+def test_sentence_transformers_sparse_embedding_uses_separate_active_dimension_limits() -> None:
+    embedding = SentenceTransformersSparseEmbedding(
+        model="example/model",
+        revision="revision",
+        document_max_active_dimensions=192,
+        query_max_active_dimensions=50,
+    )
+    model = _SparseEncoder()
+    embedding._model = model
+
+    embedding.encode_sparse_documents(["one", "two"])
+    embedding.encode_sparse_queries(["query"])
+
+    assert model.options[0]["max_active_dims"] == 192
+    assert model.options[1]["max_active_dims"] == 50
 
 
 def test_sentence_transformers_sparse_embedding_handles_empty_input() -> None:
@@ -53,6 +73,10 @@ def test_sentence_transformers_sparse_embedding_handles_empty_input() -> None:
         (
             SentenceTransformersSparseEmbedding,
             {"model": "model", "revision": "revision", "pooling_chunk_size": 0},
+        ),
+        (
+            SentenceTransformersSparseEmbedding,
+            {"model": "model", "revision": "revision", "document_max_active_dimensions": 0},
         ),
         (GteMultilingualSparseEmbedding, {"revision": "", "batch_size": 1}),
         (GteMultilingualSparseEmbedding, {"revision": "revision", "max_length": 0}),

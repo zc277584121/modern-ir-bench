@@ -18,6 +18,7 @@ class Runtime:
     target: MilvusTarget
     cache_root: Path
     chunker: TokenTextChunker
+    short_context_chunker: TokenTextChunker
     voyage: VoyageEmbedding
     qwen: dict[str, DenseEmbedding]
     managed: dict[str, DenseEmbedding]

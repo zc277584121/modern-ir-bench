@@ -21,6 +21,8 @@ class SentenceTransformersSparseEmbedding:
         device: str | None = None,
         max_length: int | None = None,
         pooling_chunk_size: int | None = None,
+        document_max_active_dimensions: int | None = None,
+        query_max_active_dimensions: int | None = None,
         trust_remote_code: bool = False,
     ) -> None:
         if not model or not revision:
@@ -29,14 +31,18 @@ class SentenceTransformersSparseEmbedding:
             batch_size < 1
             or (max_length is not None and max_length < 1)
             or (pooling_chunk_size is not None and pooling_chunk_size < 1)
+            or (document_max_active_dimensions is not None and document_max_active_dimensions < 1)
+            or (query_max_active_dimensions is not None and query_max_active_dimensions < 1)
         ):
-            raise ValueError("batch size, max length, and pooling chunk size must be positive")
+            raise ValueError("batch size, lengths, chunk size, and active dimensions must be positive")
         self.model_id = model
         self.revision = revision
         self.batch_size = batch_size
         self.device = device
         self.max_length = max_length
         self.pooling_chunk_size = pooling_chunk_size
+        self.document_max_active_dimensions = document_max_active_dimensions
+        self.query_max_active_dimensions = query_max_active_dimensions
         self.trust_remote_code = trust_remote_code
         self._model: Any | None = None
 
@@ -83,6 +89,11 @@ class SentenceTransformersSparseEmbedding:
             batch_size=self.batch_size,
             show_progress_bar=False,
             convert_to_tensor=True,
+            max_active_dims=(
+                self.document_max_active_dimensions
+                if kind == "document"
+                else self.query_max_active_dimensions
+            ),
         )
         return self._to_vectors(output)
 
