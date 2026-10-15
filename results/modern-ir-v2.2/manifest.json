@@ -2,7 +2,7 @@
   "schema_version": 1,
   "artifact_type": "live-top-k-rankings",
   "release": "modern-ir-bench-v2.2-20261010",
-  "published_at": "2026-10-14T04:44:22.756373+00:00",
+  "published_at": "2026-10-15T00:00:14.969708+00:00",
   "dataset": {
     "repository": "zc277584121/modern-ir-bench",
     "revision": "c7a38d6aaa3d1bd178952b6be91e12ca4ceb10ff"
@@ -12,6 +12,7 @@
     "bge-m3-dense-sparse-rrf",
     "bge-m3-sparse-chunk",
     "bm25-chunk",
+    "bm25-chunk-tuned",
     "bm25-full",
     "bm25-gte-multilingual-sparse-rrf",
     "bm25-qwen3-embedding-8b-rrf",
@@ -65,12 +66,28 @@
       "published_at": "2026-10-10T03:34:57.604060+00:00"
     },
     "bm25-chunk": {
-      "origin": "historical-top-k-rankings",
-      "published_at": "2026-10-10T03:34:57.604060+00:00"
+      "source_commit": "26a7388597a6a9af209cb57be7c05e8e1ca35c91",
+      "source_module": "benchmarks.ranked_retrieval.run",
+      "source_path": "benchmarks/ranked_retrieval/run.py",
+      "source_line": 36,
+      "created_at": "2026-10-14T23:57:37.920687+00:00",
+      "origin": "verified-live-run"
+    },
+    "bm25-chunk-tuned": {
+      "source_commit": "26a7388597a6a9af209cb57be7c05e8e1ca35c91",
+      "source_module": "benchmarks.ranked_retrieval.run",
+      "source_path": "benchmarks/ranked_retrieval/run.py",
+      "source_line": 36,
+      "created_at": "2026-10-14T23:57:37.920687+00:00",
+      "origin": "verified-live-run"
     },
     "bm25-full": {
-      "origin": "historical-top-k-rankings",
-      "published_at": "2026-10-10T03:34:57.604060+00:00"
+      "source_commit": "26a7388597a6a9af209cb57be7c05e8e1ca35c91",
+      "source_module": "benchmarks.ranked_retrieval.run",
+      "source_path": "benchmarks/ranked_retrieval/run.py",
+      "source_line": 36,
+      "created_at": "2026-10-14T23:57:37.920687+00:00",
+      "origin": "verified-live-run"
     },
     "bm25-gte-multilingual-sparse-rrf": {
       "source_commit": "993af67f7c3b83b36385713370a9e2c79251c255",
@@ -326,7 +343,7 @@
     }
   },
   "queries": 1000,
-  "ranking_rows": 38000,
+  "ranking_rows": 39000,
   "top_k": 10,
-  "rankings_sha256": "35d38b0fce84da26ae88118e6e60016b2880ec18d25a37dea6754a274737faa8"
+  "rankings_sha256": "fad47b0d2b069455af534bf58e35f65bd11680b02d47f3f7f63b86cc5fd4f00e"
 }

@@ -8,6 +8,7 @@ This directory stores immutable Top-K document rankings for every published Solu
 - `bge-m3-dense-sparse-rrf`
 - `bge-m3-sparse-chunk`
 - `bm25-chunk`
+- `bm25-chunk-tuned`
 - `bm25-full`
 - `bm25-gte-multilingual-sparse-rrf`
 - `bm25-qwen3-embedding-8b-rrf`
