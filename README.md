@@ -15,7 +15,7 @@ separately and the Hugging Face Space is generated from that evidence.
 - 5,000 bilingual text documents
 - 1,000 queries
 - 6,575 positive binary Qrels
-- 38 published lexical, dense, learned-sparse, reranking, and hybrid Solutions
+- 39 published lexical, dense, learned-sparse, reranking, and hybrid Solutions
 - immutable historical Top-10 rankings in `results/modern-ir-v2.2/`
 - Top-50 candidate evidence and reranker diagnostics in `results/modern-ir-v2.2/`
 - frozen source tag: `ranked-retrieval-v2.2.0`
