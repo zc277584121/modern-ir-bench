@@ -13,10 +13,11 @@ Recall is averaged per query. Oracle NDCG@10 assumes a perfect reranker over the
 | --- | ---: | ---: | ---: | ---: |
 | BGE-M3 dense | 0.9598 | 0.9791 | 81.2% | 1 |
 | Qwen3 Embedding 8B | 0.9708 | 0.9848 | 84.1% | 0 |
-| Voyage 4 Large | 0.9911 | 0.9951 | 94.7% | 14 |
+| Voyage 4 Large | 0.9911 | 0.9951 | 94.7% | 11 |
 | BGE-M3 sparse | 0.9260 | 0.9560 | 71.9% | 0 |
 | GTE Multilingual sparse | 0.9421 | 0.9669 | 76.2% | 0 |
-| BM25 | 0.9167 | 0.9507 | 69.7% | 1 |
+| BM25 · simple analyzers | 0.9167 | 0.9507 | 69.7% | 0 |
+| BM25 · tuned language-aware | 0.9376 | 0.9650 | 74.2% | 2 |
 
 ### Candidate unions
 
@@ -25,7 +26,7 @@ Recall is averaged per query. Oracle NDCG@10 assumes a perfect reranker over the
 | Voyage 4 Large + BM25 | 75.6 | 0.9973 | 0.9983 | 98.3% |
 | Voyage 4 Large + GTE sparse | 73.1 | 0.9973 | 0.9985 | 98.4% |
 | Voyage 4 Large + GTE sparse + BM25 | 89.4 | 0.9982 | 0.9989 | 99.0% |
-| All stored routes | 120.7 | 0.9993 | 0.9997 | 99.6% |
+| All stored routes | 125.5 | 0.9998 | 0.9999 | 99.8% |
 
 ### Pairwise complementarity
 
@@ -35,17 +36,23 @@ Recall is averaged per query. Oracle NDCG@10 assumes a perfect reranker over the
 | BGE-M3 dense | Voyage 4 Large | 0.476 | 40 | 325 |
 | BGE-M3 dense | BGE-M3 sparse | 0.342 | 451 | 205 |
 | BGE-M3 dense | GTE Multilingual sparse | 0.360 | 374 | 235 |
-| BGE-M3 dense | BM25 | 0.315 | 566 | 234 |
+| BGE-M3 dense | BM25 · simple analyzers | 0.315 | 566 | 234 |
+| BGE-M3 dense | BM25 · tuned language-aware | 0.336 | 437 | 253 |
 | Qwen3 Embedding 8B | Voyage 4 Large | 0.525 | 37 | 208 |
 | Qwen3 Embedding 8B | BGE-M3 sparse | 0.330 | 530 | 170 |
 | Qwen3 Embedding 8B | GTE Multilingual sparse | 0.356 | 426 | 173 |
-| Qwen3 Embedding 8B | BM25 | 0.313 | 617 | 171 |
+| Qwen3 Embedding 8B | BM25 · simple analyzers | 0.313 | 617 | 171 |
+| Qwen3 Embedding 8B | BM25 · tuned language-aware | 0.332 | 481 | 183 |
 | Voyage 4 Large | BGE-M3 sparse | 0.355 | 585 | 54 |
 | Voyage 4 Large | GTE Multilingual sparse | 0.384 | 475 | 51 |
-| Voyage 4 Large | BM25 | 0.337 | 670 | 53 |
+| Voyage 4 Large | BM25 · simple analyzers | 0.337 | 670 | 53 |
+| Voyage 4 Large | BM25 · tuned language-aware | 0.361 | 526 | 57 |
 | BGE-M3 sparse | GTE Multilingual sparse | 0.567 | 122 | 229 |
-| BGE-M3 sparse | BM25 | 0.391 | 358 | 272 |
-| GTE Multilingual sparse | BM25 | 0.445 | 368 | 175 |
+| BGE-M3 sparse | BM25 · simple analyzers | 0.391 | 358 | 272 |
+| BGE-M3 sparse | BM25 · tuned language-aware | 0.406 | 249 | 311 |
+| GTE Multilingual sparse | BM25 · simple analyzers | 0.445 | 368 | 175 |
+| GTE Multilingual sparse | BM25 · tuned language-aware | 0.467 | 253 | 208 |
+| BM25 · simple analyzers | BM25 · tuned language-aware | 0.653 | 97 | 245 |
 
 ## modern-ir-pdf-retrieval-v1
 

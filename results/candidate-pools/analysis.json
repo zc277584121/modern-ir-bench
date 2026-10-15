@@ -40,7 +40,7 @@
           "queries_with_any_relevant": 1,
           "queries_with_all_relevant": 0.947,
           "oracle_ndcg_at_10": 0.99510843,
-          "globally_unique_relevant": 14
+          "globally_unique_relevant": 11
         },
         {
           "id": "bge-m3-sparse",
@@ -66,14 +66,25 @@
         },
         {
           "id": "bm25",
-          "label": "BM25",
+          "label": "BM25 · simple analyzers",
           "queries": 1000,
           "mean_candidates": 50,
           "relevant_coverage": 0.9167475,
           "queries_with_any_relevant": 0.999,
           "queries_with_all_relevant": 0.697,
           "oracle_ndcg_at_10": 0.95067237,
-          "globally_unique_relevant": 1
+          "globally_unique_relevant": 0
+        },
+        {
+          "id": "bm25-tuned",
+          "label": "BM25 · tuned language-aware",
+          "queries": 1000,
+          "mean_candidates": 50,
+          "relevant_coverage": 0.93764993,
+          "queries_with_any_relevant": 1,
+          "queries_with_all_relevant": 0.742,
+          "oracle_ndcg_at_10": 0.96504599,
+          "globally_unique_relevant": 2
         }
       ],
       "groups": [
@@ -129,14 +140,15 @@
             "voyage-4-large",
             "bge-m3-sparse",
             "gte-multilingual-sparse",
-            "bm25"
+            "bm25",
+            "bm25-tuned"
           ],
           "queries": 1000,
-          "mean_candidates": 120.656,
-          "relevant_coverage": 0.99934242,
+          "mean_candidates": 125.515,
+          "relevant_coverage": 0.99976667,
           "queries_with_any_relevant": 1,
-          "queries_with_all_relevant": 0.996,
-          "oracle_ndcg_at_10": 0.99965757
+          "queries_with_all_relevant": 0.998,
+          "oracle_ndcg_at_10": 0.99989221
         }
       ],
       "pairs": [
@@ -176,6 +188,13 @@
           "right_unique_relevant": 234
         },
         {
+          "left": "bge-m3-dense",
+          "right": "bm25-tuned",
+          "mean_jaccard": 0.33628734,
+          "left_unique_relevant": 437,
+          "right_unique_relevant": 253
+        },
+        {
           "left": "qwen3-embedding-8b",
           "right": "voyage-4-large",
           "mean_jaccard": 0.52467723,
@@ -204,6 +223,13 @@
           "right_unique_relevant": 171
         },
         {
+          "left": "qwen3-embedding-8b",
+          "right": "bm25-tuned",
+          "mean_jaccard": 0.33168678,
+          "left_unique_relevant": 481,
+          "right_unique_relevant": 183
+        },
+        {
           "left": "voyage-4-large",
           "right": "bge-m3-sparse",
           "mean_jaccard": 0.35497912,
@@ -225,6 +251,13 @@
           "right_unique_relevant": 53
         },
         {
+          "left": "voyage-4-large",
+          "right": "bm25-tuned",
+          "mean_jaccard": 0.36068517,
+          "left_unique_relevant": 526,
+          "right_unique_relevant": 57
+        },
+        {
           "left": "bge-m3-sparse",
           "right": "gte-multilingual-sparse",
           "mean_jaccard": 0.56691741,
@@ -239,11 +272,32 @@
           "right_unique_relevant": 272
         },
         {
+          "left": "bge-m3-sparse",
+          "right": "bm25-tuned",
+          "mean_jaccard": 0.40601983,
+          "left_unique_relevant": 249,
+          "right_unique_relevant": 311
+        },
+        {
           "left": "gte-multilingual-sparse",
           "right": "bm25",
           "mean_jaccard": 0.44484623,
           "left_unique_relevant": 368,
           "right_unique_relevant": 175
+        },
+        {
+          "left": "gte-multilingual-sparse",
+          "right": "bm25-tuned",
+          "mean_jaccard": 0.46655166,
+          "left_unique_relevant": 253,
+          "right_unique_relevant": 208
+        },
+        {
+          "left": "bm25",
+          "right": "bm25-tuned",
+          "mean_jaccard": 0.65303954,
+          "left_unique_relevant": 97,
+          "right_unique_relevant": 245
         }
       ]
     },
