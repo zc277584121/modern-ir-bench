@@ -12,6 +12,7 @@ from modern_ir_bench.retrieval import (
     SearchHit,
     WeightedScoreFusionSolution,
 )
+from modern_ir_bench.retrieval.fusion import _min_max_scores
 
 
 class StaticSession:
@@ -176,3 +177,19 @@ def test_weighted_score_fusion_reuses_rrf_candidates(tmp_path: Path) -> None:
     assert weighted.metadata["candidate_cache"]["hits"] == 2
     assert weighted.metadata["candidate_cache"]["misses"] == 0
     weighted.close()
+
+
+def test_ranked_score_direction_normalizes_best_first_results() -> None:
+    descending = [SearchHit("best", 3.0), SearchHit("middle", 2.0), SearchHit("worst", 1.0)]
+    ascending = [SearchHit("best", -3.0), SearchHit("middle", -2.0), SearchHit("worst", -1.0)]
+
+    assert _min_max_scores(descending, direction="ranked") == {
+        "best": 1.0,
+        "middle": 0.5,
+        "worst": 0.0,
+    }
+    assert _min_max_scores(ascending, direction="ranked") == {
+        "best": 1.0,
+        "middle": 0.5,
+        "worst": 0.0,
+    }

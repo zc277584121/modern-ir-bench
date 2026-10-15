@@ -10,17 +10,21 @@ from benchmarks.ranked_retrieval.solutions.bge_m3 import (
     build_bge_m3_dense_component,
     build_bge_m3_sparse_component,
 )
-from benchmarks.ranked_retrieval.solutions.bm25 import build_bm25_chunk_component
+from benchmarks.ranked_retrieval.solutions.bm25 import (
+    TUNED_LANGUAGE_AWARE_BM25,
+    build_bm25_chunk_component,
+)
 from benchmarks.ranked_retrieval.solutions.learned_sparse import build_sparse_component
 from benchmarks.ranked_retrieval.solutions.qwen import build_qwen_8b_chunk_component
 from benchmarks.ranked_retrieval.solutions.types import Runtime, SolutionSpec
 from modern_ir_bench.core import Solution
-from modern_ir_bench.retrieval import ReciprocalRankFusionSolution
+from modern_ir_bench.retrieval import ReciprocalRankFusionSolution, WeightedScoreFusionSolution
 
 Family = Literal["bge-dense-sparse", "gte-qwen", "bm25-gte"]
 Factory = Callable[[Runtime, SolutionSpec], Solution]
 
 CANDIDATE_CACHE_NAMESPACE = f"ranked:{DATASET_REVISION}:sparse-fusion:v1"
+TUNED_BM25_GTE_CACHE_NAMESPACE = f"ranked:{DATASET_REVISION}:bm25-tuned-gte-sparse-weighted:v1"
 CANDIDATE_DEPTH = 50
 
 
@@ -91,6 +95,36 @@ def _factory(family: Family) -> Factory:
     return build
 
 
+def _build_tuned_bm25_gte_weighted(runtime: Runtime, spec: SolutionSpec) -> Solution:
+    return WeightedScoreFusionSolution(
+        id=spec.id,
+        title=spec.title,
+        description=spec.description,
+        components=(
+            build_bm25_chunk_component(
+                runtime,
+                solution_id="internal-bm25-tuned-chunk",
+                title="Internal tuned BM25 chunks",
+                description="Retrieve shared text chunks with tuned language-aware BM25.",
+                collection_prefix="modern_ir_internal_bm25_tuned_chunk",
+                language_configs=TUNED_LANGUAGE_AWARE_BM25,
+            ),
+            build_sparse_component(
+                runtime,
+                solution_id="internal-gte-multilingual-base-sparse-chunk",
+                title="Internal GTE Multilingual Base sparse chunks",
+                description="Retrieve shared chunks with the GTE learned-sparse branch.",
+                embedding_key="gte-multilingual-base",
+            ),
+        ),
+        weights=(0.5, 0.5),
+        score_directions=("ranked", "higher"),
+        candidate_depth=CANDIDATE_DEPTH,
+        candidate_cache_path=runtime.cache_root / "retrieval-candidates.sqlite3",
+        candidate_cache_namespace=TUNED_BM25_GTE_CACHE_NAMESPACE,
+    )
+
+
 SPECS = (
     SolutionSpec(
         "bge-m3-dense-sparse-rrf",
@@ -115,5 +149,13 @@ SPECS = (
         ("lexical", "learned-sparse", "hybrid", "self-hosted", "chunked", "rrf"),
         _factory("bm25-gte"),
         "docs/solutions/bm25-learned-sparse-fusion.md",
+    ),
+    SolutionSpec(
+        "bm25-tuned-gte-multilingual-sparse-weighted-50-50",
+        "BM25 tuned + GTE sparse · Weighted 50/50",
+        "Fuse tuned BM25 and GTE Multilingual Base sparse Top-50 scores with fixed equal weights.",
+        ("lexical", "learned-sparse", "hybrid", "self-hosted", "chunked", "weighted", "tuned"),
+        _build_tuned_bm25_gte_weighted,
+        "docs/solutions/bm25-tuned-weighted-fusion.md",
     ),
 )

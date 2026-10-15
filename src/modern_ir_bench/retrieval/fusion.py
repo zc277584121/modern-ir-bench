@@ -6,11 +6,13 @@ from collections.abc import Iterable, Mapping, Sequence
 from contextlib import ExitStack
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Literal
+from typing import Any, Literal, TypeAlias
 
 from modern_ir_bench.core.solution import Solution
 from modern_ir_bench.retrieval.candidate_cache import SqliteCandidateCache
 from modern_ir_bench.retrieval.types import RetrievalResource, SearchHit
+
+ScoreDirection: TypeAlias = Literal["higher", "lower", "ranked"]
 
 
 @dataclass(frozen=True, kw_only=True)
@@ -64,7 +66,7 @@ class WeightedScoreFusionSolution(Solution):
 
     components: tuple[Solution, ...]
     weights: tuple[float, ...]
-    score_directions: tuple[Literal["higher", "lower"], ...] | None = None
+    score_directions: tuple[ScoreDirection, ...] | None = None
     candidate_depth: int = 50
     candidate_cache_path: Path | None = None
     candidate_cache_namespace: str | None = None
@@ -79,9 +81,9 @@ class WeightedScoreFusionSolution(Solution):
             raise ValueError("At least one score fusion weight must be positive")
         if self.score_directions is not None and (
             len(self.score_directions) != len(self.components)
-            or any(direction not in {"higher", "lower"} for direction in self.score_directions)
+            or any(direction not in {"higher", "lower", "ranked"} for direction in self.score_directions)
         ):
-            raise ValueError("Score directions must be 'higher' or 'lower' and match the components")
+            raise ValueError("Score directions must be 'higher', 'lower', or 'ranked' and match the components")
         if self.candidate_depth < 1:
             raise ValueError("candidate_depth must be positive")
         if (self.candidate_cache_path is None) != (self.candidate_cache_namespace is None):
@@ -289,7 +291,7 @@ class WeightedScoreFusionSession(FusionSession):
         resources: list[RetrievalResource[Any]],
         sessions: list[Any | None],
         weights: tuple[float, ...],
-        score_directions: tuple[Literal["higher", "lower"], ...],
+        score_directions: tuple[ScoreDirection, ...],
         candidate_depth: int,
         candidate_cache: SqliteCandidateCache | None,
     ) -> None:
@@ -338,7 +340,7 @@ class WeightedScoreFusionSession(FusionSession):
 def _min_max_scores(
     rankings: Sequence[SearchHit],
     *,
-    direction: Literal["higher", "lower"],
+    direction: ScoreDirection,
 ) -> dict[str, float]:
     if not rankings:
         return {}
@@ -347,6 +349,9 @@ def _min_max_scores(
     high = max(values)
     if high == low:
         return {hit.id: 0.0 for hit in rankings}
+    if direction == "ranked":
+        next_score = next(hit.score for hit in rankings if hit.score != rankings[0].score)
+        direction = "higher" if rankings[0].score > next_score else "lower"
     if direction == "higher":
         return {hit.id: (hit.score - low) / (high - low) for hit in rankings}
     return {hit.id: (high - hit.score) / (high - low) for hit in rankings}
