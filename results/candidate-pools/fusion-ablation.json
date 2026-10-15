@@ -1,0 +1,682 @@
+{
+  "schema_version": 1,
+  "task_id": "modern-ir-ranked-retrieval-v2.2",
+  "dataset_id": "modern-ir-bench-v2.2-20261010",
+  "dataset_version": "c7a38d6aaa3d",
+  "candidate_depth": 50,
+  "queries": 1000,
+  "folds": 5,
+  "dense": {
+    "routes": [
+      "voyage-4-large"
+    ],
+    "method": "atomic",
+    "metrics": {
+      "ndcg@10": 0.87926964,
+      "recall@1": 0.20040301,
+      "recall@5": 0.67287773,
+      "recall@10": 0.85209908,
+      "mrr@10": 0.96386944
+    },
+    "language_metrics": {
+      "en": {
+        "ndcg@10": 0.88322591,
+        "recall@1": 0.20349097,
+        "recall@5": 0.67853233,
+        "recall@10": 0.86263122,
+        "mrr@10": 0.96483889
+      },
+      "zh": {
+        "ndcg@10": 0.87531336,
+        "recall@1": 0.19731505,
+        "recall@5": 0.66722313,
+        "recall@10": 0.84156694,
+        "mrr@10": 0.9629
+      }
+    }
+  },
+  "studies": [
+    {
+      "learned_sparse_route": "bge-m3-sparse",
+      "weighted": {
+        "dense+bm25": {
+          "routes": [
+            "voyage-4-large",
+            "bm25-tuned"
+          ],
+          "method": "weighted-min-max",
+          "weight_step": 0.05,
+          "full_best_weights": [
+            0.75,
+            0.25
+          ],
+          "fold_weights": [
+            [
+              0.8,
+              0.2
+            ],
+            [
+              0.8,
+              0.2
+            ],
+            [
+              0.75,
+              0.25
+            ],
+            [
+              0.8,
+              0.2
+            ],
+            [
+              0.75,
+              0.25
+            ]
+          ],
+          "fold_ndcg_at_10": [
+            0.87897735,
+            0.90041327,
+            0.87508278,
+            0.90044459,
+            0.88931459
+          ],
+          "metrics": {
+            "ndcg@10": 0.88862258,
+            "recall@1": 0.20467969,
+            "recall@5": 0.67902248,
+            "recall@10": 0.85718203,
+            "mrr@10": 0.97006349
+          },
+          "language_metrics": {
+            "en": {
+              "ndcg@10": 0.88829667,
+              "recall@1": 0.20573626,
+              "recall@5": 0.67611804,
+              "recall@10": 0.86505289,
+              "mrr@10": 0.96584127
+            },
+            "zh": {
+              "ndcg@10": 0.88894848,
+              "recall@1": 0.20362311,
+              "recall@5": 0.68192693,
+              "recall@10": 0.84931118,
+              "mrr@10": 0.97428571
+            }
+          },
+          "fold_delta_vs_dense_bm25": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "dense+learned_sparse": {
+          "routes": [
+            "voyage-4-large",
+            "bge-m3-sparse"
+          ],
+          "method": "weighted-min-max",
+          "weight_step": 0.05,
+          "full_best_weights": [
+            0.9,
+            0.1
+          ],
+          "fold_weights": [
+            [
+              0.9,
+              0.1
+            ],
+            [
+              0.9,
+              0.1
+            ],
+            [
+              0.9,
+              0.1
+            ],
+            [
+              0.9,
+              0.1
+            ],
+            [
+              0.9,
+              0.1
+            ]
+          ],
+          "fold_ndcg_at_10": [
+            0.87216528,
+            0.88944876,
+            0.86860519,
+            0.8921036,
+            0.88452722
+          ],
+          "metrics": {
+            "ndcg@10": 0.88120292,
+            "recall@1": 0.2003002,
+            "recall@5": 0.67331121,
+            "recall@10": 0.85331191,
+            "mrr@10": 0.96482897
+          },
+          "language_metrics": {
+            "en": {
+              "ndcg@10": 0.88268835,
+              "recall@1": 0.20129011,
+              "recall@5": 0.67776804,
+              "recall@10": 0.86166732,
+              "mrr@10": 0.96065794
+            },
+            "zh": {
+              "ndcg@10": 0.87971749,
+              "recall@1": 0.19931029,
+              "recall@5": 0.66885438,
+              "recall@10": 0.8449565,
+              "mrr@10": 0.969
+            }
+          },
+          "fold_delta_vs_dense_bm25": [
+            -0.00681207,
+            -0.01096451,
+            -0.00647759,
+            -0.00834099,
+            -0.00478737
+          ]
+        },
+        "dense+bm25+learned_sparse": {
+          "routes": [
+            "voyage-4-large",
+            "bm25-tuned",
+            "bge-m3-sparse"
+          ],
+          "method": "weighted-min-max",
+          "weight_step": 0.05,
+          "full_best_weights": [
+            0.75,
+            0.25,
+            0.0
+          ],
+          "fold_weights": [
+            [
+              0.8,
+              0.2,
+              0.0
+            ],
+            [
+              0.8,
+              0.2,
+              0.0
+            ],
+            [
+              0.75,
+              0.25,
+              0.0
+            ],
+            [
+              0.8,
+              0.2,
+              0.0
+            ],
+            [
+              0.75,
+              0.25,
+              0.0
+            ]
+          ],
+          "fold_ndcg_at_10": [
+            0.87897735,
+            0.90041327,
+            0.87508278,
+            0.90044459,
+            0.88931459
+          ],
+          "metrics": {
+            "ndcg@10": 0.88862258,
+            "recall@1": 0.20467969,
+            "recall@5": 0.67902248,
+            "recall@10": 0.85718203,
+            "mrr@10": 0.97006349
+          },
+          "language_metrics": {
+            "en": {
+              "ndcg@10": 0.88829667,
+              "recall@1": 0.20573626,
+              "recall@5": 0.67611804,
+              "recall@10": 0.86505289,
+              "mrr@10": 0.96584127
+            },
+            "zh": {
+              "ndcg@10": 0.88894848,
+              "recall@1": 0.20362311,
+              "recall@5": 0.68192693,
+              "recall@10": 0.84931118,
+              "mrr@10": 0.97428571
+            }
+          },
+          "fold_delta_vs_dense_bm25": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      },
+      "rrf": {
+        "dense+bm25": {
+          "routes": [
+            "voyage-4-large",
+            "bm25-tuned"
+          ],
+          "method": "rrf",
+          "rank_constant": 60,
+          "metrics": {
+            "ndcg@10": 0.84728369,
+            "recall@1": 0.19982016,
+            "recall@5": 0.64328946,
+            "recall@10": 0.81666539,
+            "mrr@10": 0.95495
+          },
+          "language_metrics": {
+            "en": {
+              "ndcg@10": 0.8368805,
+              "recall@1": 0.19856404,
+              "recall@5": 0.62586946,
+              "recall@10": 0.81464474,
+              "mrr@10": 0.94803333
+            },
+            "zh": {
+              "ndcg@10": 0.85768688,
+              "recall@1": 0.20107629,
+              "recall@5": 0.66070947,
+              "recall@10": 0.81868605,
+              "mrr@10": 0.96186667
+            }
+          }
+        },
+        "dense+learned_sparse": {
+          "routes": [
+            "voyage-4-large",
+            "bge-m3-sparse"
+          ],
+          "method": "rrf",
+          "rank_constant": 60,
+          "metrics": {
+            "ndcg@10": 0.81650903,
+            "recall@1": 0.18924067,
+            "recall@5": 0.61299422,
+            "recall@10": 0.79738622,
+            "mrr@10": 0.93525278
+          },
+          "language_metrics": {
+            "en": {
+              "ndcg@10": 0.80123788,
+              "recall@1": 0.18539732,
+              "recall@5": 0.60611001,
+              "recall@10": 0.78859369,
+              "mrr@10": 0.92255556
+            },
+            "zh": {
+              "ndcg@10": 0.83178018,
+              "recall@1": 0.19308403,
+              "recall@5": 0.61987844,
+              "recall@10": 0.80617875,
+              "mrr@10": 0.94795
+            }
+          }
+        },
+        "dense+bm25+learned_sparse": {
+          "routes": [
+            "voyage-4-large",
+            "bm25-tuned",
+            "bge-m3-sparse"
+          ],
+          "method": "rrf",
+          "rank_constant": 60,
+          "metrics": {
+            "ndcg@10": 0.82577986,
+            "recall@1": 0.19576409,
+            "recall@5": 0.61899562,
+            "recall@10": 0.79973013,
+            "mrr@10": 0.94555833
+          },
+          "language_metrics": {
+            "en": {
+              "ndcg@10": 0.80507044,
+              "recall@1": 0.19117265,
+              "recall@5": 0.60027274,
+              "recall@10": 0.78929016,
+              "mrr@10": 0.92951667
+            },
+            "zh": {
+              "ndcg@10": 0.84648927,
+              "recall@1": 0.20035553,
+              "recall@5": 0.6377185,
+              "recall@10": 0.81017009,
+              "mrr@10": 0.9616
+            }
+          }
+        }
+      }
+    },
+    {
+      "learned_sparse_route": "gte-multilingual-sparse",
+      "weighted": {
+        "dense+bm25": {
+          "routes": [
+            "voyage-4-large",
+            "bm25-tuned"
+          ],
+          "method": "weighted-min-max",
+          "weight_step": 0.05,
+          "full_best_weights": [
+            0.75,
+            0.25
+          ],
+          "fold_weights": [
+            [
+              0.8,
+              0.2
+            ],
+            [
+              0.8,
+              0.2
+            ],
+            [
+              0.75,
+              0.25
+            ],
+            [
+              0.8,
+              0.2
+            ],
+            [
+              0.75,
+              0.25
+            ]
+          ],
+          "fold_ndcg_at_10": [
+            0.87897735,
+            0.90041327,
+            0.87508278,
+            0.90044459,
+            0.88931459
+          ],
+          "metrics": {
+            "ndcg@10": 0.88862258,
+            "recall@1": 0.20467969,
+            "recall@5": 0.67902248,
+            "recall@10": 0.85718203,
+            "mrr@10": 0.97006349
+          },
+          "language_metrics": {
+            "en": {
+              "ndcg@10": 0.88829667,
+              "recall@1": 0.20573626,
+              "recall@5": 0.67611804,
+              "recall@10": 0.86505289,
+              "mrr@10": 0.96584127
+            },
+            "zh": {
+              "ndcg@10": 0.88894848,
+              "recall@1": 0.20362311,
+              "recall@5": 0.68192693,
+              "recall@10": 0.84931118,
+              "mrr@10": 0.97428571
+            }
+          },
+          "fold_delta_vs_dense_bm25": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "dense+learned_sparse": {
+          "routes": [
+            "voyage-4-large",
+            "gte-multilingual-sparse"
+          ],
+          "method": "weighted-min-max",
+          "weight_step": 0.05,
+          "full_best_weights": [
+            0.8,
+            0.2
+          ],
+          "fold_weights": [
+            [
+              0.8,
+              0.2
+            ],
+            [
+              0.8,
+              0.2
+            ],
+            [
+              0.8,
+              0.2
+            ],
+            [
+              0.8,
+              0.2
+            ],
+            [
+              0.8,
+              0.2
+            ]
+          ],
+          "fold_ndcg_at_10": [
+            0.87942596,
+            0.89217006,
+            0.87083558,
+            0.8996862,
+            0.88991385
+          ],
+          "metrics": {
+            "ndcg@10": 0.88621085,
+            "recall@1": 0.20392325,
+            "recall@5": 0.6787975,
+            "recall@10": 0.85625173,
+            "mrr@10": 0.97010952
+          },
+          "language_metrics": {
+            "en": {
+              "ndcg@10": 0.88685729,
+              "recall@1": 0.20498859,
+              "recall@5": 0.67920462,
+              "recall@10": 0.86474422,
+              "mrr@10": 0.96738571
+            },
+            "zh": {
+              "ndcg@10": 0.8855644,
+              "recall@1": 0.20285791,
+              "recall@5": 0.67839038,
+              "recall@10": 0.84775924,
+              "mrr@10": 0.97283333
+            }
+          },
+          "fold_delta_vs_dense_bm25": [
+            0.00044861,
+            -0.00824321,
+            -0.0042472,
+            -0.00075839,
+            0.00059926
+          ]
+        },
+        "dense+bm25+learned_sparse": {
+          "routes": [
+            "voyage-4-large",
+            "bm25-tuned",
+            "gte-multilingual-sparse"
+          ],
+          "method": "weighted-min-max",
+          "weight_step": 0.05,
+          "full_best_weights": [
+            0.8,
+            0.1,
+            0.1
+          ],
+          "fold_weights": [
+            [
+              0.75,
+              0.2,
+              0.05
+            ],
+            [
+              0.8,
+              0.1,
+              0.1
+            ],
+            [
+              0.75,
+              0.15,
+              0.1
+            ],
+            [
+              0.8,
+              0.1,
+              0.1
+            ],
+            [
+              0.75,
+              0.2,
+              0.05
+            ]
+          ],
+          "fold_ndcg_at_10": [
+            0.87925802,
+            0.89612203,
+            0.87436081,
+            0.9023524,
+            0.88982733
+          ],
+          "metrics": {
+            "ndcg@10": 0.88818184,
+            "recall@1": 0.20405734,
+            "recall@5": 0.6834142,
+            "recall@10": 0.85627861,
+            "mrr@10": 0.96992063
+          },
+          "language_metrics": {
+            "en": {
+              "ndcg@10": 0.88775138,
+              "recall@1": 0.20509011,
+              "recall@5": 0.68172915,
+              "recall@10": 0.86420331,
+              "mrr@10": 0.96650794
+            },
+            "zh": {
+              "ndcg@10": 0.8886123,
+              "recall@1": 0.20302458,
+              "recall@5": 0.68509925,
+              "recall@10": 0.84835391,
+              "mrr@10": 0.97333333
+            }
+          },
+          "fold_delta_vs_dense_bm25": [
+            0.00028067,
+            -0.00429124,
+            -0.00072197,
+            0.00190781,
+            0.00051274
+          ]
+        }
+      },
+      "rrf": {
+        "dense+bm25": {
+          "routes": [
+            "voyage-4-large",
+            "bm25-tuned"
+          ],
+          "method": "rrf",
+          "rank_constant": 60,
+          "metrics": {
+            "ndcg@10": 0.84728369,
+            "recall@1": 0.19982016,
+            "recall@5": 0.64328946,
+            "recall@10": 0.81666539,
+            "mrr@10": 0.95495
+          },
+          "language_metrics": {
+            "en": {
+              "ndcg@10": 0.8368805,
+              "recall@1": 0.19856404,
+              "recall@5": 0.62586946,
+              "recall@10": 0.81464474,
+              "mrr@10": 0.94803333
+            },
+            "zh": {
+              "ndcg@10": 0.85768688,
+              "recall@1": 0.20107629,
+              "recall@5": 0.66070947,
+              "recall@10": 0.81868605,
+              "mrr@10": 0.96186667
+            }
+          }
+        },
+        "dense+learned_sparse": {
+          "routes": [
+            "voyage-4-large",
+            "gte-multilingual-sparse"
+          ],
+          "method": "rrf",
+          "rank_constant": 60,
+          "metrics": {
+            "ndcg@10": 0.84388558,
+            "recall@1": 0.19935496,
+            "recall@5": 0.63966626,
+            "recall@10": 0.8163168,
+            "mrr@10": 0.95853452
+          },
+          "language_metrics": {
+            "en": {
+              "ndcg@10": 0.82883934,
+              "recall@1": 0.19768773,
+              "recall@5": 0.62502873,
+              "recall@10": 0.80932891,
+              "mrr@10": 0.95068571
+            },
+            "zh": {
+              "ndcg@10": 0.85893182,
+              "recall@1": 0.2010222,
+              "recall@5": 0.6543038,
+              "recall@10": 0.82330469,
+              "mrr@10": 0.96638333
+            }
+          }
+        },
+        "dense+bm25+learned_sparse": {
+          "routes": [
+            "voyage-4-large",
+            "bm25-tuned",
+            "gte-multilingual-sparse"
+          ],
+          "method": "rrf",
+          "rank_constant": 60,
+          "metrics": {
+            "ndcg@10": 0.83756327,
+            "recall@1": 0.19841058,
+            "recall@5": 0.62821499,
+            "recall@10": 0.81068426,
+            "mrr@10": 0.95400238
+          },
+          "language_metrics": {
+            "en": {
+              "ndcg@10": 0.81667337,
+              "recall@1": 0.19360042,
+              "recall@5": 0.6092457,
+              "recall@10": 0.80033518,
+              "mrr@10": 0.94008571
+            },
+            "zh": {
+              "ndcg@10": 0.85845317,
+              "recall@1": 0.20322073,
+              "recall@5": 0.64718427,
+              "recall@10": 0.82103334,
+              "mrr@10": 0.96791905
+            }
+          }
+        }
+      }
+    }
+  ]
+}
