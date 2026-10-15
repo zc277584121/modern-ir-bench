@@ -2,7 +2,7 @@
   "schema_version": 1,
   "artifact_type": "live-top-k-rankings",
   "release": "modern-ir-bench-v2.2-20261010",
-  "published_at": "2026-10-15T00:00:14.969708+00:00",
+  "published_at": "2026-10-15T09:42:04.357696+00:00",
   "dataset": {
     "repository": "zc277584121/modern-ir-bench",
     "revision": "c7a38d6aaa3d1bd178952b6be91e12ca4ceb10ff"
@@ -20,6 +20,9 @@
     "bm25-qwen3-embedding-8b-weighted-bge-reranker-v2-m3",
     "bm25-qwen3-embedding-8b-weighted-cohere-rerank-4-pro",
     "bm25-qwen3-embedding-8b-weighted-rerank-3",
+    "bm25-tuned-gte-multilingual-sparse-weighted-50-50",
+    "bm25-tuned-qwen3-embedding-8b-weighted-40-60",
+    "bm25-tuned-voyage-4-large-weighted-20-80",
     "bm25-voyage-4-large-rrf",
     "dashscope-text-embedding-v4-chunk",
     "embedding-gemma-2-chunk",
@@ -135,6 +138,30 @@
       "source_path": "benchmarks/ranked_retrieval/run.py",
       "source_line": 36,
       "created_at": "2026-10-13T02:29:10.946257+00:00",
+      "origin": "verified-live-run"
+    },
+    "bm25-tuned-gte-multilingual-sparse-weighted-50-50": {
+      "source_commit": "e3517f99e90cb2dffabc8376ebaad0cd3e80f256",
+      "source_module": "benchmarks.ranked_retrieval.run",
+      "source_path": "benchmarks/ranked_retrieval/run.py",
+      "source_line": 36,
+      "created_at": "2026-10-15T09:41:02.635406+00:00",
+      "origin": "verified-live-run"
+    },
+    "bm25-tuned-qwen3-embedding-8b-weighted-40-60": {
+      "source_commit": "e3517f99e90cb2dffabc8376ebaad0cd3e80f256",
+      "source_module": "benchmarks.ranked_retrieval.run",
+      "source_path": "benchmarks/ranked_retrieval/run.py",
+      "source_line": 36,
+      "created_at": "2026-10-15T09:41:02.635406+00:00",
+      "origin": "verified-live-run"
+    },
+    "bm25-tuned-voyage-4-large-weighted-20-80": {
+      "source_commit": "e3517f99e90cb2dffabc8376ebaad0cd3e80f256",
+      "source_module": "benchmarks.ranked_retrieval.run",
+      "source_path": "benchmarks/ranked_retrieval/run.py",
+      "source_line": 36,
+      "created_at": "2026-10-15T09:41:02.635406+00:00",
       "origin": "verified-live-run"
     },
     "bm25-voyage-4-large-rrf": {
@@ -343,7 +370,7 @@
     }
   },
   "queries": 1000,
-  "ranking_rows": 39000,
+  "ranking_rows": 42000,
   "top_k": 10,
-  "rankings_sha256": "fad47b0d2b069455af534bf58e35f65bd11680b02d47f3f7f63b86cc5fd4f00e"
+  "rankings_sha256": "add5a578073f8af8ce65aa3ca00dbf4042ed4ae8de0ba2da82f76f2b97d6fe1a"
 }
