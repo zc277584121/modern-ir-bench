@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from collections.abc import Sequence
+from pathlib import Path
 from types import MethodType
 from typing import Any, Literal
 
@@ -90,9 +91,7 @@ class SentenceTransformersSparseEmbedding:
             show_progress_bar=False,
             convert_to_tensor=True,
             max_active_dims=(
-                self.document_max_active_dimensions
-                if kind == "document"
-                else self.query_max_active_dimensions
+                self.document_max_active_dimensions if kind == "document" else self.query_max_active_dimensions
             ),
         )
         return self._to_vectors(output)
@@ -112,6 +111,102 @@ class SentenceTransformersSparseEmbedding:
                 torch.cuda.empty_cache()
         except ImportError:
             pass
+
+
+class OnnxSpladeEmbedding:
+    """Run a pinned single-item SPLADE ONNX export as sparse query and document embeddings."""
+
+    def __init__(
+        self,
+        *,
+        model: str,
+        revision: str,
+        model_file: str = "splade-v3.onnx",
+        vocab_file: str = "splade-v3-vocab.txt",
+        device: str | None = None,
+        max_length: int = 512,
+    ) -> None:
+        if not model or not revision or not model_file or not vocab_file:
+            raise ValueError("Model, revision, model file, and vocabulary file must be non-empty")
+        if max_length < 1:
+            raise ValueError("Maximum length must be positive")
+        self.model_id = model
+        self.revision = revision
+        self.model_file = model_file
+        self.vocab_file = vocab_file
+        self.device = device
+        self.max_length = max_length
+        self._session: Any | None = None
+        self._tokenizer: Any | None = None
+
+    def _load_model(self) -> tuple[Any, Any]:
+        if self._session is not None and self._tokenizer is not None:
+            return self._session, self._tokenizer
+        import onnxruntime
+        import torch
+        from huggingface_hub import snapshot_download
+        from transformers import BertTokenizer
+
+        snapshot = snapshot_download(
+            self.model_id,
+            revision=self.revision,
+            allow_patterns=(self.model_file, self.vocab_file, "config.json"),
+        )
+        providers: list[Any] = ["CPUExecutionProvider"]
+        requested_device = self.device or ("cuda:0" if torch.cuda.is_available() else "cpu")
+        if requested_device.startswith("cuda") and "CUDAExecutionProvider" in onnxruntime.get_available_providers():
+            onnxruntime.preload_dlls(cuda=True, cudnn=True, msvc=False, directory="")
+            device_id = int(requested_device.partition(":")[2] or "0")
+            providers.insert(0, ("CUDAExecutionProvider", {"device_id": device_id}))
+        self._session = onnxruntime.InferenceSession(str(Path(snapshot) / self.model_file), providers=providers)
+        self._tokenizer = BertTokenizer(vocab=str(Path(snapshot) / self.vocab_file), do_lower_case=True)
+        return self._session, self._tokenizer
+
+    def _encode(self, inputs: Sequence[Any]) -> list[SparseVector]:
+        import numpy as np
+
+        texts = [str(value) for value in inputs]
+        if not texts:
+            return []
+        session, tokenizer = self._load_model()
+        result: list[SparseVector] = []
+        for text in texts:
+            encoded = tokenizer(
+                text,
+                truncation=True,
+                max_length=self.max_length,
+                return_tensors="np",
+            )
+            indices, weights = session.run(
+                None,
+                {name: np.asarray(value, dtype=np.int64) for name, value in encoded.items()},
+            )
+            result.append(
+                {
+                    int(index): float(weight)
+                    for index, weight in zip(indices.tolist(), weights.tolist(), strict=True)
+                    if weight > 0
+                }
+            )
+        return result
+
+    def encode_sparse_documents(self, inputs: Sequence[Any]) -> list[SparseVector]:
+        return self._encode(inputs)
+
+    def encode_sparse_queries(self, inputs: Sequence[Any]) -> list[SparseVector]:
+        return self._encode(inputs)
+
+    def tokens_for_ids(self, token_ids: Sequence[int]) -> list[str]:
+        """Resolve sparse dimensions back to the checkpoint's WordPiece tokens."""
+
+        if not token_ids:
+            return []
+        _, tokenizer = self._load_model()
+        return [str(token) for token in tokenizer.convert_ids_to_tokens(list(token_ids))]
+
+    def release(self) -> None:
+        self._session = None
+        self._tokenizer = None
 
 
 class GteMultilingualSparseEmbedding:
@@ -173,8 +268,7 @@ class GteMultilingualSparseEmbedding:
 
         rotary = embeddings.rotary_emb
         inverse_frequency = 1.0 / (
-            rotary.base
-            ** (torch.arange(0, rotary.dim, 2, device=model.device).float() / rotary.dim)
+            rotary.base ** (torch.arange(0, rotary.dim, 2, device=model.device).float() / rotary.dim)
         )
         rotary.register_buffer("inv_freq", inverse_frequency, persistent=False)
         cache_length = int(config.max_position_embeddings * config.rope_scaling["factor"])

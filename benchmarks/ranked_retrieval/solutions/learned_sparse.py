@@ -81,6 +81,15 @@ def _build_splade_v3(runtime: Runtime, spec: SolutionSpec):
     )
 
 
+def _build_splade_v3_full(runtime: Runtime, spec: SolutionSpec):
+    return _build_sparse(
+        runtime,
+        spec,
+        embedding_key="splade-v3-full",
+        chunker=runtime.short_context_chunker,
+    )
+
+
 def _build_opensearch_v2_distill(runtime: Runtime, spec: SolutionSpec):
     return _build_sparse(
         runtime,
@@ -125,6 +134,14 @@ SPECS = (
         ("learned-sparse", "self-hosted", "chunked", "english-only"),
         _build_splade_v3,
         "docs/solutions/splade-v3-distilbert.md",
+    ),
+    SolutionSpec(
+        "splade-v3-full-sparse-chunk",
+        "SPLADE v3 Full · 384-token chunks",
+        "The full English SPLADE v3 checkpoint over short-context chunks.",
+        ("learned-sparse", "self-hosted", "chunked", "english-only"),
+        _build_splade_v3_full,
+        "docs/solutions/splade-v3-full.md",
     ),
     SolutionSpec(
         "opensearch-doc-v2-distill-sparse-chunk",

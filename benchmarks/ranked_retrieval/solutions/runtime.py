@@ -16,6 +16,7 @@ from modern_ir_bench.embeddings import (
     DashScopeTextEmbedding,
     GteMultilingualSparseEmbedding,
     JinaTextEmbedding,
+    OnnxSpladeEmbedding,
     OpenRouterEmbedding,
     SentenceTransformersEmbedding,
     SentenceTransformersSparseEmbedding,
@@ -32,6 +33,7 @@ BGE_RERANKER_V2_M3_REVISION = "953dc6f6f85a1b2dbfca4c34a2796e7dde08d41e"
 OPENSEARCH_MULTILINGUAL_SPARSE_REVISION = "1e0f096c2b51c234f1d20725c793e1b5b6d556db"
 GTE_MULTILINGUAL_REVISION = "9bbca17d9273fd0d03d5725c7a4b0f6b45142062"
 SPLADE_V3_DISTILBERT_REVISION = "2db06b86d65e316e2ca9907aa1aa8be6f8c4e739"
+SPLADE_V3_FULL_REVISION = "51342029dd50ef0845c16081bd423039e7f61717"
 OPENSEARCH_DOC_V2_DISTILL_REVISION = "8921a26c78b8559d6604eb1f5c0b74c079bee38f"
 GRANITE_30M_SPARSE_REVISION = "ad82b1fd09541c998c8d45045d601c51fdb8a9b7"
 QUERY_INSTRUCTION = "Given a web search query, retrieve relevant documents that answer or satisfy it."
@@ -197,6 +199,12 @@ def build_runtime() -> Runtime:
                 device=device,
                 max_length=512,
                 pooling_chunk_size=64,
+            ),
+            "splade-v3-full": OnnxSpladeEmbedding(
+                model="castorini/splade-v3-onnx",
+                revision=SPLADE_V3_FULL_REVISION,
+                device=device,
+                max_length=512,
             ),
             "opensearch-doc-v2-distill": SentenceTransformersSparseEmbedding(
                 model="opensearch-project/opensearch-neural-sparse-encoding-doc-v2-distill",

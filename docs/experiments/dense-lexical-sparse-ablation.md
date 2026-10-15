@@ -4,7 +4,9 @@ This study reuses frozen Top-50 route evidence. It performs no embedding, indexi
 
 Dense baseline: Voyage 4 Large, NDCG@10 `0.8793`.
 
-## bge-m3-sparse
+## bge-m3-sparse (all, 1000 queries)
+
+Atomic NDCG@10: Dense `0.8793`, BM25 `0.7307`, learned sparse `0.6572`.
 
 | Configuration | RRF NDCG@10 | Weighted OOF NDCG@10 | Weighted EN | Weighted ZH | Full-data best weights (Dense/BM25/Sparse) |
 | --- | ---: | ---: | ---: | ---: | --- |
@@ -14,7 +16,9 @@ Dense baseline: Voyage 4 Large, NDCG@10 `0.8793`.
 
 Three-way weighted fold deltas versus Dense + BM25: `+0.0000`, `+0.0000`, `+0.0000`, `+0.0000`, `+0.0000`.
 
-## gte-multilingual-sparse
+## gte-multilingual-sparse (all, 1000 queries)
+
+Atomic NDCG@10: Dense `0.8793`, BM25 `0.7307`, learned sparse `0.7219`.
 
 | Configuration | RRF NDCG@10 | Weighted OOF NDCG@10 | Weighted EN | Weighted ZH | Full-data best weights (Dense/BM25/Sparse) |
 | --- | ---: | ---: | ---: | ---: | --- |

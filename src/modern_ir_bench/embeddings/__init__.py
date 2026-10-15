@@ -3,6 +3,7 @@
 from modern_ir_bench.embeddings.bge_m3 import BgeM3Embedding
 from modern_ir_bench.embeddings.learned_sparse import (
     GteMultilingualSparseEmbedding,
+    OnnxSpladeEmbedding,
     SentenceTransformersSparseEmbedding,
 )
 from modern_ir_bench.embeddings.managed_text import DashScopeTextEmbedding, JinaTextEmbedding
@@ -22,6 +23,7 @@ __all__ = [
     "DenseEmbedding",
     "GteMultilingualSparseEmbedding",
     "JinaTextEmbedding",
+    "OnnxSpladeEmbedding",
     "OpenRouterEmbedding",
     "OvisOmniEmbedding",
     "SentenceTransformersEmbedding",

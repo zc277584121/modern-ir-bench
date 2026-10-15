@@ -21,7 +21,8 @@ DEFAULT_MARKDOWN = PROJECT_ROOT / "docs/experiments/dense-lexical-sparse-ablatio
 TASK_ID = "modern-ir-ranked-retrieval-v2.2"
 DENSE_ROUTE = "voyage-4-large"
 LEXICAL_ROUTE = "bm25-tuned"
-SPARSE_ROUTES = ("bge-m3-sparse", "gte-multilingual-sparse")
+BASE_SPARSE_ROUTES = ("bge-m3-sparse", "gte-multilingual-sparse")
+OPTIONAL_SPARSE_SCOPES = {"splade-v3-full": "en"}
 FOLDS = 5
 WEIGHT_STEP = 0.05
 
@@ -38,7 +39,7 @@ def _load_bundle(bundle: Path) -> tuple[dict[str, Any], dict[str, list[PackedRan
     manifest = _read_gzip_json(bundle / "manifest.json.gz")
     benchmark = next(row for row in manifest["benchmarks"] if row["task_id"] == TASK_ID)
     routes = {route["id"]: _read_gzip_json(bundle / route["path"])["rankings"] for route in benchmark["routes"]}
-    required = {DENSE_ROUTE, LEXICAL_ROUTE, *SPARSE_ROUTES}
+    required = {DENSE_ROUTE, LEXICAL_ROUTE, *BASE_SPARSE_ROUTES}
     if missing := required - set(routes):
         raise ValueError(f"Fusion bundle is missing required routes: {sorted(missing)}")
     return benchmark, routes
@@ -222,10 +223,11 @@ def build_report(bundle: Path) -> dict[str, Any]:
     query_ids = [str(row["id"]) for row in benchmark["queries"]]
     relevant = [set(map(int, row["relevant"])) for row in benchmark["queries"]]
     languages = [str(row["labels"][0]) for row in benchmark["queries"]]
+    sparse_routes = (*BASE_SPARSE_ROUTES, *(route for route in OPTIONAL_SPARSE_SCOPES if route in routes))
     normalized = {
         route_id: [_normalize(row) for row in rankings]
         for route_id, rankings in routes.items()
-        if route_id in {DENSE_ROUTE, LEXICAL_ROUTE, *SPARSE_ROUTES}
+        if route_id in {DENSE_ROUTE, LEXICAL_ROUTE, *sparse_routes}
     }
     report: dict[str, Any] = {
         "schema_version": 1,
@@ -238,7 +240,16 @@ def build_report(bundle: Path) -> dict[str, Any]:
         "dense": _atomic_result(DENSE_ROUTE, routes, relevant, languages),
         "studies": [],
     }
-    for sparse_route in SPARSE_ROUTES:
+    for sparse_route in sparse_routes:
+        scope = OPTIONAL_SPARSE_SCOPES.get(sparse_route)
+        indices = [index for index, language in enumerate(languages) if scope is None or language == scope]
+        scoped_query_ids = [query_ids[index] for index in indices]
+        scoped_relevant = [relevant[index] for index in indices]
+        scoped_languages = [languages[index] for index in indices]
+        scoped_routes = {route_id: [rankings[index] for index in indices] for route_id, rankings in routes.items()}
+        scoped_normalized = {
+            route_id: [rankings[index] for index in indices] for route_id, rankings in normalized.items()
+        }
         configurations = {
             "dense+bm25": (DENSE_ROUTE, LEXICAL_ROUTE),
             "dense+learned_sparse": (DENSE_ROUTE, sparse_route),
@@ -246,15 +257,18 @@ def build_report(bundle: Path) -> dict[str, Any]:
         }
         weighted = {
             name: _weighted_cross_validation(
-                query_ids=query_ids,
-                relevant=relevant,
-                languages=languages,
-                normalized=normalized,
+                query_ids=scoped_query_ids,
+                relevant=scoped_relevant,
+                languages=scoped_languages,
+                normalized=scoped_normalized,
                 route_ids=route_ids,
             )
             for name, route_ids in configurations.items()
         }
-        rrf = {name: _rrf_result(route_ids, routes, relevant, languages) for name, route_ids in configurations.items()}
+        rrf = {
+            name: _rrf_result(route_ids, scoped_routes, scoped_relevant, scoped_languages)
+            for name, route_ids in configurations.items()
+        }
         baseline = weighted["dense+bm25"]["fold_ndcg_at_10"]
         for result in weighted.values():
             result["fold_delta_vs_dense_bm25"] = [
@@ -264,6 +278,12 @@ def build_report(bundle: Path) -> dict[str, Any]:
         report["studies"].append(
             {
                 "learned_sparse_route": sparse_route,
+                "scope": scope or "all",
+                "queries": len(scoped_query_ids),
+                "atomic": {
+                    route_id: _atomic_result(route_id, scoped_routes, scoped_relevant, scoped_languages)
+                    for route_id in (DENSE_ROUTE, LEXICAL_ROUTE, sparse_route)
+                },
                 "weighted": weighted,
                 "rrf": rrf,
             }
@@ -286,15 +306,23 @@ def _markdown(report: Mapping[str, Any]) -> str:
     ]
     for study in report["studies"]:
         sparse = study["learned_sparse_route"]
+        languages = sorted(study["atomic"][DENSE_ROUTE]["language_metrics"])
+        language_headers = " | ".join(f"Weighted {language.upper()}" for language in languages)
         lines.extend(
             [
-                f"## {sparse}",
+                f"## {sparse} ({study['scope']}, {study['queries']} queries)",
+                "",
+                (
+                    f"Atomic NDCG@10: Dense `{study['atomic'][DENSE_ROUTE]['metrics']['ndcg@10']:.4f}`, "
+                    f"BM25 `{study['atomic'][LEXICAL_ROUTE]['metrics']['ndcg@10']:.4f}`, "
+                    f"learned sparse `{study['atomic'][sparse]['metrics']['ndcg@10']:.4f}`."
+                ),
                 "",
                 (
                     "| Configuration | RRF NDCG@10 | Weighted OOF NDCG@10 | "
-                    "Weighted EN | Weighted ZH | Full-data best weights (Dense/BM25/Sparse) |"
+                    f"{language_headers} | Full-data best weights (Dense/BM25/Sparse) |"
                 ),
-                "| --- | ---: | ---: | ---: | ---: | --- |",
+                "| --- | ---: | ---: | " + " | ".join("---:" for _ in languages) + " | --- |",
             ]
         )
         for name in ("dense+bm25", "dense+learned_sparse", "dense+bm25+learned_sparse"):
@@ -304,11 +332,13 @@ def _markdown(report: Mapping[str, Any]) -> str:
                 display = "/".join(f"{value:.2f}" for value in weights)
             else:
                 display = "/".join(f"{value:.2f}" for value in weights)
+            language_values = " | ".join(
+                f"{weighted['language_metrics'][language]['ndcg@10']:.4f}" for language in languages
+            )
             lines.append(
                 f"| {name} | {study['rrf'][name]['metrics']['ndcg@10']:.4f} | "
                 f"{weighted['metrics']['ndcg@10']:.4f} | "
-                f"{weighted['language_metrics']['en']['ndcg@10']:.4f} | "
-                f"{weighted['language_metrics']['zh']['ndcg@10']:.4f} | `{display}` |"
+                f"{language_values} | `{display}` |"
             )
         three_way = study["weighted"]["dense+bm25+learned_sparse"]
         deltas = three_way["fold_delta_vs_dense_bm25"]

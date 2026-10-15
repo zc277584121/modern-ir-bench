@@ -38,6 +38,97 @@
   "studies": [
     {
       "learned_sparse_route": "bge-m3-sparse",
+      "scope": "all",
+      "queries": 1000,
+      "atomic": {
+        "voyage-4-large": {
+          "routes": [
+            "voyage-4-large"
+          ],
+          "method": "atomic",
+          "metrics": {
+            "ndcg@10": 0.87926964,
+            "recall@1": 0.20040301,
+            "recall@5": 0.67287773,
+            "recall@10": 0.85209908,
+            "mrr@10": 0.96386944
+          },
+          "language_metrics": {
+            "en": {
+              "ndcg@10": 0.88322591,
+              "recall@1": 0.20349097,
+              "recall@5": 0.67853233,
+              "recall@10": 0.86263122,
+              "mrr@10": 0.96483889
+            },
+            "zh": {
+              "ndcg@10": 0.87531336,
+              "recall@1": 0.19731505,
+              "recall@5": 0.66722313,
+              "recall@10": 0.84156694,
+              "mrr@10": 0.9629
+            }
+          }
+        },
+        "bm25-tuned": {
+          "routes": [
+            "bm25-tuned"
+          ],
+          "method": "atomic",
+          "metrics": {
+            "ndcg@10": 0.73067883,
+            "recall@1": 0.17801215,
+            "recall@5": 0.54128252,
+            "recall@10": 0.71520579,
+            "mrr@10": 0.88831468
+          },
+          "language_metrics": {
+            "en": {
+              "ndcg@10": 0.71591007,
+              "recall@1": 0.17215035,
+              "recall@5": 0.5230188,
+              "recall@10": 0.70754837,
+              "mrr@10": 0.87479048
+            },
+            "zh": {
+              "ndcg@10": 0.74544759,
+              "recall@1": 0.18387394,
+              "recall@5": 0.55954624,
+              "recall@10": 0.7228632,
+              "mrr@10": 0.90183889
+            }
+          }
+        },
+        "bge-m3-sparse": {
+          "routes": [
+            "bge-m3-sparse"
+          ],
+          "method": "atomic",
+          "metrics": {
+            "ndcg@10": 0.65722862,
+            "recall@1": 0.14549576,
+            "recall@5": 0.47542985,
+            "recall@10": 0.65958618,
+            "mrr@10": 0.81686746
+          },
+          "language_metrics": {
+            "en": {
+              "ndcg@10": 0.63784945,
+              "recall@1": 0.14047726,
+              "recall@5": 0.45969943,
+              "recall@10": 0.64247495,
+              "mrr@10": 0.79868571
+            },
+            "zh": {
+              "ndcg@10": 0.6766078,
+              "recall@1": 0.15051425,
+              "recall@5": 0.49116027,
+              "recall@10": 0.67669742,
+              "mrr@10": 0.83504921
+            }
+          }
+        }
+      },
       "weighted": {
         "dense+bm25": {
           "routes": [
@@ -359,6 +450,97 @@
     },
     {
       "learned_sparse_route": "gte-multilingual-sparse",
+      "scope": "all",
+      "queries": 1000,
+      "atomic": {
+        "voyage-4-large": {
+          "routes": [
+            "voyage-4-large"
+          ],
+          "method": "atomic",
+          "metrics": {
+            "ndcg@10": 0.87926964,
+            "recall@1": 0.20040301,
+            "recall@5": 0.67287773,
+            "recall@10": 0.85209908,
+            "mrr@10": 0.96386944
+          },
+          "language_metrics": {
+            "en": {
+              "ndcg@10": 0.88322591,
+              "recall@1": 0.20349097,
+              "recall@5": 0.67853233,
+              "recall@10": 0.86263122,
+              "mrr@10": 0.96483889
+            },
+            "zh": {
+              "ndcg@10": 0.87531336,
+              "recall@1": 0.19731505,
+              "recall@5": 0.66722313,
+              "recall@10": 0.84156694,
+              "mrr@10": 0.9629
+            }
+          }
+        },
+        "bm25-tuned": {
+          "routes": [
+            "bm25-tuned"
+          ],
+          "method": "atomic",
+          "metrics": {
+            "ndcg@10": 0.73067883,
+            "recall@1": 0.17801215,
+            "recall@5": 0.54128252,
+            "recall@10": 0.71520579,
+            "mrr@10": 0.88831468
+          },
+          "language_metrics": {
+            "en": {
+              "ndcg@10": 0.71591007,
+              "recall@1": 0.17215035,
+              "recall@5": 0.5230188,
+              "recall@10": 0.70754837,
+              "mrr@10": 0.87479048
+            },
+            "zh": {
+              "ndcg@10": 0.74544759,
+              "recall@1": 0.18387394,
+              "recall@5": 0.55954624,
+              "recall@10": 0.7228632,
+              "mrr@10": 0.90183889
+            }
+          }
+        },
+        "gte-multilingual-sparse": {
+          "routes": [
+            "gte-multilingual-sparse"
+          ],
+          "method": "atomic",
+          "metrics": {
+            "ndcg@10": 0.72191926,
+            "recall@1": 0.16795014,
+            "recall@5": 0.5345459,
+            "recall@10": 0.7099603,
+            "mrr@10": 0.87426349
+          },
+          "language_metrics": {
+            "en": {
+              "ndcg@10": 0.68796775,
+              "recall@1": 0.16003616,
+              "recall@5": 0.50700642,
+              "recall@10": 0.68322793,
+              "mrr@10": 0.85281905
+            },
+            "zh": {
+              "ndcg@10": 0.75587077,
+              "recall@1": 0.17586412,
+              "recall@5": 0.56208538,
+              "recall@10": 0.73669268,
+              "mrr@10": 0.89570794
+            }
+          }
+        }
+      },
       "weighted": {
         "dense+bm25": {
           "routes": [
