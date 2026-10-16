@@ -2,7 +2,7 @@
   "schema_version": 1,
   "artifact_type": "live-top-k-rankings",
   "release": "modern-ir-bench-v2.2-20261010",
-  "published_at": "2026-10-15T09:42:04.357696+00:00",
+  "published_at": "2026-10-16T09:02:26.816107+00:00",
   "dataset": {
     "repository": "zc277584121/modern-ir-bench",
     "revision": "c7a38d6aaa3d1bd178952b6be91e12ca4ceb10ff"
@@ -49,7 +49,8 @@
     "voyage-4-large-chunk",
     "voyage-4-large-full",
     "voyage-4-large-rerank-3",
-    "voyage-4-lite-chunk"
+    "voyage-4-lite-chunk",
+    "wemm-embedding-2b-chunk"
   ],
   "source_runs": {
     "bge-m3-dense-chunk": {
@@ -367,10 +368,18 @@
       "source_line": 36,
       "created_at": "2026-10-13T04:00:20.831884+00:00",
       "origin": "verified-live-run"
+    },
+    "wemm-embedding-2b-chunk": {
+      "source_commit": "4072e7f54944d5eef0b7694fa5b61993622c09ea",
+      "source_module": "benchmarks.ranked_retrieval.run",
+      "source_path": "benchmarks/ranked_retrieval/run.py",
+      "source_line": 36,
+      "created_at": "2026-10-16T08:56:35.121375+00:00",
+      "origin": "verified-live-run"
     }
   },
   "queries": 1000,
-  "ranking_rows": 42000,
+  "ranking_rows": 43000,
   "top_k": 10,
-  "rankings_sha256": "add5a578073f8af8ce65aa3ca00dbf4042ed4ae8de0ba2da82f76f2b97d6fe1a"
+  "rankings_sha256": "8958ce1b34a0c7284b3f328b2f20ecf9cc65ec83d8c5a4fa7fa125208e36a953"
 }
