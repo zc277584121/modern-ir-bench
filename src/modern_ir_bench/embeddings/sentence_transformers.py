@@ -29,6 +29,7 @@ class SentenceTransformersEmbedding:
         model_kwargs: Mapping[str, Any] | None = None,
         config_kwargs: Mapping[str, Any] | None = None,
         encode_kwargs: Mapping[str, Any] | None = None,
+        encode_devices: Sequence[str] | None = None,
         document_method: Literal["encode", "encode_document"] = "encode",
         query_method: Literal["encode", "encode_query"] = "encode",
     ) -> None:
@@ -55,9 +56,11 @@ class SentenceTransformersEmbedding:
         self.model_kwargs = dict(model_kwargs or {})
         self.config_kwargs = dict(config_kwargs or {})
         self.encode_kwargs = dict(encode_kwargs or {})
+        self.encode_devices = tuple(encode_devices or ())
         self.document_method = document_method
         self.query_method = query_method
         self._model: Any | None = None
+        self._pool: Any | None = None
         self._dimension = dimension
 
     def _load_model(self) -> Any:
@@ -106,13 +109,17 @@ class SentenceTransformersEmbedding:
             prompt_arguments["prompt"] = prompt
         if prompt_name is not None:
             prompt_arguments["prompt_name"] = prompt_name
+        model = self._load_model()
+        if self.encode_devices and self._pool is None:
+            self._pool = model.start_multi_process_pool(target_devices=list(self.encode_devices))
         return np.asarray(
-            getattr(self._load_model(), method)(
+            getattr(model, method)(
                 values,
                 batch_size=self.batch_size,
                 normalize_embeddings=self.normalize,
                 convert_to_numpy=True,
                 show_progress_bar=False,
+                pool=self._pool,
                 **self.encode_kwargs,
                 **prompt_arguments,
             ),
@@ -138,6 +145,9 @@ class SentenceTransformersEmbedding:
     def release(self) -> None:
         if self._model is None:
             return
+        if self._pool is not None:
+            self._model.stop_multi_process_pool(self._pool)
+            self._pool = None
         self._model = None
         try:
             import torch

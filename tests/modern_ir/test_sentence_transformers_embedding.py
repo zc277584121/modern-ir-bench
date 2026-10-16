@@ -77,3 +77,44 @@ def test_model_configuration_and_encode_routes_are_forwarded(monkeypatch) -> Non
     assert calls[0][0] == "document"
     assert calls[0][2]["truncate_dim"] == 3
     assert calls[1][0] == "query"
+
+
+def test_multi_process_pool_is_reused_and_released(monkeypatch) -> None:
+    calls = []
+    pool = {"processes": []}
+
+    class FakeSentenceTransformer:
+        def __init__(self, *args, **kwargs) -> None:
+            pass
+
+        def start_multi_process_pool(self, *, target_devices):
+            calls.append(("start", target_devices))
+            return pool
+
+        def encode_document(self, values, **kwargs):
+            calls.append(("encode", kwargs["pool"]))
+            return np.ones((len(values), 3), dtype=np.float32)
+
+        def stop_multi_process_pool(self, value) -> None:
+            calls.append(("stop", value))
+
+    module = ModuleType("sentence_transformers")
+    module.SentenceTransformer = FakeSentenceTransformer
+    monkeypatch.setitem(sys.modules, "sentence_transformers", module)
+
+    embedding = SentenceTransformersEmbedding(
+        model="fake",
+        dimension=3,
+        encode_devices=("cuda:0", "cuda:1"),
+        document_method="encode_document",
+    )
+    embedding.encode_documents(["first"])
+    embedding.encode_documents(["second"])
+    embedding.release()
+
+    assert calls == [
+        ("start", ["cuda:0", "cuda:1"]),
+        ("encode", pool),
+        ("encode", pool),
+        ("stop", pool),
+    ]

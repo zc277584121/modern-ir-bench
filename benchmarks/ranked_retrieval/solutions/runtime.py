@@ -8,6 +8,8 @@ from pathlib import Path
 from benchmarks.model_settings import (
     EMBEDDING_GEMMA_2_MODEL,
     EMBEDDING_GEMMA_2_REVISION,
+    WEMM_2B_MODEL,
+    WEMM_2B_REVISION,
     stable_local_model_kwargs,
 )
 from benchmarks.ranked_retrieval.solutions.types import Runtime
@@ -64,6 +66,9 @@ def build_runtime() -> Runtime:
     )
     rerank_devices = tuple(
         device.strip() for device in os.environ.get("MIR_RERANK_DEVICES", "cuda:0").split(",") if device.strip()
+    )
+    wemm_text_devices = tuple(
+        item.strip() for item in os.environ.get("MIR_WEMM_TEXT_DEVICES", "").split(",") if item.strip()
     )
 
     def openrouter_embedding(
@@ -236,6 +241,19 @@ def build_runtime() -> Runtime:
             dimension=768,
             model_kwargs=stable_local_model_kwargs(device),
             config_kwargs={"vision_config": None, "audio_config": None},
+        ),
+        wemm=SentenceTransformersEmbedding(
+            model=WEMM_2B_MODEL,
+            revision=WEMM_2B_REVISION,
+            batch_size=int(os.environ.get("MIR_WEMM_TEXT_BATCH_SIZE", "4")),
+            device="cpu" if wemm_text_devices else device,
+            normalize=True,
+            trust_remote_code=True,
+            dimension=2048,
+            model_kwargs=stable_local_model_kwargs(device),
+            encode_devices=wemm_text_devices,
+            document_method="encode_document",
+            query_method="encode_query",
         ),
         bge_m3=BgeM3Embedding(
             revision=BGE_M3_REVISION,

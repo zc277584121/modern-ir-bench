@@ -24,6 +24,7 @@ class Runtime:
     managed: dict[str, DenseEmbedding]
     sparse: dict[str, SparseEmbedding]
     embedding_gemma: DenseEmbedding
+    wemm: DenseEmbedding
     bge_m3: BgeM3Embedding
     rerankers: dict[str, Reranker]
 
