@@ -87,7 +87,8 @@ class RerankingSession:
         self.query_input = query_input
         self.candidate_depth = candidate_depth
         self.candidate_cache = candidate_cache
-        self.rerank_cache = rerank_cache
+        self.rerank_cache_configured = rerank_cache is not None
+        self.rerank_cache = rerank_cache if getattr(reranker, "pairwise_cacheable", True) else None
         self.corpus_key = SqliteCandidateCache.corpus_key(resources)
         self.candidate_session: Any | None = None
         self.candidate_cache_hits = 0
@@ -200,6 +201,12 @@ class RerankingSession:
             },
             "rerank_cache": {
                 "enabled": self.rerank_cache is not None,
+                "configured": self.rerank_cache_configured,
+                "disabled_reason": (
+                    "scores-may-depend-on-candidate-group"
+                    if self.rerank_cache_configured and self.rerank_cache is None
+                    else None
+                ),
                 "namespace": self.rerank_cache.namespace if self.rerank_cache is not None else None,
                 "hits": self.rerank_cache_hits,
                 "misses": self.rerank_cache_misses,

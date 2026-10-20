@@ -8,6 +8,7 @@ from typing import Any
 
 from benchmarks.ranked_retrieval.solutions.bge_m3 import SPECS as BGE_M3_SPECS
 from benchmarks.ranked_retrieval.solutions.bm25 import SPECS as BM25_SPECS
+from benchmarks.ranked_retrieval.solutions.decision_reranking import SPECS as DECISION_RERANKING_SPECS
 from benchmarks.ranked_retrieval.solutions.embedding_gemma import SPECS as EMBEDDING_GEMMA_SPECS
 from benchmarks.ranked_retrieval.solutions.hybrid import SPECS as HYBRID_SPECS
 from benchmarks.ranked_retrieval.solutions.learned_sparse import SPECS as LEARNED_SPARSE_SPECS
@@ -33,6 +34,7 @@ SOLUTION_SPECS = (
     *HYBRID_SPECS,
     *SPARSE_FUSION_SPECS,
     *RERANKING_SPECS,
+    *DECISION_RERANKING_SPECS,
 )
 SOLUTION_SPECS_BY_ID = {spec.id: spec for spec in SOLUTION_SPECS}
 

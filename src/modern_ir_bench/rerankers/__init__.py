@@ -2,7 +2,18 @@
 
 from modern_ir_bench.rerankers.cross_encoder import CrossEncoderReranker
 from modern_ir_bench.rerankers.openrouter import OpenRouterReranker
+from modern_ir_bench.rerankers.openrouter_decision import (
+    OpenRouterGroupedQuestionDecisionReranker,
+    OpenRouterPointwiseDecisionReranker,
+)
 from modern_ir_bench.rerankers.protocols import Reranker
 from modern_ir_bench.rerankers.voyage import VoyageReranker
 
-__all__ = ["CrossEncoderReranker", "OpenRouterReranker", "Reranker", "VoyageReranker"]
+__all__ = [
+    "CrossEncoderReranker",
+    "OpenRouterGroupedQuestionDecisionReranker",
+    "OpenRouterPointwiseDecisionReranker",
+    "OpenRouterReranker",
+    "Reranker",
+    "VoyageReranker",
+]

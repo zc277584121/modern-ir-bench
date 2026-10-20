@@ -7,7 +7,7 @@ from typing import Any, Protocol
 
 
 class Reranker(Protocol):
-    """Score candidate documents independently for each query."""
+    """Score candidate documents for each query."""
 
     id: str
 

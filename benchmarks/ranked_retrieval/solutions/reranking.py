@@ -11,6 +11,7 @@ from benchmarks.ranked_retrieval.solutions.runtime import text_of
 from benchmarks.ranked_retrieval.solutions.types import Runtime, SolutionSpec
 from benchmarks.ranked_retrieval.solutions.voyage import build_voyage_chunk_component
 from modern_ir_bench.core import Solution
+from modern_ir_bench.rerankers import Reranker
 from modern_ir_bench.retrieval import RerankingSolution, WeightedScoreFusionSolution
 
 RERANK_CACHE_NAMESPACE = f"ranked:{DATASET_REVISION}:whole-doc-reranking:v1"
@@ -39,7 +40,7 @@ def _weighted_candidates(runtime: Runtime):
     )
 
 
-def _voyage_candidates(runtime: Runtime):
+def build_voyage_candidates(runtime: Runtime):
     return build_voyage_chunk_component(
         runtime,
         solution_id="internal-voyage-4-large-chunk",
@@ -48,20 +49,26 @@ def _voyage_candidates(runtime: Runtime):
     )
 
 
-def _build_reranker(
+def build_reranking_solution(
     runtime: Runtime,
     spec: SolutionSpec,
     *,
     candidates: Solution,
     candidate_cache_namespace: str,
-    reranker_key: str,
+    reranker_key: str | None = None,
+    reranker: Reranker | None = None,
 ):
+    if (reranker_key is None) == (reranker is None):
+        raise ValueError("Configure exactly one reranker key or reranker instance")
+    if reranker is None:
+        assert reranker_key is not None
+        reranker = runtime.rerankers[reranker_key]
     return RerankingSolution(
         id=spec.id,
         title=spec.title,
         description=spec.description,
         candidate_solution=candidates,
-        reranker=runtime.rerankers[reranker_key],
+        reranker=reranker,
         document_input=text_of,
         query_input=text_of,
         candidate_depth=50,
@@ -73,7 +80,7 @@ def _build_reranker(
 
 
 def _build_qwen_voyage(runtime: Runtime, spec: SolutionSpec):
-    return _build_reranker(
+    return build_reranking_solution(
         runtime,
         spec,
         candidates=_qwen_candidates(runtime),
@@ -83,7 +90,7 @@ def _build_qwen_voyage(runtime: Runtime, spec: SolutionSpec):
 
 
 def _build_weighted_voyage(runtime: Runtime, spec: SolutionSpec):
-    return _build_reranker(
+    return build_reranking_solution(
         runtime,
         spec,
         candidates=_weighted_candidates(runtime),
@@ -93,17 +100,17 @@ def _build_weighted_voyage(runtime: Runtime, spec: SolutionSpec):
 
 
 def _build_voyage_voyage(runtime: Runtime, spec: SolutionSpec):
-    return _build_reranker(
+    return build_reranking_solution(
         runtime,
         spec,
-        candidates=_voyage_candidates(runtime),
+        candidates=build_voyage_candidates(runtime),
         candidate_cache_namespace=VOYAGE_CANDIDATE_CACHE_NAMESPACE,
         reranker_key="voyage-rerank-3",
     )
 
 
 def _build_qwen_bge(runtime: Runtime, spec: SolutionSpec):
-    return _build_reranker(
+    return build_reranking_solution(
         runtime,
         spec,
         candidates=_qwen_candidates(runtime),
@@ -113,7 +120,7 @@ def _build_qwen_bge(runtime: Runtime, spec: SolutionSpec):
 
 
 def _build_weighted_bge(runtime: Runtime, spec: SolutionSpec):
-    return _build_reranker(
+    return build_reranking_solution(
         runtime,
         spec,
         candidates=_weighted_candidates(runtime),
@@ -123,7 +130,7 @@ def _build_weighted_bge(runtime: Runtime, spec: SolutionSpec):
 
 
 def _build_weighted_cohere(runtime: Runtime, spec: SolutionSpec):
-    return _build_reranker(
+    return build_reranking_solution(
         runtime,
         spec,
         candidates=_weighted_candidates(runtime),
@@ -145,7 +152,16 @@ SPECS = (
         "bm25-qwen3-embedding-8b-weighted-rerank-3",
         "BM25 + Qwen3 Weighted → Voyage Rerank 3",
         "Rerank weighted BM25/Qwen3 Top-50 candidates as complete documents with Voyage Rerank 3.",
-        ("lexical", "dense", "hybrid", "two-stage", "reranker", "managed-api", "chunked-candidates", "full-document-rerank"),
+        (
+            "lexical",
+            "dense",
+            "hybrid",
+            "two-stage",
+            "reranker",
+            "managed-api",
+            "chunked-candidates",
+            "full-document-rerank",
+        ),
         _build_weighted_voyage,
         "docs/solutions/voyage-rerank-3.md",
     ),
@@ -169,7 +185,16 @@ SPECS = (
         "bm25-qwen3-embedding-8b-weighted-bge-reranker-v2-m3",
         "BM25 + Qwen3 Weighted → BGE Reranker v2 M3",
         "Rerank weighted BM25/Qwen3 Top-50 candidates as complete documents with BGE Reranker v2 M3.",
-        ("lexical", "dense", "hybrid", "two-stage", "reranker", "self-hosted", "chunked-candidates", "full-document-rerank"),
+        (
+            "lexical",
+            "dense",
+            "hybrid",
+            "two-stage",
+            "reranker",
+            "self-hosted",
+            "chunked-candidates",
+            "full-document-rerank",
+        ),
         _build_weighted_bge,
         "docs/solutions/bge-reranker-v2-m3.md",
     ),
@@ -177,7 +202,16 @@ SPECS = (
         "bm25-qwen3-embedding-8b-weighted-cohere-rerank-4-pro",
         "BM25 + Qwen3 Weighted → Cohere Rerank 4 Pro",
         "Rerank weighted BM25/Qwen3 Top-50 candidates as complete documents with Cohere Rerank 4 Pro.",
-        ("lexical", "dense", "hybrid", "two-stage", "reranker", "managed-api", "chunked-candidates", "full-document-rerank"),
+        (
+            "lexical",
+            "dense",
+            "hybrid",
+            "two-stage",
+            "reranker",
+            "managed-api",
+            "chunked-candidates",
+            "full-document-rerank",
+        ),
         _build_weighted_cohere,
         "docs/solutions/cohere-rerank-4-pro.md",
     ),
