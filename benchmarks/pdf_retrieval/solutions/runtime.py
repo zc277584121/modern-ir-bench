@@ -8,6 +8,8 @@ from pathlib import Path
 from benchmarks.model_settings import (
     EMBEDDING_GEMMA_2_MODEL,
     EMBEDDING_GEMMA_2_REVISION,
+    MLATEON_MODEL,
+    MLATEON_REVISION,
     OVIS_OMNI_3B_MODEL,
     OVIS_OMNI_3B_REVISION,
     WEMM_2B_MODEL,
@@ -20,10 +22,12 @@ from modern_ir_bench.embeddings import (
     OpenRouterEmbedding,
     OvisOmniEmbedding,
     SentenceTransformersEmbedding,
+    SentenceTransformersMultiVectorEmbedding,
     VoyageEmbedding,
     VoyageMultimodalEmbedding,
 )
 from modern_ir_bench.rerankers import VoyageReranker
+from modern_ir_bench.retrieval import HuggingFaceOffsetTokenizer, TokenTextChunker
 from modern_ir_bench.retrieval.indexes.milvus.target import MilvusTarget
 from modern_ir_bench.solutions import PaddleOcrExtractor, PdfPageRenderer
 
@@ -71,6 +75,16 @@ def build_runtime(*, target: MilvusTarget, project_root: Path) -> Runtime:
             model_kwargs=stable_local_model_kwargs(device),
             config_kwargs={"audio_config": None},
         ),
+        mlateon=SentenceTransformersMultiVectorEmbedding(
+            model=MLATEON_MODEL,
+            revision=MLATEON_REVISION,
+            dimension=128,
+            batch_size=int(os.environ.get("MIR_MLATEON_BATCH_SIZE", "16")),
+            device=device,
+            normalize=True,
+            cache_path=runtime_root / "multi-vector/mlateon.sqlite3",
+            model_kwargs=stable_local_model_kwargs(device),
+        ),
         wemm=SentenceTransformersEmbedding(
             model=WEMM_2B_MODEL,
             revision=WEMM_2B_REVISION,
@@ -117,6 +131,7 @@ def build_runtime(*, target: MilvusTarget, project_root: Path) -> Runtime:
             max_side=1600,
             jpeg_quality=88,
         ),
+        text_chunker=TokenTextChunker(HuggingFaceOffsetTokenizer()),
         reranker=VoyageReranker(
             model="rerank-3",
             request_concurrency=int(os.environ.get("MIR_VOYAGE_RERANK_CONCURRENCY", "4")),

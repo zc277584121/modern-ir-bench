@@ -6,6 +6,8 @@ from typing import Any
 
 EMBEDDING_GEMMA_2_MODEL = "google/embeddinggemma-2"
 EMBEDDING_GEMMA_2_REVISION = "914f7f89142e33e77833254d9c9b90c3cef7303b"
+MLATEON_MODEL = "lightonai/mLateOn"
+MLATEON_REVISION = "bbd883ae1fadb563056ff73b1061ae8172a3fcda"
 WEMM_2B_MODEL = "tencent/WeMM-Embedding-2B"
 WEMM_2B_REVISION = "bbd6cd4bf52cfc6716f752a2df80b2706720bd95"
 OVIS_OMNI_3B_MODEL = "ATH-MaaS/Ovis-Omni-Embedding-3B"

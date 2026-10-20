@@ -9,6 +9,7 @@ import numpy as np
 import numpy.typing as npt
 
 DenseVectors = npt.NDArray[np.floating[Any]]
+MultiVectors = Sequence[DenseVectors]
 
 
 class DenseEmbedding(Protocol):
@@ -20,3 +21,14 @@ class DenseEmbedding(Protocol):
     def encode_documents(self, inputs: Sequence[Any]) -> DenseVectors: ...
 
     def encode_queries(self, inputs: Sequence[Any]) -> DenseVectors: ...
+
+
+class MultiVectorEmbedding(Protocol):
+    """Encode each input as a variable-length matrix of token vectors."""
+
+    @property
+    def dimension(self) -> int: ...
+
+    def encode_documents(self, inputs: Sequence[Any]) -> MultiVectors: ...
+
+    def encode_queries(self, inputs: Sequence[Any]) -> MultiVectors: ...

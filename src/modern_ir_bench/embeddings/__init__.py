@@ -7,9 +7,10 @@ from modern_ir_bench.embeddings.learned_sparse import (
     SentenceTransformersSparseEmbedding,
 )
 from modern_ir_bench.embeddings.managed_text import DashScopeTextEmbedding, JinaTextEmbedding
+from modern_ir_bench.embeddings.multi_vector import SentenceTransformersMultiVectorEmbedding
 from modern_ir_bench.embeddings.openrouter import OpenRouterEmbedding
 from modern_ir_bench.embeddings.ovis_omni import OvisOmniEmbedding
-from modern_ir_bench.embeddings.protocols import DenseEmbedding
+from modern_ir_bench.embeddings.protocols import DenseEmbedding, MultiVectorEmbedding, MultiVectors
 from modern_ir_bench.embeddings.sentence_transformers import (
     SentenceTransformersEmbedding,
 )
@@ -23,10 +24,13 @@ __all__ = [
     "DenseEmbedding",
     "GteMultilingualSparseEmbedding",
     "JinaTextEmbedding",
+    "MultiVectorEmbedding",
+    "MultiVectors",
     "OnnxSpladeEmbedding",
     "OpenRouterEmbedding",
     "OvisOmniEmbedding",
     "SentenceTransformersEmbedding",
+    "SentenceTransformersMultiVectorEmbedding",
     "SentenceTransformersSparseEmbedding",
     "SparseEmbedding",
     "SparseVector",

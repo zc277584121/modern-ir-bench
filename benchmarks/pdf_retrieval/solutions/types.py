@@ -12,10 +12,12 @@ from modern_ir_bench.embeddings import (
     OpenRouterEmbedding,
     OvisOmniEmbedding,
     SentenceTransformersEmbedding,
+    SentenceTransformersMultiVectorEmbedding,
     VoyageEmbedding,
     VoyageMultimodalEmbedding,
 )
 from modern_ir_bench.rerankers import Reranker
+from modern_ir_bench.retrieval.chunking import TokenTextChunker
 from modern_ir_bench.retrieval.indexes.milvus.target import MilvusTarget
 from modern_ir_bench.solutions import PaddleOcrExtractor, PdfPageRenderer
 
@@ -29,10 +31,12 @@ class Runtime:
     voyage_text: VoyageEmbedding
     voyage_multimodal: VoyageMultimodalEmbedding
     embedding_gemma: SentenceTransformersEmbedding
+    mlateon: SentenceTransformersMultiVectorEmbedding
     wemm: SentenceTransformersEmbedding
     managed_visual: dict[str, OpenRouterEmbedding]
     ovis_omni: OvisOmniEmbedding
     page_renderer: PdfPageRenderer
+    text_chunker: TokenTextChunker
     reranker: Reranker
 
 

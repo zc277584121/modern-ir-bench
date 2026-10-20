@@ -9,6 +9,10 @@ from modern_ir_bench.retrieval.chunked import ChunkedDenseRetrievalSolution
 from modern_ir_bench.retrieval.chunking import ChunkingPolicy, HuggingFaceOffsetTokenizer, TokenTextChunker
 from modern_ir_bench.retrieval.dense import DenseRetrievalSolution
 from modern_ir_bench.retrieval.fusion import ReciprocalRankFusionSolution, WeightedScoreFusionSolution
+from modern_ir_bench.retrieval.multi_vector import (
+    ChunkedMultiVectorRetrievalSolution,
+    MultiVectorRetrievalSolution,
+)
 from modern_ir_bench.retrieval.reranking import RerankingSolution
 from modern_ir_bench.retrieval.sparse import ChunkedSparseRetrievalSolution
 from modern_ir_bench.retrieval.types import (
@@ -23,12 +27,14 @@ from modern_ir_bench.retrieval.types import (
 __all__ = [
     "BM25LanguageConfig",
     "ChunkedDenseRetrievalSolution",
+    "ChunkedMultiVectorRetrievalSolution",
     "ChunkedSparseRetrievalSolution",
     "ChunkingPolicy",
     "DenseRetrievalSolution",
     "HuggingFaceOffsetTokenizer",
     "MappedResourceSource",
     "MilvusBM25Solution",
+    "MultiVectorRetrievalSolution",
     "PdfInput",
     "ReciprocalRankFusionSolution",
     "RerankingSolution",
