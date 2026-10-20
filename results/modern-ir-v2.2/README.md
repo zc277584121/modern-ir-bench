@@ -44,6 +44,9 @@ This directory stores immutable Top-K document rankings for every published Solu
 - `voyage-4-chunk`
 - `voyage-4-large-chunk`
 - `voyage-4-large-full`
+- `voyage-4-large-gpt-6-luna-decisions`
+- `voyage-4-large-jev-1-14`
+- `voyage-4-large-pplx-decider-v1-2`
 - `voyage-4-large-rerank-3`
 - `voyage-4-lite-chunk`
 - `wemm-embedding-2b-chunk`

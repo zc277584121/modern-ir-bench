@@ -2,7 +2,7 @@
   "schema_version": 1,
   "artifact_type": "live-top-k-rankings",
   "release": "modern-ir-bench-v2.2-20261010",
-  "published_at": "2026-10-16T09:02:26.816107+00:00",
+  "published_at": "2026-10-20T11:26:37.930617+00:00",
   "dataset": {
     "repository": "zc277584121/modern-ir-bench",
     "revision": "c7a38d6aaa3d1bd178952b6be91e12ca4ceb10ff"
@@ -48,6 +48,9 @@
     "voyage-4-chunk",
     "voyage-4-large-chunk",
     "voyage-4-large-full",
+    "voyage-4-large-gpt-6-luna-decisions",
+    "voyage-4-large-jev-1-14",
+    "voyage-4-large-pplx-decider-v1-2",
     "voyage-4-large-rerank-3",
     "voyage-4-lite-chunk",
     "wemm-embedding-2b-chunk"
@@ -353,6 +356,30 @@
       "origin": "historical-top-k-rankings",
       "published_at": "2026-10-10T03:34:57.604060+00:00"
     },
+    "voyage-4-large-gpt-6-luna-decisions": {
+      "source_commit": "b86e1312b45e8fdedfb9ac14d7573d43505dd386",
+      "source_module": "benchmarks.ranked_retrieval.run",
+      "source_path": "benchmarks/ranked_retrieval/run.py",
+      "source_line": 36,
+      "created_at": "2026-10-20T11:20:01.485757+00:00",
+      "origin": "verified-live-run"
+    },
+    "voyage-4-large-jev-1-14": {
+      "source_commit": "b86e1312b45e8fdedfb9ac14d7573d43505dd386",
+      "source_module": "benchmarks.ranked_retrieval.run",
+      "source_path": "benchmarks/ranked_retrieval/run.py",
+      "source_line": 36,
+      "created_at": "2026-10-20T11:14:27.689447+00:00",
+      "origin": "verified-live-run"
+    },
+    "voyage-4-large-pplx-decider-v1-2": {
+      "source_commit": "b86e1312b45e8fdedfb9ac14d7573d43505dd386",
+      "source_module": "benchmarks.ranked_retrieval.run",
+      "source_path": "benchmarks/ranked_retrieval/run.py",
+      "source_line": 36,
+      "created_at": "2026-10-20T11:13:59.127730+00:00",
+      "origin": "verified-live-run"
+    },
     "voyage-4-large-rerank-3": {
       "source_commit": "8902aac4abaec744409738be2d2796444542c5fb",
       "source_module": "benchmarks.ranked_retrieval.run",
@@ -379,7 +406,7 @@
     }
   },
   "queries": 1000,
-  "ranking_rows": 43000,
+  "ranking_rows": 46000,
   "top_k": 10,
-  "rankings_sha256": "8958ce1b34a0c7284b3f328b2f20ecf9cc65ec83d8c5a4fa7fa125208e36a953"
+  "rankings_sha256": "dfa605e5c18f56a3e5ffdc546f92b36ea019deb56065e76b84132f9d7b3c3bb4"
 }
