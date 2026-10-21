@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from collections import deque
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
 from typing import Any
@@ -28,6 +29,11 @@ class TorchExactMaxSimIndex:
     device: str | None = None
     dtype: str = "float32"
     normalize: bool = True
+    block_vector_limit: int | None = None
+
+    def __post_init__(self) -> None:
+        if self.block_vector_limit is not None and self.block_vector_limit < 1:
+            raise ValueError("block_vector_limit must be positive")
 
     def open(self, *, dimension: int) -> TorchExactMaxSimSession:
         return TorchExactMaxSimSession(
@@ -35,11 +41,20 @@ class TorchExactMaxSimIndex:
             device=self.device,
             dtype=self.dtype,
             normalize=self.normalize,
+            block_vector_limit=self.block_vector_limit,
         )
 
 
 class TorchExactMaxSimSession:
-    def __init__(self, *, dimension: int, device: str | None, dtype: str, normalize: bool) -> None:
+    def __init__(
+        self,
+        *,
+        dimension: int,
+        device: str | None,
+        dtype: str,
+        normalize: bool,
+        block_vector_limit: int | None,
+    ) -> None:
         if dimension < 1:
             raise ValueError("dimension must be positive")
         import torch
@@ -52,19 +67,20 @@ class TorchExactMaxSimSession:
         self.dtype_name = dtype
         self.dtype = dtypes[dtype]
         self.normalize = normalize
+        self.block_vector_limit = block_vector_limit
         self._ids: list[str] = []
         self._id_set: set[str] = set()
         self._vector_blocks: list[Any] = []
         self._length_blocks: list[Any] = []
-        self._vectors: Any | None = None
-        self._lengths: Any | None = None
+        self._sealed_vectors: list[Any] | None = None
+        self._sealed_lengths: list[Any] | None = None
         self._vector_count = 0
         self._closed = False
 
     def add(self, ids: Sequence[str], vectors: MultiVectors) -> None:
         if self._closed:
             raise RuntimeError("Cannot add vectors to a closed exact MaxSim index")
-        if self._vectors is not None:
+        if self._sealed_vectors is not None:
             raise RuntimeError("Cannot add vectors after the index has been sealed")
         import torch
         from torch.nn import functional
@@ -95,19 +111,45 @@ class TorchExactMaxSimSession:
     def seal(self) -> None:
         if self._closed:
             raise RuntimeError("Cannot seal a closed exact MaxSim index")
-        if self._vectors is not None:
+        if self._sealed_vectors is not None:
             return
         if not self._vector_blocks:
             raise ValueError("Cannot seal an empty exact MaxSim index")
+        self._sealed_vectors, self._sealed_lengths = self._coalesce_blocks()
+
+    def _coalesce_blocks(self) -> tuple[list[Any], list[Any]]:
         import torch
 
-        self._vectors = torch.cat(self._vector_blocks, dim=0)
-        self._lengths = torch.cat(self._length_blocks, dim=0)
+        if self.block_vector_limit is None:
+            vectors = [torch.cat(self._vector_blocks, dim=0)]
+            lengths = [torch.cat(self._length_blocks, dim=0)]
+            self._vector_blocks.clear()
+            self._length_blocks.clear()
+            return vectors, lengths
+
+        pending_vectors = deque(self._vector_blocks)
+        pending_lengths = deque(self._length_blocks)
         self._vector_blocks.clear()
         self._length_blocks.clear()
+        vectors: list[Any] = []
+        lengths: list[Any] = []
+        while pending_vectors:
+            vector_group = []
+            length_group = []
+            vector_count = 0
+            while pending_vectors and (not vector_group or vector_count < self.block_vector_limit):
+                block = pending_vectors[0]
+                if vector_group and vector_count + block.shape[0] > self.block_vector_limit:
+                    break
+                vector_group.append(pending_vectors.popleft())
+                length_group.append(pending_lengths.popleft())
+                vector_count += block.shape[0]
+            vectors.append(torch.cat(vector_group, dim=0))
+            lengths.append(torch.cat(length_group, dim=0))
+        return vectors, lengths
 
     def search(self, query_vectors: MultiVectors, *, top_k: int) -> list[list[SearchHit]]:
-        if self._closed or self._vectors is None or self._lengths is None:
+        if self._closed or self._sealed_vectors is None or self._sealed_lengths is None:
             raise RuntimeError("The exact MaxSim index must be sealed before search")
         if top_k < 1:
             raise ValueError("top_k must be positive")
@@ -122,14 +164,23 @@ class TorchExactMaxSimSession:
                 if self.normalize:
                     query = functional.normalize(query, dim=1)
                 query = query.to(self.dtype)
-                token_scores = query @ self._vectors.T
-                lengths = self._lengths.unsqueeze(0).expand(query.shape[0], -1)
-                document_scores = torch.segment_reduce(
-                    token_scores,
-                    "max",
-                    lengths=lengths,
-                    axis=1,
-                ).float().sum(dim=0)
+                score_blocks = []
+                for vectors, block_lengths in zip(
+                    self._sealed_vectors,
+                    self._sealed_lengths,
+                    strict=True,
+                ):
+                    token_scores = query @ vectors.T
+                    lengths = block_lengths.unsqueeze(0).expand(query.shape[0], -1)
+                    score_blocks.append(
+                        torch.segment_reduce(
+                            token_scores,
+                            "max",
+                            lengths=lengths,
+                            axis=1,
+                        ).float().sum(dim=0)
+                    )
+                document_scores = torch.cat(score_blocks)
                 scores = document_scores.float().cpu().tolist()
                 ranked = sorted(
                     zip(self._ids, scores, strict=True),
@@ -147,6 +198,7 @@ class TorchExactMaxSimSession:
             "dimension": self.dimension,
             "count": len(self._ids),
             "token_vectors": self._vector_count,
+            "blocks": len(self._sealed_vectors or ()),
             "normalize": self.normalize,
             "exact": True,
         }
@@ -158,8 +210,8 @@ class TorchExactMaxSimSession:
         self._id_set.clear()
         self._vector_blocks.clear()
         self._length_blocks.clear()
-        self._vectors = None
-        self._lengths = None
+        self._sealed_vectors = None
+        self._sealed_lengths = None
         self._closed = True
         if self.device.type == "cuda":
             import torch

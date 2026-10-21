@@ -53,6 +53,7 @@ def test_exact_maxsim_normalizes_token_vectors() -> None:
         "dimension": 2,
         "count": 2,
         "token_vectors": 2,
+        "blocks": 1,
         "normalize": True,
         "exact": True,
     }
@@ -71,6 +72,23 @@ def test_exact_maxsim_supports_float16_storage() -> None:
     assert [hit.id for hit in hits] == ["north", "east"]
     assert [hit.score for hit in hits] == pytest.approx([1.0, 0.0])
     assert metadata["dtype"] == "float16"
+
+
+def test_exact_maxsim_preserves_scores_across_storage_blocks() -> None:
+    session = TorchExactMaxSimIndex(device="cpu", block_vector_limit=2).open(dimension=2)
+    session.add(["mixed"], [_vectors((1.0, 0.0), (0.0, 1.0))])
+    session.add(["north"], [_vectors((1.0, 0.0))])
+    session.add(["east"], [_vectors((0.0, 1.0))])
+    session.seal()
+    try:
+        hits = session.search([_vectors((1.0, 0.0), (0.0, 1.0))], top_k=3)[0]
+        metadata = session.metadata
+    finally:
+        session.close()
+
+    assert [hit.id for hit in hits] == ["mixed", "east", "north"]
+    assert [hit.score for hit in hits] == pytest.approx([2.0, 1.0, 1.0])
+    assert metadata["blocks"] == 2
 
 
 def test_exact_maxsim_rejects_duplicate_ids() -> None:
@@ -146,5 +164,6 @@ def test_pdf_visual_late_interaction_solutions_use_float16_exact_maxsim(
     assert isinstance(solution.index, TorchExactMaxSimIndex)
     assert solution.index.device == "cuda"
     assert solution.index.dtype == "float16"
+    assert solution.index.block_vector_limit == 1_000_000
     assert solution.chunker("document") == ["document"]
     assert solution.embedding is embeddings[embedding_key]

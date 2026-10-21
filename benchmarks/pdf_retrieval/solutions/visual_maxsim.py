@@ -30,7 +30,11 @@ def _build_visual_exact_maxsim(
         title=spec.title,
         description=spec.description,
         embedding=embedding,
-        index=TorchExactMaxSimIndex(device=embedding.device, dtype="float16"),
+        index=TorchExactMaxSimIndex(
+            device=embedding.device,
+            dtype="float16",
+            block_vector_limit=1_000_000,
+        ),
         chunker=partial(_render_page_paths, runtime.page_renderer),
         chunk_batch_size=embedding.batch_size,
         candidate_multiplier=3,
