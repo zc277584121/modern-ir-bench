@@ -6,6 +6,11 @@ from typing import Any
 
 EMBEDDING_GEMMA_2_MODEL = "google/embeddinggemma-2"
 EMBEDDING_GEMMA_2_REVISION = "914f7f89142e33e77833254d9c9b90c3cef7303b"
+COLBERT_V2_MODEL = "colbert-ir/colbertv2.0"
+COLBERT_V2_REVISION = "c1e84128e85ef755c096a95bdb06b47793b13acf"
+JINA_COLBERT_V2_MODEL = "jinaai/jina-colbert-v2"
+JINA_COLBERT_V2_REVISION = "a9dc5cd7293d4c71dbbba04829923ba4d0e4f6ea"
+JINA_XLM_ROBERTA_CODE_REVISION = "bd55a5ec8e6c0fb1d6c26efb4b6a4a74ce8a88d3"
 MLATEON_MODEL = "lightonai/mLateOn"
 MLATEON_REVISION = "bbd883ae1fadb563056ff73b1061ae8172a3fcda"
 WEMM_2B_MODEL = "tencent/WeMM-Embedding-2B"

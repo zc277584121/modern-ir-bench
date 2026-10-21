@@ -31,12 +31,13 @@ class Runtime:
     voyage_text: VoyageEmbedding
     voyage_multimodal: VoyageMultimodalEmbedding
     embedding_gemma: SentenceTransformersEmbedding
-    mlateon: SentenceTransformersMultiVectorEmbedding
+    late_interaction: dict[str, SentenceTransformersMultiVectorEmbedding]
     wemm: SentenceTransformersEmbedding
     managed_visual: dict[str, OpenRouterEmbedding]
     ovis_omni: OvisOmniEmbedding
     page_renderer: PdfPageRenderer
     text_chunker: TokenTextChunker
+    short_text_chunker: TokenTextChunker
     reranker: Reranker
 
 

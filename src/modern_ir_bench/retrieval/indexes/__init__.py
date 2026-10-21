@@ -1,10 +1,10 @@
 """Dense index backends and independent verification."""
 
+from modern_ir_bench.retrieval.indexes.exact_maxsim import TorchExactMaxSimIndex
 from modern_ir_bench.retrieval.indexes.flat import NumpyFlatIndex
 from modern_ir_bench.retrieval.indexes.milvus import (
     MilvusDenseIndex,
     MilvusLite,
-    MilvusMultiVectorIndex,
     MilvusServer,
     MilvusSparseIndex,
     ZillizCloud,
@@ -27,7 +27,6 @@ __all__ = [
     "DenseIndexSession",
     "MilvusDenseIndex",
     "MilvusLite",
-    "MilvusMultiVectorIndex",
     "MilvusServer",
     "MilvusSparseIndex",
     "MultiVectorIndex",
@@ -35,6 +34,7 @@ __all__ = [
     "NumpyFlatIndex",
     "SparseIndex",
     "SparseIndexSession",
+    "TorchExactMaxSimIndex",
     "VerifiedDenseIndex",
     "ZillizCloud",
 ]

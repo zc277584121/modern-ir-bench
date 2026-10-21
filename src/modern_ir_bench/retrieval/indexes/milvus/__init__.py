@@ -1,7 +1,6 @@
 """Milvus-family dense index backend."""
 
 from modern_ir_bench.retrieval.indexes.milvus.index import MilvusDenseIndex
-from modern_ir_bench.retrieval.indexes.milvus.multi_vector import MilvusMultiVectorIndex
 from modern_ir_bench.retrieval.indexes.milvus.sparse import MilvusSparseIndex
 from modern_ir_bench.retrieval.indexes.milvus.target import (
     MilvusLite,
@@ -12,7 +11,6 @@ from modern_ir_bench.retrieval.indexes.milvus.target import (
 __all__ = [
     "MilvusDenseIndex",
     "MilvusLite",
-    "MilvusMultiVectorIndex",
     "MilvusServer",
     "MilvusSparseIndex",
     "ZillizCloud",
