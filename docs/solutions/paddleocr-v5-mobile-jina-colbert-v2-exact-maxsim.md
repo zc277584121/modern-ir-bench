@@ -7,7 +7,9 @@ after bilingual PP-OCRv5 Mobile text extraction.
 
 1. OCR every PDF page and concatenate the recognized text in page order.
 2. Create the benchmark's standard overlapping 768-token chunks with its
-   pinned, model-independent tokenizer.
+   pinned, model-independent tokenizer. Override the checkpoint artifact's
+   legacy 300-token document cap with a 4,096-token cap, which covers the
+   longest Jina-tokenized chunk in this Dataset without truncation.
 3. Encode each chunk and query with the pinned 0.6B-parameter
    `jinaai/jina-colbert-v2` revision, retaining its 128-dimensional token vectors.
 4. Score every chunk exhaustively in float32 with MaxSim on the GPU.

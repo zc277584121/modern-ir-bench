@@ -27,6 +27,7 @@ class SentenceTransformersMultiVectorEmbedding:
         local_files_only: bool = False,
         trust_remote_code: bool = False,
         cache_path: Path | None = None,
+        document_length: int | None = None,
         model_kwargs: Mapping[str, Any] | None = None,
         config_kwargs: Mapping[str, Any] | None = None,
         encode_kwargs: Mapping[str, Any] | None = None,
@@ -35,6 +36,8 @@ class SentenceTransformersMultiVectorEmbedding:
             raise ValueError("model must be non-empty")
         if batch_size < 1:
             raise ValueError("batch_size must be positive")
+        if document_length is not None and document_length < 1:
+            raise ValueError("document_length must be positive")
         self.model_id = model
         self.revision = revision
         self._dimension = dimension
@@ -43,6 +46,7 @@ class SentenceTransformersMultiVectorEmbedding:
         self.normalize = normalize
         self.local_files_only = local_files_only
         self.trust_remote_code = trust_remote_code
+        self.document_length = document_length
         self.model_kwargs = dict(model_kwargs or {})
         self.config_kwargs = dict(config_kwargs or {})
         self.encode_kwargs = dict(encode_kwargs or {})
@@ -63,6 +67,8 @@ class SentenceTransformersMultiVectorEmbedding:
                 config_kwargs=self.config_kwargs,
                 similarity_fn_name="maxsim",
             )
+            if self.document_length is not None:
+                self._model[0].document_length = self.document_length
         return self._model
 
     @property
