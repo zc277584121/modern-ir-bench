@@ -8,8 +8,8 @@ import logging
 import os
 from pathlib import Path
 
-from benchmarks.pdf_retrieval.definition import DATASET_ID, DATASET_REVISION, RELEASE_ID, build_task
-from benchmarks.pdf_retrieval.solutions import SOLUTION_SPECS, build_solutions
+from benchmarks.pdf_retrieval.definition import DATASET_ID, DATASET_REVISION, build_task, dataset_release_id
+from benchmarks.pdf_retrieval.solutions import SOLUTION_SPECS, SOLUTION_SPECS_BY_ID, build_solutions
 from benchmarks.ranking_evidence import write_run_artifacts
 from modern_ir_bench import RunProvenance
 from modern_ir_bench.retrieval.indexes.milvus import MilvusLite, MilvusServer
@@ -25,7 +25,12 @@ def _arguments() -> argparse.Namespace:
         "--solution",
         action="append",
         choices=[spec.id for spec in SOLUTION_SPECS],
-        help="Solution to run; repeat the flag to select several. Defaults to the complete catalog.",
+        help="Solution to run; repeat the flag to select several. Defaults to the full-Dataset catalog.",
+    )
+    parser.add_argument(
+        "--language",
+        choices=("en", "zh"),
+        help="Evaluate one language slice. Required for an English-only Solution such as ColBERTv2.",
     )
     return parser.parse_args()
 
@@ -33,7 +38,13 @@ def _arguments() -> argparse.Namespace:
 def main() -> None:
     arguments = _arguments()
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
-    task = build_task()
+    selected_ids = arguments.solution or [spec.id for spec in SOLUTION_SPECS if spec.languages is None]
+    for solution_id in selected_ids:
+        languages = SOLUTION_SPECS_BY_ID[solution_id].languages
+        if languages is not None and arguments.language not in languages:
+            supported = ", ".join(languages)
+            raise ValueError(f"{solution_id} requires --language with one of: {supported}")
+    task = build_task(language=arguments.language)
     lite_path = os.environ.get("MIR_MILVUS_LITE_PATH")
     target = (
         MilvusLite(lite_path)
@@ -46,7 +57,7 @@ def main() -> None:
     solutions = build_solutions(
         target=target,
         project_root=PROJECT_ROOT,
-        solution_ids=arguments.solution,
+        solution_ids=selected_ids,
     )
     provenance = RunProvenance.capture(
         source_module="benchmarks.pdf_retrieval.run",
@@ -56,8 +67,8 @@ def main() -> None:
     report = task.run(solutions, provenance=provenance, status="live")
     directories = write_run_artifacts(
         report,
-        output_root=OUTPUT_ROOT,
-        release=RELEASE_ID,
+        output_root=OUTPUT_ROOT if arguments.language is None else OUTPUT_ROOT / "slices" / arguments.language,
+        release=dataset_release_id(arguments.language),
         dataset_repository=DATASET_ID,
         dataset_revision=DATASET_REVISION,
     )

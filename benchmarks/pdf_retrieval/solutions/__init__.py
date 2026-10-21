@@ -51,6 +51,7 @@ def solution_metadata(repository_url: str, commit: str) -> dict[str, dict[str, A
             "readme_url": f"{repository_url}/blob/{commit}/{spec.readme_path}",
             "readme_title": readme.title,
             "readme_preview": readme.preview,
+            "languages": list(spec.languages) if spec.languages is not None else None,
         }
     return metadata
 

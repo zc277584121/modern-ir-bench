@@ -18,9 +18,16 @@ def _query_value(row):
     return TextInput(text=row["query"], language=row["language"])
 
 
-def build_task() -> PdfRetrieval:
+def dataset_release_id(language: str | None = None) -> str:
+    if language is not None and language not in {"en", "zh"}:
+        raise ValueError(f"Unsupported PDF Dataset language slice: {language}")
+    return RELEASE_ID if language is None else f"{RELEASE_ID}-language-{language}"
+
+
+def build_task(*, language: str | None = None) -> PdfRetrieval:
     """Build document-level retrieval over bilingual rendered PDFs."""
 
+    release_id = dataset_release_id(language)
     return PdfRetrieval(
         id=TASK_ID,
         title="Modern IR PDF Retrieval v1",
@@ -30,12 +37,13 @@ def build_task() -> PdfRetrieval:
         ),
         version="1.0.0",
         datasets={
-            RELEASE_ID: load_pdf_retrieval_hub(
+            release_id: load_pdf_retrieval_hub(
                 DATASET_ID,
                 revision=DATASET_REVISION,
+                language=language,
             )
         },
-        dataset_versions={RELEASE_ID: DATASET_REVISION[:12]},
+        dataset_versions={release_id: DATASET_REVISION[:12]},
         metrics=MetricSet(
             primary=NDCG(k=10),
             secondary=[Recall(k=1), Recall(k=5), Recall(k=10), MeanReciprocalRank(k=10)],

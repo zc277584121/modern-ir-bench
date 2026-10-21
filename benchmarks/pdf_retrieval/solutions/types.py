@@ -49,6 +49,7 @@ class SolutionSpec:
     tags: tuple[str, ...]
     factory: Callable[[Runtime, SolutionSpec], Solution]
     readme_path: str
+    languages: tuple[str, ...] | None = None
 
     def build(self, runtime: Runtime) -> Solution:
         return self.factory(runtime, self)
