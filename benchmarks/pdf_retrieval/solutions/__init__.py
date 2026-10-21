@@ -13,11 +13,19 @@ from benchmarks.pdf_retrieval.solutions.reranking import SPECS as RERANKING_SPEC
 from benchmarks.pdf_retrieval.solutions.runtime import build_runtime
 from benchmarks.pdf_retrieval.solutions.types import SolutionSpec
 from benchmarks.pdf_retrieval.solutions.visual import SPECS as VISUAL_SPECS
+from benchmarks.pdf_retrieval.solutions.visual_maxsim import SPECS as VISUAL_MAXSIM_SPECS
 from benchmarks.solution_docs import load_solution_readme
 from modern_ir_bench.core import Solution
 from modern_ir_bench.retrieval.indexes.milvus.target import MilvusTarget
 
-SOLUTION_SPECS = (*OCR_SPECS, *MAXSIM_SPECS, *VISUAL_SPECS, *HYBRID_SPECS, *RERANKING_SPECS)
+SOLUTION_SPECS = (
+    *OCR_SPECS,
+    *MAXSIM_SPECS,
+    *VISUAL_SPECS,
+    *VISUAL_MAXSIM_SPECS,
+    *HYBRID_SPECS,
+    *RERANKING_SPECS,
+)
 SOLUTION_SPECS_BY_ID = {spec.id: spec for spec in SOLUTION_SPECS}
 
 

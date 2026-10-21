@@ -6,6 +6,7 @@ import numpy as np
 import pytest
 
 from benchmarks.pdf_retrieval.solutions.maxsim import SPECS
+from benchmarks.pdf_retrieval.solutions.visual_maxsim import SPECS as VISUAL_SPECS
 from modern_ir_bench.retrieval.indexes import TorchExactMaxSimIndex
 
 
@@ -57,6 +58,21 @@ def test_exact_maxsim_normalizes_token_vectors() -> None:
     }
 
 
+def test_exact_maxsim_supports_float16_storage() -> None:
+    session = TorchExactMaxSimIndex(device="cpu", dtype="float16").open(dimension=2)
+    session.add(["north", "east"], [_vectors((1.0, 0.0)), _vectors((0.0, 1.0))])
+    session.seal()
+    try:
+        hits = session.search([_vectors((1.0, 0.0))], top_k=2)[0]
+        metadata = session.metadata
+    finally:
+        session.close()
+
+    assert [hit.id for hit in hits] == ["north", "east"]
+    assert [hit.score for hit in hits] == pytest.approx([1.0, 0.0])
+    assert metadata["dtype"] == "float16"
+
+
 def test_exact_maxsim_rejects_duplicate_ids() -> None:
     session = TorchExactMaxSimIndex(device="cpu").open(dimension=2)
     session.add(["document"], [_vectors((1.0, 0.0))])
@@ -101,3 +117,34 @@ def test_pdf_late_interaction_solutions_use_exact_maxsim(
     expected_chunker = standard_chunker if chunker_name == "standard" else short_chunker
     assert solution.text_solution.chunker is expected_chunker
     assert solution.text_solution.embedding is embeddings[embedding_key]
+
+
+@pytest.mark.parametrize(
+    ("solution_id", "embedding_key"),
+    [
+        ("colsmol-256m-page-exact-maxsim", "colsmol-256m"),
+        ("colqwen2-5-page-exact-maxsim", "colqwen2.5"),
+    ],
+)
+def test_pdf_visual_late_interaction_solutions_use_float16_exact_maxsim(
+    solution_id: str,
+    embedding_key: str,
+) -> None:
+    spec = next(item for item in VISUAL_SPECS if item.id == solution_id)
+    embeddings = {
+        key: SimpleNamespace(batch_size=1, device="cuda")
+        for key in ("colsmol-256m", "colqwen2.5")
+    }
+    page_renderer = SimpleNamespace(render=lambda value: [value])
+    runtime = SimpleNamespace(
+        visual_late_interaction=embeddings,
+        page_renderer=page_renderer,
+    )
+
+    solution = spec.build(runtime)
+
+    assert isinstance(solution.index, TorchExactMaxSimIndex)
+    assert solution.index.device == "cuda"
+    assert solution.index.dtype == "float16"
+    assert solution.chunker("document") == ["document"]
+    assert solution.embedding is embeddings[embedding_key]

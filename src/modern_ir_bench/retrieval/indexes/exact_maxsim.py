@@ -26,24 +26,31 @@ class TorchExactMaxSimIndex:
     """Score every document with MaxSim, without candidate generation."""
 
     device: str | None = None
+    dtype: str = "float32"
     normalize: bool = True
 
     def open(self, *, dimension: int) -> TorchExactMaxSimSession:
         return TorchExactMaxSimSession(
             dimension=dimension,
             device=self.device,
+            dtype=self.dtype,
             normalize=self.normalize,
         )
 
 
 class TorchExactMaxSimSession:
-    def __init__(self, *, dimension: int, device: str | None, normalize: bool) -> None:
+    def __init__(self, *, dimension: int, device: str | None, dtype: str, normalize: bool) -> None:
         if dimension < 1:
             raise ValueError("dimension must be positive")
         import torch
 
+        dtypes = {"float16": torch.float16, "float32": torch.float32}
+        if dtype not in dtypes:
+            raise ValueError(f"Unsupported exact MaxSim dtype: {dtype!r}")
         self.dimension = dimension
         self.device = torch.device(device or ("cuda" if torch.cuda.is_available() else "cpu"))
+        self.dtype_name = dtype
+        self.dtype = dtypes[dtype]
         self.normalize = normalize
         self._ids: list[str] = []
         self._id_set: set[str] = set()
@@ -77,6 +84,7 @@ class TorchExactMaxSimSession:
         block = torch.from_numpy(np.concatenate(matrices, axis=0)).to(self.device)
         if self.normalize:
             block = functional.normalize(block, dim=1)
+        block = block.to(self.dtype)
         lengths = torch.tensor([matrix.shape[0] for matrix in matrices], dtype=torch.int64, device=self.device)
         self._ids.extend(normalized_ids)
         self._id_set.update(normalized_ids)
@@ -113,6 +121,7 @@ class TorchExactMaxSimSession:
                 query = torch.from_numpy(_matrix(value, dimension=self.dimension)).to(self.device)
                 if self.normalize:
                     query = functional.normalize(query, dim=1)
+                query = query.to(self.dtype)
                 token_scores = query @ self._vectors.T
                 lengths = self._lengths.unsqueeze(0).expand(query.shape[0], -1)
                 document_scores = torch.segment_reduce(
@@ -120,7 +129,7 @@ class TorchExactMaxSimSession:
                     "max",
                     lengths=lengths,
                     axis=1,
-                ).sum(dim=0)
+                ).float().sum(dim=0)
                 scores = document_scores.float().cpu().tolist()
                 ranked = sorted(
                     zip(self._ids, scores, strict=True),
@@ -134,7 +143,7 @@ class TorchExactMaxSimSession:
         return {
             "backend": "torch-exact-maxsim",
             "device": str(self.device),
-            "dtype": "float32",
+            "dtype": self.dtype_name,
             "dimension": self.dimension,
             "count": len(self._ids),
             "token_vectors": self._vector_count,
