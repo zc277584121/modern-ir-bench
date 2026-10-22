@@ -46,11 +46,56 @@ def _build_colsmol_256m(runtime: Runtime, spec: SolutionSpec) -> ChunkedMultiVec
     return _build_visual_exact_maxsim(runtime, spec, embedding_key="colsmol-256m")
 
 
+def _build_colsmol_500m(runtime: Runtime, spec: SolutionSpec) -> ChunkedMultiVectorRetrievalSolution:
+    return _build_visual_exact_maxsim(runtime, spec, embedding_key="colsmol-500m")
+
+
+def _build_colpali_v1_3(runtime: Runtime, spec: SolutionSpec) -> ChunkedMultiVectorRetrievalSolution:
+    return _build_visual_exact_maxsim(runtime, spec, embedding_key="colpali-v1.3")
+
+
+def _build_colqwen2_v1_0(runtime: Runtime, spec: SolutionSpec) -> ChunkedMultiVectorRetrievalSolution:
+    return _build_visual_exact_maxsim(runtime, spec, embedding_key="colqwen2-v1.0")
+
+
 def _build_colqwen_2_5(runtime: Runtime, spec: SolutionSpec) -> ChunkedMultiVectorRetrievalSolution:
     return _build_visual_exact_maxsim(runtime, spec, embedding_key="colqwen2.5")
 
 
 SPECS = (
+    SolutionSpec(
+        id="colsmol-500m-page-exact-maxsim",
+        title="ColSmol 500M · page exact MaxSim",
+        description=(
+            "Encode PDF page images directly with ColSmol 500M and score every page with exact MaxSim, "
+            "without OCR or approximate candidate generation."
+        ),
+        tags=("visual", "late-interaction", "maxsim", "exact", "self-hosted", "page-level", "ocr-free"),
+        factory=_build_colsmol_500m,
+        readme_path="docs/solutions/colsmol-500m-page-exact-maxsim.md",
+    ),
+    SolutionSpec(
+        id="colpali-v1-3-page-exact-maxsim",
+        title="ColPali v1.3 · page exact MaxSim",
+        description=(
+            "Encode PDF page images directly with ColPali v1.3 and score every page with exact MaxSim, "
+            "without OCR or approximate candidate generation."
+        ),
+        tags=("visual", "late-interaction", "maxsim", "exact", "self-hosted", "page-level", "ocr-free"),
+        factory=_build_colpali_v1_3,
+        readme_path="docs/solutions/colpali-v1-3-page-exact-maxsim.md",
+    ),
+    SolutionSpec(
+        id="colqwen2-v1-0-page-exact-maxsim",
+        title="ColQwen2 v1.0 · page exact MaxSim",
+        description=(
+            "Encode PDF page images directly with ColQwen2 v1.0 and score every page with exact MaxSim, "
+            "without OCR or approximate candidate generation."
+        ),
+        tags=("visual", "late-interaction", "maxsim", "exact", "self-hosted", "page-level", "ocr-free"),
+        factory=_build_colqwen2_v1_0,
+        readme_path="docs/solutions/colqwen2-v1-0-page-exact-maxsim.md",
+    ),
     SolutionSpec(
         id="colsmol-256m-page-exact-maxsim",
         title="ColSmol 256M · page exact MaxSim",

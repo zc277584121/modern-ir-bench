@@ -141,6 +141,9 @@ def test_pdf_late_interaction_solutions_use_exact_maxsim(
     ("solution_id", "embedding_key"),
     [
         ("colsmol-256m-page-exact-maxsim", "colsmol-256m"),
+        ("colsmol-500m-page-exact-maxsim", "colsmol-500m"),
+        ("colpali-v1-3-page-exact-maxsim", "colpali-v1.3"),
+        ("colqwen2-v1-0-page-exact-maxsim", "colqwen2-v1.0"),
         ("colqwen2-5-page-exact-maxsim", "colqwen2.5"),
     ],
 )
@@ -151,7 +154,7 @@ def test_pdf_visual_late_interaction_solutions_use_float16_exact_maxsim(
     spec = next(item for item in VISUAL_SPECS if item.id == solution_id)
     embeddings = {
         key: SimpleNamespace(batch_size=1, device="cuda")
-        for key in ("colsmol-256m", "colqwen2.5")
+        for key in ("colsmol-256m", "colsmol-500m", "colpali-v1.3", "colqwen2-v1.0", "colqwen2.5")
     }
     page_renderer = SimpleNamespace(render=lambda value: [value])
     runtime = SimpleNamespace(
