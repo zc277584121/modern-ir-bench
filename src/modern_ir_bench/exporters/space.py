@@ -14,6 +14,7 @@ def build_space_payload(
     counts: Mapping[str, int] | None = None,
     languages: Sequence[str] = (),
     breakdowns: Sequence[Mapping[str, object]] = (),
+    coverage: Sequence[Mapping[str, object]] = (),
     notice: str | None = None,
 ) -> dict[str, object]:
     benchmark: dict[str, object] = {
@@ -35,4 +36,6 @@ def build_space_payload(
     }
     if breakdowns:
         payload["breakdowns"] = list(breakdowns)
+    if coverage:
+        payload["coverage"] = list(coverage)
     return payload

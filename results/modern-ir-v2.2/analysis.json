@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "release": "modern-ir-bench-v2.2-20261010",
-  "ranking_evidence_sha256": "dfa605e5c18f56a3e5ffdc546f92b36ea019deb56065e76b84132f9d7b3c3bb4",
+  "ranking_evidence_sha256": "c5b32f8cb5f8ce5c95064298904e6fb5b3c5d80ef9cd3d52ce363843ac4f5517",
   "candidate_evidence_sha256": "c2b0f420fb49b67f9fe0db1539f465bac2284f0e7621820bed1a1491e5eb7947",
   "queries": 1000,
   "positive_qrels": 6575,

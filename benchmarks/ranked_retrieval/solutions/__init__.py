@@ -60,6 +60,7 @@ def solution_metadata(repository_url: str, commit: str) -> dict[str, dict[str, A
             "title": spec.title,
             "description": spec.description,
             "tags": list(spec.tags),
+            "languages": list(spec.languages),
             "code_url": f"{repository_url}/blob/{commit}/{source_path}#L{source_line}",
             "readme_url": f"{repository_url}/blob/{commit}/{spec.readme_path}",
             "readme_title": readme.title,

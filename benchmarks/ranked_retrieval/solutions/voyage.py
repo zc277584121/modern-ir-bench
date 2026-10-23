@@ -65,6 +65,7 @@ SPECS = (
         ("dense", "managed-api", "full-document"),
         _build_voyage_full,
         "docs/solutions/voyage-4-large.md",
+        languages=("en", "zh"),
     ),
     SolutionSpec(
         "voyage-4-large-chunk",
@@ -73,5 +74,6 @@ SPECS = (
         ("dense", "managed-api", "chunked"),
         _build_voyage_chunk,
         "docs/solutions/voyage-4-large.md",
+        languages=("en", "zh"),
     ),
 )

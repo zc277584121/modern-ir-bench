@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from benchmarks.languages import scope_languages
 from modern_ir_bench import MetricSet
 from modern_ir_bench.datasets import load_ranked_retrieval_hub
 from modern_ir_bench.metrics import NDCG, MeanReciprocalRank, Recall
@@ -22,9 +23,15 @@ def _query_value(row):
     return TextInput(text=row["query"], language=row["language"])
 
 
-def build_task() -> RankedRetrieval:
+def dataset_release_id(language: str | None = None) -> str:
+    scope_languages(language)
+    return RELEASE_ID if language is None else f"{RELEASE_ID}-language-{language}"
+
+
+def build_task(*, language: str | None = None) -> RankedRetrieval:
     """Build one bilingual Task with independent language candidate pools."""
 
+    release_id = dataset_release_id(language)
     return RankedRetrieval(
         id=TASK_ID,
         title="Modern IR Ranked Retrieval v2.2",
@@ -34,12 +41,13 @@ def build_task() -> RankedRetrieval:
         ),
         version="2.2.0",
         datasets={
-            RELEASE_ID: load_ranked_retrieval_hub(
+            release_id: load_ranked_retrieval_hub(
                 DATASET_ID,
                 revision=DATASET_REVISION,
+                language=language,
             )
         },
-        dataset_versions={RELEASE_ID: DATASET_REVISION[:12]},
+        dataset_versions={release_id: DATASET_REVISION[:12]},
         metrics=MetricSet(
             primary=NDCG(k=10),
             secondary=[Recall(k=1), Recall(k=5), Recall(k=10), MeanReciprocalRank(k=10)],

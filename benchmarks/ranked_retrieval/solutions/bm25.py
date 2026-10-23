@@ -83,6 +83,7 @@ SPECS = (
         ("lexical", "self-hosted", "full-document"),
         _build_bm25_full,
         "docs/solutions/bm25.md",
+        languages=("en", "zh"),
     ),
     SolutionSpec(
         "bm25-chunk",
@@ -91,6 +92,7 @@ SPECS = (
         ("lexical", "self-hosted", "chunked"),
         _build_bm25_chunk,
         "docs/solutions/bm25.md",
+        languages=("en", "zh"),
     ),
     SolutionSpec(
         "bm25-chunk-tuned",
@@ -99,5 +101,6 @@ SPECS = (
         ("lexical", "self-hosted", "chunked", "tuned"),
         _build_bm25_chunk_tuned,
         "docs/solutions/bm25-tuned.md",
+        languages=("en", "zh"),
     ),
 )

@@ -1,6 +1,12 @@
 import { createProfileController } from "./profile.js";
 import { createFusionPlayground } from "./fusion-playground.js";
 import { solutionBadges } from "./solution-badges.js";
+import {
+  evaluateScope,
+  isEnglishOnly,
+  sortEntries,
+  validatePayload,
+} from "./scope.js";
 
 const state = {
   payload: null,
@@ -46,7 +52,11 @@ const escapeHtml = (value) =>
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#039;");
 
-const formatScore = (value) => Number(value).toFixed(3);
+const formatScore = (value) => {
+  if (!Number.isFinite(value))
+    throw new Error("Cannot display a missing score.");
+  return value.toFixed(3);
+};
 const formatInteger = (value) => Number(value).toLocaleString("en-US");
 
 function taskPresentation(task) {
@@ -102,7 +112,7 @@ function solutionName(solution) {
     )
     .join("");
   return `<span class="solution-cell">
-    <span class="solution-name">${solutionReadmeLink(solution)}${solutionCodeLink(solution)}</span>
+    <span class="solution-name">${solutionReadmeLink(solution)}${solutionCodeLink(solution)}${isEnglishOnly(solution) ? '<span class="language-badge">English only</span>' : ""}</span>
     <span class="solution-badges" aria-label="Retrieval method">${badges}</span>
   </span>`;
 }
@@ -141,16 +151,6 @@ function orderedTaskGroups() {
   );
 }
 
-function compareValues(left, right, direction) {
-  let comparison;
-  if (typeof left === "number" && typeof right === "number") {
-    comparison = left - right;
-  } else {
-    comparison = String(left).localeCompare(String(right));
-  }
-  return direction === "asc" ? comparison : -comparison;
-}
-
 function toggleSort(sortState, key, numeric) {
   if (sortState.key === key) {
     sortState.direction = sortState.direction === "asc" ? "desc" : "asc";
@@ -187,7 +187,7 @@ function compareVersionLabelsDescending(left, right) {
 function taskDatasets(taskKey) {
   const seen = new Set();
   const datasets = new Map();
-  state.payload.results.forEach((record) => {
+  state.payload.coverage.forEach((record) => {
     const task = state.tasks.get(record.task_id);
     if (!task || taskPresentation(task).key !== taskKey) return;
     const value = `${record.task_id}|${record.dataset_id}|${record.dataset_version}`;
@@ -311,12 +311,6 @@ function populateReleaseSelector() {
   });
 }
 
-function solutionHasSelectedTags(solutionId) {
-  if (state.selectedSolutionTags.size === 0) return true;
-  const tags = new Set(state.solutions.get(solutionId)?.tags || []);
-  return [...state.selectedSolutionTags].some((tag) => tags.has(tag));
-}
-
 function solutionTagLabel(tag) {
   const labels = {
     "managed-api": "Managed API",
@@ -352,23 +346,7 @@ function applySolutionTagFilter() {
 
 function populateSolutionTagPicker() {
   const container = document.querySelector("#solution-tag-options");
-  const { taskId, datasetId, datasetVersion } = currentTaskDataset();
-  const solutionIds = new Set(
-    primaryRecords()
-      .filter(
-        (record) =>
-          record.task_id === taskId &&
-          record.dataset_id === datasetId &&
-          record.dataset_version === datasetVersion,
-      )
-      .map((record) => record.solution_id),
-  );
-  const counts = new Map();
-  solutionIds.forEach((solutionId) => {
-    (state.solutions.get(solutionId)?.tags || []).forEach((tag) => {
-      counts.set(tag, (counts.get(tag) || 0) + 1);
-    });
-  });
+  const { tagCounts: counts } = currentEvaluation(false);
 
   state.selectedSolutionTags = new Set(
     [...state.selectedSolutionTags].filter((tag) => counts.has(tag)),
@@ -401,117 +379,57 @@ function currentTaskDataset() {
   return { taskId, datasetId, datasetVersion };
 }
 
-function currentOverallPrimaryRecords() {
-  const { taskId, datasetId, datasetVersion } = currentTaskDataset();
-  return primaryRecords()
-    .filter(
-      (record) =>
-        record.task_id === taskId &&
-        record.dataset_id === datasetId &&
-        record.dataset_version === datasetVersion &&
-        solutionHasSelectedTags(record.solution_id),
-    )
-    .sort(
-      (left, right) =>
-        right.value - left.value || left.solution_id.localeCompare(right.solution_id),
-    );
+function currentScopePrimaryRecords() {
+  return currentEvaluation().entries.map((entry) => entry.primaryRecord);
 }
 
-function currentEvaluation() {
+function currentEvaluation(filterTags = true) {
   const { taskId, datasetId, datasetVersion } = currentTaskDataset();
-  const task = state.tasks.get(taskId);
-  const overallResults = state.payload.results.filter(
-    (record) =>
-      record.task_id === taskId &&
-      record.dataset_id === datasetId &&
-      record.dataset_version === datasetVersion &&
-      solutionHasSelectedTags(record.solution_id),
+  return evaluateScope(
+    state.payload,
+    {
+      task_id: taskId,
+      dataset_id: datasetId,
+      dataset_version: datasetVersion,
+    },
+    {
+      breakdownId: selectedBreakdown()?.id,
+      valueId: selectedBreakdownValue()?.id,
+      tags: filterTags ? state.selectedSolutionTags : new Set(),
+    },
   );
-  const breakdown = selectedBreakdown();
-  const breakdownValue = selectedBreakdownValue();
-  const primaryMetric = breakdown?.primary_metric || task.primary_metric;
-  return {
-    breakdown,
-    breakdownValue,
-    results: breakdownValue
-      ? breakdownValue.results.filter((record) => solutionHasSelectedTags(record.solution_id))
-      : overallResults,
-    primaryMetric,
-  };
-}
-
-function metricCatalog(results, primaryMetric) {
-  const labels = new Map(results.map((record) => [record.metric_id, record.metric_label]));
-  const order = [...labels.keys()].sort(
-    (left, right) => Number(right === primaryMetric) - Number(left === primaryMetric),
-  );
-  return { labels, order };
 }
 
 function renderLeaderboard() {
   const evaluation = currentEvaluation();
-  const {
-    breakdown,
-    breakdownValue,
-    primaryMetric,
-    results: selected,
-  } = evaluation;
-  const { labels, order: metricOrder } = metricCatalog(selected, primaryMetric);
+  const { breakdown, breakdownValue, primaryMetric, entries, metrics, ranks } =
+    evaluation;
+  const metricOrder = metrics.map((metric) => metric.id);
   if (!state.profileMetricId || !metricOrder.includes(state.profileMetricId)) {
     state.profileMetricId = primaryMetric;
   }
-  const grouped = new Map();
-  selected.forEach((record) => {
-    if (!grouped.has(record.solution_id)) grouped.set(record.solution_id, new Map());
-    grouped.get(record.solution_id).set(record.metric_id, record);
-  });
   if (!state.leaderboardSort.key || (!metricOrder.includes(state.leaderboardSort.key) && state.leaderboardSort.key !== "solution")) {
     state.leaderboardSort = { key: primaryMetric, direction: "desc" };
   }
-  const valueForSolution = (solutionId) => {
-    if (state.leaderboardSort.key === "solution") {
-      return state.solutions.get(solutionId).title;
-    }
-    return (
-      grouped.get(solutionId).get(state.leaderboardSort.key)?.value ??
-      Number.NEGATIVE_INFINITY
-    );
-  };
-  const matching = [...grouped.keys()].sort((left, right) => {
-    const comparison = compareValues(
-      valueForSolution(left),
-      valueForSolution(right),
-      state.leaderboardSort.direction,
-    );
-    return comparison || left.localeCompare(right);
-  });
-  const primaryRanks = new Map(
-    [...grouped.keys()]
-      .sort((left, right) => {
-        const leftValue =
-          grouped.get(left).get(primaryMetric)?.value ?? Number.NEGATIVE_INFINITY;
-        const rightValue =
-          grouped.get(right).get(primaryMetric)?.value ?? Number.NEGATIVE_INFINITY;
-        return rightValue - leftValue || left.localeCompare(right);
-      })
-      .map((solutionId, index) => [solutionId, index + 1]),
-  );
-  const rows = matching.map((solutionId) => {
-    const solution = state.solutions.get(solutionId);
-    const records = grouped.get(solutionId);
-    const rank = primaryRanks.get(solutionId);
-    const metricCells = metricOrder.map((metricId) => {
-      const record = records.get(metricId);
-      if (!record) return '<span class="muted">—</span>';
-      const primaryClass = metricId === primaryMetric ? " primary" : "";
-      return `<span class="score${primaryClass}">${formatScore(record.value)}</span>`;
-    });
-    return [
-      `<span class="rank">${rank}</span>`,
+  const rows = sortEntries(entries, state.leaderboardSort).map(
+    ({ solution, records }) => [
+      `<span class="rank">${ranks.get(solution.id)}</span>`,
       solutionName(solution),
-      ...metricCells,
-    ];
-  });
+      ...metricOrder.map((metricId) => {
+        const primaryClass = metricId === primaryMetric ? " primary" : "";
+        return `<span class="score${primaryClass}">${formatScore(records.get(metricId).value)}</span>`;
+      }),
+    ],
+  );
+
+  const coverageNote = document.querySelector("#coverage-note");
+  const excluded = evaluation.excludedEnglishCount;
+  coverageNote.hidden = excluded === 0;
+  document.querySelector("#coverage-note-text").textContent =
+    `${excluded} English-only ${excluded === 1 ? "solution is" : "solutions are"} excluded from this scope.`;
+  const incompleteNote = document.querySelector("#incomplete-note");
+  incompleteNote.hidden = evaluation.incomplete.length === 0;
+  incompleteNote.textContent = `${evaluation.incomplete.length} solutions lack comparable scores in this scope.`;
 
   const breakdownNote = document.querySelector("#breakdown-note");
   breakdownNote.hidden = !breakdownValue;
@@ -520,14 +438,15 @@ function renderLeaderboard() {
     : "";
   const leaderboard = document.querySelector("#leaderboard-table");
   if (rows.length === 0) {
-    leaderboard.innerHTML = '<p class="empty-state">No solutions match the selected tags.</p>';
+    leaderboard.innerHTML =
+      '<p class="empty-state">No comparable solutions in this scope match the selected tags.</p>';
     return;
   }
   leaderboard.innerHTML = renderTable(
     [
       { label: "Rank" },
       { label: "Solution", key: "solution" },
-      ...metricOrder.map((id) => ({ label: labels.get(id), key: id })),
+      ...metrics.map(({ id, label }) => ({ label, key: id })),
     ],
     rows,
     "leaderboard",
@@ -620,6 +539,12 @@ function installControls() {
   document
     .querySelector("#breakdown-value-selector")
     .addEventListener("change", refreshBreakdownContext);
+  document.querySelector("#show-english").addEventListener("click", () => {
+    document.querySelector("#breakdown-selector").value = "language";
+    populateBreakdownValueSelector();
+    document.querySelector("#breakdown-value-selector").value = "en";
+    refreshBreakdownContext();
+  });
   document.querySelector("#clear-solution-tags").addEventListener("click", () => {
     state.selectedSolutionTags.clear();
     document.querySelectorAll("[data-solution-tag]").forEach((input) => {
@@ -644,15 +569,16 @@ function refreshDatasetContext() {
 }
 
 function refreshBreakdownContext() {
+  populateSolutionTagPicker();
   resetResultSorts();
   renderLeaderboard();
-  state.profile.sync();
+  state.profile.refresh();
 }
 
 async function main() {
   const response = await fetch("data/results.json", { cache: "no-store" });
   if (!response.ok) throw new Error(`Unable to load benchmark data: ${response.status}`);
-  state.payload = await response.json();
+  state.payload = validatePayload(await response.json());
   state.tasks = new Map(state.payload.tasks.map((task) => [task.id, task]));
   state.solutions = new Map(
     state.payload.solutions.map((solution) => [solution.id, solution]),
@@ -663,7 +589,7 @@ async function main() {
       const { taskId, datasetId, datasetVersion } = currentTaskDataset();
       return applicableBreakdowns(taskId, datasetId, datasetVersion);
     },
-    getOverallRecords: currentOverallPrimaryRecords,
+    getScopeRecords: currentScopePrimaryRecords,
     getDefaultBreakdownId: () =>
       breakdownDisplayByTask.get(currentTaskDataset().taskId)?.defaultProfile,
     getActiveBreakdownId: () => selectedBreakdown()?.id,

@@ -84,6 +84,7 @@ SPECS = (
         ),
         _build_pplx,
         "docs/solutions/pplx-decider-v1-2.md",
+        languages=("en", "zh"),
     ),
     SolutionSpec(
         "voyage-4-large-jev-1-14",
@@ -101,6 +102,7 @@ SPECS = (
         ),
         _build_jev,
         "docs/solutions/jev-1-14.md",
+        languages=("en", "zh"),
     ),
     SolutionSpec(
         "voyage-4-large-gpt-6-luna-decisions",
@@ -118,5 +120,6 @@ SPECS = (
         ),
         _build_luna,
         "docs/solutions/gpt-6-luna-decisions.md",
+        languages=("en", "zh"),
     ),
 )

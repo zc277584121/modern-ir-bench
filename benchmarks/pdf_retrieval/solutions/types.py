@@ -6,6 +6,7 @@ from collections.abc import Callable
 from dataclasses import dataclass
 from pathlib import Path
 
+from benchmarks.languages import validate_languages
 from modern_ir_bench.core import Solution
 from modern_ir_bench.embeddings import (
     BgeM3Embedding,
@@ -50,7 +51,10 @@ class SolutionSpec:
     tags: tuple[str, ...]
     factory: Callable[[Runtime, SolutionSpec], Solution]
     readme_path: str
-    languages: tuple[str, ...] | None = None
+    languages: tuple[str, ...]
+
+    def __post_init__(self) -> None:
+        validate_languages(self.languages)
 
     def build(self, runtime: Runtime) -> Solution:
         return self.factory(runtime, self)

@@ -70,9 +70,10 @@ SPECS = (
             "Encode PDF page images directly with ColSmol 500M and score every page with exact MaxSim, "
             "without OCR or approximate candidate generation."
         ),
-        tags=("visual", "late-interaction", "maxsim", "exact", "self-hosted", "page-level", "ocr-free"),
+        tags=("visual", "late-interaction", "maxsim", "exact", "self-hosted", "page-level", "ocr-free", "english-only"),
         factory=_build_colsmol_500m,
         readme_path="docs/solutions/colsmol-500m-page-exact-maxsim.md",
+        languages=("en",),
     ),
     SolutionSpec(
         id="colpali-v1-3-page-exact-maxsim",
@@ -81,9 +82,10 @@ SPECS = (
             "Encode PDF page images directly with ColPali v1.3 and score every page with exact MaxSim, "
             "without OCR or approximate candidate generation."
         ),
-        tags=("visual", "late-interaction", "maxsim", "exact", "self-hosted", "page-level", "ocr-free"),
+        tags=("visual", "late-interaction", "maxsim", "exact", "self-hosted", "page-level", "ocr-free", "english-only"),
         factory=_build_colpali_v1_3,
         readme_path="docs/solutions/colpali-v1-3-page-exact-maxsim.md",
+        languages=("en",),
     ),
     SolutionSpec(
         id="colqwen2-v1-0-page-exact-maxsim",
@@ -95,6 +97,7 @@ SPECS = (
         tags=("visual", "late-interaction", "maxsim", "exact", "self-hosted", "page-level", "ocr-free"),
         factory=_build_colqwen2_v1_0,
         readme_path="docs/solutions/colqwen2-v1-0-page-exact-maxsim.md",
+        languages=("en", "zh"),
     ),
     SolutionSpec(
         id="colsmol-256m-page-exact-maxsim",
@@ -103,9 +106,10 @@ SPECS = (
             "Encode PDF page images directly with ColSmol 256M and score every page with exact MaxSim, "
             "without OCR or approximate candidate generation."
         ),
-        tags=("visual", "late-interaction", "maxsim", "exact", "self-hosted", "page-level", "ocr-free"),
+        tags=("visual", "late-interaction", "maxsim", "exact", "self-hosted", "page-level", "ocr-free", "english-only"),
         factory=_build_colsmol_256m,
         readme_path="docs/solutions/colsmol-256m-page-exact-maxsim.md",
+        languages=("en",),
     ),
     SolutionSpec(
         id="colqwen2-5-page-exact-maxsim",
@@ -117,5 +121,6 @@ SPECS = (
         tags=("visual", "late-interaction", "maxsim", "exact", "self-hosted", "page-level", "ocr-free"),
         factory=_build_colqwen_2_5,
         readme_path="docs/solutions/colqwen2-5-page-exact-maxsim.md",
+        languages=("en", "zh"),
     ),
 )

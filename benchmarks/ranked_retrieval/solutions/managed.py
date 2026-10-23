@@ -77,6 +77,7 @@ SPECS = (
         ("dense", "managed-api", "chunked"),
         _build_openai_large,
         "docs/solutions/text-embedding-3-large.md",
+        languages=("en", "zh"),
     ),
     SolutionSpec(
         "gemini-embedding-2-chunk",
@@ -85,6 +86,7 @@ SPECS = (
         ("dense", "managed-api", "chunked", "multimodal"),
         _build_gemini,
         "docs/solutions/gemini-embedding-2.md",
+        languages=("en", "zh"),
     ),
     SolutionSpec(
         "pplx-embed-v1-4b-chunk",
@@ -93,6 +95,7 @@ SPECS = (
         ("dense", "managed-api", "chunked"),
         _build_perplexity,
         "docs/solutions/pplx-embed-v1-4b.md",
+        languages=("en", "zh"),
     ),
     SolutionSpec(
         "jina-embeddings-v5-text-small-chunk",
@@ -101,6 +104,7 @@ SPECS = (
         ("dense", "managed-api", "chunked"),
         _build_jina,
         "docs/solutions/jina-embeddings-v5-text-small.md",
+        languages=("en", "zh"),
     ),
     SolutionSpec(
         "dashscope-text-embedding-v4-chunk",
@@ -109,6 +113,7 @@ SPECS = (
         ("dense", "managed-api", "chunked"),
         _build_dashscope,
         "docs/solutions/dashscope-text-embedding-v4.md",
+        languages=("en", "zh"),
     ),
     SolutionSpec(
         "nemotron-3-embed-1b-chunk",
@@ -117,6 +122,7 @@ SPECS = (
         ("dense", "managed-api", "chunked"),
         _build_nemotron,
         "docs/solutions/nemotron-3-embed-1b.md",
+        languages=("en", "zh"),
     ),
     SolutionSpec(
         "mistral-embed-2312-chunk",
@@ -125,6 +131,7 @@ SPECS = (
         ("dense", "managed-api", "chunked"),
         _build_mistral,
         "docs/solutions/mistral-embed-2312.md",
+        languages=("en", "zh"),
     ),
     SolutionSpec(
         "voyage-4-chunk",
@@ -133,6 +140,7 @@ SPECS = (
         ("dense", "managed-api", "chunked"),
         _build_voyage_4,
         "docs/solutions/voyage-4.md",
+        languages=("en", "zh"),
     ),
     SolutionSpec(
         "voyage-4-lite-chunk",
@@ -141,6 +149,7 @@ SPECS = (
         ("dense", "managed-api", "chunked"),
         _build_voyage_4_lite,
         "docs/solutions/voyage-4-lite.md",
+        languages=("en", "zh"),
     ),
     SolutionSpec(
         "text-embedding-3-small-chunk",
@@ -149,6 +158,7 @@ SPECS = (
         ("dense", "managed-api", "chunked"),
         _build_openai_small,
         "docs/solutions/text-embedding-3-small.md",
+        languages=("en", "zh"),
     ),
     SolutionSpec(
         "pplx-embed-v1-0-6b-chunk",
@@ -157,5 +167,6 @@ SPECS = (
         ("dense", "managed-api", "chunked"),
         _build_perplexity_small,
         "docs/solutions/pplx-embed-v1-0-6b.md",
+        languages=("en", "zh"),
     ),
 )

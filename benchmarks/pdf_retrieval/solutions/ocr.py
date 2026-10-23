@@ -143,6 +143,7 @@ SPECS = (
         tags=("ocr", "lexical", "self-hosted", "full-document"),
         factory=_build_bm25,
         readme_path="docs/solutions/paddleocr-v5-mobile-bm25.md",
+        languages=("en", "zh"),
     ),
     SolutionSpec(
         id="paddleocr-v5-mobile-bge-m3-full",
@@ -151,6 +152,7 @@ SPECS = (
         tags=("ocr", "dense", "self-hosted", "full-document"),
         factory=_build_bge_m3,
         readme_path="docs/solutions/paddleocr-v5-mobile-bge-m3.md",
+        languages=("en", "zh"),
     ),
     SolutionSpec(
         id="paddleocr-v5-mobile-bm25-bge-m3-rrf",
@@ -159,6 +161,7 @@ SPECS = (
         tags=("ocr", "lexical", "dense", "hybrid", "self-hosted", "full-document", "rrf"),
         factory=_build_bm25_bge_m3_rrf,
         readme_path="docs/solutions/paddleocr-v5-mobile-bm25-bge-m3-rrf.md",
+        languages=("en", "zh"),
     ),
     SolutionSpec(
         id="paddleocr-v5-mobile-voyage-4-large-full",
@@ -170,5 +173,6 @@ SPECS = (
         tags=("ocr", "dense", "managed-api", "full-document"),
         factory=_build_voyage,
         readme_path="docs/solutions/paddleocr-v5-mobile-voyage-4-large.md",
+        languages=("en", "zh"),
     ),
 )

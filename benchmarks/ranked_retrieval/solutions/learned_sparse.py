@@ -118,6 +118,7 @@ SPECS = (
         ("learned-sparse", "self-hosted", "chunked", "multilingual", "inference-free-query"),
         _build_opensearch_multilingual,
         "docs/solutions/opensearch-multilingual-v1-sparse.md",
+        languages=("en", "zh"),
     ),
     SolutionSpec(
         "gte-multilingual-base-sparse-chunk",
@@ -126,14 +127,16 @@ SPECS = (
         ("learned-sparse", "self-hosted", "chunked", "multilingual"),
         _build_gte_multilingual,
         "docs/solutions/gte-multilingual-base-sparse.md",
+        languages=("en", "zh"),
     ),
     SolutionSpec(
         "splade-v3-distilbert-sparse-chunk",
         "SPLADE v3 DistilBERT · 384-token chunks",
-        "The canonical English SPLADE v3 DistilBERT checkpoint over the shared bilingual corpus.",
+        "The canonical English SPLADE v3 DistilBERT checkpoint over the English corpus.",
         ("learned-sparse", "self-hosted", "chunked", "english-only"),
         _build_splade_v3,
         "docs/solutions/splade-v3-distilbert.md",
+        languages=("en",),
     ),
     SolutionSpec(
         "splade-v3-full-sparse-chunk",
@@ -142,6 +145,7 @@ SPECS = (
         ("learned-sparse", "self-hosted", "chunked", "english-only"),
         _build_splade_v3_full,
         "docs/solutions/splade-v3-full.md",
+        languages=("en",),
     ),
     SolutionSpec(
         "opensearch-doc-v2-distill-sparse-chunk",
@@ -150,6 +154,7 @@ SPECS = (
         ("learned-sparse", "self-hosted", "chunked", "english-only", "inference-free-query"),
         _build_opensearch_v2_distill,
         "docs/solutions/opensearch-doc-v2-distill-sparse.md",
+        languages=("en",),
     ),
     SolutionSpec(
         "granite-30m-sparse-chunk",
@@ -158,5 +163,6 @@ SPECS = (
         ("learned-sparse", "self-hosted", "chunked", "english-only", "lightweight"),
         _build_granite_30m,
         "docs/solutions/granite-30m-sparse.md",
+        languages=("en",),
     ),
 )

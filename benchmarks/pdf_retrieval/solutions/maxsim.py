@@ -79,6 +79,7 @@ SPECS = (
         tags=("ocr", "late-interaction", "maxsim", "exact", "self-hosted", "chunked", "multilingual"),
         factory=_build_mlateon,
         readme_path="docs/solutions/paddleocr-v5-mobile-mlateon-exact-maxsim.md",
+        languages=("en", "zh"),
     ),
     SolutionSpec(
         id="paddleocr-v5-mobile-colbert-v2-exact-maxsim-chunks",
@@ -111,5 +112,6 @@ SPECS = (
         ),
         factory=_build_jina_colbert_v2,
         readme_path="docs/solutions/paddleocr-v5-mobile-jina-colbert-v2-exact-maxsim.md",
+        languages=("en", "zh"),
     ),
 )

@@ -153,6 +153,7 @@ SPECS = (
         tags=("visual", "dense", "managed-api", "page-level", "ocr-free"),
         factory=_build_voyage_pages,
         readme_path="docs/solutions/voyage-multimodal-3-5-pages.md",
+        languages=("en", "zh"),
     ),
     SolutionSpec(
         id="embedding-gemma-2-pages",
@@ -161,6 +162,7 @@ SPECS = (
         tags=("visual", "dense", "self-hosted", "page-level", "ocr-free"),
         factory=_build_embedding_gemma_pages,
         readme_path="docs/solutions/embedding-gemma-2-pages.md",
+        languages=("en", "zh"),
     ),
     SolutionSpec(
         id="wemm-embedding-2b-pages",
@@ -169,6 +171,7 @@ SPECS = (
         tags=("visual", "dense", "self-hosted", "page-level", "ocr-free"),
         factory=_build_wemm_pages,
         readme_path="docs/solutions/wemm-embedding-2b-pages.md",
+        languages=("en", "zh"),
     ),
     SolutionSpec(
         id="gemini-embedding-2-pages",
@@ -177,6 +180,7 @@ SPECS = (
         tags=("visual", "dense", "managed-api", "page-level", "ocr-free", "multimodal"),
         factory=_build_gemini_pages,
         readme_path="docs/solutions/gemini-embedding-2-pages.md",
+        languages=("en", "zh"),
     ),
     SolutionSpec(
         id="llama-nemotron-embed-vl-1b-v2-pages",
@@ -185,6 +189,7 @@ SPECS = (
         tags=("visual", "dense", "managed-api", "page-level", "ocr-free", "multimodal"),
         factory=_build_nemotron_pages,
         readme_path="docs/solutions/llama-nemotron-embed-vl-1b-v2-pages.md",
+        languages=("en", "zh"),
     ),
     SolutionSpec(
         id="ovis-omni-embedding-3b-pages",
@@ -193,5 +198,6 @@ SPECS = (
         tags=("visual", "dense", "self-hosted", "page-level", "ocr-free", "multimodal"),
         factory=_build_ovis_pages,
         readme_path="docs/solutions/ovis-omni-embedding-3b-pages.md",
+        languages=("en", "zh"),
     ),
 )

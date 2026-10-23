@@ -56,5 +56,6 @@ SPECS = (
         tags=("ocr", "dense", "visual", "hybrid", "two-stage", "reranker", "managed-api", "rrf"),
         factory=_build_voyage_reranker,
         readme_path="docs/solutions/pdf-voyage-rerank-3.md",
+        languages=("en", "zh"),
     ),
 )

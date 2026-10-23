@@ -33,5 +33,6 @@ SPECS = (
         ("dense", "self-hosted", "chunked"),
         _build_embedding_gemma_chunk,
         "docs/solutions/embedding-gemma-2.md",
+        languages=("en", "zh"),
     ),
 )

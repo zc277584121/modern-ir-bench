@@ -86,6 +86,7 @@ SPECS = (
         ("dense", "self-hosted", "chunked"),
         _build_qwen_0_6b_chunk,
         "docs/solutions/qwen3-embedding-0-6b.md",
+        languages=("en", "zh"),
     ),
     SolutionSpec(
         "qwen3-embedding-4b-chunk",
@@ -94,6 +95,7 @@ SPECS = (
         ("dense", "self-hosted", "chunked"),
         _build_qwen_4b_chunk,
         "docs/solutions/qwen3-embedding-4b.md",
+        languages=("en", "zh"),
     ),
     SolutionSpec(
         "qwen3-embedding-8b-openrouter-chunk",
@@ -102,5 +104,6 @@ SPECS = (
         ("dense", "managed-api", "chunked"),
         _build_qwen_8b_openrouter_chunk,
         "docs/solutions/qwen3-embedding-8b-openrouter.md",
+        languages=("en", "zh"),
     ),
 )

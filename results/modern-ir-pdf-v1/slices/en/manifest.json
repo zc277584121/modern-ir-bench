@@ -1,0 +1,160 @@
+{
+  "schema_version": 1,
+  "artifact_type": "live-top-k-rankings",
+  "release": "modern-ir-bench-pdf-v1-20261011-language-en",
+  "published_at": "2026-10-23T02:33:06.501754+00:00",
+  "dataset": {
+    "repository": "zc277584121/modern-ir-bench-pdf",
+    "revision": "5ac497e8aad79c9c0843c46eb97bb9900f3b109b"
+  },
+  "solutions": [
+    "colpali-v1-3-page-exact-maxsim",
+    "colsmol-256m-page-exact-maxsim",
+    "colsmol-500m-page-exact-maxsim",
+    "paddleocr-v5-mobile-colbert-v2-exact-maxsim-chunks"
+  ],
+  "source_runs": {
+    "colpali-v1-3-page-exact-maxsim": {
+      "source_commit": "e30661054da6c6b2afd7594eac1d511ab65d0609",
+      "source_module": "benchmarks.pdf_retrieval.run",
+      "source_path": "benchmarks/pdf_retrieval/run.py",
+      "source_line": 38,
+      "created_at": "2026-10-22T11:35:45.883605+00:00",
+      "origin": "verified-live-run",
+      "source_artifact": {
+        "manifest_sha256": "c6658b9788a4c530dfcd23b8fa99adad4e75aab847ad365f10f4157c915384d8",
+        "artifact_type": "live-ranking-solution-run",
+        "release": "modern-ir-bench-pdf-v1-20261011",
+        "dataset": {
+          "repository": "zc277584121/modern-ir-bench-pdf",
+          "revision": "5ac497e8aad79c9c0843c46eb97bb9900f3b109b"
+        },
+        "queries": 1000,
+        "top_k": 10,
+        "results_sha256": "8a9aa851d55e52623acd284dfbd24bcc2112c58de3a1d72ef36c4aac134e75db",
+        "observations_sha256": "bff71f53109814855b2865c16a78c4d12a9a5ed9e6f8699b550910231033038c"
+      },
+      "derivation": {
+        "operation": "language-slice",
+        "language": "en",
+        "source_artifact": {
+          "manifest_sha256": "c6658b9788a4c530dfcd23b8fa99adad4e75aab847ad365f10f4157c915384d8",
+          "artifact_type": "live-ranking-solution-run",
+          "release": "modern-ir-bench-pdf-v1-20261011",
+          "dataset": {
+            "repository": "zc277584121/modern-ir-bench-pdf",
+            "revision": "5ac497e8aad79c9c0843c46eb97bb9900f3b109b"
+          },
+          "queries": 1000,
+          "top_k": 10,
+          "results_sha256": "8a9aa851d55e52623acd284dfbd24bcc2112c58de3a1d72ef36c4aac134e75db",
+          "observations_sha256": "bff71f53109814855b2865c16a78c4d12a9a5ed9e6f8699b550910231033038c"
+        }
+      }
+    },
+    "colsmol-256m-page-exact-maxsim": {
+      "source_commit": "4edf71422eed454e03dfa4487161f98d41cf5bf0",
+      "source_module": "benchmarks.pdf_retrieval.run",
+      "source_path": "benchmarks/pdf_retrieval/run.py",
+      "source_line": 38,
+      "created_at": "2026-10-21T07:24:23.429422+00:00",
+      "origin": "verified-live-run",
+      "source_artifact": {
+        "manifest_sha256": "12a443bc8b2da70937f958f63f84ba343d8d4a43577bef149f368d1cdb6e52c7",
+        "artifact_type": "live-ranking-solution-run",
+        "release": "modern-ir-bench-pdf-v1-20261011",
+        "dataset": {
+          "repository": "zc277584121/modern-ir-bench-pdf",
+          "revision": "5ac497e8aad79c9c0843c46eb97bb9900f3b109b"
+        },
+        "queries": 1000,
+        "top_k": 10,
+        "results_sha256": "279da8d19498ef04743f9c9b56c1b3d0a73da9a93235e8ec634ac8930a5366eb",
+        "observations_sha256": "b8c08ef594b4aded76a6e7a66141a9b6c80fa0e905a5fda4d1580226ee099c08"
+      },
+      "derivation": {
+        "operation": "language-slice",
+        "language": "en",
+        "source_artifact": {
+          "manifest_sha256": "12a443bc8b2da70937f958f63f84ba343d8d4a43577bef149f368d1cdb6e52c7",
+          "artifact_type": "live-ranking-solution-run",
+          "release": "modern-ir-bench-pdf-v1-20261011",
+          "dataset": {
+            "repository": "zc277584121/modern-ir-bench-pdf",
+            "revision": "5ac497e8aad79c9c0843c46eb97bb9900f3b109b"
+          },
+          "queries": 1000,
+          "top_k": 10,
+          "results_sha256": "279da8d19498ef04743f9c9b56c1b3d0a73da9a93235e8ec634ac8930a5366eb",
+          "observations_sha256": "b8c08ef594b4aded76a6e7a66141a9b6c80fa0e905a5fda4d1580226ee099c08"
+        }
+      }
+    },
+    "colsmol-500m-page-exact-maxsim": {
+      "source_commit": "e30661054da6c6b2afd7594eac1d511ab65d0609",
+      "source_module": "benchmarks.pdf_retrieval.run",
+      "source_path": "benchmarks/pdf_retrieval/run.py",
+      "source_line": 38,
+      "created_at": "2026-10-22T12:04:42.386963+00:00",
+      "origin": "verified-live-run",
+      "source_artifact": {
+        "manifest_sha256": "d216e28b1a59364d1301024451a89eaa9262e5c2a221cbe0a6528bf8033fa2c5",
+        "artifact_type": "live-ranking-solution-run",
+        "release": "modern-ir-bench-pdf-v1-20261011",
+        "dataset": {
+          "repository": "zc277584121/modern-ir-bench-pdf",
+          "revision": "5ac497e8aad79c9c0843c46eb97bb9900f3b109b"
+        },
+        "queries": 1000,
+        "top_k": 10,
+        "results_sha256": "ac0aeb8c41db4fc00f3cf8775a2cfd45906ccd62424361a9c217f0554270c757",
+        "observations_sha256": "d09f0b6c7bb28e648708f948d8b4ea46f89409e6f6ebf29167b65c206f70a2ea"
+      },
+      "derivation": {
+        "operation": "language-slice",
+        "language": "en",
+        "source_artifact": {
+          "manifest_sha256": "d216e28b1a59364d1301024451a89eaa9262e5c2a221cbe0a6528bf8033fa2c5",
+          "artifact_type": "live-ranking-solution-run",
+          "release": "modern-ir-bench-pdf-v1-20261011",
+          "dataset": {
+            "repository": "zc277584121/modern-ir-bench-pdf",
+            "revision": "5ac497e8aad79c9c0843c46eb97bb9900f3b109b"
+          },
+          "queries": 1000,
+          "top_k": 10,
+          "results_sha256": "ac0aeb8c41db4fc00f3cf8775a2cfd45906ccd62424361a9c217f0554270c757",
+          "observations_sha256": "d09f0b6c7bb28e648708f948d8b4ea46f89409e6f6ebf29167b65c206f70a2ea"
+        }
+      }
+    },
+    "paddleocr-v5-mobile-colbert-v2-exact-maxsim-chunks": {
+      "source_commit": "4ddbf90b9821154d4a2694e5540444b588142207",
+      "source_module": "benchmarks.pdf_retrieval.run",
+      "source_path": "benchmarks/pdf_retrieval/run.py",
+      "source_line": 38,
+      "created_at": "2026-10-21T04:36:21.820002+00:00",
+      "origin": "verified-live-run",
+      "source_artifact": {
+        "manifest_sha256": "6c96b6541def00c74517e0426a8fd921bb02cfba8327c5c15d691108f496369e",
+        "artifact_type": "live-ranking-solution-run",
+        "release": "modern-ir-bench-pdf-v1-20261011-language-en",
+        "dataset": {
+          "repository": "zc277584121/modern-ir-bench-pdf",
+          "revision": "5ac497e8aad79c9c0843c46eb97bb9900f3b109b"
+        },
+        "queries": 500,
+        "top_k": 10,
+        "results_sha256": "9d27a85652de4905c09e6d65e899c73a90955747e1cfa8f9d16060e288777b57",
+        "observations_sha256": "9ef42ab4a076f93e984ed3cc0fd3849b826215c03921bad15677d9547ffce45e"
+      }
+    }
+  },
+  "queries": 500,
+  "languages": [
+    "en"
+  ],
+  "ranking_rows": 2000,
+  "top_k": 10,
+  "rankings_sha256": "c43d7e2f78da8f9e6178ab7b91c2874174e2a89f4c98c0fed29e73a60003cf06"
+}

@@ -94,6 +94,7 @@ SPECS = (
         tags=("ocr", "lexical", "visual", "hybrid", "managed-api", "page-level", "rrf"),
         factory=_build_bm25_visual_rrf,
         readme_path="docs/solutions/paddleocr-v5-mobile-bm25-voyage-multimodal-3-5-rrf.md",
+        languages=("en", "zh"),
     ),
     SolutionSpec(
         id="paddleocr-v5-mobile-voyage-4-large-voyage-multimodal-3-5-rrf",
@@ -105,5 +106,6 @@ SPECS = (
         tags=("ocr", "dense", "visual", "hybrid", "managed-api", "page-level", "rrf"),
         factory=_build_voyage_text_visual_rrf,
         readme_path="docs/solutions/paddleocr-v5-mobile-voyage-4-large-voyage-multimodal-3-5-rrf.md",
+        languages=("en", "zh"),
     ),
 )

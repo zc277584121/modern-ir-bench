@@ -33,3 +33,36 @@ exploratory and never appear as published Solutions.
 - [Benchmark code and result evidence](https://github.com/zc277584121/modern-ir-bench)
 - [Public Dataset](https://huggingface.co/datasets/zc277584121/modern-ir-bench)
 - [Public PDF Dataset](https://huggingface.co/datasets/zc277584121/modern-ir-bench-pdf)
+
+Overall ranks require complete evidence for the selected Task and Dataset. Language →
+English also includes English-only Solutions; Chinese excludes them. Tags, sorting,
+and the profile picker use the same comparable Solution set. A table row requires
+finite scores for every displayed metric. Profiles omit a selected Solution when
+any displayed group lacks a score and explain the omission beside the chart.
+Measured zeros remain valid scores.
+
+The frontend requires the publisher's coverage contract: `solutions[].languages`,
+Dataset-level `coverage[].solutions[].evidence`, and `required_languages` /
+`excluded_solutions` on each scope. Evidence retains its checksums and source
+provenance. An older payload without coverage cannot be displayed by this frontend.
+Commit the source and evidence changes before generating `data/results.json` with
+`uv run python -m benchmarks.publish`; the publisher rejects a dirty worktree to
+keep all public code and evidence links tied to a real commit. Ship the regenerated
+payload together with the frontend.
+
+Use Node.js 22.13+ (via nvm) for local checks. No JavaScript build step is needed:
+
+```bash
+npm --prefix space ci --ignore-scripts
+npm --prefix space test
+npm --prefix space run lint
+npm --prefix space run format:check
+uv run pytest -q
+uv run ruff check benchmarks src tests
+uv run ruff format --check benchmarks src tests
+```
+
+The JavaScript suite tests both scope selection and real DOM interactions, including
+language changes, tag multi-select, ranking, missing metrics, and profile series.
+The Python suite also passes a publisher-generated fixture through the JavaScript
+coverage validator and scope selector.

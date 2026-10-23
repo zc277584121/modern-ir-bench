@@ -80,6 +80,7 @@ SPECS = (
         ("dense", "self-hosted", "chunked"),
         _build_bge_m3_dense_chunk,
         "docs/solutions/bge-m3.md",
+        languages=("en", "zh"),
     ),
     SolutionSpec(
         "bge-m3-sparse-chunk",
@@ -88,5 +89,6 @@ SPECS = (
         ("learned-sparse", "self-hosted", "chunked"),
         _build_bge_m3_sparse_chunk,
         "docs/solutions/bge-m3.md",
+        languages=("en", "zh"),
     ),
 )

@@ -4,6 +4,9 @@ This OCR-free Solution renders PDF pages as images, encodes them with `vidore/co
 scores every page with Exact MaxSim. Queries and pages contain multiple 128-dimensional vectors; each PDF
 receives its best page score.
 
+This Solution supports only English in this benchmark. Run it with `--language en`;
+its scores are eligible for the English breakdown and excluded from bilingual overall and Chinese rankings.
+
 The [official model configuration](https://huggingface.co/vidore/colpali-v1.3) is loaded through the shared
 `SentenceTransformersMultiVectorEmbedding` component using Sentence Transformers `MultiVectorEncoder`.
 The pinned revision is `b5c6dd62125326e6f0b540c1f7b36e901cdc0a11`. Its adapter loads the

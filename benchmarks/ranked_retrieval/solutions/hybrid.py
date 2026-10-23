@@ -156,6 +156,7 @@ SPECS = (
         ("lexical", "dense", "hybrid", "managed-api", "chunked", "rrf"),
         _build_bm25_qwen_rrf,
         "docs/solutions/bm25-qwen3-embedding-8b-rrf.md",
+        languages=("en", "zh"),
     ),
     SolutionSpec(
         "bm25-qwen3-embedding-8b-weighted-25-75",
@@ -164,6 +165,7 @@ SPECS = (
         ("lexical", "dense", "hybrid", "managed-api", "chunked", "weighted"),
         _build_weighted_25_75,
         "docs/solutions/bm25-qwen3-embedding-8b-weighted.md",
+        languages=("en", "zh"),
     ),
     SolutionSpec(
         "bm25-voyage-4-large-rrf",
@@ -172,6 +174,7 @@ SPECS = (
         ("lexical", "dense", "hybrid", "managed-api", "chunked", "rrf"),
         _build_bm25_voyage_rrf,
         "docs/solutions/bm25-voyage-4-large-rrf.md",
+        languages=("en", "zh"),
     ),
     SolutionSpec(
         "bm25-tuned-qwen3-embedding-8b-weighted-40-60",
@@ -180,6 +183,7 @@ SPECS = (
         ("lexical", "dense", "hybrid", "managed-api", "chunked", "weighted", "tuned"),
         _build_tuned_qwen_weighted,
         "docs/solutions/bm25-tuned-weighted-fusion.md",
+        languages=("en", "zh"),
     ),
     SolutionSpec(
         "bm25-tuned-voyage-4-large-weighted-20-80",
@@ -188,5 +192,6 @@ SPECS = (
         ("lexical", "dense", "hybrid", "managed-api", "chunked", "weighted", "tuned"),
         _build_tuned_voyage_weighted,
         "docs/solutions/bm25-tuned-weighted-fusion.md",
+        languages=("en", "zh"),
     ),
 )

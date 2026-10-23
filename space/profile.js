@@ -1,3 +1,5 @@
+import { comparableProfile, isEnglishOnly } from "./scope.js";
+
 const baseColors = [
   "var(--series-1)",
   "var(--series-2)",
@@ -9,7 +11,7 @@ const baseColors = [
 export function createProfileController({
   solutions,
   getBreakdowns,
-  getOverallRecords,
+  getScopeRecords,
   getDefaultBreakdownId,
   getActiveBreakdownId,
   getActiveBreakdownValueId,
@@ -27,7 +29,7 @@ export function createProfileController({
   function solutionColor(solutionId) {
     const index = Math.max(
       0,
-      getOverallRecords().findIndex((record) => record.solution_id === solutionId),
+      getScopeRecords().findIndex((record) => record.solution_id === solutionId),
     );
     return baseColors[index] || `hsl(${Math.round((index * 137.508) % 360)} 68% 42%)`;
   }
@@ -129,7 +131,7 @@ export function createProfileController({
         const solution = solutions.get(solutionId);
         const color = solutionColor(solutionId);
         const scoredPoints = values.map((value, valueIndex) => {
-          const score = metricRecord(value, solutionId, metricId)?.value ?? 0;
+          const score = metricRecord(value, solutionId, metricId).value;
           return {
             ...polarPoint(centerX, centerY, radius * score, valueIndex, values.length),
             score,
@@ -179,7 +181,7 @@ export function createProfileController({
         const bars = solutionIds
           .map((solutionId, solutionIndex) => {
             const solution = solutions.get(solutionId);
-            const score = metricRecord(value, solutionId, metricId)?.value ?? 0;
+            const score = metricRecord(value, solutionId, metricId).value;
             const barHeight = score * plotHeight;
             const x =
               groupCenter + (solutionIndex - (solutionIds.length - 1) / 2) * barWidth;
@@ -199,7 +201,7 @@ export function createProfileController({
   }
 
   function renderProfileSolutionPicker() {
-    const records = getOverallRecords();
+    const records = getScopeRecords();
     const container = document.querySelector("#profile-solution-options");
     container.innerHTML = records
       .map((record) => {
@@ -209,7 +211,7 @@ export function createProfileController({
         return `<label class="solution-option">
           <input type="checkbox" data-profile-solution="${escapeHtml(record.solution_id)}"${checked ? " checked" : ""} />
           <span class="solution-option-copy">
-            <span>${escapeHtml(solution.title)}</span>
+            <span>${escapeHtml(solution.title)}${isEnglishOnly(solution) ? ' <span class="language-badge">English only</span>' : ""}</span>
             ${tags ? `<span class="solution-option-tags">${escapeHtml(tags)}</span>` : ""}
           </span>
         </label>`;
@@ -242,7 +244,7 @@ export function createProfileController({
     const selectedValueId = activeValueId(breakdown);
     const requestedMetricId = getMetricId();
 
-    const solutionOrder = getOverallRecords()
+    const solutionOrder = getScopeRecords()
       .map((record) => record.solution_id)
       .filter((solutionId) => selectedSolutionIds.has(solutionId));
     const allValues = [...breakdown.values];
@@ -269,9 +271,15 @@ export function createProfileController({
       .flatMap((value) => value.results)
       .find((record) => record.metric_id === metricId);
     const metricLabel = exampleRecord?.metric_label || metricId;
+    const { comparable, incomplete } = comparableProfile(
+      values,
+      solutionOrder,
+      metricId,
+      solutions,
+    );
     const scores = values.flatMap((value) =>
-      solutionOrder.map(
-        (solutionId) => metricRecord(value, solutionId, metricId)?.value,
+      comparable.map(
+        (solutionId) => metricRecord(value, solutionId, metricId).value,
       ),
     );
     const supportsFixedScale = scores.every(
@@ -287,31 +295,41 @@ export function createProfileController({
       ? `Showing ${values.length} of ${allValues.length} groups by ${breakdown.category === "relevant_documents" ? "relevant-pair count" : "query count"}${selectedWasPinned ? ", including the selected group" : ""}. Scores use the same fixed 0–1 scale.`
       : "Scores use the same fixed 0–1 scale and are not normalized per group.";
 
+    const missingNote = document.querySelector("#profile-incomplete-note");
+    missingNote.hidden = incomplete.length === 0;
+    missingNote.textContent = incomplete.length
+      ? `Not comparable across these groups: ${incomplete.map(({ id, missing }) => `${solutions.get(id).title} (no ${missing.join(", ")} score)`).join("; ")}. These solutions are omitted from the chart.`
+      : "";
     const chart = document.querySelector("#profile-chart");
-    if (!supportsFixedScale) {
+    if (comparable.length === 0) {
+      chart.innerHTML =
+        '<p class="muted">No selected solution has scores for every displayed group.</p>';
+    } else if (!supportsFixedScale) {
       chart.innerHTML =
         '<p class="muted">This metric needs a declared chart range before it can be profiled.</p>';
     } else {
       chart.innerHTML = values.length >= 3
         ? renderRadar(
             values,
-            solutionOrder,
+            comparable,
             metricId,
             metricLabel,
             selectedValueId,
           )
         : renderBars(
             values,
-            solutionOrder,
+            comparable,
             metricId,
             metricLabel,
             selectedValueId,
           );
     }
-    document.querySelector("#profile-legend").innerHTML = solutionOrder
+    document.querySelector("#profile-legend").innerHTML = (
+      supportsFixedScale ? comparable : []
+    )
       .map((solutionId) => {
         const solution = solutions.get(solutionId);
-        return `<span class="profile-legend-item"><span class="profile-legend-swatch" style="background:${solutionColor(solutionId)}"></span>${escapeHtml(solution.title)}</span>`;
+        return `<span class="profile-legend-item"><span class="profile-legend-swatch" style="background:${solutionColor(solutionId)}"></span>${escapeHtml(solution.title)}${isEnglishOnly(solution) ? ' <span class="language-badge">English only</span>' : ""}</span>`;
       })
       .join("");
   }
@@ -321,9 +339,16 @@ export function createProfileController({
       (breakdown) => breakdown.values.length >= 2,
     );
     const section = document.querySelector("#profile-section");
-    const records = getOverallRecords();
+    const records = getScopeRecords();
     section.hidden = availableBreakdowns.length === 0 || records.length === 0;
-    if (!availableBreakdowns.length || !records.length) return;
+    if (section.hidden) {
+      selectedSolutionIds.clear();
+      document.querySelector("#profile-solution-options").replaceChildren();
+      document.querySelector("#profile-chart").replaceChildren();
+      document.querySelector("#profile-legend").replaceChildren();
+      document.querySelector("#profile-incomplete-note").hidden = true;
+      return;
+    }
 
     const availableSolutionIds = new Set(
       records.map((record) => record.solution_id),

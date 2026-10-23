@@ -34,5 +34,6 @@ SPECS = (
         ("dense", "multimodal", "self-hosted", "chunked"),
         _build_wemm_chunk,
         "docs/solutions/wemm-embedding-2b-text.md",
+        languages=("en", "zh"),
     ),
 )

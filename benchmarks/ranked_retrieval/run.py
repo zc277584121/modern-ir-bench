@@ -7,11 +7,12 @@ import inspect
 import logging
 from pathlib import Path
 
+from benchmarks.languages import select_solutions
 from benchmarks.ranked_retrieval.definition import (
     DATASET_ID,
     DATASET_REVISION,
-    RELEASE_ID,
     build_task,
+    dataset_release_id,
 )
 from benchmarks.ranked_retrieval.solutions import SOLUTION_SPECS, build_solutions
 from benchmarks.ranking_evidence import write_run_artifacts
@@ -28,29 +29,31 @@ def _arguments() -> argparse.Namespace:
         "--solution",
         action="append",
         choices=[spec.id for spec in SOLUTION_SPECS],
-        help="Solution to run; repeat the flag to select several. Defaults to the complete catalog.",
+        help="Solution to run; repeat to select several. Defaults to Solutions covering the requested scope.",
     )
+    parser.add_argument("--language", choices=("en", "zh"), help="Evaluate one language slice.")
     return parser.parse_args()
 
 
 def main() -> None:
     arguments = _arguments()
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
-    task = build_task()
+    selected_ids = select_solutions(SOLUTION_SPECS, arguments.solution, arguments.language)
+    task = build_task(language=arguments.language)
     provenance = RunProvenance.capture(
         source_module="benchmarks.ranked_retrieval.run",
         source_path="benchmarks/ranked_retrieval/run.py",
         source_line=inspect.getsourcelines(main)[1],
     )
     report = task.run(
-        build_solutions(arguments.solution),
+        build_solutions(selected_ids),
         provenance=provenance,
         status="live",
     )
     directories = write_run_artifacts(
         report,
-        output_root=OUTPUT_ROOT,
-        release=RELEASE_ID,
+        output_root=OUTPUT_ROOT if arguments.language is None else OUTPUT_ROOT / "slices" / arguments.language,
+        release=dataset_release_id(arguments.language),
         dataset_repository=DATASET_ID,
         dataset_revision=DATASET_REVISION,
     )

@@ -147,6 +147,7 @@ SPECS = (
         ("dense", "two-stage", "reranker", "managed-api", "chunked-candidates", "full-document-rerank"),
         _build_qwen_voyage,
         "docs/solutions/voyage-rerank-3.md",
+        languages=("en", "zh"),
     ),
     SolutionSpec(
         "bm25-qwen3-embedding-8b-weighted-rerank-3",
@@ -164,6 +165,7 @@ SPECS = (
         ),
         _build_weighted_voyage,
         "docs/solutions/voyage-rerank-3.md",
+        languages=("en", "zh"),
     ),
     SolutionSpec(
         "voyage-4-large-rerank-3",
@@ -172,6 +174,7 @@ SPECS = (
         ("dense", "two-stage", "reranker", "managed-api", "chunked-candidates", "full-document-rerank"),
         _build_voyage_voyage,
         "docs/solutions/voyage-rerank-3.md",
+        languages=("en", "zh"),
     ),
     SolutionSpec(
         "qwen3-embedding-8b-bge-reranker-v2-m3",
@@ -180,6 +183,7 @@ SPECS = (
         ("dense", "two-stage", "reranker", "self-hosted", "chunked-candidates", "full-document-rerank"),
         _build_qwen_bge,
         "docs/solutions/bge-reranker-v2-m3.md",
+        languages=("en", "zh"),
     ),
     SolutionSpec(
         "bm25-qwen3-embedding-8b-weighted-bge-reranker-v2-m3",
@@ -197,6 +201,7 @@ SPECS = (
         ),
         _build_weighted_bge,
         "docs/solutions/bge-reranker-v2-m3.md",
+        languages=("en", "zh"),
     ),
     SolutionSpec(
         "bm25-qwen3-embedding-8b-weighted-cohere-rerank-4-pro",
@@ -214,5 +219,6 @@ SPECS = (
         ),
         _build_weighted_cohere,
         "docs/solutions/cohere-rerank-4-pro.md",
+        languages=("en", "zh"),
     ),
 )

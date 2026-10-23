@@ -2,7 +2,7 @@
   "schema_version": 1,
   "artifact_type": "live-top-k-rankings",
   "release": "modern-ir-bench-v2.2-20261010",
-  "published_at": "2026-10-20T11:26:37.930617+00:00",
+  "published_at": "2026-10-23T02:35:38.162708+00:00",
   "dataset": {
     "repository": "zc277584121/modern-ir-bench",
     "revision": "c7a38d6aaa3d1bd178952b6be91e12ca4ceb10ff"
@@ -27,13 +27,11 @@
     "dashscope-text-embedding-v4-chunk",
     "embedding-gemma-2-chunk",
     "gemini-embedding-2-chunk",
-    "granite-30m-sparse-chunk",
     "gte-multilingual-base-sparse-chunk",
     "gte-sparse-qwen3-embedding-8b-rrf",
     "jina-embeddings-v5-text-small-chunk",
     "mistral-embed-2312-chunk",
     "nemotron-3-embed-1b-chunk",
-    "opensearch-doc-v2-distill-sparse-chunk",
     "opensearch-multilingual-v1-sparse-chunk",
     "pplx-embed-v1-0-6b-chunk",
     "pplx-embed-v1-4b-chunk",
@@ -42,7 +40,6 @@
     "qwen3-embedding-8b-bge-reranker-v2-m3",
     "qwen3-embedding-8b-openrouter-chunk",
     "qwen3-embedding-8b-rerank-3",
-    "splade-v3-distilbert-sparse-chunk",
     "text-embedding-3-large-chunk",
     "text-embedding-3-small-chunk",
     "voyage-4-chunk",
@@ -200,14 +197,6 @@
       "created_at": "2026-10-12T15:26:14.092511+00:00",
       "origin": "verified-live-run"
     },
-    "granite-30m-sparse-chunk": {
-      "source_commit": "68906f6158738034fccaec4a4271c4f2e27dd0b8",
-      "source_module": "benchmarks.ranked_retrieval.run",
-      "source_path": "benchmarks/ranked_retrieval/run.py",
-      "source_line": 36,
-      "created_at": "2026-10-14T04:38:28.376239+00:00",
-      "origin": "verified-live-run"
-    },
     "gte-multilingual-base-sparse-chunk": {
       "source_commit": "d13b51d55871b625832d5c7a69d6c684affabd58",
       "source_module": "benchmarks.ranked_retrieval.run",
@@ -246,14 +235,6 @@
       "source_path": "benchmarks/ranked_retrieval/run.py",
       "source_line": 36,
       "created_at": "2026-10-13T04:12:38.439306+00:00",
-      "origin": "verified-live-run"
-    },
-    "opensearch-doc-v2-distill-sparse-chunk": {
-      "source_commit": "68906f6158738034fccaec4a4271c4f2e27dd0b8",
-      "source_module": "benchmarks.ranked_retrieval.run",
-      "source_path": "benchmarks/ranked_retrieval/run.py",
-      "source_line": 36,
-      "created_at": "2026-10-14T04:38:30.485281+00:00",
       "origin": "verified-live-run"
     },
     "opensearch-multilingual-v1-sparse-chunk": {
@@ -314,14 +295,6 @@
       "source_path": "benchmarks/ranked_retrieval/run.py",
       "source_line": 36,
       "created_at": "2026-10-13T02:29:10.946257+00:00",
-      "origin": "verified-live-run"
-    },
-    "splade-v3-distilbert-sparse-chunk": {
-      "source_commit": "68906f6158738034fccaec4a4271c4f2e27dd0b8",
-      "source_module": "benchmarks.ranked_retrieval.run",
-      "source_path": "benchmarks/ranked_retrieval/run.py",
-      "source_line": 36,
-      "created_at": "2026-10-14T04:38:29.635515+00:00",
       "origin": "verified-live-run"
     },
     "text-embedding-3-large-chunk": {
@@ -406,7 +379,11 @@
     }
   },
   "queries": 1000,
-  "ranking_rows": 46000,
+  "languages": [
+    "en",
+    "zh"
+  ],
+  "ranking_rows": 43000,
   "top_k": 10,
-  "rankings_sha256": "dfa605e5c18f56a3e5ffdc546f92b36ea019deb56065e76b84132f9d7b3c3bb4"
+  "rankings_sha256": "c5b32f8cb5f8ce5c95064298904e6fb5b3c5d80ef9cd3d52ce363843ac4f5517"
 }

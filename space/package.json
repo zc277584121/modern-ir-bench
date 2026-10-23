@@ -1,0 +1,21 @@
+{
+  "name": "modern-ir-bench-space",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "scripts": {
+    "test": "node --test *.test.mjs",
+    "lint": "eslint .",
+    "format": "prettier --write *.js *.mjs *.html *.css test/*.js package.json",
+    "format:check": "prettier --check *.js *.mjs *.html *.css test/*.js package.json"
+  },
+  "devDependencies": {
+    "@eslint/js": "10.0.1",
+    "eslint": "10.13.0",
+    "globals": "17.13.0",
+    "jsdom": "29.1.1",
+    "prettier": "3.9.10"
+  }
+}

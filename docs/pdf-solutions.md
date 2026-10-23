@@ -104,7 +104,9 @@ Default encoding batches are 4 for ColSmol 500M and 1 for ColPali v1.3 and ColQw
 with `MIR_COLSMOL_500M_BATCH_SIZE`, `MIR_COLPALI_V1_3_BATCH_SIZE`, or `MIR_COLQWEN2_V1_0_BATCH_SIZE`.
 
 The full benchmark records source provenance and requires a clean Git worktree. Commit reviewed changes
-before running it. To evaluate all three Solutions sequentially on one GPU:
+before running it. ColSmol 256M/500M and ColPali v1.3 support only the English slice
+in this benchmark; ColQwen2 and ColQwen2.5 support both languages. To evaluate
+three Solutions sequentially on the English slice using one GPU:
 
 ```bash
 MIR_DEVICE=cuda:0 \
@@ -112,6 +114,7 @@ MIR_COLSMOL_500M_BATCH_SIZE=1 \
 MIR_COLPALI_V1_3_BATCH_SIZE=1 \
 MIR_COLQWEN2_V1_0_BATCH_SIZE=1 \
 uv run --no-sync python -m benchmarks.pdf_retrieval.run \
+  --language en \
   --solution colsmol-500m-page-exact-maxsim \
   --solution colpali-v1-3-page-exact-maxsim \
   --solution colqwen2-v1-0-page-exact-maxsim
@@ -119,7 +122,7 @@ uv run --no-sync python -m benchmarks.pdf_retrieval.run \
 
 These routes do not require a running Milvus service or OCR. Page embeddings persist under
 `.runtime/multi-vector/`; rendered pages reuse `.runtime/pdf-pages/pdfium-v1/`. Run artifacts go to
-`artifacts/modern-ir-pdf-runs/`.
+`artifacts/modern-ir-pdf-runs/`, with language runs under `slices/<language>/`.
 
 Each retained page token requires 256 bytes in the float16 index and 512 bytes in the float32 cache before
 compression. The index stays on the selected device; `block_vector_limit=1_000_000` limits scoring blocks,

@@ -86,6 +86,13 @@
       </section>
 
       <section id="leaderboard-panel" class="leaderboard-panel">
+        <p id="coverage-note" class="breakdown-note" aria-live="polite" hidden>
+          <span id="coverage-note-text"></span>
+          <button id="show-english" class="text-button" type="button">
+            View Language → English
+          </button>
+        </p>
+        <p id="incomplete-note" class="breakdown-note" hidden></p>
         <div id="leaderboard-table"></div>
 
         <section
@@ -104,6 +111,12 @@
             <div id="profile-solution-options" class="solution-options"></div>
           </details>
           <p id="profile-note" class="breakdown-note"></p>
+          <p
+            id="profile-incomplete-note"
+            class="breakdown-note"
+            aria-live="polite"
+            hidden
+          ></p>
           <div
             id="profile-chart"
             class="profile-chart"

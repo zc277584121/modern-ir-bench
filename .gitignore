@@ -39,3 +39,6 @@ venv/
 .claude/
 .memsearch/
 .perpetuum/
+
+# Space development dependencies
+node_modules/

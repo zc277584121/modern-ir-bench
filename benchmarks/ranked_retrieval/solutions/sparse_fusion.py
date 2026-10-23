@@ -133,6 +133,7 @@ SPECS = (
         ("dense", "learned-sparse", "hybrid", "self-hosted", "chunked", "rrf"),
         _factory("bge-dense-sparse"),
         "docs/solutions/bge-m3-dense-sparse-fusion.md",
+        languages=("en", "zh"),
     ),
     SolutionSpec(
         "gte-sparse-qwen3-embedding-8b-rrf",
@@ -141,6 +142,7 @@ SPECS = (
         ("learned-sparse", "dense", "hybrid", "managed-api", "chunked", "rrf"),
         _factory("gte-qwen"),
         "docs/solutions/gte-sparse-qwen3-embedding-8b-fusion.md",
+        languages=("en", "zh"),
     ),
     SolutionSpec(
         "bm25-gte-multilingual-sparse-rrf",
@@ -149,6 +151,7 @@ SPECS = (
         ("lexical", "learned-sparse", "hybrid", "self-hosted", "chunked", "rrf"),
         _factory("bm25-gte"),
         "docs/solutions/bm25-learned-sparse-fusion.md",
+        languages=("en", "zh"),
     ),
     SolutionSpec(
         "bm25-tuned-gte-multilingual-sparse-weighted-50-50",
@@ -157,5 +160,6 @@ SPECS = (
         ("lexical", "learned-sparse", "hybrid", "self-hosted", "chunked", "weighted", "tuned"),
         _build_tuned_bm25_gte_weighted,
         "docs/solutions/bm25-tuned-weighted-fusion.md",
+        languages=("en", "zh"),
     ),
 )

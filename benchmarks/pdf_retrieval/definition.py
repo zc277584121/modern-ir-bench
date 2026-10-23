@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from benchmarks.languages import scope_languages
 from modern_ir_bench import MetricSet
 from modern_ir_bench.datasets import load_pdf_retrieval_hub
 from modern_ir_bench.metrics import NDCG, MeanReciprocalRank, Recall
@@ -19,8 +20,7 @@ def _query_value(row):
 
 
 def dataset_release_id(language: str | None = None) -> str:
-    if language is not None and language not in {"en", "zh"}:
-        raise ValueError(f"Unsupported PDF Dataset language slice: {language}")
+    scope_languages(language)
     return RELEASE_ID if language is None else f"{RELEASE_ID}-language-{language}"
 
 

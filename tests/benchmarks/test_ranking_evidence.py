@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from datasets import Dataset, DatasetDict
+from datasets import Dataset, DatasetDict, Features, Value
 
 from benchmarks.ranking_evidence import load_run_artifact, merge_release, write_run_artifacts
 from modern_ir_bench import MetricSet, RunProvenance
@@ -19,15 +19,17 @@ def _dataset() -> DatasetDict:
             {
                 "document_id": ["d1", "d2", "d3"],
                 "content": ["alpha beta", "gamma delta", "alpha gamma"],
+                "language": ["en", "en", "en"],
             },
-            features=RankedRetrieval.dataset_features["documents"],
+            features=Features({**RankedRetrieval.dataset_features["documents"], "language": Value("string")}),
         ),
         queries=Dataset.from_dict(
             {
                 "query_id": ["q1", "q2"],
                 "query": ["alpha beta", "gamma delta"],
+                "language": ["en", "en"],
             },
-            features=RankedRetrieval.dataset_features["queries"],
+            features=Features({**RankedRetrieval.dataset_features["queries"], "language": Value("string")}),
         ),
         qrels=Dataset.from_dict(
             {
@@ -91,6 +93,7 @@ def test_solution_runs_merge_incrementally_into_one_ranking_release(tmp_path: Pa
         dataset_revision="revision-1",
         run_directories=[bm25_run],
         output=output,
+        solution_languages={"bm25": ("en", "zh"), "ngram": ("en", "zh")},
     )
     manifest_path = output / "manifest.json"
     historical_manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
@@ -106,6 +109,7 @@ def test_solution_runs_merge_incrementally_into_one_ranking_release(tmp_path: Pa
         dataset_revision="revision-1",
         run_directories=[ngram_run],
         output=output,
+        solution_languages={"bm25": ("en", "zh"), "ngram": ("en", "zh")},
     )
 
     artifact = RankingArtifact.load(output)
@@ -125,6 +129,7 @@ def test_solution_runs_can_be_removed_from_a_release(tmp_path: Path) -> None:
         dataset_revision="revision-1",
         run_directories=[bm25_run, ngram_run],
         output=output,
+        solution_languages={"bm25": ("en", "zh"), "ngram": ("en", "zh")},
     )
 
     merge_release(
@@ -135,6 +140,7 @@ def test_solution_runs_can_be_removed_from_a_release(tmp_path: Path) -> None:
         run_directories=[],
         remove_solutions=["ngram"],
         output=output,
+        solution_languages={"bm25": ("en", "zh"), "ngram": ("en", "zh")},
     )
 
     artifact = RankingArtifact.load(output)

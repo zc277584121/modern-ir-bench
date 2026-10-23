@@ -10,7 +10,7 @@ limit instead of silently truncating the benchmark's normal chunks. Milvus store
 the resulting sparse vectors in a sparse inverted index and scores them with inner
 product before chunk hits are collapsed to document rankings.
 
-The checkpoint is English-only. The benchmark keeps that limitation visible in
-the language slices rather than adding an implicit fallback retriever. Its model
+The checkpoint is English-only and is eligible for the English breakdown.
+It is excluded from bilingual overall and Chinese rankings. Its model
 card declares the `CC-BY-NC-SA-4.0` license; this repository references but does
 not redistribute the checkpoint.
