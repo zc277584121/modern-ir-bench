@@ -35,10 +35,7 @@ const breakdownDisplayByTask = new Map([
   [
     "modern-ir-pdf-retrieval-v1",
     {
-      ids: new Set([
-        "language",
-        "relevant_document_transform_tier",
-      ]),
+      ids: new Set(["language", "relevant_document_transform_tier"]),
       defaultProfile: "relevant_document_transform_tier",
     },
   ],
@@ -100,7 +97,8 @@ function solutionCodeLink(solution) {
 }
 
 function solutionReadmeLink(solution) {
-  if (!solution.readme_url) return `<strong>${escapeHtml(solution.title)}</strong>`;
+  if (!solution.readme_url)
+    return `<strong>${escapeHtml(solution.title)}</strong>`;
   return `<a class="solution-readme-link" href="${escapeHtml(solution.readme_url)}" target="_blank" rel="noreferrer" data-solution-id="${escapeHtml(solution.id)}" aria-describedby="solution-preview">${escapeHtml(solution.title)}</a>`;
 }
 
@@ -142,12 +140,13 @@ function orderedTaskGroups() {
     }
     groups.get(presentation.key).taskIds.push(task.id);
   });
-  const primaryCount = (group) => primaryRecords().filter(
-    (record) => group.taskIds.includes(record.task_id),
-  ).length;
+  const primaryCount = (group) =>
+    primaryRecords().filter((record) => group.taskIds.includes(record.task_id))
+      .length;
   return [...groups.values()].sort(
     (left, right) =>
-      primaryCount(right) - primaryCount(left) || left.title.localeCompare(right.title),
+      primaryCount(right) - primaryCount(left) ||
+      left.title.localeCompare(right.title),
   );
 }
 
@@ -218,7 +217,9 @@ function taskDatasets(taskKey) {
       );
     });
   });
-  return [...datasets.values()].sort((left, right) => left.title.localeCompare(right.title));
+  return [...datasets.values()].sort((left, right) =>
+    left.title.localeCompare(right.title),
+  );
 }
 
 function applicableBreakdowns(taskId, datasetId, datasetVersion) {
@@ -245,11 +246,13 @@ function populateBreakdownSelector() {
   const { taskId, datasetId, datasetVersion } = currentTaskDataset();
   const selector = document.querySelector("#breakdown-selector");
   selector.replaceChildren(new Option("Overall", ""));
-  applicableBreakdowns(taskId, datasetId, datasetVersion).forEach((breakdown) => {
-    const category = breakdown.category || "query";
-    const prefix = breakdownCategoryLabel(category);
-    selector.add(new Option(`${prefix} · ${breakdown.label}`, breakdown.id));
-  });
+  applicableBreakdowns(taskId, datasetId, datasetVersion).forEach(
+    (breakdown) => {
+      const category = breakdown.category || "query";
+      const prefix = breakdownCategoryLabel(category);
+      selector.add(new Option(`${prefix} · ${breakdown.label}`, breakdown.id));
+    },
+  );
   populateBreakdownValueSelector();
 }
 
@@ -286,16 +289,20 @@ function selectedBreakdownValue() {
 function populateDatasetSelector() {
   const selector = document.querySelector("#dataset-selector");
   selector.replaceChildren();
-  taskDatasets(document.querySelector("#task-selector").value).forEach((dataset) => {
-    selector.add(new Option(dataset.title, dataset.key));
-  });
+  taskDatasets(document.querySelector("#task-selector").value).forEach(
+    (dataset) => {
+      selector.add(new Option(dataset.title, dataset.key));
+    },
+  );
   populateReleaseSelector();
 }
 
 function populateReleaseSelector() {
   const taskKey = document.querySelector("#task-selector").value;
   const datasetKey = document.querySelector("#dataset-selector").value;
-  const dataset = taskDatasets(taskKey).find((candidate) => candidate.key === datasetKey);
+  const dataset = taskDatasets(taskKey).find(
+    (candidate) => candidate.key === datasetKey,
+  );
   const selector = document.querySelector("#dataset-release-selector");
   selector.replaceChildren();
   const releaseCounts = new Map();
@@ -305,9 +312,12 @@ function populateReleaseSelector() {
   });
   (dataset?.releases || []).forEach((release, index) => {
     const name = release.release || release.datasetVersion.slice(0, 7);
-    const taskVersion = releaseCounts.get(name) > 1 ? ` · Task ${release.taskVersion}` : "";
+    const taskVersion =
+      releaseCounts.get(name) > 1 ? ` · Task ${release.taskVersion}` : "";
     const label = `${name}${taskVersion}`;
-    selector.add(new Option(index === 0 ? `Latest · ${label}` : label, release.value));
+    selector.add(
+      new Option(index === 0 ? `Latest · ${label}` : label, release.value),
+    );
   });
 }
 
@@ -319,9 +329,12 @@ function solutionTagLabel(tag) {
     rrf: "RRF",
     "self-hosted": "Self-hosted",
   };
-  return labels[tag] || tag
-    .replaceAll("-", " ")
-    .replace(/\b\w/g, (character) => character.toUpperCase());
+  return (
+    labels[tag] ||
+    tag
+      .replaceAll("-", " ")
+      .replace(/\b\w/g, (character) => character.toUpperCase())
+  );
 }
 
 function renderSolutionTagSummary() {
@@ -334,7 +347,8 @@ function renderSolutionTagSummary() {
   } else {
     summary.textContent = `${selected.length} tags selected`;
   }
-  document.querySelector("#clear-solution-tags").disabled = selected.length === 0;
+  document.querySelector("#clear-solution-tags").disabled =
+    selected.length === 0;
 }
 
 function applySolutionTagFilter() {
@@ -352,12 +366,16 @@ function populateSolutionTagPicker() {
     [...state.selectedSolutionTags].filter((tag) => counts.has(tag)),
   );
   container.innerHTML = [...counts.entries()]
-    .sort(([left], [right]) => solutionTagLabel(left).localeCompare(solutionTagLabel(right)))
-    .map(([tag, count]) => `<label class="tag-option">
+    .sort(([left], [right]) =>
+      solutionTagLabel(left).localeCompare(solutionTagLabel(right)),
+    )
+    .map(
+      ([tag, count]) => `<label class="tag-option">
       <input type="checkbox" data-solution-tag="${escapeHtml(tag)}"${state.selectedSolutionTags.has(tag) ? " checked" : ""} />
       <span>${escapeHtml(solutionTagLabel(tag))}</span>
       <span class="tag-option-count">${formatInteger(count)}</span>
-    </label>`)
+    </label>`,
+    )
     .join("");
   container.querySelectorAll("[data-solution-tag]").forEach((input) => {
     input.addEventListener("change", () => {
@@ -408,7 +426,11 @@ function renderLeaderboard() {
   if (!state.profileMetricId || !metricOrder.includes(state.profileMetricId)) {
     state.profileMetricId = primaryMetric;
   }
-  if (!state.leaderboardSort.key || (!metricOrder.includes(state.leaderboardSort.key) && state.leaderboardSort.key !== "solution")) {
+  if (
+    !state.leaderboardSort.key ||
+    (!metricOrder.includes(state.leaderboardSort.key) &&
+      state.leaderboardSort.key !== "solution")
+  ) {
     state.leaderboardSort = { key: primaryMetric, direction: "desc" };
   }
   const rows = sortEntries(entries, state.leaderboardSort).map(
@@ -532,10 +554,12 @@ function installControls() {
     .querySelector("#dataset-release-selector")
     .addEventListener("change", refreshDatasetContext);
 
-  document.querySelector("#breakdown-selector").addEventListener("change", () => {
-    populateBreakdownValueSelector();
-    refreshBreakdownContext();
-  });
+  document
+    .querySelector("#breakdown-selector")
+    .addEventListener("change", () => {
+      populateBreakdownValueSelector();
+      refreshBreakdownContext();
+    });
   document
     .querySelector("#breakdown-value-selector")
     .addEventListener("change", refreshBreakdownContext);
@@ -545,13 +569,15 @@ function installControls() {
     document.querySelector("#breakdown-value-selector").value = "en";
     refreshBreakdownContext();
   });
-  document.querySelector("#clear-solution-tags").addEventListener("click", () => {
-    state.selectedSolutionTags.clear();
-    document.querySelectorAll("[data-solution-tag]").forEach((input) => {
-      input.checked = false;
+  document
+    .querySelector("#clear-solution-tags")
+    .addEventListener("click", () => {
+      state.selectedSolutionTags.clear();
+      document.querySelectorAll("[data-solution-tag]").forEach((input) => {
+        input.checked = false;
+      });
+      applySolutionTagFilter();
     });
-    applySolutionTagFilter();
-  });
 }
 
 function resetResultSorts() {
@@ -577,7 +603,8 @@ function refreshBreakdownContext() {
 
 async function main() {
   const response = await fetch("data/results.json", { cache: "no-store" });
-  if (!response.ok) throw new Error(`Unable to load benchmark data: ${response.status}`);
+  if (!response.ok)
+    throw new Error(`Unable to load benchmark data: ${response.status}`);
   state.payload = validatePayload(await response.json());
   state.tasks = new Map(state.payload.tasks.map((task) => [task.id, task]));
   state.solutions = new Map(
@@ -594,7 +621,8 @@ async function main() {
       breakdownDisplayByTask.get(currentTaskDataset().taskId)?.defaultProfile,
     getActiveBreakdownId: () => selectedBreakdown()?.id,
     getActiveBreakdownValueId: () => selectedBreakdownValue()?.id,
-    getMetricId: () => state.profileMetricId || currentEvaluation().primaryMetric,
+    getMetricId: () =>
+      state.profileMetricId || currentEvaluation().primaryMetric,
     categoryLabel: breakdownCategoryLabel,
     formatSolutionTag: solutionTagLabel,
     escapeHtml,
@@ -615,7 +643,8 @@ async function main() {
   populateDatasetSelector();
   populateBreakdownSelector();
   populateSolutionTagPicker();
-  document.querySelector("#task-control").hidden = orderedTaskGroups().length <= 1;
+  document.querySelector("#task-control").hidden =
+    orderedTaskGroups().length <= 1;
   renderLeaderboard();
   state.profile.refresh(true);
   state.fusion.refresh();

@@ -59,7 +59,6 @@ npm --prefix space run lint
 npm --prefix space run format:check
 uv run pytest -q
 uv run ruff check benchmarks src tests
-uv run ruff format --check benchmarks src tests
 ```
 
 The JavaScript suite tests both scope selection and real DOM interactions, including

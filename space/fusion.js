@@ -14,17 +14,18 @@ export function atomicRanking(packed, depth = 10) {
   return documents;
 }
 
-export function fuseRankings(routeInputs, {
-  method,
-  depth,
-  rankConstant,
-  documents,
-  topK = 10,
-}) {
+export function fuseRankings(
+  routeInputs,
+  { method, depth, rankConstant, documents, topK = 10 },
+) {
   const scores = new Map();
   routeInputs.forEach(({ ranking, weight, scoreDirection }) => {
     const hits = [];
-    for (let index = 0; index < Math.min(ranking.length, depth * 2); index += 2) {
+    for (
+      let index = 0;
+      index < Math.min(ranking.length, depth * 2);
+      index += 2
+    ) {
       hits.push({ document: ranking[index], score: ranking[index + 1] });
     }
     if (method === "rrf") {
@@ -41,29 +42,42 @@ export function fuseRankings(routeInputs, {
     const low = Math.min(...values);
     const high = Math.max(...values);
     hits.forEach((hit) => {
-      const normalized = high === low
-        ? 0
-        : scoreDirection === "lower"
-          ? (high - hit.score) / (high - low)
-          : (hit.score - low) / (high - low);
-      scores.set(hit.document, (scores.get(hit.document) || 0) + weight * normalized);
+      const normalized =
+        high === low
+          ? 0
+          : scoreDirection === "lower"
+            ? (high - hit.score) / (high - low)
+            : (hit.score - low) / (high - low);
+      scores.set(
+        hit.document,
+        (scores.get(hit.document) || 0) + weight * normalized,
+      );
     });
   });
   return [...scores.entries()]
-    .sort((left, right) => right[1] - left[1] || documents[left[0]].localeCompare(documents[right[0]]))
+    .sort(
+      (left, right) =>
+        right[1] - left[1] ||
+        documents[left[0]].localeCompare(documents[right[0]]),
+    )
     .slice(0, topK)
     .map(([document]) => document);
 }
 
 export function evaluateRankings(queries, rankings, selectedIndexes = null) {
-  const totals = Object.fromEntries(metricCatalog.map((metric) => [metric.id, 0]));
+  const totals = Object.fromEntries(
+    metricCatalog.map((metric) => [metric.id, 0]),
+  );
   const indexes = selectedIndexes || queries.map((_, index) => index);
-  if (indexes.length === 0) throw new Error("The selected query slice is empty.");
+  if (indexes.length === 0)
+    throw new Error("The selected query slice is empty.");
   indexes.forEach((queryIndex) => {
     const relevant = new Set(queries[queryIndex].relevant);
     const ranking = rankings[queryIndex].slice(0, 10);
     [1, 5, 10].forEach((cutoff) => {
-      const hits = new Set(ranking.slice(0, cutoff).filter((document) => relevant.has(document)));
+      const hits = new Set(
+        ranking.slice(0, cutoff).filter((document) => relevant.has(document)),
+      );
       totals[`recall@${cutoff}`] += hits.size / relevant.size;
     });
     let dcg = 0;

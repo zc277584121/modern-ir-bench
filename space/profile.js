@@ -29,14 +29,19 @@ export function createProfileController({
   function solutionColor(solutionId) {
     const index = Math.max(
       0,
-      getScopeRecords().findIndex((record) => record.solution_id === solutionId),
+      getScopeRecords().findIndex(
+        (record) => record.solution_id === solutionId,
+      ),
     );
-    return baseColors[index] || `hsl(${Math.round((index * 137.508) % 360)} 68% 42%)`;
+    return (
+      baseColors[index] || `hsl(${Math.round((index * 137.508) % 360)} 68% 42%)`
+    );
   }
 
   function metricRecord(value, solutionId, metricId) {
     return value.results.find(
-      (record) => record.solution_id === solutionId && record.metric_id === metricId,
+      (record) =>
+        record.solution_id === solutionId && record.metric_id === metricId,
     );
   }
 
@@ -46,18 +51,25 @@ export function createProfileController({
 
   function activeBreakdown() {
     const activeId = getActiveBreakdownId();
-    const selected = availableBreakdowns.find((breakdown) => breakdown.id === activeId);
+    const selected = availableBreakdowns.find(
+      (breakdown) => breakdown.id === activeId,
+    );
     if (selected) return selected;
 
     const metricId = getMetricId();
-    const supportsMetric = (breakdown) => breakdown.values.some((value) =>
-      value.results.some((record) => record.metric_id === metricId),
-    );
+    const supportsMetric = (breakdown) =>
+      breakdown.values.some((value) =>
+        value.results.some((record) => record.metric_id === metricId),
+      );
     const preferred = availableBreakdowns.find(
       (breakdown) => breakdown.id === getDefaultBreakdownId(),
     );
     if (preferred && supportsMetric(preferred)) return preferred;
-    return availableBreakdowns.find(supportsMetric) || preferred || availableBreakdowns[0];
+    return (
+      availableBreakdowns.find(supportsMetric) ||
+      preferred ||
+      availableBreakdowns[0]
+    );
   }
 
   function activeValueId(breakdown) {
@@ -76,7 +88,10 @@ export function createProfileController({
       return [label.slice(0, midpoint), label.slice(midpoint)];
     }
     const midpoint = Math.ceil(words.length / 2);
-    return [words.slice(0, midpoint).join(" "), words.slice(midpoint).join(" ")];
+    return [
+      words.slice(0, midpoint).join(" "),
+      words.slice(midpoint).join(" "),
+    ];
   }
 
   function polarPoint(centerX, centerY, radius, index, total) {
@@ -88,7 +103,13 @@ export function createProfileController({
     };
   }
 
-  function renderRadar(values, solutionIds, metricId, metricLabel, selectedValueId) {
+  function renderRadar(
+    values,
+    solutionIds,
+    metricId,
+    metricLabel,
+    selectedValueId,
+  ) {
     const width = 760;
     const height = 480;
     const centerX = width / 2;
@@ -98,7 +119,9 @@ export function createProfileController({
       .map((level) => {
         const levelRadius = (radius * level) / 5;
         const points = values
-          .map((_, index) => polarPoint(centerX, centerY, levelRadius, index, values.length))
+          .map((_, index) =>
+            polarPoint(centerX, centerY, levelRadius, index, values.length),
+          )
           .map((point) => `${point.x.toFixed(1)},${point.y.toFixed(1)}`)
           .join(" ");
         return `<polygon class="chart-grid" points="${points}" />
@@ -109,12 +132,19 @@ export function createProfileController({
       .map((value, index) => {
         const selected = value.id === selectedValueId;
         const end = polarPoint(centerX, centerY, radius, index, values.length);
-        const labelPoint = polarPoint(centerX, centerY, radius + 42, index, values.length);
-        const anchor = Math.cos(labelPoint.angle) > 0.25
-          ? "start"
-          : Math.cos(labelPoint.angle) < -0.25
-            ? "end"
-            : "middle";
+        const labelPoint = polarPoint(
+          centerX,
+          centerY,
+          radius + 42,
+          index,
+          values.length,
+        );
+        const anchor =
+          Math.cos(labelPoint.angle) > 0.25
+            ? "start"
+            : Math.cos(labelPoint.angle) < -0.25
+              ? "end"
+              : "middle";
         const tspans = splitLabel(value.label)
           .map(
             (line, lineIndex) =>
@@ -133,7 +163,13 @@ export function createProfileController({
         const scoredPoints = values.map((value, valueIndex) => {
           const score = metricRecord(value, solutionId, metricId).value;
           return {
-            ...polarPoint(centerX, centerY, radius * score, valueIndex, values.length),
+            ...polarPoint(
+              centerX,
+              centerY,
+              radius * score,
+              valueIndex,
+              values.length,
+            ),
             score,
             value,
           };
@@ -157,7 +193,13 @@ export function createProfileController({
     </svg>`;
   }
 
-  function renderBars(values, solutionIds, metricId, metricLabel, selectedValueId) {
+  function renderBars(
+    values,
+    solutionIds,
+    metricId,
+    metricLabel,
+    selectedValueId,
+  ) {
     const width = 760;
     const height = 330;
     const plotTop = 24;
@@ -184,7 +226,8 @@ export function createProfileController({
             const score = metricRecord(value, solutionId, metricId).value;
             const barHeight = score * plotHeight;
             const x =
-              groupCenter + (solutionIndex - (solutionIds.length - 1) / 2) * barWidth;
+              groupCenter +
+              (solutionIndex - (solutionIds.length - 1) / 2) * barWidth;
             const y = plotBottom - barHeight;
             return `<rect x="${(x - barWidth * 0.42).toFixed(1)}" y="${y.toFixed(1)}" width="${(barWidth * 0.84).toFixed(1)}" height="${barHeight.toFixed(1)}" fill="${solutionColor(solutionId)}"><title>${escapeHtml(solution.title)} · ${escapeHtml(value.label)} · ${formatScore(score)}</title></rect>
               <text class="chart-bar-value" x="${x.toFixed(1)}" y="${Math.max(plotTop + 10, y - 6).toFixed(1)}">${formatScore(score)}</text>`;
@@ -255,21 +298,28 @@ export function createProfileController({
     const leadingIds = new Set(
       largestValues.slice(0, groupLimit).map((value) => value.id),
     );
-    const selectedValue = allValues.find((value) => value.id === selectedValueId);
+    const selectedValue = allValues.find(
+      (value) => value.id === selectedValueId,
+    );
     if (selectedValue && !leadingIds.has(selectedValue.id)) {
       leadingIds.delete(largestValues[groupLimit - 1].id);
       leadingIds.add(selectedValue.id);
     }
-    const values = allValues.length > groupLimit
-      ? allValues.filter((value) => leadingIds.has(value.id))
-      : allValues;
+    const values =
+      allValues.length > groupLimit
+        ? allValues.filter((value) => leadingIds.has(value.id))
+        : allValues;
     const requestedMetricRecord = values
       .flatMap((value) => value.results)
       .find((record) => record.metric_id === requestedMetricId);
-    const metricId = requestedMetricRecord ? requestedMetricId : breakdown.primary_metric;
-    const exampleRecord = requestedMetricRecord || values
-      .flatMap((value) => value.results)
-      .find((record) => record.metric_id === metricId);
+    const metricId = requestedMetricRecord
+      ? requestedMetricId
+      : breakdown.primary_metric;
+    const exampleRecord =
+      requestedMetricRecord ||
+      values
+        .flatMap((value) => value.results)
+        .find((record) => record.metric_id === metricId);
     const metricLabel = exampleRecord?.metric_label || metricId;
     const { comparable, incomplete } = comparableProfile(
       values,
@@ -288,12 +338,15 @@ export function createProfileController({
 
     document.querySelector("#profile-description").textContent =
       `${categoryLabel(breakdown.category)} · ${breakdown.label}, measured with ${metricLabel}.`;
-    const selectedWasPinned = selectedValue && !largestValues
-      .slice(0, groupLimit)
-      .some((value) => value.id === selectedValue.id);
-    document.querySelector("#profile-note").textContent = allValues.length > values.length
-      ? `Showing ${values.length} of ${allValues.length} groups by ${breakdown.category === "relevant_documents" ? "relevant-pair count" : "query count"}${selectedWasPinned ? ", including the selected group" : ""}. Scores use the same fixed 0–1 scale.`
-      : "Scores use the same fixed 0–1 scale and are not normalized per group.";
+    const selectedWasPinned =
+      selectedValue &&
+      !largestValues
+        .slice(0, groupLimit)
+        .some((value) => value.id === selectedValue.id);
+    document.querySelector("#profile-note").textContent =
+      allValues.length > values.length
+        ? `Showing ${values.length} of ${allValues.length} groups by ${breakdown.category === "relevant_documents" ? "relevant-pair count" : "query count"}${selectedWasPinned ? ", including the selected group" : ""}. Scores use the same fixed 0–1 scale.`
+        : "Scores use the same fixed 0–1 scale and are not normalized per group.";
 
     const missingNote = document.querySelector("#profile-incomplete-note");
     missingNote.hidden = incomplete.length === 0;
@@ -308,21 +361,22 @@ export function createProfileController({
       chart.innerHTML =
         '<p class="muted">This metric needs a declared chart range before it can be profiled.</p>';
     } else {
-      chart.innerHTML = values.length >= 3
-        ? renderRadar(
-            values,
-            comparable,
-            metricId,
-            metricLabel,
-            selectedValueId,
-          )
-        : renderBars(
-            values,
-            comparable,
-            metricId,
-            metricLabel,
-            selectedValueId,
-          );
+      chart.innerHTML =
+        values.length >= 3
+          ? renderRadar(
+              values,
+              comparable,
+              metricId,
+              metricLabel,
+              selectedValueId,
+            )
+          : renderBars(
+              values,
+              comparable,
+              metricId,
+              metricLabel,
+              selectedValueId,
+            );
     }
     document.querySelector("#profile-legend").innerHTML = (
       supportsFixedScale ? comparable : []
@@ -354,13 +408,13 @@ export function createProfileController({
       records.map((record) => record.solution_id),
     );
     selectedSolutionIds = new Set(
-      [...selectedSolutionIds].filter((solutionId) => availableSolutionIds.has(solutionId)),
+      [...selectedSolutionIds].filter((solutionId) =>
+        availableSolutionIds.has(solutionId),
+      ),
     );
     if (resetSolutions || selectedSolutionIds.size === 0) {
       selectedSolutionIds = new Set(
-        records
-          .slice(0, 3)
-          .map((record) => record.solution_id),
+        records.slice(0, 3).map((record) => record.solution_id),
       );
     }
     renderProfileSolutionPicker();

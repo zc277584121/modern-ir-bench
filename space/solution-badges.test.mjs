@@ -13,10 +13,12 @@ test("marks a single dense route as atomic", () => {
 });
 
 test("shows the retrieval signals and algorithm for fusion", () => {
-  assert.deepEqual(
-    badgeIds(["lexical", "learned-sparse", "hybrid", "rrf"]),
-    ["fusion", "sparse", "lexical", "rrf"],
-  );
+  assert.deepEqual(badgeIds(["lexical", "learned-sparse", "hybrid", "rrf"]), [
+    "fusion",
+    "sparse",
+    "lexical",
+    "rrf",
+  ]);
 });
 
 test("distinguishes reranked fusion from one-stage fusion", () => {
@@ -28,7 +30,16 @@ test("distinguishes reranked fusion from one-stage fusion", () => {
 
 test("describes OCR and visual PDF retrieval without operational tags", () => {
   assert.deepEqual(
-    badgeIds(["ocr", "visual", "dense", "lexical", "hybrid", "managed-api", "page-level", "weighted"]),
+    badgeIds([
+      "ocr",
+      "visual",
+      "dense",
+      "lexical",
+      "hybrid",
+      "managed-api",
+      "page-level",
+      "weighted",
+    ]),
     ["fusion", "lexical", "visual", "ocr", "weighted"],
   );
 });

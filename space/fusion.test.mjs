@@ -19,7 +19,11 @@ test("RRF combines weighted atomic rankings", () => {
 test("weighted fusion respects lower-is-better scores", () => {
   const ranking = fuseRankings(
     [
-      { ranking: [0, -10, 1, -5, 2, -1], weight: 0.75, scoreDirection: "lower" },
+      {
+        ranking: [0, -10, 1, -5, 2, -1],
+        weight: 0.75,
+        scoreDirection: "lower",
+      },
       { ranking: [1, 1, 2, 0.5, 0, 0], weight: 0.25, scoreDirection: "higher" },
     ],
     { method: "weighted", depth: 3, rankConstant: 60, documents, topK: 3 },
@@ -28,11 +32,11 @@ test("weighted fusion respects lower-is-better scores", () => {
 });
 
 test("metric calculation matches binary ranked retrieval semantics", () => {
-  const queries = [
-    { relevant: [0, 2] },
-    { relevant: [3] },
-  ];
-  const result = evaluateRankings(queries, [[0, 1], [1, 3]]);
+  const queries = [{ relevant: [0, 2] }, { relevant: [3] }];
+  const result = evaluateRankings(queries, [
+    [0, 1],
+    [1, 3],
+  ]);
   assert.equal(result.count, 2);
   assert.equal(result.metrics["recall@1"], 0.25);
   assert.equal(result.metrics["recall@5"], 0.75);

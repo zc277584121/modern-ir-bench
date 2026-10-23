@@ -1,8 +1,14 @@
-import { atomicRanking, evaluateRankings, fuseRankings, metricCatalog } from "./fusion.js";
+import {
+  atomicRanking,
+  evaluateRankings,
+  fuseRankings,
+  metricCatalog,
+} from "./fusion.js";
 
 async function loadCompressedJson(path) {
   const response = await fetch(path, { cache: "no-store" });
-  if (!response.ok) throw new Error(`Unable to load fusion evidence: ${response.status}`);
+  if (!response.ok)
+    throw new Error(`Unable to load fusion evidence: ${response.status}`);
   const buffer = await response.arrayBuffer();
   const bytes = new Uint8Array(buffer);
   if (bytes[0] !== 0x1f || bytes[1] !== 0x8b) {
@@ -11,7 +17,9 @@ async function loadCompressedJson(path) {
   if (typeof DecompressionStream === "undefined") {
     throw new Error("This browser cannot open the compressed fusion evidence.");
   }
-  const stream = new Blob([buffer]).stream().pipeThrough(new DecompressionStream("gzip"));
+  const stream = new Blob([buffer])
+    .stream()
+    .pipeThrough(new DecompressionStream("gzip"));
   return new Response(stream).json();
 }
 
@@ -33,13 +41,17 @@ export function createFusionPlayground({
       .filter((route) => element(`[data-fusion-route="${route.id}"]`)?.checked)
       .map((route) => ({
         ...route,
-        weight: Math.max(0.1, Number(element(`[data-route-weight="${route.id}"]`)?.value || 1)),
+        weight: Math.max(
+          0.1,
+          Number(element(`[data-route-weight="${route.id}"]`)?.value || 1),
+        ),
       }));
   }
 
   function renderRoutes() {
     element("#fusion-routes").innerHTML = benchmark.routes
-      .map((route) => `<label class="fusion-route">
+      .map(
+        (route) => `<label class="fusion-route">
         <input type="checkbox" data-fusion-route="${escapeHtml(route.id)}" />
         <span class="fusion-route-copy">
           <strong>${escapeHtml(route.label)}</strong>
@@ -49,37 +61,44 @@ export function createFusionPlayground({
           <span>Weight</span>
           <input type="number" min="0.1" max="10" step="0.1" value="1" data-route-weight="${escapeHtml(route.id)}" aria-label="Weight for ${escapeHtml(route.label)}" disabled />
         </span>
-      </label>`)
+      </label>`,
+      )
       .join("");
-    element("#fusion-routes").querySelectorAll("[data-fusion-route]").forEach((input) => {
-      input.addEventListener("change", async () => {
-        const route = benchmark.routes.find((candidate) => candidate.id === input.dataset.fusionRoute);
-        const weight = element(`[data-route-weight="${route.id}"]`);
-        weight.disabled = !input.checked;
-        if (!input.checked) {
+    element("#fusion-routes")
+      .querySelectorAll("[data-fusion-route]")
+      .forEach((input) => {
+        input.addEventListener("change", async () => {
+          const route = benchmark.routes.find(
+            (candidate) => candidate.id === input.dataset.fusionRoute,
+          );
+          const weight = element(`[data-route-weight="${route.id}"]`);
+          weight.disabled = !input.checked;
+          if (!input.checked) {
+            renderResults();
+            return;
+          }
+          setRouteStatus(route, "Loading…");
           renderResults();
-          return;
-        }
-        setRouteStatus(route, "Loading…");
-        renderResults();
-        try {
-          await loadRoute(route);
-          if (!benchmark.routes.includes(route)) return;
-          setRouteStatus(route, route.kind);
-          renderResults();
-        } catch (error) {
-          if (!benchmark.routes.includes(route)) return;
-          input.checked = false;
-          weight.disabled = true;
-          setRouteStatus(route, "Unable to load");
-          renderResults();
-          console.error(error);
-        }
+          try {
+            await loadRoute(route);
+            if (!benchmark.routes.includes(route)) return;
+            setRouteStatus(route, route.kind);
+            renderResults();
+          } catch (error) {
+            if (!benchmark.routes.includes(route)) return;
+            input.checked = false;
+            weight.disabled = true;
+            setRouteStatus(route, "Unable to load");
+            renderResults();
+            console.error(error);
+          }
+        });
       });
-    });
-    element("#fusion-routes").querySelectorAll("[data-route-weight]").forEach((input) => {
-      input.addEventListener("input", renderResults);
-    });
+    element("#fusion-routes")
+      .querySelectorAll("[data-route-weight]")
+      .forEach((input) => {
+        input.addEventListener("input", renderResults);
+      });
   }
 
   function setRouteStatus(route, status) {
@@ -94,7 +113,10 @@ export function createFusionPlayground({
       routePromises.set(
         route.path,
         loadCompressedJson(`data/fusion/${route.path}`).then((payload) => {
-          if (payload.route_id !== route.id || payload.rankings.length !== expectedQueryCount) {
+          if (
+            payload.route_id !== route.id ||
+            payload.rankings.length !== expectedQueryCount
+          ) {
             throw new Error(`Invalid fusion evidence for ${route.label}.`);
           }
           return payload.rankings;
@@ -121,30 +143,39 @@ export function createFusionPlayground({
     control.hidden = dimensionIndex === "";
     if (dimensionIndex === "") return;
     benchmark.dimensions[Number(dimensionIndex)].values.forEach((value) => {
-      selector.add(new Option(`${value.label} · ${formatInteger(value.count)}`, value.id));
+      selector.add(
+        new Option(`${value.label} · ${formatInteger(value.count)}`, value.id),
+      );
     });
   }
 
   function selectedQueryIndexes() {
     const dimensionIndex = element("#fusion-slice-dimension").value;
-    if (dimensionIndex === "") return benchmark.queries.map((_, index) => index);
+    if (dimensionIndex === "")
+      return benchmark.queries.map((_, index) => index);
     const index = Number(dimensionIndex);
     const value = element("#fusion-slice-value").value;
     return benchmark.queries
-      .map((query, queryIndex) => query.labels[index] === value ? queryIndex : -1)
+      .map((query, queryIndex) =>
+        query.labels[index] === value ? queryIndex : -1,
+      )
       .filter((queryIndex) => queryIndex >= 0);
   }
 
   function resultRow(label, result, bestRoute, isFusion = false) {
-    const cells = metricCatalog.map((metric) => {
-      const score = result.metrics[metric.id];
-      const delta = isFusion ? score - bestRoute[metric.id] : null;
-      const displayedDelta = delta !== null && Math.abs(delta) < 0.0005 ? 0 : delta;
-      const deltaText = displayedDelta === null
-        ? ""
-        : `<span class="metric-delta ${displayedDelta > 0 ? "positive" : displayedDelta < 0 ? "negative" : "neutral"}">${displayedDelta > 0 ? "+" : ""}${formatScore(displayedDelta)}</span>`;
-      return `<td><span class="score${metric.id === "ndcg@10" ? " primary" : ""}">${formatScore(score)}</span>${deltaText}</td>`;
-    }).join("");
+    const cells = metricCatalog
+      .map((metric) => {
+        const score = result.metrics[metric.id];
+        const delta = isFusion ? score - bestRoute[metric.id] : null;
+        const displayedDelta =
+          delta !== null && Math.abs(delta) < 0.0005 ? 0 : delta;
+        const deltaText =
+          displayedDelta === null
+            ? ""
+            : `<span class="metric-delta ${displayedDelta > 0 ? "positive" : displayedDelta < 0 ? "negative" : "neutral"}">${displayedDelta > 0 ? "+" : ""}${formatScore(displayedDelta)}</span>`;
+        return `<td><span class="score${metric.id === "ndcg@10" ? " primary" : ""}">${formatScore(score)}</span>${deltaText}</td>`;
+      })
+      .join("");
     return `<tr${isFusion ? ' class="fusion-result-row"' : ""}><td><strong>${escapeHtml(label)}</strong>${isFusion ? '<span class="experimental-label">Live</span>' : ""}</td>${cells}</tr>`;
   }
 
@@ -158,12 +189,14 @@ export function createFusionPlayground({
     rrfControl.hidden = method !== "rrf";
     if (routes.length < 2) {
       summary.textContent = "Choose at least two retrieval routes.";
-      result.innerHTML = '<p class="empty-state">Select two or more routes to compare a live fusion.</p>';
+      result.innerHTML =
+        '<p class="empty-state">Select two or more routes to compare a live fusion.</p>';
       return;
     }
     if (routes.some((route) => !route.rankings)) {
       summary.textContent = "Loading selected rankings…";
-      result.innerHTML = '<p class="empty-state">The selected route evidence is loading.</p>';
+      result.innerHTML =
+        '<p class="empty-state">The selected route evidence is loading.</p>';
       return;
     }
 
@@ -171,27 +204,42 @@ export function createFusionPlayground({
     const rankConstant = Number(element("#rank-constant").value);
     const queryIndexes = selectedQueryIndexes();
     const routeResults = routes.map((route) => {
-      const rankings = route.rankings.map((ranking) => atomicRanking(ranking, depth));
-      return { route, result: evaluateRankings(benchmark.queries, rankings, queryIndexes) };
+      const rankings = route.rankings.map((ranking) =>
+        atomicRanking(ranking, depth),
+      );
+      return {
+        route,
+        result: evaluateRankings(benchmark.queries, rankings, queryIndexes),
+      };
     });
-    const fusedRankings = benchmark.queries.map((_, queryIndex) => fuseRankings(
-      routes.map((route) => ({
-        ranking: route.rankings[queryIndex],
-        weight: route.weight,
-        scoreDirection: route.score_direction,
-      })),
-      {
-        method,
-        depth,
-        rankConstant,
-        documents: benchmark.documents,
-      },
-    ));
-    const fused = evaluateRankings(benchmark.queries, fusedRankings, queryIndexes);
-    const bestRoute = Object.fromEntries(metricCatalog.map((metric) => [
-      metric.id,
-      Math.max(...routeResults.map(({ result }) => result.metrics[metric.id])),
-    ]));
+    const fusedRankings = benchmark.queries.map((_, queryIndex) =>
+      fuseRankings(
+        routes.map((route) => ({
+          ranking: route.rankings[queryIndex],
+          weight: route.weight,
+          scoreDirection: route.score_direction,
+        })),
+        {
+          method,
+          depth,
+          rankConstant,
+          documents: benchmark.documents,
+        },
+      ),
+    );
+    const fused = evaluateRankings(
+      benchmark.queries,
+      fusedRankings,
+      queryIndexes,
+    );
+    const bestRoute = Object.fromEntries(
+      metricCatalog.map((metric) => [
+        metric.id,
+        Math.max(
+          ...routeResults.map(({ result }) => result.metrics[metric.id]),
+        ),
+      ]),
+    );
     const rawNdcgDelta = fused.metrics["ndcg@10"] - bestRoute["ndcg@10"];
     const ndcgDelta = Math.abs(rawNdcgDelta) < 0.0005 ? 0 : rawNdcgDelta;
     const methodLabel = method === "rrf" ? "RRF" : "Weighted scores";
@@ -227,7 +275,10 @@ export function createFusionPlayground({
           candidate.dataset_id === context.datasetId &&
           candidate.dataset_version === context.datasetVersion,
       );
-      if (!nextBenchmark) throw new Error("No reusable route evidence is available for this release.");
+      if (!nextBenchmark)
+        throw new Error(
+          "No reusable route evidence is available for this release.",
+        );
       renderBenchmark(nextBenchmark);
       element("#fusion-loading").hidden = true;
       element("#fusion-workspace").hidden = false;
