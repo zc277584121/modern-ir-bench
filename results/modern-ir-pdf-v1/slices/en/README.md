@@ -4,9 +4,26 @@ This directory stores immutable Top-K document rankings for every published Solu
 
 ## Solutions
 
+- `colmodernvbert-page-exact-maxsim`
 - `colpali-v1-3-page-exact-maxsim`
+- `colqwen2-5-page-exact-maxsim`
+- `colqwen2-v1-0-page-exact-maxsim`
 - `colsmol-256m-page-exact-maxsim`
 - `colsmol-500m-page-exact-maxsim`
+- `embedding-gemma-2-pages`
+- `gemini-embedding-2-pages`
+- `jina-v4-page-exact-maxsim`
+- `llama-nemotron-embed-vl-1b-v2-pages`
+- `ovis-omni-embedding-3b-pages`
+- `paddleocr-v5-mobile-bge-m3-full`
+- `paddleocr-v5-mobile-bm25-bge-m3-rrf`
+- `paddleocr-v5-mobile-bm25-full`
+- `paddleocr-v5-mobile-bm25-voyage-multimodal-3-5-rrf`
 - `paddleocr-v5-mobile-colbert-v2-exact-maxsim-chunks`
+- `paddleocr-v5-mobile-voyage-4-large-full`
+- `paddleocr-v5-mobile-voyage-4-large-voyage-multimodal-3-5-rerank-3`
+- `paddleocr-v5-mobile-voyage-4-large-voyage-multimodal-3-5-rrf`
+- `voyage-multimodal-3-5-pages`
+- `wemm-embedding-2b-pages`
 
 `manifest.json` pins the Dataset, source runs, ranking depth, row count, and checksum.

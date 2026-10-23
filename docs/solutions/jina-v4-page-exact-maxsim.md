@@ -21,10 +21,10 @@ model loader and works in the main environment.
 
 ```bash
 UV_PROJECT_ENVIRONMENT=.runtime/venvs/jina uv sync --group jina --group multimodal --group pdf
-UV_PROJECT_ENVIRONMENT=.runtime/venvs/jina MIR_DEVICE=cuda:0 \
+UV_PROJECT_ENVIRONMENT=.runtime/venvs/jina MIR_DEVICE=cuda:1 \
   uv run --no-sync python -m benchmarks.pdf_retrieval.prepare \
   --solution jina-v4-page-exact-maxsim
-MIR_DEVICE=cuda:0 uv run --no-sync python -m benchmarks.pdf_retrieval.run \
+MIR_DEVICE=cuda:1 uv run --no-sync python -m benchmarks.pdf_retrieval.run \
   --solution jina-v4-page-exact-maxsim --cached-only
 ```
 
@@ -41,14 +41,37 @@ reference reproduces Jina's published padded einsum/max/sum scorer at
 [`d347c952`](https://huggingface.co/jinaai/jina-embeddings-v4/blob/d347c952d22e0aabbeabe2a28c205c6c3d5dfaad/modeling_colqwen_duo.py)
 and also checks a normalized NumPy reference. See [the PDF guide](../pdf-solutions.md).
 
-The 2026-10-23 RTX 3080 Ti smoke encoded four pages with 779 vectors each and queries with 10/8 English
-and 12/12 Chinese vectors. Cold encoding and cache writes took 9.66 seconds, including loading and rendering;
-the complete check took 11.25 seconds. Peak CUDA allocation/reservation was 8.178/8.383 GiB during encoding
-and 9.08/30 MiB during scoring and replay. Device memory sampled every 200 ms peaked at 8,904 MiB.
-Maximum official-score error was 0.000966 and norm error was 1.2e-7; all four queries ranked their matching
-page first. The isolated embedding cache occupied 1.328 MiB. A separate replay under the main environment's
-Transformers 5.19 took 0.38 seconds with model loading forbidden and unchanged cache SHA-256 and mtime.
-These measurements cover tiny synthetic pages, not full-dataset throughput or index memory.
+The 2026-10-23 full run covers all 5,000 documents, 9,491 pages, and 1,000 queries at Dataset revision
+`5ac497e8aad79c9c0843c46eb97bb9900f3b109b`. The verified scoring artifact pins source commit
+`2731a090aa6c2a9739b8bc681e9edd575a9f4281`; its rankings are published in the
+[bilingual release](../../results/modern-ir-pdf-v1/), with language slices derived from those same rankings.
+
+| Scope | Queries | NDCG@10 | Recall@1 | Recall@5 | Recall@10 | MRR@10 |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| Overall | 1,000 | 0.80664184 | 0.18923948 | 0.61093415 | 0.78573093 | 0.93172063 |
+| English | 500 | 0.81840212 | 0.19179963 | 0.62315122 | 0.80173848 | 0.93605794 |
+| Chinese | 500 | 0.79488156 | 0.18667934 | 0.59871709 | 0.76972338 | 0.92738333 |
+
+By NDCG@10 on the 2026-10-23 PDF leaderboard, these scores rank **4/16 Overall, 4/21 English, and 5/16 Chinese**.
+Jina leads the published OCR-free visual Solutions in all three scopes. Compared with ColQwen2.5, its NDCG@10
+is higher by 0.03105667 Overall, 0.02011034 English, and 0.04200301 Chinese.
+
+On RTX 3080 Ti (`cuda:1`, batch size 1), cold preparation in the isolated Jina environment took
+**4,429.43 seconds**. The separate cache-only run in the main environment took **81.15 seconds**, including
+cache reads, both language indexes, all 1,000 searches, metrics, and artifact writing. Device memory sampled
+once per second peaked at **9,576 MiB** during preparation and **2,906 MiB** during scoring. Device usage
+returned to 4 MiB between the processes, confirming that encoding weights were unloaded.
+
+The compressed page/query cache occupies 2.881 GiB. English pages contain 4,266,502 vectors (725–779 per page),
+and Chinese pages 2,836,005 vectors (725–770 per page). The separate float16 indexes occupy 1.017 GiB and
+0.676 GiB before allocator and scoring overhead. Query lengths are 9–21 English and 10–24 Chinese vectors.
+All input keys are present, and cache SHA-256, size, and mtime remained unchanged during scoring.
+Artifact checksums, 500-query coverage per language, same-language candidate IDs, distinct Top-10 results,
+finite descending scores, and recomputed metrics all passed verification.
+
+The independent bilingual smoke also passed official-formula and NumPy score checks (maximum error 0.000966),
+unit-norm checks (maximum error 1.2e-7), and fresh-instance replay with model loading forbidden. Its cache was
+also replayed successfully under the main environment's Transformers 5.19.
 
 ```bash
 UV_PROJECT_ENVIRONMENT=.runtime/venvs/jina MIR_DEVICE=cuda:0 \

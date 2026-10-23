@@ -1,0 +1,456 @@
+{
+  "schema_version": 1,
+  "artifact_type": "live-top-k-rankings",
+  "release": "modern-ir-bench-pdf-v1-20261011-language-zh",
+  "published_at": "2026-10-23T06:44:03.895018+00:00",
+  "dataset": {
+    "repository": "zc277584121/modern-ir-bench-pdf",
+    "revision": "5ac497e8aad79c9c0843c46eb97bb9900f3b109b"
+  },
+  "solutions": [
+    "colqwen2-5-page-exact-maxsim",
+    "colqwen2-v1-0-page-exact-maxsim",
+    "embedding-gemma-2-pages",
+    "gemini-embedding-2-pages",
+    "jina-v4-page-exact-maxsim",
+    "llama-nemotron-embed-vl-1b-v2-pages",
+    "ovis-omni-embedding-3b-pages",
+    "paddleocr-v5-mobile-bge-m3-full",
+    "paddleocr-v5-mobile-bm25-bge-m3-rrf",
+    "paddleocr-v5-mobile-bm25-full",
+    "paddleocr-v5-mobile-bm25-voyage-multimodal-3-5-rrf",
+    "paddleocr-v5-mobile-voyage-4-large-full",
+    "paddleocr-v5-mobile-voyage-4-large-voyage-multimodal-3-5-rerank-3",
+    "paddleocr-v5-mobile-voyage-4-large-voyage-multimodal-3-5-rrf",
+    "voyage-multimodal-3-5-pages",
+    "wemm-embedding-2b-pages"
+  ],
+  "source_runs": {
+    "colqwen2-5-page-exact-maxsim": {
+      "source_commit": "499a3046ad3496f3925aea0e57c1bb299e37dc7d",
+      "source_module": "benchmarks.pdf_retrieval.run",
+      "source_path": "benchmarks/pdf_retrieval/run.py",
+      "source_line": 38,
+      "created_at": "2026-10-22T03:44:31.368221+00:00",
+      "origin": "verified-live-run",
+      "source_artifact": {
+        "manifest_sha256": "19574ddc95d7d0427ef7632763d197435b1b868fd140d2b43b0ac716a90b1342",
+        "artifact_type": "live-ranking-solution-run",
+        "release": "modern-ir-bench-pdf-v1-20261011",
+        "dataset": {
+          "repository": "zc277584121/modern-ir-bench-pdf",
+          "revision": "5ac497e8aad79c9c0843c46eb97bb9900f3b109b"
+        },
+        "queries": 1000,
+        "top_k": 10,
+        "results_sha256": "b9e88072d7eab4c63db43121133d37af58c11a14e55f883425256f7eefe927ce",
+        "observations_sha256": "57f16c2fdc431be4d3c467d709315b90bf289e67c92f897e81d13bd4df351e3f"
+      },
+      "derivation": {
+        "operation": "language-slice",
+        "language": "zh",
+        "source_artifact": {
+          "manifest_sha256": "d4880c21d82315d2fdc71a244928cbaeb6915583fb98b173546ed951bd02a9e8",
+          "artifact_type": "live-top-k-rankings",
+          "release": "modern-ir-bench-pdf-v1-20261011",
+          "dataset": {
+            "repository": "zc277584121/modern-ir-bench-pdf",
+            "revision": "5ac497e8aad79c9c0843c46eb97bb9900f3b109b"
+          },
+          "queries": 1000,
+          "top_k": 10,
+          "rankings_sha256": "48ff403ad8150346b32ddd808906cf5d5dc1615647b7937cacd4cf6fff99567b"
+        }
+      }
+    },
+    "colqwen2-v1-0-page-exact-maxsim": {
+      "source_commit": "e30661054da6c6b2afd7594eac1d511ab65d0609",
+      "source_module": "benchmarks.pdf_retrieval.run",
+      "source_path": "benchmarks/pdf_retrieval/run.py",
+      "source_line": 38,
+      "created_at": "2026-10-22T11:35:45.289927+00:00",
+      "origin": "verified-live-run",
+      "source_artifact": {
+        "manifest_sha256": "782c3c5b3b443cf4cc2cce73e13af491bab150763b3dd3bf79862f2b9224fab5",
+        "artifact_type": "live-ranking-solution-run",
+        "release": "modern-ir-bench-pdf-v1-20261011",
+        "dataset": {
+          "repository": "zc277584121/modern-ir-bench-pdf",
+          "revision": "5ac497e8aad79c9c0843c46eb97bb9900f3b109b"
+        },
+        "queries": 1000,
+        "top_k": 10,
+        "results_sha256": "663e3afba9f816b9e964b028aad303717b2695c9125142415f3d04f9ed70085d",
+        "observations_sha256": "0a878e3497b8f907079c82932b77bf0683c8bfad2709991be7852379478e65ce"
+      },
+      "derivation": {
+        "operation": "language-slice",
+        "language": "zh",
+        "source_artifact": {
+          "manifest_sha256": "d4880c21d82315d2fdc71a244928cbaeb6915583fb98b173546ed951bd02a9e8",
+          "artifact_type": "live-top-k-rankings",
+          "release": "modern-ir-bench-pdf-v1-20261011",
+          "dataset": {
+            "repository": "zc277584121/modern-ir-bench-pdf",
+            "revision": "5ac497e8aad79c9c0843c46eb97bb9900f3b109b"
+          },
+          "queries": 1000,
+          "top_k": 10,
+          "rankings_sha256": "48ff403ad8150346b32ddd808906cf5d5dc1615647b7937cacd4cf6fff99567b"
+        }
+      }
+    },
+    "embedding-gemma-2-pages": {
+      "source_commit": "09dd705ecaa5e3f00ba8c6cd1769fd4712402ea9",
+      "source_module": "benchmarks.pdf_retrieval.run",
+      "source_path": "benchmarks/pdf_retrieval/run.py",
+      "source_line": 33,
+      "created_at": "2026-10-12T09:38:24.354152+00:00",
+      "origin": "verified-live-run",
+      "derivation": {
+        "operation": "language-slice",
+        "language": "zh",
+        "source_artifact": {
+          "manifest_sha256": "d4880c21d82315d2fdc71a244928cbaeb6915583fb98b173546ed951bd02a9e8",
+          "artifact_type": "live-top-k-rankings",
+          "release": "modern-ir-bench-pdf-v1-20261011",
+          "dataset": {
+            "repository": "zc277584121/modern-ir-bench-pdf",
+            "revision": "5ac497e8aad79c9c0843c46eb97bb9900f3b109b"
+          },
+          "queries": 1000,
+          "top_k": 10,
+          "rankings_sha256": "48ff403ad8150346b32ddd808906cf5d5dc1615647b7937cacd4cf6fff99567b"
+        }
+      }
+    },
+    "gemini-embedding-2-pages": {
+      "source_commit": "3f791d3b1bcf87580f547680af73e810996e5e75",
+      "source_module": "benchmarks.pdf_retrieval.run",
+      "source_path": "benchmarks/pdf_retrieval/run.py",
+      "source_line": 33,
+      "created_at": "2026-10-12T15:49:54.043734+00:00",
+      "origin": "verified-live-run",
+      "derivation": {
+        "operation": "language-slice",
+        "language": "zh",
+        "source_artifact": {
+          "manifest_sha256": "d4880c21d82315d2fdc71a244928cbaeb6915583fb98b173546ed951bd02a9e8",
+          "artifact_type": "live-top-k-rankings",
+          "release": "modern-ir-bench-pdf-v1-20261011",
+          "dataset": {
+            "repository": "zc277584121/modern-ir-bench-pdf",
+            "revision": "5ac497e8aad79c9c0843c46eb97bb9900f3b109b"
+          },
+          "queries": 1000,
+          "top_k": 10,
+          "rankings_sha256": "48ff403ad8150346b32ddd808906cf5d5dc1615647b7937cacd4cf6fff99567b"
+        }
+      }
+    },
+    "jina-v4-page-exact-maxsim": {
+      "source_commit": "2731a090aa6c2a9739b8bc681e9edd575a9f4281",
+      "source_module": "benchmarks.pdf_retrieval.run",
+      "source_path": "benchmarks/pdf_retrieval/run.py",
+      "source_line": 41,
+      "created_at": "2026-10-23T06:38:57.775413+00:00",
+      "origin": "verified-live-run",
+      "source_artifact": {
+        "manifest_sha256": "2db74334beab93887f627f55ea229c40ca75624850141fe297b06e0ea821612a",
+        "artifact_type": "live-ranking-solution-run",
+        "release": "modern-ir-bench-pdf-v1-20261011",
+        "dataset": {
+          "repository": "zc277584121/modern-ir-bench-pdf",
+          "revision": "5ac497e8aad79c9c0843c46eb97bb9900f3b109b"
+        },
+        "queries": 1000,
+        "top_k": 10,
+        "results_sha256": "c465c2acb3811cf9dfbc8f005d815f179eb729089d8b7cd631e8fec49184b13d",
+        "observations_sha256": "64d4ddbc0d2f4b8ce10422fcd223a79533785ccedd1f7c1c157a979f7b2111f3"
+      },
+      "derivation": {
+        "operation": "language-slice",
+        "language": "zh",
+        "source_artifact": {
+          "manifest_sha256": "d4880c21d82315d2fdc71a244928cbaeb6915583fb98b173546ed951bd02a9e8",
+          "artifact_type": "live-top-k-rankings",
+          "release": "modern-ir-bench-pdf-v1-20261011",
+          "dataset": {
+            "repository": "zc277584121/modern-ir-bench-pdf",
+            "revision": "5ac497e8aad79c9c0843c46eb97bb9900f3b109b"
+          },
+          "queries": 1000,
+          "top_k": 10,
+          "rankings_sha256": "48ff403ad8150346b32ddd808906cf5d5dc1615647b7937cacd4cf6fff99567b"
+        }
+      }
+    },
+    "llama-nemotron-embed-vl-1b-v2-pages": {
+      "source_commit": "3f791d3b1bcf87580f547680af73e810996e5e75",
+      "source_module": "benchmarks.pdf_retrieval.run",
+      "source_path": "benchmarks/pdf_retrieval/run.py",
+      "source_line": 33,
+      "created_at": "2026-10-12T15:43:34.274272+00:00",
+      "origin": "verified-live-run",
+      "derivation": {
+        "operation": "language-slice",
+        "language": "zh",
+        "source_artifact": {
+          "manifest_sha256": "d4880c21d82315d2fdc71a244928cbaeb6915583fb98b173546ed951bd02a9e8",
+          "artifact_type": "live-top-k-rankings",
+          "release": "modern-ir-bench-pdf-v1-20261011",
+          "dataset": {
+            "repository": "zc277584121/modern-ir-bench-pdf",
+            "revision": "5ac497e8aad79c9c0843c46eb97bb9900f3b109b"
+          },
+          "queries": 1000,
+          "top_k": 10,
+          "rankings_sha256": "48ff403ad8150346b32ddd808906cf5d5dc1615647b7937cacd4cf6fff99567b"
+        }
+      }
+    },
+    "ovis-omni-embedding-3b-pages": {
+      "source_commit": "bd1cbaada413ed46eed122a3471a2102bdaf79f9",
+      "source_module": "benchmarks.pdf_retrieval.run",
+      "source_path": "benchmarks/pdf_retrieval/run.py",
+      "source_line": 33,
+      "created_at": "2026-10-12T17:00:44.440237+00:00",
+      "origin": "verified-live-run",
+      "derivation": {
+        "operation": "language-slice",
+        "language": "zh",
+        "source_artifact": {
+          "manifest_sha256": "d4880c21d82315d2fdc71a244928cbaeb6915583fb98b173546ed951bd02a9e8",
+          "artifact_type": "live-top-k-rankings",
+          "release": "modern-ir-bench-pdf-v1-20261011",
+          "dataset": {
+            "repository": "zc277584121/modern-ir-bench-pdf",
+            "revision": "5ac497e8aad79c9c0843c46eb97bb9900f3b109b"
+          },
+          "queries": 1000,
+          "top_k": 10,
+          "rankings_sha256": "48ff403ad8150346b32ddd808906cf5d5dc1615647b7937cacd4cf6fff99567b"
+        }
+      }
+    },
+    "paddleocr-v5-mobile-bge-m3-full": {
+      "source_commit": "55fac5fe32ea4098f9ecc196a275990c4a486bc9",
+      "source_module": "benchmarks.pdf_retrieval.run",
+      "source_path": "benchmarks/pdf_retrieval/run.py",
+      "source_line": 32,
+      "created_at": "2026-10-11T15:50:26.972185+00:00",
+      "origin": "verified-live-run",
+      "derivation": {
+        "operation": "language-slice",
+        "language": "zh",
+        "source_artifact": {
+          "manifest_sha256": "d4880c21d82315d2fdc71a244928cbaeb6915583fb98b173546ed951bd02a9e8",
+          "artifact_type": "live-top-k-rankings",
+          "release": "modern-ir-bench-pdf-v1-20261011",
+          "dataset": {
+            "repository": "zc277584121/modern-ir-bench-pdf",
+            "revision": "5ac497e8aad79c9c0843c46eb97bb9900f3b109b"
+          },
+          "queries": 1000,
+          "top_k": 10,
+          "rankings_sha256": "48ff403ad8150346b32ddd808906cf5d5dc1615647b7937cacd4cf6fff99567b"
+        }
+      }
+    },
+    "paddleocr-v5-mobile-bm25-bge-m3-rrf": {
+      "source_commit": "b5bd00aca0f10d009331e8ebc149b31acd05de3b",
+      "source_module": "benchmarks.pdf_retrieval.run",
+      "source_path": "benchmarks/pdf_retrieval/run.py",
+      "source_line": 33,
+      "created_at": "2026-10-12T00:18:35.569781+00:00",
+      "origin": "verified-live-run",
+      "derivation": {
+        "operation": "language-slice",
+        "language": "zh",
+        "source_artifact": {
+          "manifest_sha256": "d4880c21d82315d2fdc71a244928cbaeb6915583fb98b173546ed951bd02a9e8",
+          "artifact_type": "live-top-k-rankings",
+          "release": "modern-ir-bench-pdf-v1-20261011",
+          "dataset": {
+            "repository": "zc277584121/modern-ir-bench-pdf",
+            "revision": "5ac497e8aad79c9c0843c46eb97bb9900f3b109b"
+          },
+          "queries": 1000,
+          "top_k": 10,
+          "rankings_sha256": "48ff403ad8150346b32ddd808906cf5d5dc1615647b7937cacd4cf6fff99567b"
+        }
+      }
+    },
+    "paddleocr-v5-mobile-bm25-full": {
+      "source_commit": "cf8c90b911543138b26721232c747e1d509fd951",
+      "origin": "legacy-live-observations",
+      "derivation": {
+        "operation": "language-slice",
+        "language": "zh",
+        "source_artifact": {
+          "manifest_sha256": "d4880c21d82315d2fdc71a244928cbaeb6915583fb98b173546ed951bd02a9e8",
+          "artifact_type": "live-top-k-rankings",
+          "release": "modern-ir-bench-pdf-v1-20261011",
+          "dataset": {
+            "repository": "zc277584121/modern-ir-bench-pdf",
+            "revision": "5ac497e8aad79c9c0843c46eb97bb9900f3b109b"
+          },
+          "queries": 1000,
+          "top_k": 10,
+          "rankings_sha256": "48ff403ad8150346b32ddd808906cf5d5dc1615647b7937cacd4cf6fff99567b"
+        }
+      }
+    },
+    "paddleocr-v5-mobile-bm25-voyage-multimodal-3-5-rrf": {
+      "source_commit": "77d84c479773a6b0a3ec3fea68205588ebd558bd",
+      "source_module": "benchmarks.pdf_retrieval.run",
+      "source_path": "benchmarks/pdf_retrieval/run.py",
+      "source_line": 33,
+      "created_at": "2026-10-12T02:46:15.107677+00:00",
+      "origin": "verified-live-run",
+      "derivation": {
+        "operation": "language-slice",
+        "language": "zh",
+        "source_artifact": {
+          "manifest_sha256": "d4880c21d82315d2fdc71a244928cbaeb6915583fb98b173546ed951bd02a9e8",
+          "artifact_type": "live-top-k-rankings",
+          "release": "modern-ir-bench-pdf-v1-20261011",
+          "dataset": {
+            "repository": "zc277584121/modern-ir-bench-pdf",
+            "revision": "5ac497e8aad79c9c0843c46eb97bb9900f3b109b"
+          },
+          "queries": 1000,
+          "top_k": 10,
+          "rankings_sha256": "48ff403ad8150346b32ddd808906cf5d5dc1615647b7937cacd4cf6fff99567b"
+        }
+      }
+    },
+    "paddleocr-v5-mobile-voyage-4-large-full": {
+      "source_commit": "31922ddc8cfbac0c111d46fa162ed7351015e5fb",
+      "source_module": "benchmarks.pdf_retrieval.run",
+      "source_path": "benchmarks/pdf_retrieval/run.py",
+      "source_line": 33,
+      "created_at": "2026-10-13T12:08:50.793720+00:00",
+      "origin": "verified-live-run",
+      "derivation": {
+        "operation": "language-slice",
+        "language": "zh",
+        "source_artifact": {
+          "manifest_sha256": "d4880c21d82315d2fdc71a244928cbaeb6915583fb98b173546ed951bd02a9e8",
+          "artifact_type": "live-top-k-rankings",
+          "release": "modern-ir-bench-pdf-v1-20261011",
+          "dataset": {
+            "repository": "zc277584121/modern-ir-bench-pdf",
+            "revision": "5ac497e8aad79c9c0843c46eb97bb9900f3b109b"
+          },
+          "queries": 1000,
+          "top_k": 10,
+          "rankings_sha256": "48ff403ad8150346b32ddd808906cf5d5dc1615647b7937cacd4cf6fff99567b"
+        }
+      }
+    },
+    "paddleocr-v5-mobile-voyage-4-large-voyage-multimodal-3-5-rerank-3": {
+      "source_commit": "8902aac4abaec744409738be2d2796444542c5fb",
+      "source_module": "benchmarks.pdf_retrieval.run",
+      "source_path": "benchmarks/pdf_retrieval/run.py",
+      "source_line": 33,
+      "created_at": "2026-10-13T13:23:15.685099+00:00",
+      "origin": "verified-live-run",
+      "derivation": {
+        "operation": "language-slice",
+        "language": "zh",
+        "source_artifact": {
+          "manifest_sha256": "d4880c21d82315d2fdc71a244928cbaeb6915583fb98b173546ed951bd02a9e8",
+          "artifact_type": "live-top-k-rankings",
+          "release": "modern-ir-bench-pdf-v1-20261011",
+          "dataset": {
+            "repository": "zc277584121/modern-ir-bench-pdf",
+            "revision": "5ac497e8aad79c9c0843c46eb97bb9900f3b109b"
+          },
+          "queries": 1000,
+          "top_k": 10,
+          "rankings_sha256": "48ff403ad8150346b32ddd808906cf5d5dc1615647b7937cacd4cf6fff99567b"
+        }
+      }
+    },
+    "paddleocr-v5-mobile-voyage-4-large-voyage-multimodal-3-5-rrf": {
+      "source_commit": "31922ddc8cfbac0c111d46fa162ed7351015e5fb",
+      "source_module": "benchmarks.pdf_retrieval.run",
+      "source_path": "benchmarks/pdf_retrieval/run.py",
+      "source_line": 33,
+      "created_at": "2026-10-13T12:09:31.354218+00:00",
+      "origin": "verified-live-run",
+      "derivation": {
+        "operation": "language-slice",
+        "language": "zh",
+        "source_artifact": {
+          "manifest_sha256": "d4880c21d82315d2fdc71a244928cbaeb6915583fb98b173546ed951bd02a9e8",
+          "artifact_type": "live-top-k-rankings",
+          "release": "modern-ir-bench-pdf-v1-20261011",
+          "dataset": {
+            "repository": "zc277584121/modern-ir-bench-pdf",
+            "revision": "5ac497e8aad79c9c0843c46eb97bb9900f3b109b"
+          },
+          "queries": 1000,
+          "top_k": 10,
+          "rankings_sha256": "48ff403ad8150346b32ddd808906cf5d5dc1615647b7937cacd4cf6fff99567b"
+        }
+      }
+    },
+    "voyage-multimodal-3-5-pages": {
+      "source_commit": "a93eea39dfcc15f59d72dd5021ba75ce039a30e8",
+      "source_module": "benchmarks.pdf_retrieval.run",
+      "source_path": "benchmarks/pdf_retrieval/run.py",
+      "source_line": 33,
+      "created_at": "2026-10-12T02:15:39.205995+00:00",
+      "origin": "verified-live-run",
+      "derivation": {
+        "operation": "language-slice",
+        "language": "zh",
+        "source_artifact": {
+          "manifest_sha256": "d4880c21d82315d2fdc71a244928cbaeb6915583fb98b173546ed951bd02a9e8",
+          "artifact_type": "live-top-k-rankings",
+          "release": "modern-ir-bench-pdf-v1-20261011",
+          "dataset": {
+            "repository": "zc277584121/modern-ir-bench-pdf",
+            "revision": "5ac497e8aad79c9c0843c46eb97bb9900f3b109b"
+          },
+          "queries": 1000,
+          "top_k": 10,
+          "rankings_sha256": "48ff403ad8150346b32ddd808906cf5d5dc1615647b7937cacd4cf6fff99567b"
+        }
+      }
+    },
+    "wemm-embedding-2b-pages": {
+      "source_commit": "04170594685669b193752503357ac9b1d38b0667",
+      "source_module": "benchmarks.pdf_retrieval.run",
+      "source_path": "benchmarks/pdf_retrieval/run.py",
+      "source_line": 33,
+      "created_at": "2026-10-12T10:55:30.651930+00:00",
+      "origin": "verified-live-run",
+      "derivation": {
+        "operation": "language-slice",
+        "language": "zh",
+        "source_artifact": {
+          "manifest_sha256": "d4880c21d82315d2fdc71a244928cbaeb6915583fb98b173546ed951bd02a9e8",
+          "artifact_type": "live-top-k-rankings",
+          "release": "modern-ir-bench-pdf-v1-20261011",
+          "dataset": {
+            "repository": "zc277584121/modern-ir-bench-pdf",
+            "revision": "5ac497e8aad79c9c0843c46eb97bb9900f3b109b"
+          },
+          "queries": 1000,
+          "top_k": 10,
+          "rankings_sha256": "48ff403ad8150346b32ddd808906cf5d5dc1615647b7937cacd4cf6fff99567b"
+        }
+      }
+    }
+  },
+  "queries": 500,
+  "languages": [
+    "zh"
+  ],
+  "ranking_rows": 8000,
+  "top_k": 10,
+  "rankings_sha256": "0dddefc1d76e73e997c8156f19c627f502bd412f72051de59fa31d4730ebc08c"
+}

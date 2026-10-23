@@ -416,13 +416,13 @@ def test_published_payload_matches_javascript_scope_contract(tmp_path):
 
 
 @pytest.mark.parametrize(
-    "directory,specs,english,full_count",
+    "directory,specs,english,full_count,derived_languages",
     [
-        ("modern-ir-v2.2", TEXT_SPECS, ENGLISH_TEXT - {"splade-v3-full-sparse-chunk"}, 43),
-        ("modern-ir-pdf-v1", PDF_SPECS, ENGLISH_PDF - {"colmodernvbert-page-exact-maxsim"}, 15),
+        ("modern-ir-v2.2", TEXT_SPECS, ENGLISH_TEXT - {"splade-v3-full-sparse-chunk"}, 43, False),
+        ("modern-ir-pdf-v1", PDF_SPECS, ENGLISH_PDF, 16, True),
     ],
 )
-def test_migrated_releases_have_separate_complete_language_evidence(directory, specs, english, full_count):
+def test_published_releases_have_complete_language_evidence(directory, specs, english, full_count, derived_languages):
     root = Path(__file__).resolve().parents[2] / "results" / directory
     full = RankingArtifact.load(root)
     sliced = RankingArtifact.load(root / "slices/en")
@@ -430,7 +430,7 @@ def test_migrated_releases_have_separate_complete_language_evidence(directory, s
     assert len(full.rankings) == full_count
     assert not english.intersection(full.rankings)
     assert all(set(supported[sid]) == {"en", "zh"} for sid in full.rankings)
-    assert set(sliced.rankings) == english
+    assert set(sliced.rankings) == english | (set(full.rankings) if derived_languages else set())
     assert sliced.manifest["queries"] == 500
     assert sliced.manifest["languages"] == ["en"]
     full_queries = set(next(iter(full.rankings.values())))
@@ -442,6 +442,22 @@ def test_migrated_releases_have_separate_complete_language_evidence(directory, s
         assert len(original["manifest_sha256"]) == 64
         assert original["dataset"] == sliced.manifest["dataset"]
         assert original["top_k"] == 10
+
+    if derived_languages:
+        parent_checksum = hashlib.sha256((root / "manifest.json").read_bytes()).hexdigest()
+        for language in ("en", "zh"):
+            derived = RankingArtifact.load(root / "slices" / language)
+            expected = set(full.rankings) | (english if language == "en" else set())
+            assert set(derived.rankings) == expected
+            assert derived.manifest["queries"] == 500
+            assert derived.manifest["languages"] == [language]
+            for solution_id, rankings in full.rankings.items():
+                selected = derived.rankings[solution_id]
+                assert selected == {query_id: rankings[query_id] for query_id in selected}
+                provenance = derived.manifest["source_runs"][solution_id]["derivation"]
+                assert provenance["operation"] == "language-slice"
+                assert provenance["language"] == language
+                assert provenance["source_artifact"]["manifest_sha256"] == parent_checksum
 
 
 @pytest.mark.parametrize("split,indices", [("queries", [1]), ("documents", [0, 2]), ("qrels", [1])])

@@ -34,15 +34,17 @@ The PDF Task keeps the same semantic documents, queries, document IDs, and Qrels
 but replaces each text resource with a rendered PDF. Solutions decide how to read
 pages and how to retrieve whole document IDs.
 
-The 15 bilingual published Solutions cover OCR-based lexical, dense, reranking, and hybrid
+The 16 bilingual published Solutions cover OCR-based lexical, dense, reranking, and hybrid
 retrieval plus OCR-free visual retrieval with Voyage Multimodal 3.5,
 EmbeddingGemma 2, WeMM Embedding 2B, Gemini Embedding 2, Llama Nemotron Embed
-VL 1B V2, Ovis Omni Embedding 3B, and ColQwen2/ColQwen2.5 page exact MaxSim. None reads a native PDF text layer.
+VL 1B V2, Ovis Omni Embedding 3B, and ColQwen2/ColQwen2.5/Jina v4 page exact MaxSim. None reads a native PDF text layer.
 Published Top-10 rankings are in `results/modern-ir-pdf-v1/`.
 
 ColModernVBERT (English) and Jina Embeddings v4 multi-vector (English and Chinese) use a shared
 [preparation stage](docs/pdf-solutions.md#prepared-embeddings-and-cache-only-scoring) that persists page and query
-embeddings before model-free exact MaxSim scoring. Their isolated smoke checks are separate from published runs.
+embeddings before model-free exact MaxSim scoring. The English leaderboard contains 21 Solutions, including
+five English-only methods; the Chinese leaderboard contains the 16 bilingual Solutions. Language slices
+reuse the main rankings and preserve the independently verified English-only runs.
 
 The cross-modal catalog includes equal-weight RRF Solutions that combine
 full-document OCR text retrieval with OCR-free page-image retrieval. Alternative

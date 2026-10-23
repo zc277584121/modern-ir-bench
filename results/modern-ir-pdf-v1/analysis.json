@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "release": "modern-ir-bench-pdf-v1-20261011",
-  "ranking_evidence_sha256": "1e6ce592bc84ac286e64d6e7d97ce45b0ad3712017f602fd842a0f91594d2672",
+  "ranking_evidence_sha256": "48ff403ad8150346b32ddd808906cf5d5dc1615647b7937cacd4cf6fff99567b",
   "comparisons": [
     {
       "label": "OCR BM25 + BGE-M3",

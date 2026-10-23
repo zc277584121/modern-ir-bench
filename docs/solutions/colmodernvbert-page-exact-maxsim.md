@@ -31,9 +31,30 @@ hash image content. Caches live in `.runtime/multi-vector/` and reuse the shared
 Use `benchmarks.pdf_retrieval.smoke_visual_maxsim --solution colmodernvbert-page-exact-maxsim` for a real two-page,
 two-query English check with isolated caches. See [the PDF guide](../pdf-solutions.md) for validation details.
 
-The 2026-10-23 RTX 3080 Ti smoke used 884 vectors per page and 21/18 vectors per query. Cold preparation took
-3.85 seconds, including loading, rendering, and cache writes; the complete check took 6.33 seconds. Peak CUDA
-allocation/reservation was 0.847/0.941 GiB during encoding and 9.21/80 MiB during scoring and replay. Maximum
-official-score error was 0.001225 and norm error was 1.2e-7. Both queries ranked their matching page first,
-and a fresh encoder replayed the 0.746 MiB cache with model loading forbidden. These tiny synthetic pages do not
-measure full-dataset throughput or peak memory.
+The 2026-10-23 full run covers all 2,500 English documents, 5,702 pages, and 500 queries at Dataset revision
+`5ac497e8aad79c9c0843c46eb97bb9900f3b109b`. The verified artifact pins source commit
+`c826d3eea92eb90e1fd1f3de0265ec2820e1a8a9`; its rankings are published in the
+[English release](../../results/modern-ir-pdf-v1/slices/en/).
+
+| Scope | NDCG@10 | Recall@1 | Recall@5 | Recall@10 | MRR@10 |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| English | 0.61716885 | 0.13842397 | 0.45074518 | 0.61637215 | 0.78648730 |
+
+This is rank **20 of 21** on the 2026-10-23 English PDF leaderboard by NDCG@10. It has no Overall or Chinese
+score because the Solution's declared language coverage is English only.
+
+On RTX 3080 Ti (`cuda:0`, batch size 1), cold embedding preparation took **2,693.94 seconds** and the
+separate cache-only run took **64.11 seconds**, including cache reads, index construction, all 500 searches,
+metrics, and artifact writing. The 2.077 GiB compressed cache contains every page and query input.
+Pages retain 885–1,149 vectors each, totaling 5,223,678 page vectors; query lengths are 19–34 vectors.
+The float16 page index occupies 1.245 GiB before allocator, coalescing, and scoring overhead.
+
+Device memory sampled once per second peaked at 2,087 MiB during preparation and 4,273 MiB during scoring.
+These device-wide observations include about 594 MiB held by the concurrent Jina process's default-device
+CUDA context; the precision probe now selects the requested device explicitly. The preparation process exited
+before scoring began, and the cache SHA-256, size, and mtime were unchanged after scoring. Artifact checksums,
+500-query coverage, same-language candidate IDs, distinct Top-10 results, finite descending scores, and
+recomputed metrics all passed verification.
+
+The independent two-page smoke also passed official MaxSim and NumPy score checks (maximum error 0.001225),
+unit-norm checks (maximum error 1.2e-7), and fresh-instance replay with model loading forbidden.

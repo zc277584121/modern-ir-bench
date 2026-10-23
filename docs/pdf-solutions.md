@@ -157,10 +157,10 @@ MIR_DEVICE=cuda:0 NUMPY_MADVISE_HUGEPAGE=0 uv run --no-sync python -m benchmarks
 MIR_DEVICE=cuda:0 uv run --no-sync python -m benchmarks.pdf_retrieval.run \
   --solution colmodernvbert-page-exact-maxsim --language en --cached-only
 
-UV_PROJECT_ENVIRONMENT=.runtime/venvs/jina MIR_DEVICE=cuda:0 \
+UV_PROJECT_ENVIRONMENT=.runtime/venvs/jina MIR_DEVICE=cuda:1 \
   uv run --no-sync python -m benchmarks.pdf_retrieval.prepare \
   --solution jina-v4-page-exact-maxsim
-MIR_DEVICE=cuda:0 uv run --no-sync python -m benchmarks.pdf_retrieval.run \
+MIR_DEVICE=cuda:1 uv run --no-sync python -m benchmarks.pdf_retrieval.run \
   --solution jina-v4-page-exact-maxsim --cached-only
 ```
 
@@ -190,13 +190,40 @@ normalization, independent scoring, expected top-1, and fresh-instance cache-rep
 record the measured memory and score errors. Jina encoding uses the pinned isolated environment;
 its cache was also replayed successfully in the main environment with model loading forbidden.
 
-For scheduling only, extrapolating the post-load smoke page times (0.57 s/page for ColModernVBERT and
-0.46 s/page for Jina) gives about 55 minutes for English ColModernVBERT preparation and 75 minutes for
-bilingual Jina preparation, including the corresponding query counts. Reserve roughly 1–2 hours and
-1.5–3 hours respectively until actual PDF throughput is measured. At the smoke token counts, uncompressed
-page caches would occupy about 2.40 GiB and 3.53 GiB; ColModernVBERT's English index would occupy 1.20 GiB,
-and Jina's separate English/Chinese indexes 1.06/0.70 GiB, before allocator and scoring overhead.
-Actual page shapes, token counts, query lengths, rendering, and storage latency can change these estimates.
-The tiny smoke index does not provide a useful full exact-scoring time estimate; measure that phase after
-preparation rather than treating smoke replay time as corpus throughput. No full preparation or scoring
-run is part of this validation.
+The full runs on 2026-10-23 used separate RTX 3080 Ti GPUs, batch size 1, and the existing rendered-page cache.
+Preparation and scoring ran in separate processes; scoring required complete caches and left their SHA-256,
+sizes, and mtimes unchanged. Wall times include startup and I/O; scoring also includes index construction,
+metric calculation, and artifact writing. Memory values below are device-wide observations sampled every second.
+
+| Solution / scope | Pages / queries | Preparation | Cached scoring | Preparation / scoring peak | Compressed cache |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| ColModernVBERT / English / cuda:0 | 5,702 / 500 | 2,693.94 s | 64.11 s | 2,087 / 4,273 MiB | 2.077 GiB |
+| Jina v4 / bilingual / cuda:1 | 9,491 / 1,000 | 4,429.43 s | 81.15 s | 9,576 / 2,906 MiB | 2.881 GiB |
+
+The ColModernVBERT device measurements include about 594 MiB held by the concurrent Jina process's
+default-device context. The shared precision probe now targets the requested CUDA device explicitly.
+The encoder processes exited before cache-only scoring; Jina's GPU returned to 4 MiB between phases.
+Actual page-token counts require 1.245 GiB for ColModernVBERT's English index and 1.017/0.676 GiB for Jina's
+English/Chinese indexes, before coalescing, allocator, and query-score overhead.
+
+| Solution | Overall NDCG@10 | English NDCG@10 | Chinese NDCG@10 |
+| --- | ---: | ---: | ---: |
+| ColModernVBERT | unsupported | 0.61716885 | unsupported |
+| Jina v4 | 0.80664184 | 0.81840212 | 0.79488156 |
+
+The formal source commits are `c826d3eea92eb90e1fd1f3de0265ec2820e1a8a9` for ColModernVBERT and
+`2731a090aa6c2a9739b8bc681e9edd575a9f4281` for Jina. Both artifacts passed checksum, Dataset revision,
+query-ID coverage, same-language candidate-pool, distinct Top-10, finite descending score, qrels, and
+recomputed-metric verification. Solution READMEs contain every metric and cache/token measurements.
+
+The [main release](../results/modern-ir-pdf-v1/) contains 16 bilingual Solutions. Its complete English and
+Chinese slices are derived without retrieval; the English release also retains five English-only runs,
+for **16 Overall / 21 English / 16 Chinese** eligible Solutions. Existing ColQwen2 and ColQwen2.5 runs were
+verified and merged without re-encoding or retrieval. Use the release tool to keep slices aligned after a merge:
+
+```bash
+uv run --no-sync python -m benchmarks.pdf_retrieval.release \
+  --language en --derive-from results/modern-ir-pdf-v1
+uv run --no-sync python -m benchmarks.pdf_retrieval.release \
+  --language zh --derive-from results/modern-ir-pdf-v1
+```

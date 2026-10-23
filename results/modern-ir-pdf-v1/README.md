@@ -8,6 +8,7 @@ This directory stores immutable Top-K document rankings for every published Solu
 - `colqwen2-v1-0-page-exact-maxsim`
 - `embedding-gemma-2-pages`
 - `gemini-embedding-2-pages`
+- `jina-v4-page-exact-maxsim`
 - `llama-nemotron-embed-vl-1b-v2-pages`
 - `ovis-omni-embedding-3b-pages`
 - `paddleocr-v5-mobile-bge-m3-full`
