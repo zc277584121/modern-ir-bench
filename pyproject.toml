@@ -26,6 +26,13 @@ benchmark = [
     "transformers>=5.19,<6",
     "voyageai>=0.3,<1",
 ]
+jina = [
+    "einops>=0.8,<1",
+    "peft==0.18.1",
+    "requests>=2.32,<3",
+    "torch>=2.8,<2.9",
+    "transformers==4.57.6",
+]
 dev = [
     "pytest>=8.0",
     "ruff>=0.12,<1",
@@ -64,6 +71,8 @@ norecursedirs = [".*", "build", "dist", "results", "legacy"]
 
 [tool.uv]
 conflicts = [
+    [{ group = "benchmark" }, { group = "jina" }],
+    [{ group = "jina" }, { group = "pdf-gpu" }],
     [{ group = "benchmark" }, { group = "pdf-gpu" }],
     [{ group = "multimodal" }, { group = "pdf-gpu" }],
     [{ group = "pdf-cpu" }, { group = "pdf-gpu" }],
@@ -82,6 +91,7 @@ explicit = true
 [tool.uv.sources]
 torch = [
     { index = "torch-cu128", group = "benchmark", marker = "sys_platform == 'linux' and platform_machine == 'x86_64'" },
+    { index = "torch-cu128", group = "jina", marker = "sys_platform == 'linux' and platform_machine == 'x86_64'" },
 ]
 torchvision = [
     { index = "torch-cu128", group = "multimodal", marker = "sys_platform == 'linux' and platform_machine == 'x86_64'" },

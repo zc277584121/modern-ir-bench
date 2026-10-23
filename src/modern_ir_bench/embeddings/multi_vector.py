@@ -2,17 +2,15 @@
 
 from __future__ import annotations
 
-import hashlib
 from collections.abc import Mapping, Sequence
 from pathlib import Path
 from typing import Any
 
-import numpy as np
+from modern_ir_bench.embeddings.cached_multi_vector import CachedMultiVectorEmbedding
+from modern_ir_bench.embeddings.model_snapshot import pinned_adapter_snapshot
 
-from modern_ir_bench.embeddings.multi_vector_cache import SqliteMultiVectorCache
 
-
-class SentenceTransformersMultiVectorEmbedding:
+class SentenceTransformersMultiVectorEmbedding(CachedMultiVectorEmbedding):
     """Encode text or images into token matrices for late interaction."""
 
     def __init__(
@@ -24,25 +22,23 @@ class SentenceTransformersMultiVectorEmbedding:
         batch_size: int = 16,
         device: str | None = None,
         normalize: bool = True,
+        normalize_float32: bool = False,
         local_files_only: bool = False,
         trust_remote_code: bool = False,
         cache_path: Path | None = None,
+        cache_dir: Path | None = None,
+        cache_only: bool = False,
+        base_revision: str | None = None,
         document_length: int | None = None,
         model_kwargs: Mapping[str, Any] | None = None,
         config_kwargs: Mapping[str, Any] | None = None,
         encode_kwargs: Mapping[str, Any] | None = None,
     ) -> None:
-        if not model:
-            raise ValueError("model must be non-empty")
-        if batch_size < 1:
-            raise ValueError("batch_size must be positive")
         if document_length is not None and document_length < 1:
             raise ValueError("document_length must be positive")
-        self.model_id = model
-        self.revision = revision
-        self._dimension = dimension
-        self.batch_size = batch_size
-        self.device = device
+        if base_revision is not None and revision is None:
+            raise ValueError("A pinned adapter backbone requires a pinned adapter revision")
+        self.base_revision = base_revision
         self.normalize = normalize
         self.local_files_only = local_files_only
         self.trust_remote_code = trust_remote_code
@@ -50,16 +46,41 @@ class SentenceTransformersMultiVectorEmbedding:
         self.model_kwargs = dict(model_kwargs or {})
         self.config_kwargs = dict(config_kwargs or {})
         self.encode_kwargs = dict(encode_kwargs or {})
-        self.cache = SqliteMultiVectorCache(cache_path)
-        self._model: Any | None = None
+        super().__init__(
+            model=model,
+            revision=revision,
+            dimension=dimension,
+            batch_size=batch_size,
+            device=device,
+            cache_path=cache_path,
+            cache_dir=cache_dir,
+            cache_only=cache_only,
+            normalize_float32=normalize_float32,
+            configuration={
+                "base_revision": base_revision,
+                "normalize": normalize,
+                "document_length": document_length,
+                "model_kwargs": self.model_kwargs,
+                "config_kwargs": self.config_kwargs,
+                "encode_kwargs": self.encode_kwargs,
+                "trust_remote_code": trust_remote_code,
+            },
+        )
 
     def _load_model(self) -> Any:
         if self._model is None:
             from sentence_transformers import MultiVectorEncoder
 
+            model_path = self.model_id
+            if self.base_revision is not None:
+                model_path = str(
+                    pinned_adapter_snapshot(
+                        self.model_id, self.revision, self.base_revision, local_files_only=self.local_files_only
+                    )
+                )
             self._model = MultiVectorEncoder(
-                self.model_id,
-                revision=self.revision,
+                model_path,
+                revision=self.revision if self.base_revision is None else None,
                 device=self.device,
                 trust_remote_code=self.trust_remote_code,
                 local_files_only=self.local_files_only,
@@ -71,84 +92,14 @@ class SentenceTransformersMultiVectorEmbedding:
                 self._model[0].document_length = self.document_length
         return self._model
 
-    @property
-    def dimension(self) -> int:
-        if self._dimension is None:
-            dimension = self._load_model().get_embedding_dimension()
-            if dimension is None:
-                raise ValueError(f"Could not determine embedding dimension for {self.model_id}")
-            self._dimension = int(dimension)
-        return self._dimension
-
-    def _encode(self, inputs: Sequence[Any], *, role: str) -> list[np.ndarray]:
-        values = list(inputs)
-        keys = [self._cache_key(value, role=role) for value in values]
-        cached = self.cache.read(keys)
-        missing: dict[str, Any] = {}
-        for key, value in zip(keys, values, strict=True):
-            missing.setdefault(key, value)
-
-        additions: dict[str, np.ndarray] = {}
-        missing_keys = [key for key in missing if key not in cached]
-        if missing_keys:
-            model = self._load_model()
-            method = model.encode_document if role == "document" else model.encode_query
-            encoded = method(
-                [missing[key] for key in missing_keys],
-                batch_size=self.batch_size,
-                convert_to_numpy=True,
-                normalize_embeddings=self.normalize,
-                show_progress_bar=False,
-                **self.encode_kwargs,
-            )
-            for key, value in zip(missing_keys, encoded, strict=True):
-                additions[key] = self._validate(value)
-            self.cache.write(additions)
-            cached.update(additions)
-        return [self._validate(cached[key]) for key in keys]
-
-    def encode_documents(self, inputs: Sequence[Any]) -> list[np.ndarray]:
-        return self._encode(inputs, role="document")
-
-    def encode_queries(self, inputs: Sequence[Any]) -> list[np.ndarray]:
-        return self._encode(inputs, role="query")
-
-    def _validate(self, value: Any) -> np.ndarray:
-        matrix = np.asarray(value, dtype=np.float32)
-        if matrix.ndim != 2 or matrix.shape[0] == 0 or matrix.shape[1] != self.dimension:
-            raise ValueError(
-                f"Expected a non-empty token matrix with dimension {self.dimension}, got {matrix.shape}"
-            )
-        if not np.isfinite(matrix).all():
-            raise ValueError("multi-vector embedding contains a non-finite value")
-        return matrix
-
-    def _cache_key(self, value: Any, *, role: str) -> str:
-        digest = hashlib.sha256()
-        digest.update(self.model_id.encode())
-        digest.update(b"\0")
-        digest.update((self.revision or "default").encode())
-        digest.update(b"\0")
-        digest.update(role.encode())
-        digest.update(b"\0")
-        if isinstance(value, Path):
-            with value.open("rb") as stream:
-                while block := stream.read(1024 * 1024):
-                    digest.update(block)
-        elif isinstance(value, bytes):
-            digest.update(value)
-        else:
-            digest.update(str(value).encode("utf-8"))
-        return digest.hexdigest()
-
-    def release(self) -> None:
-        if self._model is None:
-            return
-        self._model = None
-        try:
-            import torch
-
-            if torch.cuda.is_available():
-                torch.cuda.empty_cache()
-        except ImportError:
-            pass
+    def _encode_missing(self, inputs: Sequence[Any], *, role: str) -> Sequence[Any]:
+        model = self._load_model()
+        method = model.encode_document if role == "document" else model.encode_query
+        return method(
+            [str(value) if isinstance(value, Path) else value for value in inputs],
+            batch_size=self.batch_size,
+            convert_to_numpy=True,
+            normalize_embeddings=self.normalize,
+            show_progress_bar=False,
+            **self.encode_kwargs,
+        )

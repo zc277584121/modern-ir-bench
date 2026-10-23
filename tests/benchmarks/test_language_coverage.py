@@ -35,6 +35,7 @@ ENGLISH_TEXT = {
     "granite-30m-sparse-chunk",
 }
 ENGLISH_PDF = {
+    "colmodernvbert-page-exact-maxsim",
     "paddleocr-v5-mobile-colbert-v2-exact-maxsim-chunks",
     "colsmol-256m-page-exact-maxsim",
     "colsmol-500m-page-exact-maxsim",
@@ -418,7 +419,7 @@ def test_published_payload_matches_javascript_scope_contract(tmp_path):
     "directory,specs,english,full_count",
     [
         ("modern-ir-v2.2", TEXT_SPECS, ENGLISH_TEXT - {"splade-v3-full-sparse-chunk"}, 43),
-        ("modern-ir-pdf-v1", PDF_SPECS, ENGLISH_PDF, 13),
+        ("modern-ir-pdf-v1", PDF_SPECS, ENGLISH_PDF - {"colmodernvbert-page-exact-maxsim"}, 15),
     ],
 )
 def test_migrated_releases_have_separate_complete_language_evidence(directory, specs, english, full_count):

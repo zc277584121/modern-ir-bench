@@ -112,6 +112,27 @@ class ChunkedMultiVectorRetrievalSolution(Solution):
         if self.progress_every < 0:
             raise ValueError("progress_every cannot be negative")
 
+    def pre_encode(self, resources: Iterable[RetrievalResource[Any]], queries: Iterable[Any]) -> dict[str, Any]:
+        """Persist page/chunk and query embeddings without opening an index."""
+        from modern_ir_bench.embeddings.cached_multi_vector import CachedMultiVectorEmbedding
+        from modern_ir_bench.embeddings.preparation import pre_encode
+
+        if not isinstance(self.embedding, CachedMultiVectorEmbedding):
+            raise TypeError("Pre-encoding requires a persistent multi-vector encoder")
+
+        def documents() -> Iterable[Any]:
+            for resource in resources:
+                chunks = self.chunker(self.document_input(resource.value))
+                if not chunks:
+                    raise ValueError(f"chunker returned no chunks for resource {resource.id}")
+                yield from chunks
+
+        return pre_encode(
+            self.embedding,
+            documents=documents(),
+            queries=(self.query_input(query) for query in queries),
+        )
+
     def prepare(self, resources: Iterable[RetrievalResource[Any]]) -> ChunkedMultiVectorRetrievalSession:
         index_session = self.index.open(dimension=self.embedding.dimension)
         chunk_to_document: dict[str, str] = {}

@@ -10,6 +10,7 @@ from benchmarks.languages import validate_languages
 from modern_ir_bench.core import Solution
 from modern_ir_bench.embeddings import (
     BgeM3Embedding,
+    CachedMultiVectorEmbedding,
     OpenRouterEmbedding,
     OvisOmniEmbedding,
     SentenceTransformersEmbedding,
@@ -33,7 +34,7 @@ class Runtime:
     voyage_multimodal: VoyageMultimodalEmbedding
     embedding_gemma: SentenceTransformersEmbedding
     late_interaction: dict[str, SentenceTransformersMultiVectorEmbedding]
-    visual_late_interaction: dict[str, SentenceTransformersMultiVectorEmbedding]
+    visual_late_interaction: dict[str, CachedMultiVectorEmbedding]
     wemm: SentenceTransformersEmbedding
     managed_visual: dict[str, OpenRouterEmbedding]
     ovis_omni: OvisOmniEmbedding

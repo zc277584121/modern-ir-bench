@@ -23,6 +23,7 @@ def _build_visual_exact_maxsim(
     spec: SolutionSpec,
     *,
     embedding_key: str,
+    hash_page_content: bool = False,
 ) -> ChunkedMultiVectorRetrievalSolution:
     embedding = runtime.visual_late_interaction[embedding_key]
     return ChunkedMultiVectorRetrievalSolution(
@@ -35,7 +36,7 @@ def _build_visual_exact_maxsim(
             dtype="float16",
             block_vector_limit=1_000_000,
         ),
-        chunker=partial(_render_page_paths, runtime.page_renderer),
+        chunker=runtime.page_renderer.render if hash_page_content else partial(_render_page_paths, runtime.page_renderer),
         chunk_batch_size=embedding.batch_size,
         candidate_multiplier=3,
         query_input=_query_text,
@@ -62,7 +63,33 @@ def _build_colqwen_2_5(runtime: Runtime, spec: SolutionSpec) -> ChunkedMultiVect
     return _build_visual_exact_maxsim(runtime, spec, embedding_key="colqwen2.5")
 
 
+def _build_colmodernvbert(runtime: Runtime, spec: SolutionSpec) -> ChunkedMultiVectorRetrievalSolution:
+    return _build_visual_exact_maxsim(runtime, spec, embedding_key="colmodernvbert", hash_page_content=True)
+
+
+def _build_jina_v4(runtime: Runtime, spec: SolutionSpec) -> ChunkedMultiVectorRetrievalSolution:
+    return _build_visual_exact_maxsim(runtime, spec, embedding_key="jina-v4", hash_page_content=True)
+
+
 SPECS = (
+    SolutionSpec(
+        id="colmodernvbert-page-exact-maxsim",
+        title="ColModernVBERT · page exact MaxSim",
+        description="Encode English PDF pages with ColModernVBERT and exhaustively score cached 128-dimensional token vectors.",
+        tags=("visual", "late-interaction", "maxsim", "exact", "self-hosted", "page-level", "ocr-free", "english-only"),
+        factory=_build_colmodernvbert,
+        readme_path="docs/solutions/colmodernvbert-page-exact-maxsim.md",
+        languages=("en",),
+    ),
+    SolutionSpec(
+        id="jina-v4-page-exact-maxsim",
+        title="Jina Embeddings v4 · page exact MaxSim",
+        description="Encode bilingual PDF pages with Jina v4's native retrieval multi-vector head and score cached pages with exact MaxSim.",
+        tags=("visual", "late-interaction", "maxsim", "exact", "self-hosted", "page-level", "ocr-free"),
+        factory=_build_jina_v4,
+        readme_path="docs/solutions/jina-v4-page-exact-maxsim.md",
+        languages=("en", "zh"),
+    ),
     SolutionSpec(
         id="colsmol-500m-page-exact-maxsim",
         title="ColSmol 500M · page exact MaxSim",

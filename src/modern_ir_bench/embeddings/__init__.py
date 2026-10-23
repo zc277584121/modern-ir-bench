@@ -1,6 +1,8 @@
 """Embedding component contracts and implementations."""
 
 from modern_ir_bench.embeddings.bge_m3 import BgeM3Embedding
+from modern_ir_bench.embeddings.cached_multi_vector import CachedMultiVectorEmbedding
+from modern_ir_bench.embeddings.jina_v4 import JinaV4MultiVectorEmbedding
 from modern_ir_bench.embeddings.learned_sparse import (
     GteMultilingualSparseEmbedding,
     OnnxSpladeEmbedding,
@@ -20,10 +22,12 @@ from modern_ir_bench.embeddings.voyage_multimodal import VoyageMultimodalEmbeddi
 
 __all__ = [
     "BgeM3Embedding",
+    "CachedMultiVectorEmbedding",
     "DashScopeTextEmbedding",
     "DenseEmbedding",
     "GteMultilingualSparseEmbedding",
     "JinaTextEmbedding",
+    "JinaV4MultiVectorEmbedding",
     "MultiVectorEmbedding",
     "MultiVectors",
     "OnnxSpladeEmbedding",

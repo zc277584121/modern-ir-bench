@@ -13,6 +13,7 @@ from benchmarks.pdf_retrieval.definition import DATASET_ID, DATASET_REVISION, bu
 from benchmarks.pdf_retrieval.solutions import SOLUTION_SPECS, build_solutions
 from benchmarks.ranking_evidence import write_run_artifacts
 from modern_ir_bench import RunProvenance
+from modern_ir_bench.embeddings import CachedMultiVectorEmbedding
 from modern_ir_bench.retrieval.indexes.milvus import MilvusLite, MilvusServer
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
@@ -33,6 +34,7 @@ def _arguments() -> argparse.Namespace:
         choices=("en", "zh"),
         help="Evaluate one language slice. Required for an English-only Solution such as ColBERTv2.",
     )
+    parser.add_argument("--cached-only", action="store_true", help="Require prepared multi-vector caches; never encode.")
     return parser.parse_args()
 
 
@@ -55,6 +57,12 @@ def main() -> None:
         project_root=PROJECT_ROOT,
         solution_ids=selected_ids,
     )
+    if arguments.cached_only:
+        for solution in solutions:
+            embedding = getattr(solution, "embedding", None)
+            if not isinstance(embedding, CachedMultiVectorEmbedding):
+                raise TypeError("--cached-only requires cached multi-vector Solutions")
+            embedding.cache_only = True
     provenance = RunProvenance.capture(
         source_module="benchmarks.pdf_retrieval.run",
         source_path="benchmarks/pdf_retrieval/run.py",

@@ -21,6 +21,8 @@ before scoring.
 | ColSmol 256M / 500M | rendered images | page | local visual multi-vector | compare compact visual late-interaction models |
 | ColPali v1.3 | rendered images | page | local visual multi-vector | evaluate PaliGemma-based late interaction |
 | ColQwen2 v1.0 / ColQwen2.5 v0.2 | rendered images | page | local visual multi-vector | evaluate Qwen-based late interaction |
+| ColModernVBERT | rendered images | page | local visual multi-vector | compact English-only late interaction |
+| Jina Embeddings v4 | rendered images | page | native visual multi-vector | bilingual retrieval with the 128-dimensional head |
 | PP-OCRv5 Mobile BM25 + Voyage Multimodal 3.5 RRF | OCR + rendered images | document + page | lexical + visual dense | combine exact text and visual evidence |
 | OCR Voyage 4 Large + Voyage Multimodal 3.5 RRF | OCR + rendered images | document + page | text dense + visual dense | combine official Voyage text and visual routes |
 | OCR Voyage 4 Large + Voyage Multimodal 3.5 → Voyage Rerank 3 | OCR + rendered images | whole document | fused retrieval + reranking | rerank the final Top-50 fused candidates from complete OCR text |
@@ -74,20 +76,38 @@ recorded by their source commit.
 
 ## Visual Exact MaxSim
 
-The five visual late-interaction Solutions share `SentenceTransformersMultiVectorEmbedding`,
-`ChunkedMultiVectorRetrievalSolution`, and `TorchExactMaxSimIndex`. Their official Sentence Transformers
-configurations define preprocessing, prompts, projections, and token masks. Model revisions are pinned
-in `benchmarks/model_settings.py`; adapter backbones follow the upstream `adapter_config.json`.
-The existing benchmark dependencies support these configurations:
+Visual late-interaction Solutions share `CachedMultiVectorEmbedding`,
+`ChunkedMultiVectorRetrievalSolution`, and `TorchExactMaxSimIndex`. Sentence Transformers configurations
+define preprocessing, prompts, projections, and token masks for ColSmol, ColPali, ColQwen, and ColModernVBERT.
+Jina v4 uses its native retrieval multi-vector API. Model revisions are pinned in `benchmarks/model_settings.py`;
+ColModernVBERT also binds its adapter to an explicitly pinned backbone snapshot.
+The Sentence Transformers models use the main benchmark environment:
 
 ```bash
 uv sync --group benchmark --group multimodal --group pdf --group dev
 ```
 
-Run a two-PDF, two-query smoke test for a selected Solution. It exercises the real renderer and model,
-compares Exact MaxSim rankings and scores against a direct NumPy calculation, and checks that a second
-session can replay the embedding cache without loading model weights. Inputs and embedding caches are
-temporary; the optional JSON report is retained. This command never loads the benchmark Dataset.
+Jina's native processor requires a separate dependency group with Transformers 4.57.6 and PEFT 0.18.1;
+its constructor is incompatible with the main environment's Transformers 5.19. Keep both environments:
+
+```bash
+UV_PROJECT_ENVIRONMENT=.runtime/venvs/jina uv sync --group jina --group multimodal --group pdf --group dev
+```
+
+Set `UV_PROJECT_ENVIRONMENT=.runtime/venvs/jina` for Jina preparation and smoke. Cache-only scoring can run
+in the main environment. Model snapshots and persistent embeddings are shared; no model-code patches are used.
+
+The smoke uses two PDFs and queries per supported language. It exercises the real renderer and model,
+compares Exact MaxSim against the official scorer and a normalized NumPy calculation, and verifies fresh
+encoder cache replay with model loading forbidden. Jina's current API has no score method; its reference
+reproduces the published padded einsum/max/sum function linked in its Solution README. Score checks use
+float32 reference arithmetic on unit-normalized inputs, matching the index, and an absolute tolerance of 0.02
+for float16 scoring. This also supports existing caches containing native BF16 normalization drift.
+Inputs and embedding caches are temporary unless `--work-dir` retains them in a separate directory;
+the optional JSON report records encoding/scoring timings, first-batch timings, shapes, errors, and separate GPU peaks.
+Retained smoke runs require an empty embedding cache so their encoding measurements represent cold preparation.
+Bilingual smokes require a Chinese-capable font (`--font`) for Chinese pages; English uses a separate Latin font.
+This command never loads the benchmark Dataset.
 
 ```bash
 MIR_DEVICE=cuda:0 uv run --no-sync python -m benchmarks.pdf_retrieval.smoke_visual_maxsim \
@@ -124,8 +144,59 @@ These routes do not require a running Milvus service or OCR. Page embeddings per
 `.runtime/multi-vector/`; rendered pages reuse `.runtime/pdf-pages/pdfium-v1/`. Run artifacts go to
 `artifacts/modern-ir-pdf-runs/`, with language runs under `slices/<language>/`.
 
+## Prepared embeddings and cache-only scoring
+
+ColModernVBERT (English only) and Jina v4 (English and Chinese) default to cache-only scoring. First prepare
+all page and query embeddings, then run the scoring process. Preparation opens no index, computes no rankings,
+and writes no benchmark result. It commits each encoding batch, supports resuming an interrupted cache, and
+releases model weights before returning. The two phases use the same page renderer and input transforms.
+
+```bash
+MIR_DEVICE=cuda:0 NUMPY_MADVISE_HUGEPAGE=0 uv run --no-sync python -m benchmarks.pdf_retrieval.prepare \
+  --solution colmodernvbert-page-exact-maxsim --language en
+MIR_DEVICE=cuda:0 uv run --no-sync python -m benchmarks.pdf_retrieval.run \
+  --solution colmodernvbert-page-exact-maxsim --language en --cached-only
+
+UV_PROJECT_ENVIRONMENT=.runtime/venvs/jina MIR_DEVICE=cuda:0 \
+  uv run --no-sync python -m benchmarks.pdf_retrieval.prepare \
+  --solution jina-v4-page-exact-maxsim
+MIR_DEVICE=cuda:0 uv run --no-sync python -m benchmarks.pdf_retrieval.run \
+  --solution jina-v4-page-exact-maxsim --cached-only
+```
+
+The preparation interface works for any chunked multi-vector Solution with a persistent cache. The explicit
+`--cached-only` run option also supports other cached multi-vector Solutions. Missing entries fail without
+loading a model or silently filling the cache. New visual caches use filenames derived from complete encoding
+configuration fingerprints; image content determines page keys. Batch size and device ordinal do not change
+cache identity. Query/document roles remain distinct. Smoke caches never share the benchmark runtime root.
+Both new encoders normalize outputs in float32 before persisting them, matching exact scoring semantics;
+BF16-only normalization can otherwise accumulate visible score drift across query tokens. Model release
+collects reference cycles before clearing the CUDA allocator so scoring does not retain encoder weights.
+
+Full scoring still requires a clean committed source tree for run provenance. The complete English pool has
+5,702 pages and 500 queries; Chinese has 3,789 pages and 500 queries. Budget index memory from actual token counts
+after preparation. English and Chinese pools are evaluated separately. A smoke peak does not validate all-page
+encoding throughput or full-index memory usage.
+
 Each retained page token requires 256 bytes in the float16 index and 512 bytes in the float32 cache before
 compression. The index stays on the selected device; `block_vector_limit=1_000_000` limits scoring blocks,
-so allow additional GPU memory for model weights, image activations, block coalescing, and query-score
-matrices. A tiny smoke peak does not measure full-corpus memory. ColQwen token counts depend on page
+so budget model weights and image activations during preparation, then block coalescing and query-score
+matrices during cached scoring. A tiny smoke peak does not measure full-corpus memory. ColQwen token counts depend on page
 resolution, and compressed cache size depends on the embeddings.
+
+The 2026-10-23 cold smokes passed on RTX 3080 Ti with batch size 1. ColModernVBERT covered two English
+pages/queries in 6.33 seconds; Jina covered two per language in 11.25 seconds. Both passed finite-value,
+normalization, independent scoring, expected top-1, and fresh-instance cache-replay checks. Solution READMEs
+record the measured memory and score errors. Jina encoding uses the pinned isolated environment;
+its cache was also replayed successfully in the main environment with model loading forbidden.
+
+For scheduling only, extrapolating the post-load smoke page times (0.57 s/page for ColModernVBERT and
+0.46 s/page for Jina) gives about 55 minutes for English ColModernVBERT preparation and 75 minutes for
+bilingual Jina preparation, including the corresponding query counts. Reserve roughly 1–2 hours and
+1.5–3 hours respectively until actual PDF throughput is measured. At the smoke token counts, uncompressed
+page caches would occupy about 2.40 GiB and 3.53 GiB; ColModernVBERT's English index would occupy 1.20 GiB,
+and Jina's separate English/Chinese indexes 1.06/0.70 GiB, before allocator and scoring overhead.
+Actual page shapes, token counts, query lengths, rendering, and storage latency can change these estimates.
+The tiny smoke index does not provide a useful full exact-scoring time estimate; measure that phase after
+preparation rather than treating smoke replay time as corpus throughput. No full preparation or scoring
+run is part of this validation.

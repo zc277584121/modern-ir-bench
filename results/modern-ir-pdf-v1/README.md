@@ -4,6 +4,8 @@ This directory stores immutable Top-K document rankings for every published Solu
 
 ## Solutions
 
+- `colqwen2-5-page-exact-maxsim`
+- `colqwen2-v1-0-page-exact-maxsim`
 - `embedding-gemma-2-pages`
 - `gemini-embedding-2-pages`
 - `llama-nemotron-embed-vl-1b-v2-pages`

@@ -20,8 +20,7 @@ class SqliteMultiVectorCache:
         if self.path is None or not self.path.exists() or not keys:
             return {}
         found: dict[str, np.ndarray] = {}
-        with sqlite3.connect(self.path) as connection:
-            self._create(connection)
+        with sqlite3.connect(self.path.resolve().as_uri() + "?mode=ro", uri=True) as connection:
             for start in range(0, len(keys), 500):
                 batch = keys[start : start + 500]
                 rows = connection.execute(

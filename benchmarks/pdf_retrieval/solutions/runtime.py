@@ -8,6 +8,9 @@ from pathlib import Path
 from benchmarks.model_settings import (
     COLBERT_V2_MODEL,
     COLBERT_V2_REVISION,
+    COLMODERNVBERT_BASE_REVISION,
+    COLMODERNVBERT_MODEL,
+    COLMODERNVBERT_REVISION,
     COLPALI_V1_3_MODEL,
     COLPALI_V1_3_REVISION,
     COLQWEN2_V1_0_MODEL,
@@ -22,6 +25,8 @@ from benchmarks.model_settings import (
     EMBEDDING_GEMMA_2_REVISION,
     JINA_COLBERT_V2_MODEL,
     JINA_COLBERT_V2_REVISION,
+    JINA_V4_MODEL,
+    JINA_V4_REVISION,
     JINA_XLM_ROBERTA_CODE_REVISION,
     MLATEON_MODEL,
     MLATEON_REVISION,
@@ -34,6 +39,7 @@ from benchmarks.model_settings import (
 from benchmarks.pdf_retrieval.solutions.types import Runtime
 from modern_ir_bench.embeddings import (
     BgeM3Embedding,
+    JinaV4MultiVectorEmbedding,
     OpenRouterEmbedding,
     OvisOmniEmbedding,
     SentenceTransformersEmbedding,
@@ -129,6 +135,26 @@ def build_runtime(*, target: MilvusTarget, project_root: Path) -> Runtime:
             ),
         },
         visual_late_interaction={
+            "colmodernvbert": SentenceTransformersMultiVectorEmbedding(
+                model=COLMODERNVBERT_MODEL,
+                revision=COLMODERNVBERT_REVISION,
+                base_revision=COLMODERNVBERT_BASE_REVISION,
+                normalize_float32=True,
+                dimension=128,
+                batch_size=int(os.environ.get("MIR_COLMODERNVBERT_BATCH_SIZE", "1")),
+                device=device,
+                cache_dir=runtime_root / "multi-vector",
+                cache_only=True,
+                model_kwargs={**stable_local_model_kwargs(device), "attn_implementation": "sdpa"},
+            ),
+            "jina-v4": JinaV4MultiVectorEmbedding(
+                model=JINA_V4_MODEL,
+                revision=JINA_V4_REVISION,
+                batch_size=int(os.environ.get("MIR_JINA_V4_BATCH_SIZE", "1")),
+                device=device,
+                dtype=str(stable_local_model_kwargs(device)["torch_dtype"]).removeprefix("torch."),
+                cache_dir=runtime_root / "multi-vector",
+            ),
             "colsmol-500m": SentenceTransformersMultiVectorEmbedding(
                 model=COLSMOL_500M_MODEL,
                 revision=COLSMOL_500M_REVISION,
