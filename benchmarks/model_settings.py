@@ -40,5 +40,9 @@ def stable_local_model_kwargs(device: str | None = None) -> dict[str, Any]:
     import torch
 
     use_cuda = device != "cpu" and torch.cuda.is_available()
-    dtype = torch.bfloat16 if use_cuda and torch.cuda.is_bf16_supported() else torch.float32
+    dtype = torch.float32
+    if use_cuda:
+        with torch.cuda.device(device or torch.cuda.current_device()):
+            if torch.cuda.is_bf16_supported():
+                dtype = torch.bfloat16
     return {"torch_dtype": dtype}
